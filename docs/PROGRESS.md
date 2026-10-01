@@ -34,7 +34,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-03 Identifier and comment overlap
 - [x] P3-04 JPlag for same-language pairs
 - [x] P3-05 Top-20 fragment pairs with persistent verdicts
-- [ ] P3-06 Positioning against controls, statement and figure
+- [x] P3-06 Positioning against controls, statement and figure
 - [ ] P3-07 Structural comparison write-up
 - [ ] P3-08 Phase 3 hand-off
 - [ ] P4-01 Round builds of cf
@@ -186,3 +186,7 @@ Tests: test_similarity_jplag x6 (fixtures/jplag: help_languages, comparison, run
 ### P3-05 — b782b35
 Tests: test_similarity_fragments x9. API: fragments.find_fragments(left,right,min_len,top_k,max_occurrences)->(frags,skipped), fragment_id, parse_verdicts/load_verdicts/merge_verdicts, pair_rows, payload, markdown, derive(doc_path). Config [similarity] top_k=20, max_window_occurrences=50. Tables similarity_fragments_<left>_<right>.csv for all 6 pairs (controls included) + results/similarity_fragments/*.md. Verdict file empty (human). Interpretation: boilerplate windows (>50 occurrences) skipped (uncapped run took ~7 min); skipped counts recorded per pair. Longest fragments: zrs-mox 43, zrs-zng 54, cf-zrs 38, cf-mox 43, cf-zlib 24, cf-zng 15 tokens. cf-zrs top fragments are the Adler-32 loop (RFC-defined algorithm) and gzip/weak_slice. JPlag's 594-token cf-zrs match is structural (gzip.rs 561-719 vs inflate.rs 1057-1224, state-machine shape), not text. Raw similarity/any 20261001T053550Z.
 Manual check: NOT VERIFIED (human): fill verdicts.
+
+### P3-06 — e60322a
+Tests: test_similarity_summary x7. API: summary.collect_scores/summarize/classify/position/failing_metrics/statement/draw/derive. Config [similarity] near_fraction=0.25. Outputs: results/similarity_summary.csv(+provenance), results/similarity_statement.md, results/figures/similarity_controls.svg/.png (PNG inspected). make similarity = ngram+identifiers+comments, jplag, fragments, summary; make similarity-summary derives only.
+RESULT (honest): statement reads 'T1 claim NOT allowed': ident_jaccard cf-mox between (pos 0.31), ident_match_rate_left cf-zrs between (pos 0.32). N-gram metrics and jplag_avg cannot separate/position (positive control cross-language zrs-zng scores below negative zrs-mox; JPlag has no positive); cf-zrs/cf-mox n-gram Jaccard is 1.0-1.08x the negative control. Comment overlap below negative for all cf pairs. cf-zlib/cf-zng below negative everywhere. For P5+/review: the claim is NOT supported by the data; do not put a similarity-at-baseline claim in the paper kit.
