@@ -81,7 +81,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-05 Boundary tests for the hypothesis thresholds
 - [x] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
 - [x] R1-07 Bomb table reports per-layer and overall ratios separately
-- [ ] R1-08 Add make paper-data for the T1 measurements
+- [x] R1-08 Add make paper-data for the T1 measurements
 
 ## Log
 (one entry per task, appended by implement)
@@ -383,3 +383,6 @@ binary_size now draws bars only for measured (subject, opt) and puts an 'n/a' Te
 
 ### R1-07 — 3be3a4d
 bombs.COLUMNS gains overall_ratio after ratio; run_all sets ratio=own output/compressed and overall_ratio only on nested layer rows (None otherwise). RESULTS.md bomb table lists the new column. Tests: test_layer_rows_carry_layer_and_overall_ratio; existing layer-ratio assertion switched to overall_ratio. Pending header and sidecar regenerated via bombs derive; RESULTS.md unchanged (table pending); kits-check identical. Full bomb sweep not run (human step).
+
+### R1-08 — 15c3bd4
+Added paper-data target (prereqs env pins perf trajectory size conformance, then $(MAKE) paper), .PHONY, help line, README paragraph. Test test_paper_data_target_runs_t1_measurements parses the Makefile and runs make help. make -n paper-data shows expected chain; not run.
