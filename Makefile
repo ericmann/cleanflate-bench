@@ -19,16 +19,16 @@ fetch:
 c-subjects:
 	$(PY) -m cfbench.cbuild
 
-subjects:
+subjects: c-subjects
 	cargo build --release --workspace --bins
 
-lint:
+lint: c-subjects
 	cargo fmt --all -- --check
 	cargo clippy --workspace --all-targets -- -D warnings
 	uv run --frozen ruff check cfbench tests
 	uv run --frozen ruff format --check cfbench tests
 
-test:
+test: c-subjects
 	cargo test --workspace
 	cargo build --workspace --bins
 	uv run --frozen pytest -q

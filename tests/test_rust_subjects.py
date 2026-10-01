@@ -1,34 +1,16 @@
 import hashlib
-import json
-import subprocess
 import zlib
 
 import pytest
 
-from cfbench import paths
+from tests.cli_util import FILES, FIX, MODES, PLAIN, build_debug, decode, run
 
-FIX = paths.ROOT / "crates" / "harness" / "tests" / "fixtures"
-PLAIN = (FIX / "hello.txt").read_bytes()
-FILES = {"raw": "hello.raw", "zlib": "hello.zlib", "gzip": "hello.gz"}
 SUBJECTS = ["cf", "zrs", "mox"]
-MODES = [("oneshot", []), ("stream", ["--in-chunk", "5", "--out-chunk", "7"])]
 
 
 @pytest.fixture(scope="session", autouse=True)
 def _built():
-    subprocess.run(
-        ["cargo", "build", "--workspace", "--bins"], cwd=paths.ROOT, check=True, capture_output=True
-    )
-
-
-def run(subject, *args):
-    exe = paths.ROOT / "target" / "debug" / f"cfb-{subject}"
-    out = subprocess.run([str(exe), *map(str, args)], capture_output=True, text=True, check=True)
-    return json.loads(out.stdout)
-
-
-def decode(subject, framing, path, mode, extra):
-    return run(subject, "decode", "--framing", framing, "--mode", mode, "--input", path, *extra)
+    build_debug()
 
 
 @pytest.mark.parametrize("subject", SUBJECTS)

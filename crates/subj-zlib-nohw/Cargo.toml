@@ -1,0 +1,13 @@
+[package]
+name = "subj-zlib-nohw"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "cfb-zlib-nohw"
+path = "src/main.rs"
+
+[dependencies]
+harness = { path = "../harness" }
+zlibapi = { path = "../zlibapi" }
