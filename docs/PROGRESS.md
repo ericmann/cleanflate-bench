@@ -83,7 +83,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-07 Bomb table reports per-layer and overall ratios separately
 - [x] R1-08 Add make paper-data for the T1 measurements
 - [x] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
-- [ ] R3-01 Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
+- [x] R3-01 Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
 - [ ] R3-02 Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
 - [ ] R3-03 framing, fuzz and fuzz-smoke depend on workloads
 
@@ -393,3 +393,6 @@ Added paper-data target (prereqs env pins perf trajectory size conformance, then
 
 ### R2-01 — 4139c19
 Added workloads prereq to perf, perf-native, smoke-bench, trajectory; fetch prereq to malformed. New test tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs (Makefile graph parse + make -n ordering). make -n paper-data now: fetch line 5, workloads generate 7, perf run 9. No interpretation choices. lint/test green.
+
+### R3-01 — 0ea60b6
+Added timing::samples_are_per_iteration and alloc::dealloc_and_realloc_are_counted. Verified by hand-applied mutants (foundry_mutate not available to me): removing '/ iters as f64', dealloc sub, realloc sub each fail the new tests. No src changes.
