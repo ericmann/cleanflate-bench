@@ -85,7 +85,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
 - [x] R3-01 Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
 - [x] R3-02 Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
-- [ ] R3-03 framing, fuzz and fuzz-smoke depend on workloads
+- [x] R3-03 framing, fuzz and fuzz-smoke depend on workloads
 
 ## Log
 (one entry per task, appended by implement)
@@ -399,3 +399,6 @@ Added timing::samples_are_per_iteration and alloc::dealloc_and_realloc_are_count
 
 ### R3-02 — ca03e04
 Added test_oneshot_grows_past_initial_buffer and test_oneshot_max_output_sets_limit_hit (7 subjects each) using 1 MiB zeros, zlib framing. Hand-applied mutants (cf error kind, zlibapi avail_out arm, mox HasMoreOutput arm) each caused failures. No src changes.
+
+### R3-03 — c300354
+Makefile: framing, fuzz, fuzz-smoke now depend on workloads; test floor raised to 9 with framing/fuzzing needles. Interpretation: also fixed flaky R3-01 alloc test lower bound (BIG-SLACK) after make test failed once; realloc mutant still killed.
