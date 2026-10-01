@@ -67,7 +67,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P9-02 Rust complexity distributions
 - [x] P9-03 C complexity and the complexity table
 - [x] P9-04 Phase 9 hand-off
-- [ ] P10-01 Remaining figures
+- [x] P10-01 Remaining figures
 - [ ] P10-02 PITCH_KIT and talking points
 - [ ] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
 - [ ] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
@@ -328,3 +328,6 @@ Checklist for B9:
 1. Review the decomp-path scoping (docs/methods/decomp-paths.md) against results/loc.csv: cf 17 files / 3683 Rust code lines (plus 1013 doc-comment lines counted as embedded Markdown), zlib 13 files / 12457 (C plus headers), zng 93 / 19751, zrs 26 / 7296, mox 5 / 2293.
 2. Check tool gaps: none recorded (tokei 15.0.0, rust-code-analysis-cli 0.0.25, lizard 1.24.0 all ran). lizard gives no cognitive complexity for C by design (marked in results/complexity.csv).
 Push happens at run finish.
+
+### P10-01 — 486b8c6
+cfbench/more_charts.py: unsafe_counts, binary_size, effort_cost_per_stage, malformed_highlights, fuzz_stats, checksum_throughput_<machine>; each reads its derived table, returns None and records PENDING_REASONS[name] when the table is pending, empty or missing. All via charts.save_figure with the parity note. Interpretations: effort figure stacks input + output + cache-write tokens (cache reads excluded, they dwarf everything), cost on a secondary axis only when priced; unsafe bars sum a subject's crates including dependencies; binary_size uses [paper] table_machine. make figures = perf_charts, trajectory derive, framing derive, similarity summary, more_charts (no runs). Rendered from real data: unsafe_counts, binary_size, effort_cost_per_stage, malformed_highlights committed under results/figures; fuzz_stats and checksum_throughput pending. Two PNGs read and the unsafe and effort layouts fixed. 341 tests pass.
