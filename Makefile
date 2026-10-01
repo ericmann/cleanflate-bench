@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := perf framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -24,6 +24,10 @@ subjects: c-subjects
 
 pins: c-subjects subjects
 	$(PY) -m cfbench.pins
+
+workloads: fetch subjects
+	$(PY) -m cfbench.workloads generate
+	$(PY) -m cfbench.workloads verify
 
 lint: c-subjects
 	cargo fmt --all -- --check
