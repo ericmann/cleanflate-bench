@@ -1,0 +1,17 @@
+{
+ "columns": [
+  "machine",
+  "variant",
+  "runs",
+  "cells",
+  "flagged_cells",
+  "max_abs_rel_diff",
+  "aggregates",
+  "flagged_aggregates",
+  "verdict"
+ ],
+ "pending": "no full perf runs; run make perf on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.agreement",
+ "table": "perf_agreement_summary.csv"
+}
