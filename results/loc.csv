@@ -1,0 +1,16 @@
+subject,language,files,code,comments,blanks
+cf,Markdown (embedded),0,0,1013,27
+cf,Rust,17,3683,119,318
+cf,Total,17,3683,1132,345
+mox,Markdown (embedded),0,0,353,75
+mox,Rust,5,2293,363,339
+mox,Total,5,2293,716,414
+zlib,C,7,2666,761,292
+zlib,C Header,6,9791,147,134
+zlib,Total,13,12457,908,426
+zng,C,50,6843,1747,1425
+zng,C Header,43,12908,1192,551
+zng,Total,93,19751,2939,1976
+zrs,Markdown (embedded),0,0,225,64
+zrs,Rust,26,7296,695,1632
+zrs,Total,26,7296,920,1696

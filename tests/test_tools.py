@@ -85,4 +85,5 @@ def test_version_check_uses_configured_args(tmp_path, monkeypatch):
 
 
 def test_pins_cover_every_tool():
-    assert tools.all_names() == ["cargo-audit", "cargo-bloat", "cargo-geiger"]
+    # later phases add tokei and rust-code-analysis-cli; the first three stay pinned
+    assert {"cargo-audit", "cargo-bloat", "cargo-geiger", "tokei"} <= set(tools.all_names())

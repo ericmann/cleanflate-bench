@@ -12,6 +12,11 @@ version = "0.13.0"
 binary = "cargo-geiger"
 version_args = ["--version"]
 
+[tokei]
+version = "15.0.0"
+binary = "tokei"
+version_args = ["--version"]
+
 [cargo-audit]
 version = "0.22.2"
 binary = "cargo-audit"
