@@ -66,7 +66,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P9-01 Decompression-path LOC with tokei
 - [x] P9-02 Rust complexity distributions
 - [x] P9-03 C complexity and the complexity table
-- [ ] P9-04 Phase 9 hand-off
+- [x] P9-04 Phase 9 hand-off
 - [ ] P10-01 Remaining figures
 - [ ] P10-02 PITCH_KIT and talking points
 - [ ] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
@@ -321,3 +321,10 @@ rust-code-analysis-cli 0.0.25 pinned and installed (about 43 s). cfbench/complex
 
 ### P9-03 — 8794053
 lizard 1.24.0 added (pyproject, uv.lock). complexity.collect_c uses lizard.analyze_file over decomp_paths.files(zlib|zng) restricted to .c and .h (headers carry inline functions and macros); cognitive unavailable for C. Table complexity (subject, tool, tool_version, metric, n_functions, median, p90, max): for C the cognitive row has tool 'lizard (cognitive unavailable)' and empty median/p90/max. Raw size/any kind complexity-c committed. zlib: 71 functions cyclomatic 3/13/209 (median/p90/max); zng: 284 functions 1/9/210. make size runs rust, c, derive. 333 tests pass.
+
+### P9-04 — d0b5033
+Manual check: NOT VERIFIED (human)
+Checklist for B9:
+1. Review the decomp-path scoping (docs/methods/decomp-paths.md) against results/loc.csv: cf 17 files / 3683 Rust code lines (plus 1013 doc-comment lines counted as embedded Markdown), zlib 13 files / 12457 (C plus headers), zng 93 / 19751, zrs 26 / 7296, mox 5 / 2293.
+2. Check tool gaps: none recorded (tokei 15.0.0, rust-code-analysis-cli 0.0.25, lizard 1.24.0 all ran). lizard gives no cognitive complexity for C by design (marked in results/complexity.csv).
+Push happens at run finish.
