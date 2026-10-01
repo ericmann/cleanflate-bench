@@ -75,7 +75,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-06 make all and the clean-clone check for every kit
 - [x] P10-07 Phase 10 hand-off
 - [x] R1-01 Hermetic git in throwaway-repo tests
-- [ ] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
+- [x] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
 - [ ] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
 - [ ] R1-04 Token-exact evidence checks for kit numbers
 - [ ] R1-05 Boundary tests for the hypothesis thresholds
@@ -365,3 +365,6 @@ Notes: similarity T1 claim is NOT allowed by the generated statement. PITCH_KIT 
 
 ### R1-01 — 085bc3d
 Added tests/conftest.py with HERMETIC_GIT_ARGS and hermetic_git_env (GIT_CONFIG_GLOBAL=/dev/null, NOSYSTEM, gpgsign=false -c flags); both modules' git helpers use them. New test test_helpers_ignore_hostile_global_git_config. 357 pass. Interpretation: helper-level isolation rather than autouse fixture, so a test can set a hostile config.
+
+### R1-02 — bef03e6
+Subject::oneshot now returns OneshotOutcome{produced,consumed} (exported from harness); cli decode oneshot sets consumed and trailing_bytes=len-consumed. Bench path uses o.produced only. Tests: test_trailing_byte_reported in rust and C subject test files (cf rejects TrailingData in both modes), harness cli test (IdentitySubject treats NUL as terminator to create trailing), run_all accept+trailing test. Ran make malformed (new M-B raw 20261001T073606Z), matrix now shows accept+trailing for zlib family/zrs/mox on trailing_byte.bin; make kits committed (second commit R1-02: regenerate kits); kits-check identical (run with PROGRESS.md stashed since it refuses a dirty tree). lint/test green.
