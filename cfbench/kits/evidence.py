@@ -35,6 +35,7 @@ TARGETS = {
     "perf_tiny": "make perf",
     "perf_agreement": "make perf",
     "env": "make env",
+    "zlibrs_context": "make effort",
     "loc": "make size",
     "complexity": "make size",
 }

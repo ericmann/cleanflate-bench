@@ -168,5 +168,6 @@ test: c-subjects
 blog:
 	$(PY) -m cfbench.kits.pitch rederive
 	$(PY) -m cfbench.kits.results_md
+	$(PY) -m cfbench.kits.blog
 
 all: env pins perf size similarity trajectory effort correctness paper framing content-features pitch blog
