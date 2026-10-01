@@ -1,0 +1,11 @@
+#2048	REDUCE cov: 410 ft: 802 corp: 61/9234b lim: 4096 exec/s: 2048 rss: 61Mb L: 120/4000 MS: 1 EraseBytes-
+thread '<unnamed>' panicked at fuzz_targets/diff_cf_zlib.rs:6:9:
+divergence: accepted 3 bytes (fnv 0123456789abcdef) vs rejected (cf vs Zlib, Raw, 8 input bytes)
+==4242== ERROR: libFuzzer: deadly signal
+artifact_prefix='/repo/fuzz/artifacts/diff_cf_zlib/'; Test unit written to /repo/fuzz/artifacts/diff_cf_zlib/crash-0a1b2c3d4e5f
+#4096	DONE   cov: 455 ft: 900 corp: 70/10Kb lim: 4096 exec/s: 4096 rss: 63Mb
+stat::number_of_executed_units: 4096
+stat::average_exec_per_sec:     4096
+stat::new_units_added:          70
+stat::slowest_unit_time_sec:    0
+stat::peak_rss_mb:              63

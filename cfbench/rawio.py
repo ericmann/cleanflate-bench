@@ -35,6 +35,13 @@ def _root(profile: str) -> Path:
     return paths.RAW if profile == "full" else paths.SMOKE
 
 
+def blob_path(category: str, machine: str, profile: str, name: str) -> Path:
+    """Path for a binary artifact next to the raw JSON documents: `<timestamp>-<name>`."""
+    d = _root(profile) / category / machine
+    d.mkdir(parents=True, exist_ok=True)
+    return d / f"{utc_timestamp()}-{name}"
+
+
 def write_raw(
     category: str,
     payload: dict,

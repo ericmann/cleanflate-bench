@@ -142,3 +142,14 @@ permutations = 10000
 min_abs_rho = 0.5
 null_abs_rho = 0.2
 alpha = 0.05
+
+[fuzz]
+# Differential cargo-fuzz targets (fuzz/); each runs for budget_cpu_hours split across jobs.
+targets = ["diff_cf_zlib", "diff_cf_zrs", "diff_cf_mox"]
+budget_cpu_hours = 4
+jobs = 4
+smoke_seconds = 60
+seed = 20261019
+
+[profiles.quick.fuzz]
+jobs = 1

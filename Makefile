@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := pitch blog
 
-.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed fuzz-build correctness paper paper-check checksums framing content-features perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed fuzz-build fuzz fuzz-smoke correctness paper paper-check checksums framing content-features perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -62,6 +62,12 @@ fuzz-build: c-subjects
 	cargo fmt --manifest-path fuzz/Cargo.toml -- --check
 	cd fuzz && cargo +nightly test
 	cd fuzz && cargo +nightly fuzz build
+
+fuzz: fuzz-build
+	$(PY) -m cfbench.fuzzing run
+
+fuzz-smoke: fuzz-build
+	CFB_PROFILE=quick $(PY) -m cfbench.fuzzing run
 
 malformed: subjects
 	$(PY) -m cfbench.malformed run
