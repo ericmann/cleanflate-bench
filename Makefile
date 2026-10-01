@@ -106,14 +106,14 @@ fuzz-build: c-subjects
 	cd fuzz && cargo +nightly test
 	cd fuzz && cargo +nightly fuzz build
 
-fuzz: fuzz-build
+fuzz: fuzz-build workloads
 	$(PY) -m cfbench.fuzzing run
 	$(PY) -m cfbench.fuzzing report
 
 fuzz-report:
 	$(PY) -m cfbench.fuzzing report
 
-fuzz-smoke: fuzz-build
+fuzz-smoke: fuzz-build workloads
 	CFB_PROFILE=quick $(PY) -m cfbench.fuzzing run
 	CFB_PROFILE=quick $(PY) -m cfbench.fuzzing report
 
@@ -147,7 +147,7 @@ paper-check:
 checksums: subjects
 	$(PY) -m cfbench.checksums run
 
-framing: checksums
+framing: checksums workloads
 	$(PY) -m cfbench.framing run
 	$(PY) -m cfbench.framing derive
 

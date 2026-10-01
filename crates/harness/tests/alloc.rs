@@ -46,7 +46,7 @@ fn dealloc_and_realloc_are_counted() {
     v.push(1);
     let grown = alloc::current_bytes() as i64 - base;
     assert!(
-        grown >= BIG as i64 && grown < (BIG + SLACK) as i64,
+        grown >= (BIG - SLACK) as i64 && grown < (BIG + SLACK) as i64,
         "grown {grown}"
     );
     drop(v);

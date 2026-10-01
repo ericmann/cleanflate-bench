@@ -203,13 +203,14 @@ def test_measurement_targets_depend_on_their_inputs():
     needles = (
         "cfbench.perf run", "cfbench.trajectory run",
         "cfbench.conformance run", "cfbench.content.features run",
+        "cfbench.framing run", "cfbench.fuzzing run",
     )  # fmt: skip
     checked = 0
     for target, lines in recipes.items():
         if any(n in line for line in lines for n in needles):
             checked += 1
             assert "workloads" in _closure(prereqs, target), target
-    assert checked >= 5
+    assert checked >= 9
     assert "fetch" in _closure(prereqs, "malformed")
     for goal in ("all", "paper-data"):
         out = subprocess.run(
