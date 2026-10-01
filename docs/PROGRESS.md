@@ -78,7 +78,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
 - [x] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
 - [x] R1-04 Token-exact evidence checks for kit numbers
-- [ ] R1-05 Boundary tests for the hypothesis thresholds
+- [x] R1-05 Boundary tests for the hypothesis thresholds
 - [ ] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
 - [ ] R1-07 Bomb table reports per-layer and overall ratios separately
 - [ ] R1-08 Add make paper-data for the T1 measurements
@@ -374,3 +374,6 @@ md_table in cfbench/kits/results_md.py now appends the italic PARITY_NOTE after 
 
 ### R1-04 — 0c9de14
 check_bullet now compares whole _NUMBER tokens (substring clause removed). Tests: test_substring_of_evidence_is_not_evidence (pitch), paper claims test compares token sets via pitch.numbers plus negative token test. Fallout: the rejection bullets quoting '8 of 8 cells' now carry labels for len(evidence) and the count of evidence values below parity_ratio, computed in bullets_claims; paper test allowed set gains baseline '1.00'. Regenerated kits were byte-identical (no result files changed); kits-check identical.
+
+### R1-05 — 6e041e2
+Added test_tolerance_band_edges (tol*0.9 within/confirmed, tol*1.2 outside/refuted, both signs) and test_verdict_threshold_edges; thresholds read from config. No cfbench code change needed.
