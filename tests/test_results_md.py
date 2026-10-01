@@ -116,3 +116,39 @@ def test_similarity_section_reports_verdict_counts(isolated):
     assert "| cf-zrs | 5 | 2 | 1 | 1 | 1 |" in text
     assert "RFC-forced" in text and "Unreviewed" in text and "STRUCTURE_COMPARISON.md" in text
     assert "**Result statement:**" in text and "tree-sitter" in text
+
+
+def test_every_table_carries_parity_note(isolated):
+    d = isolated / "res"
+    shutil.copytree(FIX, d)
+    lines = results_md.render(d, CFG).splitlines()
+    tables = 0
+    for i, line in enumerate(lines):
+        if not line.startswith("|---"):
+            continue
+        tables += 1
+        j = i + 1
+        while j < len(lines) and lines[j].startswith("|"):
+            j += 1
+        found = False
+        while j < len(lines) and not lines[j].startswith(("#", "|")):
+            if results_md.PARITY_NOTE in lines[j]:
+                found = True
+                break
+            j += 1
+        assert found, f"table at line {i} lacks the parity note"
+    assert tables > 0
+
+
+def test_methodology_matches_precondition_behaviour(isolated):
+    d = isolated / "res"
+    shutil.copytree(FIX, d)
+    p = CFG["perf"]
+    meth = results_md.methodology(CFG)
+    threats = results_md.threats_section(d, CFG)
+    for text in (meth, threats):
+        for sent in re.split(r"(?<=[.;])\s+", text):
+            if "refused" in sent and "load" in sent:
+                assert "strict" in sent, sent
+    for key in ("small_in_chunk", "small_out_chunk", "large_in_chunk", "large_out_chunk"):
+        assert str(p[key]) in meth

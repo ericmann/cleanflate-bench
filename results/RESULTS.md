@@ -8,6 +8,8 @@
 |---|---|---|---|---|---|
 | M-B | AMD Ryzen 5 3400G with Radeon Vega Graphics | 4 / 8 | Pop!_OS 24.04 LTS | 7.1.5-76070105-generic | schedutil |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: raw env captures `data/raw/env/M-B/20261001T042705Z.json`.*
 
 Pending: run `make env` on M-A.
@@ -29,6 +31,8 @@ Pending: run `make env` on M-A.
 | zrs@native | rustc 1.89.0 (29483883e 2025-08-04) | native | yes | yes |
 | zsys | None | generic | no | no |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 Hardware-CRC determinations come from disassembly and symbol inspection of each built binary (`subjects.lock.json`); on x86_64 the `zlib-nohw` control is identical to the default build.
 
 *Source: `subjects.lock.json`.*
@@ -39,8 +43,8 @@ Hardware-CRC determinations come from disassembly and symbol inspection of each 
 - Each cell warms up for 500 ms, then takes at least 30 samples of at least 10 ms each.
 - Medians carry a 95% bootstrap confidence interval from 2000 resamples.
 - The full session is run 2 times; the two runs agree when every aggregate is within 5%, otherwise the machine is flagged.
-- A run is refused when the starting load average exceeds 1.0.
-- Levels 1, 6, 9; framings raw, zlib, gzip; modes oneshot, stream_small, stream_large. Streaming uses 4096-byte and 1048576-byte chunks.
+- The starting load average is checked against 1.0 and a higher value is recorded as a precondition warning; a run is refused for it only under `--strict`.
+- Levels 1, 6, 9; framings raw, zlib, gzip; modes oneshot, stream_small, stream_large. Small streaming feeds 1024-byte input chunks into 4096-byte output buffers; large streaming uses 1048576-byte input and 1048576-byte output chunks.
 - Aggregates are total output bytes divided by summed per-file time; ratios are against stock zlib (zlib = 1.00x) and are only formed within the same mode.
 
 ## Performance results
@@ -90,12 +94,16 @@ Pending: run `make trajectory` on M-A and M-B.
 | M-B | zrs | 2962 | 2962 | 0 | 0 | 1 |
 | M-B | zsys | 2962 | 2962 | 0 | 0 | 1 |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/conformance.csv` <- `data/raw/correctness/M-B/20261001T060238Z.json` via `cfbench.conformance`.*
 
 **Conformance disagreements (an empty table means none)**
 
 | Machine | Entry | Framing | Subject | Outcome | Error |
 |---|---|---|---|---|---|
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/conformance_disagreements.csv` <- `data/raw/correctness/M-B/20261001T060238Z.json` via `cfbench.conformance`.*
 
@@ -107,6 +115,8 @@ Pending: run `make trajectory` on M-A and M-B.
 | rfc1951/valid_stored_trailing_byte.bin | raw | cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=accept+trailing;zsys=accept+trailing | TrailingData |
 | rfc1952/second_member_bad_cm.bin | gzip | cf=error:BadHeader;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=unsupported;zsys=accept+trailing | BadHeader |
 | rfc1952/trailing_garbage.bin | gzip | cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=unsupported;zsys=accept+trailing | TrailingData |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/malformed_disagreements.csv` <- `data/raw/correctness/M-B/20261001T073606Z.json` via `cfbench.malformed`.*
 
@@ -142,6 +152,8 @@ Pending: run `make bombs` on M-A and M-B.
 | M-B | zrs | s | 381608 | n/a |
 | M-B | zsys | 3 | n/a | dynamically linked system library; excluded from the static size comparison |
 | M-B | zsys | s | n/a | dynamically linked system library; excluded from the static size comparison |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/binary_size.csv` <- `data/raw/size/M-B/20261001T051108Z.json` via `cfbench.size`.*
 
@@ -184,6 +196,8 @@ Pending: run `make bombs` on M-A and M-B.
 | M-B | zrs | s | std | 236584 | 0.8700 |
 | M-B | zrs | s | zlib_rs | 15120 | 0.0556 |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/cargo_bloat.csv` <- `data/raw/size/M-B/20261001T051108Z.json` via `cfbench.size`.*
 
 **Unsafe surface**
@@ -199,6 +213,8 @@ Pending: run `make bombs` on M-A and M-B.
 | zrs | zlib-rs | 0.6.8 | subject | false | 354 | 94 | 5 | 2860 | n/a |
 | zsys | zsys | n/a | subject | n/a | n/a | n/a | n/a | n/a | C: entire codebase memory-unsafe by language |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/unsafe.csv` <- `data/raw/size/any/20261001T051308Z.json` via `cfbench.unsafe_scan`.*
 
 ![Unsafe code per subject.](figures/unsafe_counts.png)
@@ -213,6 +229,8 @@ Pending: run `make bombs` on M-A and M-B.
 | mox | miniz_oxide@0.9.1 | 1 | 1 | n/a |
 | zrs | libz-rs-sys@0.6.8 | 1 | 1 | n/a |
 | zrs | zlib-rs@0.6.8 | 0 | 0 | n/a |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/deps.csv` <- `data/raw/size/any/20261001T051441Z.json` via `cfbench.deps`.*
 
@@ -236,6 +254,8 @@ Pending: run `make bombs` on M-A and M-B.
 | zrs | Rust | 26 | 7296 | 695 | 1632 |
 | zrs | Total | 26 | 7296 | 920 | 1696 |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/loc.csv` <- `data/raw/size/any/20261001T065129Z.json` via `cfbench.loc`.*
 
 **Per-function complexity (p90 by nearest rank)**
@@ -252,6 +272,8 @@ Pending: run `make bombs` on M-A and M-B.
 | zng | lizard (cognitive unavailable) | 1.24.0 | cognitive | 284 | n/a | n/a | n/a |
 | zrs | rust-code-analysis-cli | 0.0.25 | cognitive | 326 | 0 | 5 | 332 |
 | zrs | rust-code-analysis-cli | 0.0.25 | cyclomatic | 326 | 1 | 6 | 161 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/complexity.csv` <- `data/raw/size/any/20261001T065344Z.json`, `data/raw/size/any/20261001T065504Z.json` via `cfbench.complexity`.*
 
@@ -328,6 +350,8 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 | ngram_jaccard@9 | zrs-mox | negative | 0.0554 | 0.0554 | 0.0103 | 0 | negative control |
 | ngram_jaccard@9 | zrs-zng | positive | 0.0103 | 0.0554 | 0.0103 | 1 | positive control |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261001T051802Z.json`, `data/raw/similarity/any/20261001T052006Z.json`, `data/raw/similarity/any/20261001T052008Z.json`, `data/raw/similarity/any/20261001T052552Z.json` via `cfbench.similarity.summary`.*
 
 **Result statement:** T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
@@ -347,6 +371,8 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 | zrs-mox | 20 | 0 | 0 | 0 | 20 |
 | zrs-zng | 20 | 0 | 0 | 0 | 20 |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 Verdicts live in `config/similarity_verdicts.toml` and are filled in by a human reviewer; per-pair excerpts are under `results/similarity_fragments/`.
 
 Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
@@ -361,6 +387,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 2 | 26218 | 28931 | claude-opus-5-5;claude-sonnet-5-5 | 1096 | 168462 | 9928038 | 153669576 | n/a |
 | 3 | 45863 | 0 | claude-opus-5-5;claude-sonnet-5-5 | 1214 | 143298 | 25095429 | 200948466 | n/a |
 | total | 102566 | 28931 | claude-opus-5-5;claude-sonnet-5;claude-sonnet-5-5 | 6648 | 1162532 | 40361798 | 1124200817 | n/a |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
@@ -388,6 +416,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 3 | review | 527 | claude-opus-5-5 | 156 | 7866 | 386239 | 8137984 | n/a |
 | 3 | summarize | 6410 | claude-opus-5-5 | 22 | 8152 | 54114 | 331983 | n/a |
 | 3 | untagged | 4044 | n/a | n/a | n/a | n/a | n/a | n/a |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
@@ -427,6 +457,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 3 | R1 | 597 | 2 |
 | 3 | other | 15559 | 2 |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
 **Review rounds**
@@ -442,6 +474,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 2 | 3 | APPROVED | 0 |
 | 3 | 1 | CHANGES REQUESTED | 1 |
 | 3 | 2 | APPROVED | 0 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
@@ -461,6 +495,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 3 | none reported | 36 |
 | 3 | other | 2 |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
 **Human interventions**
@@ -479,6 +515,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 3 | 2026-09-30 | phase-3 SPEC | Supplied a "round 3" performance brief (drafted with Claude Desktop from the phase-2 bench numbers); the controller session reconciled it with the repo into `docs/SPEC.md`. No implementation source was consulted. |
 | 3 | 2026-09-30 | phase-3 post-merge | Merged PR #3 (phase 3) into `main`; controller session created and pushed the signed tag `v0.3.0-cleanroom`. Quiet-machine bench re-run, peak-memory comparison, hour-long fuzz runs and hand review of D-34..D-36 deferred (not done yet). |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
 **Denied tool calls**
@@ -495,6 +533,8 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 | 3 | clean-room forbidden word | 6 |
 | 3 | profiling rule | 3 |
 | 3 | recursive grep | 3 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 *Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
 
@@ -518,6 +558,8 @@ Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 | stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261001T055248Z |
 | stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261001T055248Z |
 
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
 *Scope:* Context, not a head-to-head comparison. zlib-rs is a full zlib replacement: complete API and C ABI, compression as well as decompression, SIMD code paths, and performance parity with zlib-ng as a goal. cleanflate (this repo's subject) only decompresses, in safe Rust, without SIMD or a C ABI, and was built in three Foundry rounds; the two efforts have different scopes.
 
 *Source: `results/zlibrs_context.csv` via `cfbench.effort.context`.*
@@ -534,7 +576,7 @@ Model training data cannot be controlled, so resemblance is measured against neg
 
 ### Machine variance and thermal effects
 
-Timings come from two desktop-class machines that are not isolated labs; runs are refused above a starting load of 1.0 and each session is repeated 2 times. Pending: run `make perf` on M-A and M-B. Governor and thermal state are recorded in the environment captures.
+Timings come from two desktop-class machines that are not isolated labs; a starting load above 1.0 is recorded as a warning (refused only with `--strict`) and each session is repeated 2 times. Pending: run `make perf` on M-A and M-B. Governor and thermal state are recorded in the environment captures.
 
 ### Feature-scope mismatch
 

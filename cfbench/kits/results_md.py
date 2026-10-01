@@ -31,7 +31,7 @@ def md_table(columns: list[str], rows: list[list[str]]) -> str:
     head = "| " + " | ".join(columns) + " |"
     sep = "|" + "|".join(["---"] * len(columns)) + "|"
     body = ["| " + " | ".join(str(c) for c in r) + " |" for r in rows]
-    return "\n".join([head, sep, *body])
+    return "\n".join([head, sep, *body]) + f"\n\n*{PARITY_NOTE}*"
 
 
 def source(table: str, side: dict) -> str:
@@ -159,10 +159,15 @@ def methodology(cfg: dict) -> str:
             f"The full session is run {p['runs']} times; the two runs agree when every aggregate is within "
             f"{p['agreement_tolerance']:.0%}, otherwise the machine is flagged."
         ),
-        f"A run is refused when the starting load average exceeds {p['max_start_load']}.",
+        (
+            f"The starting load average is checked against {p['max_start_load']} and a higher value is "
+            "recorded as a precondition warning; a run is refused for it only under `--strict`."
+        ),
         (
             f"Levels {', '.join(str(x) for x in p['levels'])}; framings {', '.join(p['framings'])}; modes "
-            f"{', '.join(p['modes'])}. Streaming uses {p['small_out_chunk']}-byte and {p['large_in_chunk']}-byte chunks."
+            f"{', '.join(p['modes'])}. Small streaming feeds {p['small_in_chunk']}-byte input chunks into "
+            f"{p['small_out_chunk']}-byte output buffers; large streaming uses {p['large_in_chunk']}-byte input and "
+            f"{p['large_out_chunk']}-byte output chunks."
         ),
         (
             "Aggregates are total output bytes divided by summed per-file time; ratios are against stock zlib "
@@ -993,7 +998,7 @@ def threats_section(d: Path, cfg: dict) -> str:
             "Machine variance and thermal effects",
             (
                 "Timings come from two desktop-class machines that are not isolated "
-                f"labs; runs are refused above a starting load of {cfg['perf']['max_start_load']} and each session is repeated "
+                f"labs; a starting load above {cfg['perf']['max_start_load']} is recorded as a warning (refused only with `--strict`) and each session is repeated "
                 f"{cfg['perf']['runs']} times. {flagged} Governor and thermal state are recorded in the environment captures."
             ),
         ),
