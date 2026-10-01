@@ -1414,3 +1414,32 @@ Derived from docs/SPEC.md v(unversioned, commit 082220a) on 2026-09-30. SPEC.md 
 **Out of scope:** Running any measurement; changing cfbench modules; changing what `paper-data` or `all` measure; similarity/size source-fetch ordering (pins and c-subjects already precede them in `all`).
 **Verification:** make lint; make test; make -n paper-data and make -n all show `cfbench.cleanflate_src fetch` and `cfbench.workloads generate` before `cfbench.perf run`.
 **Depends on:** none
+
+## Review fixes (round 3)
+
+### R3-01: Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
+**Goal:** The P0-05 harness tests catch the loss of the elapsed/iters normalisation in timing::measure and of the dealloc/realloc decrements in the counting allocator, so the SPEC 3.2 throughput and peak-heap numbers are protected against regression.
+**Files touched:** crates/harness/tests/timing.rs, crates/harness/tests/alloc.rs
+**Design constraints:** Tests only: do not change crates/harness/src unless a new test exposes a real bug (then say so in the commit Interpretation). Literal values stay in crates/harness/tests/, never inline #[cfg(test)] (rule no-hardcoded-tunables). No threads (rule harness-single-threaded). Alloc tests take the existing LOCK because the counters are process-global. Timing assertions must be invariants that hold under any machine load, not tight wall-clock bounds.
+**Acceptance tests:** New crates/harness/tests/timing.rs::samples_are_per_iteration: warmup_ms=0, min_samples=20, min_sample_ms=2, op spins ~100 us; time the whole measure() call with Instant; assert iters_per_sample >= 2 and sum(samples_ns) * iters_per_sample <= total elapsed ns. New crates/harness/tests/alloc.rs::dealloc_and_realloc_are_counted: under LOCK, base = current_bytes(); v = Vec::<u8>::with_capacity(BIG/2); v.reserve_exact(BIG) (forces realloc); assert current-base in [BIG, BIG+SLACK); drop(v); assert current-base < SLACK (signed arithmetic). Each must fail on its mutant: removing '/ iters as f64' at timing.rs:49; removing sub(layout.size()) in dealloc; removing sub(layout.size()) in realloc.
+**Out of scope:** Changing the timing loop, allocator or CLI behaviour; Python-side statistics.
+**Verification:** make lint; make test; foundry_mutate each of the three mutants above reports killed.
+**Depends on:** none
+
+### R3-02: Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
+**Goal:** Every real subject's oneshot reports output_full when the output buffer is too small, and a test proves it, so decode --mode oneshot regrows correctly and --max-output yields limit_hit (SPEC 3.6 malformed matrix and limits).
+**Files touched:** tests/test_rust_subjects.py, tests/test_c_subjects.py
+**Design constraints:** Tests only; hermetic (no network, rule hermetic-tests): build the input in the test with Python zlib (1 MiB of zeros; zlib and raw framing, which every subject supports). Use the debug binaries the existing tests already use. Do not change subject or harness code unless a test exposes a real bug.
+**Acceptance tests:** tests/test_rust_subjects.py and tests/test_c_subjects.py each gain test_oneshot_grows_past_initial_buffer[subject] (decode --mode oneshot of the 1 MiB zero stream: ok, produced == 1048576, sha256 matches) and test_oneshot_max_output_sets_limit_hit[subject] (same stream, --max-output 1000: ok false, limit_hit true, error_kind 'output_full'), parametrized over cf/zrs/mox and zlib/zlib-nohw/zsys/zng. They must fail on: cf ERR_OUTPUT_FULL at crates/subj-cf/src/main.rs:104 replaced by another kind; deleting the 'Z_OK | Z_BUF_ERROR if inf.strm.avail_out == 0' arm in crates/zlibapi/src/lib.rs (check with commands ['make test']); deleting the HasMoreOutput arm in crates/subj-mox/src/main.rs.
+**Out of scope:** Stream-mode limits (covered by bombs tests); changing initial buffer sizing in cli.rs.
+**Verification:** make lint; make test; foundry_mutate on the three mutants above (commands ['make test']) reports killed.
+**Depends on:** none
+
+### R3-03: framing, fuzz and fuzz-smoke depend on workloads
+**Goal:** Complete R2-01's goal: every Makefile target that measures over workload streams or cleanflate test data depends on the target that creates them, so make framing and make fuzz run from a fresh clone and fuzz never silently seeds without workload streams.
+**Files touched:** Makefile, tests/test_clean_clone.py
+**Design constraints:** Add workloads as a prerequisite of framing, fuzz and fuzz-smoke (workloads already depends on fetch subjects). Keep GNU make 3.81 / bash 3.2 portability (rule portable-shell-and-make). No git write subcommand (rule cleanflate-read-only-git). Do not change recipe commands or the order of all/paper-data prerequisites. Test stays hermetic: Makefile parse and make -n only.
+**Acceptance tests:** Extend tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs: add 'cfbench.framing run' and 'cfbench.fuzzing run' to the needles and raise the checked floor to 9 (perf, perf-native, smoke-bench, trajectory, conformance, content-features, framing, fuzz, fuzz-smoke). It fails today on framing, fuzz and fuzz-smoke.
+**Out of scope:** fetch/c-subjects prerequisites for similarity, effort and size (they fail loudly); changing cfbench/fuzzing.py seed selection; running any measurement.
+**Verification:** make lint; make test; make -n framing and make -n fuzz show cfbench.workloads generate before cfbench.framing run / cfbench.fuzzing run.
+**Depends on:** none

@@ -83,6 +83,9 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-07 Bomb table reports per-layer and overall ratios separately
 - [x] R1-08 Add make paper-data for the T1 measurements
 - [x] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
+- [ ] R3-01 Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
+- [ ] R3-02 Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
+- [ ] R3-03 framing, fuzz and fuzz-smoke depend on workloads
 
 ## Log
 (one entry per task, appended by implement)

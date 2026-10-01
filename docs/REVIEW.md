@@ -1,78 +1,129 @@
 # Review: build/2026-10-01
-Round: 2
+Round: 3
 
 **Verdict: CHANGES REQUESTED**
 
-Scope: the whole branch `e17e6973d7a7..edc8dd1`. Round 1 reviewed every original task commit. This round re-checks the branch with the eight R1 fix commits (`085bc3d`..`15c3bd4`, plus `bef03e6`, which regenerated the kits). For each one I read the diff, then the R1 task in PLAN, then the SPEC sections it cites.
+Scope: the whole branch `e17e6973d7a7..b234b3a` (80 tasks, all done, none blocked or skipped). Rounds 1 and 2 reviewed every original task commit and every R1 fix. This round:
+- reviews R2-01 (`4139c19`) against its PLAN entry and SPEC §4 / B10;
+- widens the mutation sample to modules the earlier rounds never mutated, mainly the Rust harness and the subject crates.
 
 Verify result:
-- `foundry_verify`: all 10 mechanical constraints pass, with no fixture failures and no hits. `make lint` is green, and `make test` is green (374 Python tests plus the Rust tests).
-- The signing agent is still unavailable in this environment, and the throwaway-repo tests now pass anyway.
-- `make kits-check` on the clean tree reports every kit file identical.
+- `foundry_verify`: all 10 mechanical constraints pass, with no fixture failures and no hits.
+- `make lint` is green. `make test` is green (375 Python tests plus the Rust tests).
 
-## Round-1 findings: status
+## R2-01 status
 
-| R1 finding | Status | Evidence |
-|---|---|---|
-| F-1 (hermetic git) | Fixed | Mutant removing both isolation layers in `tests/conftest.py` is killed (6 failed, 4 errors). |
-| F-2 (oneshot consumed/trailing) | Fixed | `decode --mode oneshot` reports `consumed` and `trailing_bytes` from each subject. New raw file `data/raw/correctness/M-B/20261001T073606Z.json` added; old raw files untouched. The matrix now shows 22 `accept+trailing` cells, and all four disagreements are cf stricter. Mutants killed: zlibapi stream `trailing_bytes: 0`, zng oneshot `consumed: input.len()`, cli.rs trailing assignment deleted, cf `TrailingData::Allow`. |
-| F-3 (parity note, methodology text) | Fixed | All 21 RESULTS.md tables carry the note. Load-precondition and chunk-size wording now matches the code. Mutant removing the note from `md_table` is killed. |
-| F-4 (substring evidence) | Fixed | Mutants restoring the substring clause and corrupting the computed tallies are both killed. `blog.py` uses the same `check_bullet`. |
-| F-5 (threshold boundaries) | Fixed | Mutants `1.5 * tol` and "drop `min_abs_rho`" are both killed. |
-| F-6 (binary-size n/a) | Fixed | Mutant restoring `d.get(opt, 0)` is killed. |
-| F-7 (bomb per-layer ratio) | Fixed | Mutant restoring the overall ratio in `ratio` is killed. |
-| F-8 (`make paper-data`) | Partly fixed | The target exists and its prerequisite list is tested (mutant dropping `conformance` is killed). It cannot run from a fresh clone; see F-1 below. |
+The fix is correct as far as it goes:
+- `perf`, `perf-native`, `smoke-bench` and `trajectory` now depend on `workloads`, and `malformed` depends on `fetch`.
+- `make -n all`, `make -n paper-data` and `make -n smoke` all print `cleanflate_src fetch`, then `workloads generate`, before the first `perf run`.
+- Three mutants were killed by `test_measurement_targets_depend_on_their_inputs`: dropping `workloads` from `trajectory`, dropping it from `smoke-bench`, and dropping `fetch` from `malformed`.
+- The test is hermetic: it parses the Makefile and runs `make -n` only, and recursive `$(MAKE)` lines inherit `-n`.
+- No interpretation choices were logged, and none were needed.
+
+What it missed is F-3 below.
 
 ## Findings (most severe first)
 
-### F-1 [Spec drift: SPEC §4, B10 acceptance, PLAN Decisions] `make all` and `make paper-data` run perf before any workload stream exists, so both fail on a fresh clone
+### F-1 [Tests: P0-05] The harness's per-iteration normalisation and its allocator free/realloc accounting are untested
 - Where:
-  - `Makefile:75` (`perf: subjects`), `:79` (`perf-native: subjects subjects-native`), `:91` (`trajectory: subjects subjects-rounds`), `:171` (`smoke-bench: subjects`) and `:123` (`malformed: subjects`).
-  - `paper-data` and `all` list these targets ahead of anything that builds `workloads` or runs `fetch`.
-  - Consumers: `cfbench/perf.py:145-148` and `cfbench/trajectory.py:90`.
+  - `crates/harness/src/timing.rs:49` (`samples_ns.push(t.as_nanos() as f64 / iters as f64)`)
+  - `crates/harness/src/alloc.rs:42` (`sub` in `dealloc`) and `:48` (`sub` in `realloc`)
+  - Tests: `crates/harness/tests/timing.rs:12-30` and `crates/harness/tests/alloc.rs`.
+- What is wrong: three mutants survived `make test`.
+  1. Dropping `/ iters as f64` from `timing.rs:49` survives. `calibrates_iterations_to_min_sample_time` asserts lower bounds only (`sample_ms >= 0.5 * min_sample_ms` and `s >= 90 µs`). A sample that is `iters` times too large passes both.
+  2. Deleting `sub(layout.size())` from `dealloc` survives. Neither alloc test checks `current_bytes()` after a large free; the `< SLACK` check only sees the 1 MB `c_zalloc` block.
+  3. Deleting `sub(layout.size())` from `realloc` survives. No test grows an allocation.
+- What would break:
+  - Every MiB/s, ns/byte and ratio-vs-zlib number in SPEC §3.2 is computed from `samples_ns`. A regression in mutant 1 would inflate them by a factor of `iters_per_sample` (often 2 to 1000+), and no test would notice.
+  - `peak_heap_bytes` (a SPEC §3.2 metric) is `peak - current` across the heap pass. Mutants 2 and 3 would turn it into cumulative allocated bytes; for streaming subjects whose output buffers grow by `realloc`, that overstates it many times over.
+  - The code is correct today. The acceptance tests that P0-05 names just do not fail when these mechanics are removed.
+- Fix: tests only, in `crates/harness/tests/`.
+  - **Timing:** a test with `warmup_ms = 0`, `min_samples = 20`, `min_sample_ms = 2` and a ~100 µs spin op. Time the whole `measure` call with `Instant`, then assert:
+    - `iters_per_sample >= 2`
+    - `sum(samples_ns) * iters_per_sample <= total_elapsed_ns`
+
+    The sampled time is a subset of the call, so this holds under any machine load. It fails by a factor of ≥ 2 on mutant 1.
+  - **Allocator:** a test under the existing `LOCK`. Let `base = current_bytes()`.
+    - `Vec::<u8>::with_capacity(BIG / 2)`, then `reserve_exact(BIG)`, which forces a `realloc`.
+    - Assert that `current - base` is in `[BIG, BIG + SLACK)`. This kills mutant 3 (current becomes 1.5 × BIG).
+    - Drop the vector and assert `current - base < SLACK` (use signed arithmetic). This kills mutant 2.
+- Task: P0-05.
+
+### F-2 [Tests: P0-06, P0-07, P0-08] No test exercises a real subject's one-shot "output buffer full" result, which the harness's grow-and-retry and `limit_hit` logic depend on
+- Where:
+  - Subjects: `crates/subj-cf/src/main.rs:104`, `crates/zlibapi/src/lib.rs:321-323`, `crates/subj-mox/src/main.rs:68-70`, `crates/subj-zrs/src/main.rs:140` and `crates/subj-zng/src/main.rs:199`.
+  - Consumer: `crates/harness/src/cli.rs:383-390` (`decode --mode oneshot` regrows on `output_full`, and sets `limit_hit` when `--max-output` is given).
 - What is wrong:
-  - `data/workloads/` and `third_party/` are gitignored, so a fresh clone has neither the cleanflate clone nor the workload streams.
-  - `perf run` calls `workloads.list_workloads` (which needs the cleanflate corpora via `cleanflate_src.corpus_files`) and raises `RuntimeError("... workload streams are missing: run make workloads")`.
-  - `make -n paper-data` prints `cfbench.perf run` at line 5, but `cleanflate_src fetch` only at line 25 and `cfbench.workloads generate` at line 27. Both come in later, through `conformance`.
-  - `make -n all` has the same order (perf run at line 5, workloads generate at line 26). There, `perf-native` also runs before `content-features` brings in `workloads`.
-  - In `paper-data`, `trajectory` also precedes `conformance`.
-  - `malformed` reads `third_party/cleanflate/testdata/malformed`, but it does not depend on `fetch`.
-- What breaks: SPEC §4 says "`make all` runs everything end to end", and B10's acceptance requires it to reproduce everything from a clean clone. The human step this round added (run `make paper-data` on M-A from a fresh clone) stops at its first measurement. The same applies to `make all` and `make smoke`, which B0's acceptance names. `make kits-check` only re-renders kits, so nothing has exercised the measuring chain from a fresh clone.
+  - Changing cf's `ERR_OUTPUT_FULL` at `subj-cf/src/main.rs:104` to another error kind survives `make test`.
+  - Deleting the `avail_out == 0 => ERR_OUTPUT_FULL` arm in `zlibapi` also survives `make test`. Only `make lint` kills it, and only incidentally, through the now-unused import.
+  - The harness side is tested with the fake `IdentitySubject` (`crates/harness/tests/cli.rs:41`). Every real-subject fixture, however, decompresses to less than the initial `max(4 × input, 64 KiB)` buffer, so the regrow path never runs against a real decoder.
+- What would break: `decode --mode oneshot` feeds the malformed matrix (SPEC §3.6), and `--max-output` defines `limit_hit`. If a subject mislabels "buffer full", then:
+  - a valid stream with ratio > 4 and output > 64 KiB would be recorded as an error (for zlib, `Z_BUF_ERROR truncated input`);
+  - a limit would be reported as a decode failure.
+
+  These are exactly the cross-subject disagreements the T3 kit highlights.
+- Verified today: by hand, all seven debug binaries decode a 1 MiB zero stream in one-shot mode (zlib framing). With `--max-output 1000` on the raw stream, each reports `limit_hit: true, error_kind: output_full`. So the new tests will pass on current code.
+- Fix: tests only. Add to `tests/test_rust_subjects.py` (cf, zrs, mox) and `tests/test_c_subjects.py` (zlib, zlib-nohw, zsys, zng):
+  - `test_oneshot_grows_past_initial_buffer[subject]`: build 1 MiB of zeros in the test and compress it with Python `zlib` (zlib framing; raw too, since every subject supports both). Assert `decode --mode oneshot` gives `ok`, `produced == 1 MiB` and the expected sha256.
+  - `test_oneshot_max_output_sets_limit_hit[subject]`: the same stream with `--max-output 1000`. Assert `ok == false`, `limit_hit == true` and `error_kind == "output_full"`.
+- Task: P0-06 (cf, zrs, mox), P0-07 (zlibapi), P0-08 (zng).
+
+### F-3 [Spec drift: R2-01 goal, SPEC §4] `framing`, `fuzz` and `fuzz-smoke` read workload streams but do not depend on `workloads`
+- Where:
+  - `Makefile:150` (`framing: checksums`), `:109` (`fuzz: fuzz-build`) and `:116` (`fuzz-smoke: fuzz-build`).
+  - The test's needle list at `tests/test_clean_clone.py:203`.
+- What is wrong: R2-01's own goal is that "every Makefile target that measures over workload streams or the cleanflate test data depends on the target that creates them". Two kinds of target still don't.
+  - **`framing`.** `cfbench.framing run` is `perf.run` over the same workload streams (`cfbench/framing.py:51-55`). On a fresh clone, `make -n framing` prints `cfbench.framing run` with no `fetch` or `workloads generate` before it.
+  - **`fuzz` and `fuzz-smoke`.** `cfbench.fuzzing run` seeds from the level-6 workload streams and from cleanflate's `testdata/malformed`.
+    - On a fresh clone it crashes on the missing `SOURCES.json`.
+    - After a bare `make fetch`, it silently seeds from the malformed files only, because `cfbench/fuzzing.py:91` skips missing streams. A 12-CPU-hour M-A run would then use a different seed corpus from M-B, with nothing flagging it.
+
+  The R2-01 test only looks for `perf run`, `trajectory run`, `conformance run` and `content.features run`, so it cannot see either case.
+- What breaks:
+  - `make framing` (a SPEC §4 granular target) and `make fuzz` (manual check 2 below) do not run from a fresh clone.
+  - `make fuzz` after only `make fetch` degrades silently.
+  - `make all` is unaffected, because `perf` runs first.
 - Fix:
-  - Add `workloads` as a prerequisite of `perf`, `perf-native`, `smoke-bench` and `trajectory`. `workloads` already depends on `fetch subjects`.
-  - Add `fetch` as a prerequisite of `malformed`.
-  - Keep the Makefile GNU make 3.81 portable.
-- Test: one Makefile-structure test in `tests/test_clean_clone.py`, which already parses the Makefile:
-  - For every target whose recipe runs `cfbench.perf run`, `cfbench.trajectory run`, `cfbench.conformance run` or `cfbench.content.features run`, `workloads` must be a transitive prerequisite.
-  - For `malformed`, `fetch` must be one.
-  - In `make -n all` and `make -n paper-data`, the first `cfbench.workloads generate` must come before the first `cfbench.perf run` and `cfbench.trajectory run`.
-  - It fails today.
-- Task: P10-06 (`make all`) and R1-08 (`paper-data`).
+  - Add `workloads` as a prerequisite of `framing`, `fuzz` and `fuzz-smoke`. `workloads` already brings in `fetch`.
+  - Add `"cfbench.framing run"` and `"cfbench.fuzzing run"` to the needle list in `test_measurement_targets_depend_on_their_inputs`, and raise the `checked` floor to 9 to match.
+  - The extended test fails today on `framing`, `fuzz` and `fuzz-smoke`.
+- Task: R2-01.
 
-## Mutation sample (14 mutants this round)
-- **Killed (13):**
-  - `zlibapi` stream `trailing_bytes`
-  - `subj-zng` oneshot `consumed`
-  - `harness/cli.rs` oneshot trailing assignment
-  - `subj-cf` `TrailingData::Allow`
-  - `results_md.md_table` parity note
-  - `pitch.check_bullet` substring clause
-  - `pitch.bullets_claims` tallies
-  - `framing` tolerance band (`1.5 * tol`)
-  - `correlate` `min_abs_rho`
-  - `bombs` per-layer `ratio`
-  - `more_charts.binary_size` zero bar
-  - `Makefile` `paper-data` prerequisites
-  - `tests/conftest.py` hermetic isolation
-- **Survived (1, equivalent):** deleting the `if !inp.is_empty()` block at the end of `Cf::oneshot` (`crates/subj-cf/src/main.rs:114-117`). It is unreachable: cleanflate's `decompress` already returns `TrailingData` in the call that reaches `Done` with leftover input (cleanflate `85f2100` `crates/cleanflate/src/stream.rs:364-373`). The behaviour it was meant to guard is covered: `test_trailing_byte_reported[cf]` kills the `TrailingData::Allow` mutant. Not a finding.
+## Mutation sample (18 mutants this round)
 
-## Interpretation choices (HANDOFF round 1)
-- **R1-01, helper-level isolation instead of an autouse fixture:** accepted. PLAN allowed either approach, and both layers (`-c` flags and env) are in place.
-- **R1-02, `IdentitySubject` treats NUL as a stream terminator:** accepted. It is a test-only stand-in in `crates/harness/tests/`, which is where literal values belong.
-- **R1-04, tally labels computed from the evidence list:** accepted. The labels are derived from the same `Evidence` objects, not typed in, and a mismatch still raises.
-- **R1-04, paper test allows the baseline `1.00`:** accepted. It is the definitional zlib = 1.00x baseline from SPEC §3.2.
-- **R1-07, `overall_ratio` empty for single-layer rows:** accepted. This matches the task.
-- **R1-08, `paper-data` not run:** accepted as a human step. The ordering defect is F-1.
+**Killed (14):**
+
+| File | Mutant |
+|---|---|
+| `Makefile` | `trajectory` without `workloads` |
+| `Makefile` | `malformed` without `fetch` |
+| `Makefile` | `smoke-bench` without `workloads` |
+| `cfbench/stats.py` | `like_for_like_key` without `mode` |
+| `cfbench/similarity/ngram.py` | `jaccard` denominator changed |
+| `cfbench/similarity/identifiers.py` | RFC exclusion dropped |
+| `cfbench/unsafe_scan.py` | `unsafe extern fn` no longer counted |
+| `cfbench/content/correlate.py` | `verdict` without `p < alpha` |
+| `cfbench/malformed.py` | `accept+trailing` threshold changed |
+| `cfbench/perf.py` | cell shuffle removed |
+| `cfbench/workloads.py` | `verify` hash check removed |
+| `cfbench/kits/evidence.py` | `lookup` non-unique-key guard removed |
+| `crates/subj-cf/src/main.rs` | gzip mapped to the zlib format |
+| `crates/harness/src/cli.rs` | `bench` output-mismatch check removed |
+
+**Survived (4), all findings:**
+
+| File | Mutant | Finding |
+|---|---|---|
+| `crates/harness/src/timing.rs` | per-iteration division removed | F-1 |
+| `crates/harness/src/alloc.rs` | `dealloc` accounting removed | F-1 |
+| `crates/harness/src/alloc.rs` | `realloc` accounting removed | F-1 |
+| `crates/subj-cf/src/main.rs:104` | `output_full` kind changed | F-2 |
+
+The `zlibapi` output-full arm deletion also survived `make test` (F-2); only `make lint`'s unused-import warning would catch it.
+
+## Interpretation choices
+- **R2-01:** none logged, and none needed.
+- **Earlier rounds:** the choices accepted in round 2 still stand.
 
 ## Blocked and skipped tasks
 None.
@@ -81,15 +132,16 @@ None.
 No new ones. PLAN's Spec issues 1–13 still stand.
 
 ## Manual checks still owed (from HANDOFF.md)
-1. Timing-sensitive full runs on a quiet machine, M-A and M-B: `make perf perf-native framing trajectory` (or `make paper-data` for the T1 subset, once F-1 is fixed), then `make content`. All their tables are pending.
+1. Timing-sensitive full runs on a quiet machine, M-A and M-B: `make perf perf-native framing trajectory` (or `make paper-data` for the T1 subset), then `make content`. All their tables are pending.
 2. `make fuzz` (3 targets x 4 CPU-hours) and `make bombs` (the full sweep with 4 GiB cases).
 3. M-A runs of env, conformance and malformed.
-4. Fill in prices in `config/pricing.toml`, and fragment verdicts in `config/similarity_verdicts.toml`.
+4. Fill in prices in `config/pricing.toml` and the fragment verdicts in `config/similarity_verdicts.toml`.
 5. Review `results/STRUCTURE_COMPARISON.md`, `RESULTS.md` (threats to validity), `PITCH_KIT/TALKING_POINTS.md` and `BLOG_NOTES.md`.
 6. Run `make kits-check` after committing (it refuses a dirty tree).
-7. Re-sign commits made with `commit.gpgsign=false`, if signed history is required.
+7. Re-sign the commits made with `commit.gpgsign=false`, if signed history is required.
+8. R2-01: run `make paper-data` from a real fresh clone (needs network). NOT VERIFIED (human).
 
 ## Notes (not findings)
-- BLOG_NOTES.md (lines 26-27) and TALKING_POINTS.md (lines 49-50) still say comparators "accept it". The matrix now shows `accept+trailing`, meaning they return success and leave the trailing input unconsumed. Saying that outright would sharpen the T3 story. This is human-review material (manual check 5); the sentences are not false.
-- `Cf::oneshot`'s final `if !inp.is_empty()` block is dead code given cleanflate's behaviour (see the mutation sample). It is harmless as a defensive check.
-- `STRUCTURE_COMPARISON.md` has 6 hand-written tables with a single parity paragraph at the top. That is acceptable for a non-numeric write-up, but a per-section reminder would match the RESULTS.md convention.
+- Several targets read the cleanflate clone or the C source trees without declaring `fetch` or `c-subjects`: `similarity-*`, `smoke-similarity`, `effort`, `size`. Each fails loudly with a "run `make fetch`/`make c-subjects`" message rather than degrading, and `all`, `paper-data` and `smoke` order them correctly. R2-01 put this out of scope. Adding the prerequisites would make every granular target self-sufficient, but nothing breaks today.
+- `cfbench/fuzzing.py:91` skipping missing workload streams is reasonable for tests. Once F-3 lands it cannot happen through `make`.
+- The round-2 notes (comparators "accept" vs `accept+trailing` wording; dead `if !inp.is_empty()` in `Cf::oneshot`; per-section parity reminders in `STRUCTURE_COMPARISON.md`) still apply.
