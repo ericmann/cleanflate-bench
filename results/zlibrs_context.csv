@@ -1,15 +1,15 @@
 fact,value,source_url,fetched_at
-commit_count,1083,https://api.github.com/repos/trifectatechfoundation/zlib-rs/commits?per_page=1,20261001T055248Z
-contributor_count_including_anonymous,37,https://api.github.com/repos/trifectatechfoundation/zlib-rs/contributors?per_page=1&anon=1,20261001T055248Z
-first_commit_date,2023-12-05T05:04:21Z,https://api.github.com/repos/trifectatechfoundation/zlib-rs/commits?per_page=1,20261001T055248Z
-first_commit_sha,8b273a581175728de535a363c25a4352e6d005c6,https://api.github.com/repos/trifectatechfoundation/zlib-rs/commits?per_page=1,20261001T055248Z
-first_github_release,v0.2.0 (2024-06-12T12:16:19Z),https://api.github.com/repos/trifectatechfoundation/zlib-rs/releases,20261001T055248Z
-first_published_version_libz-rs-sys,0.0.1 (2024-02-23T08:44:59.656473Z),https://crates.io/api/v1/crates/libz-rs-sys,20261001T055248Z
-first_published_version_zlib-rs,0.0.1 (2024-02-23T08:44:37.843487Z),https://crates.io/api/v1/crates/zlib-rs,20261001T055248Z
-latest_github_release,v0.6.8 (2026-09-15T13:10:36Z),https://api.github.com/repos/trifectatechfoundation/zlib-rs/releases,20261001T055248Z
-latest_published_version_libz-rs-sys,0.6.8 (2026-09-15T13:10:03.060802Z),https://crates.io/api/v1/crates/libz-rs-sys,20261001T055248Z
-latest_published_version_zlib-rs,0.6.8 (2026-09-15T13:10:00.283903Z),https://crates.io/api/v1/crates/zlib-rs,20261001T055248Z
-repo_created_at,2023-12-05T05:04:21Z,https://api.github.com/repos/trifectatechfoundation/zlib-rs,20261001T055248Z
-scope_note,"Context, not a head-to-head comparison. zlib-rs is a full zlib replacement: complete API and C ABI, compression as well as decompression, SIMD code paths, and performance parity with zlib-ng as a goal. cleanflate (this repo's subject) only decompresses, in safe Rust, without SIMD or a C ABI, and was built in three Foundry rounds; the two efforts have different scopes.",SPEC 3.9,20261001T055248Z
-stable_1_0_release_libz-rs-sys,none: no 1.0 or later version published as of the fetch date,https://crates.io/api/v1/crates/libz-rs-sys,20261001T055248Z
-stable_1_0_release_zlib-rs,none: no 1.0 or later version published as of the fetch date,https://crates.io/api/v1/crates/zlib-rs,20261001T055248Z
+commit_count,1083,https://api.github.com/repos/trifectatechfoundation/zlib-rs/commits?per_page=1,20261001T134649Z
+contributor_count_including_anonymous,37,https://api.github.com/repos/trifectatechfoundation/zlib-rs/contributors?per_page=1&anon=1,20261001T134649Z
+first_commit_date,2023-12-05T05:04:21Z,https://api.github.com/repos/trifectatechfoundation/zlib-rs/commits?per_page=1,20261001T134649Z
+first_commit_sha,8b273a581175728de535a363c25a4352e6d005c6,https://api.github.com/repos/trifectatechfoundation/zlib-rs/commits?per_page=1,20261001T134649Z
+first_github_release,v0.2.0 (2024-06-12T12:16:19Z),https://api.github.com/repos/trifectatechfoundation/zlib-rs/releases,20261001T134649Z
+first_published_version_libz-rs-sys,0.0.1 (2024-02-23T08:44:59.656473Z),https://crates.io/api/v1/crates/libz-rs-sys,20261001T134649Z
+first_published_version_zlib-rs,0.0.1 (2024-02-23T08:44:37.843487Z),https://crates.io/api/v1/crates/zlib-rs,20261001T134649Z
+latest_github_release,v0.6.8 (2026-09-15T13:10:36Z),https://api.github.com/repos/trifectatechfoundation/zlib-rs/releases,20261001T134649Z
+latest_published_version_libz-rs-sys,0.6.8 (2026-09-15T13:10:03.060802Z),https://crates.io/api/v1/crates/libz-rs-sys,20261001T134649Z
+latest_published_version_zlib-rs,0.6.8 (2026-09-15T13:10:00.283903Z),https://crates.io/api/v1/crates/zlib-rs,20261001T134649Z
+repo_created_at,2023-12-05T05:04:21Z,https://api.github.com/repos/trifectatechfoundation/zlib-rs,20261001T134649Z
+scope_note,"Context, not a head-to-head comparison. zlib-rs is a full zlib replacement: complete API and C ABI, compression as well as decompression, SIMD code paths, and performance parity with zlib-ng as a goal. cleanflate (this repo's subject) only decompresses, in safe Rust, without SIMD or a C ABI, and was built in three Foundry rounds; the two efforts have different scopes.",SPEC 3.9,20261001T134649Z
+stable_1_0_release_libz-rs-sys,none: no 1.0 or later version published as of the fetch date,https://crates.io/api/v1/crates/libz-rs-sys,20261001T134649Z
+stable_1_0_release_zlib-rs,none: no 1.0 or later version published as of the fetch date,https://crates.io/api/v1/crates/zlib-rs,20261001T134649Z

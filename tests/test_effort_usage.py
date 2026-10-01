@@ -84,8 +84,6 @@ def test_fallback_uses_nearest_preceding_tool_log_entry():
 def test_missing_price_yields_null_cost_and_gap():
     recs, _ = records()
     attributed = u.attribute(recs, BOUNDS, FIRST_REVIEW, TOOL_LOG)
-    unset = u.load_prices()
-    assert all(not any(k in p for k in u.PRICE_KEYS) for p in unset.values())
     s = u.summarize(attributed, {"model-a": {}, "model-b": {}})
     assert all(c["cost_usd"] is None for c in s["cells"])
     assert any("no price for model model-a" in g for g in s["gaps"])

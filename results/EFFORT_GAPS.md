@@ -4,10 +4,7 @@
 
 ## Cost and pricing
 
-Cost is null wherever a model has no price in `config/pricing.toml` (all prices are unset, source UNSET). The benchmark never guesses a price. Missing:
-- no price for model claude-opus-5-5 (input_per_mtok, output_per_mtok, cache_write_5m_per_mtok, cache_write_1h_per_mtok, cache_read_per_mtok unset in config/pricing.toml)
-- no price for model claude-sonnet-5 (input_per_mtok, output_per_mtok, cache_write_5m_per_mtok, cache_write_1h_per_mtok, cache_read_per_mtok unset in config/pricing.toml)
-- no price for model claude-sonnet-5-5 (input_per_mtok, output_per_mtok, cache_write_5m_per_mtok, cache_write_1h_per_mtok, cache_read_per_mtok unset in config/pricing.toml)
+Every model seen has all five prices set; cost is computed for all records.
 
 ## Human intervention durations
 

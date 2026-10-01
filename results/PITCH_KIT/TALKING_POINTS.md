@@ -40,7 +40,7 @@ Files: `effort_cost_per_stage.svg`/`effort_cost_per_stage.png`
 
 - Three rounds took 28.5 hours of attributed wall-clock time.
 - The agents wrote 1,162,532 output tokens across all stages.
-- Cost is not priced in this study (see EFFORT_GAPS.md), so no dollar figure is given.
+- Cost: $361 estimated.
 
 ## Malformed-input highlights
 
@@ -68,7 +68,7 @@ Files: `malformed_highlights.svg`/`malformed_highlights.png`
 
 - Three rounds took 28.5 hours of attributed wall-clock time.
 - The agents wrote 1,162,532 output tokens across all stages.
-- Cost is not priced in this study (see EFFORT_GAPS.md), so no dollar figure is given.
+- Cost: $361 estimated.
 
 ### Can it run air-gapped / on other models?
 

@@ -9,9 +9,9 @@
  "raw_files": [
   {
    "machine": "any",
-   "path": "data/raw/effort/any/20261001T055248Z.json",
-   "sha256": "acdc2ed23b10700c50bef264dc377c405a0025c1a67a60f7b116901dfdd3df41",
-   "timestamp": "20261001T055248Z"
+   "path": "data/raw/effort/any/20261001T134649Z.json",
+   "sha256": "80d952d8c3e725ebf72dae97bdba4347a8a819810239ac20a461a707dff81b24",
+   "timestamp": "20261001T134649Z"
   }
  ],
  "script": "cfbench.effort.context",

@@ -17,7 +17,7 @@ Notes for a human author, not a finished post. Every number below has an evidenc
 
 - Three rounds took 28.5 hours of attributed wall-clock time.
 - The agents wrote 1,162,532 output tokens across all stages.
-- Cost is not priced in this study (see EFFORT_GAPS.md), so no dollar figure is given.
+- Cost: $361 estimated.
 - The cleanflate decompression path is 3,683 lines of Rust code in 17 files.
 
 ## Correctness

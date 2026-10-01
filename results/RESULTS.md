@@ -383,43 +383,43 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 | Round | Wall-clock s | Idle s | Models | Input tokens | Output tokens | Cache-write tokens | Cache-read tokens | Cost USD |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 30485 | 0 | claude-opus-5-5;claude-sonnet-5 | 4338 | 850772 | 5338331 | 769582775 | n/a |
-| 2 | 26218 | 28931 | claude-opus-5-5;claude-sonnet-5-5 | 1096 | 168462 | 9928038 | 153669576 | n/a |
-| 3 | 45863 | 0 | claude-opus-5-5;claude-sonnet-5-5 | 1214 | 143298 | 25095429 | 200948466 | n/a |
-| total | 102566 | 28931 | claude-opus-5-5;claude-sonnet-5;claude-sonnet-5-5 | 6648 | 1162532 | 40361798 | 1124200817 | n/a |
+| 1 | 30485 | 0 | claude-opus-5-5;claude-sonnet-5 | 4338 | 850772 | 5338331 | 769582775 | 182 |
+| 2 | 26218 | 28931 | claude-opus-5-5;claude-sonnet-5-5 | 1096 | 168462 | 9928038 | 153669576 | 63 |
+| 3 | 45863 | 0 | claude-opus-5-5;claude-sonnet-5-5 | 1214 | 143298 | 25095429 | 200948466 | 116 |
+| total | 102566 | 28931 | claude-opus-5-5;claude-sonnet-5;claude-sonnet-5-5 | 6648 | 1162532 | 40361798 | 1124200817 | 361 |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 **Per stage and round**
 
 | Round | Stage | Wall-clock s | Models | Input tokens | Output tokens | Cache-write tokens | Cache-read tokens | Cost USD |
 |---|---|---|---|---|---|---|---|---|
-| 1 | controller | n/a | claude-opus-5-5 | 158 | 26308 | 219416 | 5312174 | n/a |
-| 1 | fix | 12459 | claude-sonnet-5 | 1734 | 209432 | 2406085 | 341861784 | n/a |
-| 1 | implement | 12776 | claude-sonnet-5 | 2002 | 489175 | 1389604 | 400356890 | n/a |
-| 1 | plan | 1800 | claude-opus-5-5 | 36 | 96886 | 370984 | 1971772 | n/a |
-| 1 | review | 2876 | claude-opus-5-5 | 372 | 19845 | 883029 | 19416463 | n/a |
-| 1 | summarize | 186 | claude-opus-5-5 | 36 | 9126 | 69213 | 663692 | n/a |
+| 1 | controller | n/a | claude-opus-5-5 | 158 | 26308 | 219416 | 5312174 | 3 |
+| 1 | fix | 12459 | claude-sonnet-5 | 1734 | 209432 | 2406085 | 341861784 | 76 |
+| 1 | implement | 12776 | claude-sonnet-5 | 2002 | 489175 | 1389604 | 400356890 | 88 |
+| 1 | plan | 1800 | claude-opus-5-5 | 36 | 96886 | 370984 | 1971772 | 4 |
+| 1 | review | 2876 | claude-opus-5-5 | 372 | 19845 | 883029 | 19416463 | 9 |
+| 1 | summarize | 186 | claude-opus-5-5 | 36 | 9126 | 69213 | 663692 | 1 |
 | 1 | untagged | 388 | n/a | n/a | n/a | n/a | n/a | n/a |
-| 2 | controller | n/a | claude-opus-5-5;claude-sonnet-5-5 | 132 | 33965 | 407858 | 9477717 | n/a |
-| 2 | fix | 2449 | claude-sonnet-5-5 | 68 | 1574 | 91343 | 1057595 | n/a |
-| 2 | implement | 19391 | claude-sonnet-5-5 | 596 | 11623 | 8414676 | 124047330 | n/a |
-| 2 | plan | 2703 | claude-opus-5-5 | 66 | 97541 | 551216 | 6023705 | n/a |
-| 2 | review | 1288 | claude-opus-5-5 | 212 | 16171 | 408950 | 12749955 | n/a |
-| 2 | summarize | 387 | claude-opus-5-5 | 22 | 7588 | 53995 | 313274 | n/a |
-| 3 | controller | n/a | claude-opus-5-5;claude-sonnet-5-5 | 156 | 52408 | 1690750 | 17414900 | n/a |
-| 3 | fix | 2312 | claude-sonnet-5-5 | 36 | 604 | 77926 | 471724 | n/a |
-| 3 | implement | 30843 | claude-sonnet-5-5 | 750 | 12274 | 21842529 | 164213966 | n/a |
-| 3 | plan | 1727 | claude-opus-5-5 | 94 | 61994 | 1043871 | 10377909 | n/a |
-| 3 | review | 527 | claude-opus-5-5 | 156 | 7866 | 386239 | 8137984 | n/a |
-| 3 | summarize | 6410 | claude-opus-5-5 | 22 | 8152 | 54114 | 331983 | n/a |
+| 2 | controller | n/a | claude-opus-5-5;claude-sonnet-5-5 | 132 | 33965 | 407858 | 9477717 | 5 |
+| 2 | fix | 2449 | claude-sonnet-5-5 | 68 | 1574 | 91343 | 1057595 | 0 |
+| 2 | implement | 19391 | claude-sonnet-5-5 | 596 | 11623 | 8414676 | 124047330 | 46 |
+| 2 | plan | 2703 | claude-opus-5-5 | 66 | 97541 | 551216 | 6023705 | 6 |
+| 2 | review | 1288 | claude-opus-5-5 | 212 | 16171 | 408950 | 12749955 | 5 |
+| 2 | summarize | 387 | claude-opus-5-5 | 22 | 7588 | 53995 | 313274 | 0 |
+| 3 | controller | n/a | claude-opus-5-5;claude-sonnet-5-5 | 156 | 52408 | 1690750 | 17414900 | 16 |
+| 3 | fix | 2312 | claude-sonnet-5-5 | 36 | 604 | 77926 | 471724 | 0 |
+| 3 | implement | 30843 | claude-sonnet-5-5 | 750 | 12274 | 21842529 | 164213966 | 88 |
+| 3 | plan | 1727 | claude-opus-5-5 | 94 | 61994 | 1043871 | 10377909 | 9 |
+| 3 | review | 527 | claude-opus-5-5 | 156 | 7866 | 386239 | 8137984 | 4 |
+| 3 | summarize | 6410 | claude-opus-5-5 | 22 | 8152 | 54114 | 331983 | 1 |
 | 3 | untagged | 4044 | n/a | n/a | n/a | n/a | n/a | n/a |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 ![Effort per stage and round.](figures/effort_cost_per_stage.png)
 
@@ -459,7 +459,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 **Review rounds**
 
@@ -477,7 +477,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 **Defect discovery source**
 
@@ -497,7 +497,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 **Human interventions**
 
@@ -517,7 +517,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 **Denied tool calls**
 
@@ -536,7 +536,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
 
 Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 
@@ -544,19 +544,19 @@ Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 
 | Fact | Value | Fetched |
 |---|---|---|
-| commit_count | 1083 | 20261001T055248Z |
-| contributor_count_including_anonymous | 37 | 20261001T055248Z |
-| first_commit_date | 2023-12-05T05:04:21Z | 20261001T055248Z |
-| first_commit_sha | 8b273a581175728de535a363c25a4352e6d005c6 | 20261001T055248Z |
-| first_github_release | v0.2.0 (2024-06-12T12:16:19Z) | 20261001T055248Z |
-| first_published_version_libz-rs-sys | 0.0.1 (2024-02-23T08:44:59.656473Z) | 20261001T055248Z |
-| first_published_version_zlib-rs | 0.0.1 (2024-02-23T08:44:37.843487Z) | 20261001T055248Z |
-| latest_github_release | v0.6.8 (2026-09-15T13:10:36Z) | 20261001T055248Z |
-| latest_published_version_libz-rs-sys | 0.6.8 (2026-09-15T13:10:03.060802Z) | 20261001T055248Z |
-| latest_published_version_zlib-rs | 0.6.8 (2026-09-15T13:10:00.283903Z) | 20261001T055248Z |
-| repo_created_at | 2023-12-05T05:04:21Z | 20261001T055248Z |
-| stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261001T055248Z |
-| stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261001T055248Z |
+| commit_count | 1083 | 20261001T134649Z |
+| contributor_count_including_anonymous | 37 | 20261001T134649Z |
+| first_commit_date | 2023-12-05T05:04:21Z | 20261001T134649Z |
+| first_commit_sha | 8b273a581175728de535a363c25a4352e6d005c6 | 20261001T134649Z |
+| first_github_release | v0.2.0 (2024-06-12T12:16:19Z) | 20261001T134649Z |
+| first_published_version_libz-rs-sys | 0.0.1 (2024-02-23T08:44:59.656473Z) | 20261001T134649Z |
+| first_published_version_zlib-rs | 0.0.1 (2024-02-23T08:44:37.843487Z) | 20261001T134649Z |
+| latest_github_release | v0.6.8 (2026-09-15T13:10:36Z) | 20261001T134649Z |
+| latest_published_version_libz-rs-sys | 0.6.8 (2026-09-15T13:10:03.060802Z) | 20261001T134649Z |
+| latest_published_version_zlib-rs | 0.6.8 (2026-09-15T13:10:00.283903Z) | 20261001T134649Z |
+| repo_created_at | 2023-12-05T05:04:21Z | 20261001T134649Z |
+| stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261001T134649Z |
+| stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261001T134649Z |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 

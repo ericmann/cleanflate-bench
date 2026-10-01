@@ -14,8 +14,8 @@ Every number below comes from a derived table, a committed raw file and a script
 2. cleanflate has 0 unsafe blocks, functions, impls, traits and target-feature attributes, forbids unsafe code, and has 0 direct and 0 transitive runtime dependencies.
    Source: `results/unsafe.csv` <- `data/raw/size/any/20261001T051308Z.json` via `cfbench.unsafe_scan`; `results/deps.csv` <- `data/raw/size/any/20261001T051441Z.json` via `cfbench.deps`
 
-3. Building cleanflate's three rounds took 28.5 hours of attributed wall-clock time; cost not priced (see EFFORT_GAPS.md).
-   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261001T055110Z-1.json`, `data/raw/effort/any/20261001T055110Z.json` via `cfbench.effort.derive`
+3. Building cleanflate's three rounds took 28.5 hours of attributed wall-clock time and an estimated $361 of model cost.
+   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`
 
 ## Summary table
 
