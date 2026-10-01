@@ -39,7 +39,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-08 Phase 3 hand-off
 - [x] P4-01 Round builds of cf
 - [x] P4-02 Trajectory run, table and figure
-- [ ] P4-03 Effort from git history, tool log and Foundry state
+- [x] P4-03 Effort from git history, tool log and Foundry state
 - [ ] P4-04 Token usage export and cost
 - [ ] P4-05 zlib-rs status-quo context
 - [ ] P4-06 Effort tables, gaps and trajectory join
@@ -209,3 +209,6 @@ Tests: test_subjects +2 (round paths, Cargo revs == rounds.json), test_rust_subj
 ### P4-02 — cf79778
 Tests: test_trajectory x5. API: trajectory.trajectory_cfg/run/round_info/table_rows/derive/figure_series/draw/figure; perf.run(category,kind) and perf_report.compute_rows(cfg,category,kind) generalised. Config [trajectory] subjects/modes/levels/runs (+quick levels [6]). Raw category trajectory, kind trajectory, variant rounds; table results/trajectory.csv (pending committed); figure trajectory_<machine>. make trajectory = subjects + subjects-rounds + run + derive. Quick smoke ran fine (4 subjects x 30 cells). Full run is a human step.
 Manual check: NOT VERIFIED (human): make trajectory on M-A and M-B.
+
+### P4-03 — 69d3632
+Tests: test_effort_history x5 (fixtures/effort: gitlog, tool-log, state-r1/r2, interventions). API: history.parse_git_log/round_windows/stage_wall_clock/milestone/parse_tool_log/tool_log_summary/categorize_denial/defect_source/defects_summary/parse_interventions/intervention_round/state_summary/collect(clone,cfg,git,rounds). Config [effort] idle_gap_hours=3, defect_keywords, denial_categories. docs/methods/effort.md. Raw effort/any 20261001T054826Z. Data: attributed wall-clock h r1 8.5/r2 7.3 (+8.0 idle)/r3 12.7; review rounds 4/3/2; denials 15/5/12; interventions 2/7/2; defects found 10/4/2 vs none 47/33/36. Models counted as tool calls per stage (opus-5-5 mostly; sonnet-5-5 for plan and summarize in r2-r3). Durations of interventions: documented gap. Note for P4-04/06: cleanflate commit messages carry stage tags; token/cost sources are separate.
