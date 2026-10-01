@@ -125,3 +125,26 @@ def test_trailing_byte_reported(subject, tmp_path):
         assert r["ok"], (subject, mode, r)
         assert r["consumed"] == len(data) - 1, (subject, mode, r)
         assert r["trailing_bytes"] == 1, (subject, mode, r)
+
+
+ZEROS = bytes(1 << 20)
+
+
+@pytest.mark.parametrize("subject", C_SUBJECTS)
+def test_oneshot_grows_past_initial_buffer(subject, tmp_path):
+    p = tmp_path / "zeros.zlib"
+    p.write_bytes(zlib.compress(ZEROS))
+    r = decode(subject, "zlib", p, "oneshot", [])
+    assert r["ok"], (subject, r)
+    assert r["produced"] == len(ZEROS)
+    assert r["sha256"] == hashlib.sha256(ZEROS).hexdigest()
+
+
+@pytest.mark.parametrize("subject", C_SUBJECTS)
+def test_oneshot_max_output_sets_limit_hit(subject, tmp_path):
+    p = tmp_path / "zeros.zlib"
+    p.write_bytes(zlib.compress(ZEROS))
+    r = decode(subject, "zlib", p, "oneshot", ["--max-output", 1000])
+    assert r["ok"] is False, (subject, r)
+    assert r["limit_hit"] is True, (subject, r)
+    assert r["error_kind"] == "output_full", (subject, r)
