@@ -61,7 +61,9 @@ def run_check(
     tmp = Path(tempfile.mkdtemp(prefix="cfb-clean-clone-"))
     try:
         clone = tmp / "clone"
-        res = subprocess.run(["git", "clone", "--local", "-q", str(repo), str(clone)], check=False)
+        res = subprocess.run(
+            ["git", "clone", "--local", "--no-hardlinks", "-q", str(repo), str(clone)], check=False
+        )
         if res.returncode != 0:
             print("git clone failed", file=out)
             return DIFFERENT
