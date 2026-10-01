@@ -30,3 +30,18 @@ All 71 tasks are done (0 blocked, 0 skipped). `make lint` and `make test` pass (
 - Logged per task in `docs/PROGRESS.md`. Key ones: bombs are compressed with Python's streaming zlib (cfb-zlib reads the whole input); bomb RSS carries the launcher's RSS as a floor (`rss_floor_bytes`); miniz_oxide skips its Adler-32 check under `--cfg fuzzing`, so the fuzz harness verifies it itself; tokei reports Rust doc comments as embedded Markdown rows.
 - Signing: the 1Password SSH agent died during P10-02. Commits after that were made with `commit.gpgsign=false` (local). With the agent down, `make test` fails only in throwaway-repo tests (clean_clone, cleanflate_src); they pass with a signing override. Re-sign if required. Friction is logged in `.foundry/feedback.jsonl`.
 - No tool gaps: tokei 15.0.0, rust-code-analysis-cli 0.0.25, lizard 1.24.0, JPlag 6.3.0, infgen pinned, nightly llvm-tools-preview installed.
+
+## Round 1
+
+Review-fix round on branch `build/2026-10-01`. All eight R1 tasks done, none blocked; lint and 374 tests green.
+
+- R1-01: git helpers in tests use shared `HERMETIC_GIT_ARGS` and `hermetic_git_env()` (tests/conftest.py): no dependence on user git config or signing.
+- R1-02: `Subject::oneshot` returns `OneshotOutcome {produced, consumed}`; decode oneshot reports real `consumed` and `trailing_bytes`. M-B malformed matrix re-run (new raw file) and kits regenerated; zlib family, zrs and mox now show `accept+trailing` on trailing_byte.bin, cf rejects. The harness test IdentitySubject treats a NUL byte as a stream terminator to produce trailing input.
+- R1-03: `md_table` appends the parity note after every table; methodology/threats text says load is a warning and refused only with `--strict`; all four chunk sizes listed.
+- R1-04: `check_bullet` compares whole number tokens. Rejection bullets quoting cell tallies carry labels computed from the evidence list (len and count below parity_ratio). Paper test allows the baseline `1.00`.
+- R1-05: boundary tests for `framing.hypothesis_tolerance` and the content rho thresholds; no code change.
+- R1-06: binary_size figure labels unmeasured slots `n/a`; committed figure unchanged.
+- R1-07: bombs table gains `overall_ratio`; `ratio` is per row. Table is still pending (full sweep is a human step).
+- R1-08: `make paper-data` added (env pins perf trajectory size conformance, then paper); not run.
+
+Human checks: run `make paper-data` on M-A and M-B; the full bomb sweep; kits-check requires a clean tree, so run it after committing.
