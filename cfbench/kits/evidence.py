@@ -32,6 +32,9 @@ TARGETS = {
     "effort_stage_round": "make effort",
     "checksums": "make checksums",
     "content_hypotheses": "make content",
+    "perf_tiny": "make perf",
+    "perf_agreement": "make perf",
+    "env": "make env",
     "loc": "make size",
     "complexity": "make size",
 }
