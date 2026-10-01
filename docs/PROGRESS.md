@@ -25,7 +25,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-07 Phase 1 hand-off
 - [x] P2-01 Pinned third-party tools
 - [x] P2-02 Minimal stdin→stdout decompressors
-- [ ] P2-03 Binary-size measurement and cargo bloat
+- [x] P2-03 Binary-size measurement and cargo bloat
 - [ ] P2-04 Unsafe surface
 - [ ] P2-05 Dependencies and audit
 - [ ] P2-06 Phase 2 hand-off
@@ -153,3 +153,6 @@ Tests: test_tools x6. API: tools.ensure(name, runner)->ToolStatus(name,version,p
 
 ### P2-02 — 5780a8b
 Tests: test_minimal_programs x9. Bins min-cf/min-zrs/min-mox (crates/min-*, no harness dep, 64 KiB streaming, exit 1 + single 'error: ...' stderr line on failure). C sources minimal/c/min_zlib.c and min_zng.c written (zlib API / zng_ API) - untested until P2-03 builds them. cf uses Options::default so trailing data is rejected; zrs/mox stop at stream end.
+
+### P2-03 — 25e16ea
+Tests: test_size x7 (+1 test_cbuild). API: size.rust_build_cmd/bloat_cmd/c_link_flags/zlib_sources/parse_bloat/rows_from_payload/measure_binary/derive_binary; target_dir(opt,stripped). Config [size] opt_levels ['3','s'], bloat_top 30. Fixed zng source dir naming (cbuild.SOURCE_DIR_NAMES: zng->zlib-ng, matching sources.source_root); build-info untouched. M-B data run committed: sizes (opt3 bytes) zlib 43136, zng 158040, mox 361120, cf 393888, zrs 406184; opt s: zlib 34944, zng 100696, mox 340640, cf 373408, zrs 381608; zsys excluded row. No tool gaps. make size = tools + cfbench.size binary (P2-04/P2-05 to chain).
