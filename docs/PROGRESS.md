@@ -49,7 +49,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P5-03 Paper table and figure
 - [x] P5-04 PAPER_KIT renderer and make paper
 - [x] P5-05 Clean-clone regeneration check
-- [ ] P5-06 Phase 5 hand-off
+- [x] P5-06 Phase 5 hand-off
 - [ ] P6-01 Checksum microbenchmarks
 - [ ] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
 - [ ] P6-03 Phase 6 hand-off
@@ -247,3 +247,13 @@ Manual check: NOT VERIFIED (human): rerun make paper after full perf/trajectory 
 
 ### P5-05 — 467e871
 Tests: test_clean_clone x4 (fake repos: dirty refused, difference exits nonzero with diff, identical exits zero, missing-file semantics). API: clean_clone.run_check(target, compare, repo, ignore_dirty, sync, keep, out), dirty_paths, committed_bytes; CLI python -m cfbench.clean_clone <target> --compare ... [--ignore-dirty ...]. make paper-check. Real check ran on HEAD: fresh git clone --local --no-hardlinks (hardlinks fail across devices), uv sync --frozen, make paper in ~4 s without third_party/build/toolchain -> results/PAPER_KIT.md IDENTICAL; the paper figure svg is absent in both HEAD and the clone (pending perf data), reported as such. Foundry keeps docs/PROGRESS.md dirty, so my verification used --ignore-dirty docs/PROGRESS.md.
+
+### P5-06 — c1d4af6
+Push: git push -u origin HEAD succeeded.
+Checklist (verbatim):
+1. After the M-A and M-B perf and trajectory runs are committed, run `make paper` and `make paper-check`.
+2. Read `results/PAPER_KIT.md`: are the claims conservative, is every claim traced, and is the rejected list complete?
+3. Run `make conformance` on M-A and commit it, if a two-machine conformance claim is wanted.
+4. Check the figure renders legibly at a 3.3-inch column width.
+Manual check: NOT VERIFIED (human)
+Note: the current kit has 3 supported claims (target 5-7); the similarity claim is rejected by the generated statement, and the perf/trajectory claims wait for the human data runs.
