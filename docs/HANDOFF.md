@@ -52,3 +52,13 @@ Human checks: run `make paper-data` on M-A and M-B; the full bomb sweep; kits-ch
 - R2-01: Makefile prerequisites. `perf`, `perf-native`, `smoke-bench`, `trajectory` now depend on `workloads`; `malformed` depends on `fetch`. `make -n paper-data` orders cleanflate_src fetch, workloads generate, then perf run.
 - Test: tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs (hermetic: Makefile parse and `make -n` only).
 - Interpretation choices: none. Manual check: NOT VERIFIED (human) on a real fresh clone (needs network).
+
+## Round 3
+
+Branch build/2026-10-01; 83/83 tasks done, 0 blocked, 0 skipped. Head after tasks: 5988b3f.
+
+- R3-01: tests only. timing::samples_are_per_iteration and alloc::dealloc_and_realloc_are_counted. Hand-applied mutants (drop `/ iters`, dealloc sub, realloc sub) each fail. Interpretation: the alloc test's lower bound is BIG-SLACK (fixed in R3-03 after one flake from concurrent frees of other threads' allocations).
+- R3-02: test_oneshot_grows_past_initial_buffer and test_oneshot_max_output_sets_limit_hit for all 7 subjects (zlib framing, 1 MiB zeros). Hand-applied mutants (cf error kind, zlibapi avail_out arm, mox HasMoreOutput arm) each fail.
+- R3-03: Makefile framing, fuzz, fuzz-smoke now depend on workloads; clean-clone test floor is 9.
+- foundry_mutate was not available to the implementer; mutants were checked manually and reverted.
+- Human check: none new.
