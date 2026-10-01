@@ -11,7 +11,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-06 Rust subject binaries cf, zrs, mox
 - [x] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
 - [x] P0-08 zlib-ng native-API subject binary
-- [ ] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
+- [x] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
 - [ ] P0-10 Workload generation and manifest
 - [ ] P0-11 Perf orchestrator and smoke bench
 - [ ] P0-12 Similarity tokenizer and smoke similarity run
@@ -101,3 +101,6 @@ Tests: test_c_subjects.py (info versions, decode fixture, compress roundtrip L1/
 
 ### P0-08 — f0dc473
 Tests: subj-zng inline unit zng_stream_layout_matches_header (build.rs C probe: sizeof+offsets, ZNG_STREAM_LAYOUT env); test_c_subjects now covers zng (version 2.3.3, decode, checksums for all C subjects). cfb-zng uses zng_* native API, Caller limit, no compress. Linked via rustc-link-arg-bins=-lz-ng.
+
+### P0-09 — e084936
+Tests: test_pins x8, test_unsafe_scan x3, test_sources x2. API: pins.hw_crc/merge_lock/rust_profile/mnemonics/collect/main, unsafe_scan.scan_crate/count_text (totals keys unsafe_blocks, unsafe_fns, unsafe_impls, unsafe_traits, target_feature; forbid_unsafe_code, deny_unsafe_code), sources.source_root/extra_roots/package_dirs. M-B data run committed (data/raw/pins/M-B, subjects.lock.json): zlib/zlib-nohw/zsys hw_crc compiled_in false; zng true w/ runtime dispatch (crc32_pclmulqdq, vpclmulqdq); zrs true; cf 0 unsafe + forbid; mox 0 unsafe; zrs 674 blocks. Dispatch pattern excludes chorba. M-A entry still to be recorded by a human (make pins).
