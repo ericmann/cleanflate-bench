@@ -24,7 +24,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-06 Chart helpers and throughput figure
 - [x] P1-07 Phase 1 hand-off
 - [x] P2-01 Pinned third-party tools
-- [ ] P2-02 Minimal stdin→stdout decompressors
+- [x] P2-02 Minimal stdin→stdout decompressors
 - [ ] P2-03 Binary-size measurement and cargo bloat
 - [ ] P2-04 Unsafe surface
 - [ ] P2-05 Dependencies and audit
@@ -150,3 +150,6 @@ Manual check: NOT VERIFIED (human)
 
 ### P2-01 — 2a9f39d
 Tests: test_tools x6. API: tools.ensure(name, runner)->ToolStatus(name,version,path,ok,error), tools.binary_path(binary), tools.all_names(). config/tools.toml has version, binary, version_args per tool (cargo-bloat uses ['bloat','--version']). make tools installed all three: cargo-bloat 0.12.1, cargo-geiger 0.13.0, cargo-audit 0.22.2 at third_party/tools/bin (build took ~8 min). No tool gaps on M-B.
+
+### P2-02 — 5780a8b
+Tests: test_minimal_programs x9. Bins min-cf/min-zrs/min-mox (crates/min-*, no harness dep, 64 KiB streaming, exit 1 + single 'error: ...' stderr line on failure). C sources minimal/c/min_zlib.c and min_zng.c written (zlib API / zng_ API) - untested until P2-03 builds them. cf uses Options::default so trailing data is rejected; zrs/mox stop at stream end.
