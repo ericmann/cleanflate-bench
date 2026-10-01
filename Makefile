@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := pins perf framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -18,6 +18,9 @@ fetch:
 
 c-subjects:
 	$(PY) -m cfbench.cbuild
+
+subjects:
+	cargo build --release --workspace --bins
 
 lint:
 	cargo fmt --all -- --check
