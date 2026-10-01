@@ -46,3 +46,21 @@ fn op_error_is_propagated() {
     let e = measure(&mut op, 0, 3, 1).unwrap_err();
     assert_eq!(e.kind, "bad");
 }
+
+#[test]
+fn samples_are_per_iteration() {
+    let mut op = || -> Result<(), DecodeError> {
+        spin(100);
+        Ok(())
+    };
+    let start = Instant::now();
+    let m = measure(&mut op, 0, 20, 2).unwrap();
+    let total_ns = start.elapsed().as_nanos() as f64;
+    assert!(m.iters_per_sample >= 2, "iters {}", m.iters_per_sample);
+    let sum: f64 = m.samples_ns.iter().sum();
+    assert!(
+        sum * m.iters_per_sample as f64 <= total_ns,
+        "sum {sum} * iters {} > total {total_ns}",
+        m.iters_per_sample
+    );
+}

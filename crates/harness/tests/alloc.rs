@@ -36,3 +36,20 @@ fn c_zalloc_round_trip_is_counted() {
     assert!(alloc::current_bytes() < SLACK);
     unsafe { alloc::c_zfree(std::ptr::null_mut(), std::ptr::null_mut()) };
 }
+
+#[test]
+fn dealloc_and_realloc_are_counted() {
+    let _g = LOCK.lock().unwrap_or_else(|e| e.into_inner());
+    let base = alloc::current_bytes() as i64;
+    let mut v = Vec::<u8>::with_capacity(BIG / 2);
+    v.reserve_exact(BIG);
+    v.push(1);
+    let grown = alloc::current_bytes() as i64 - base;
+    assert!(
+        grown >= BIG as i64 && grown < (BIG + SLACK) as i64,
+        "grown {grown}"
+    );
+    drop(v);
+    let after = alloc::current_bytes() as i64 - base;
+    assert!(after < SLACK as i64, "after {after}");
+}
