@@ -5,7 +5,7 @@ Started: 2026-10-01T04:25:03.345Z
 ## Tasks
 - [x] P0-01 Repository scaffold, config loader and Makefile skeleton
 - [x] P0-02 Machine detection, environment capture and raw-data I/O
-- [ ] P0-03 Pinned cleanflate clone, corpora and pristine check
+- [x] P0-03 Pinned cleanflate clone, corpora and pristine check
 - [ ] P0-04 Pinned C subject builds (zlib, zlib-nohw, zlib-ng)
 - [ ] P0-05 Rust timing harness core
 - [ ] P0-06 Rust subject binaries cf, zrs, mox
@@ -83,3 +83,6 @@ Tests: test_config.py x4, harness framing unit test. Cargo.lock committed; hatch
 
 ### P0-02 — b495a66
 Tests: test_machine x3, test_env x3, test_rawio x4. API: env.capture_environment(cmd,rd,system), capture_end(env,cmd), rawio.write_raw/list_raw/load_raw/latest_session(category,machine,kind,profile), rawio.bench_git(). Interpretation: on_ac null on desktop; cleanflate fields read from rounds.json primary_round when present; env payload {kind:'env',capture}. Committed data/raw/env/M-B run. Makefile: env target real.
+
+### P0-03 — a2f4a7f
+Tests: test_cleanflate_src x5 (throwaway repos). API: cleanflate_src.clone_path/rounds/primary_sha/git(path,*args)/ensure_clone/verify_tags/pristine_check/ensure_corpora/corpus_files(corpus)->[(name,path,sha,bytes)]. Cloned via ssh OK; silesia 12 files, canterbury 11. config/rounds.json created. make fetch real.
