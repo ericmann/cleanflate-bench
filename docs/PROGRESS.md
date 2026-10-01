@@ -46,7 +46,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P4-07 Phase 4 hand-off
 - [x] P5-01 Conformance runner
 - [x] P5-02 Claims engine with evidence links
-- [ ] P5-03 Paper table and figure
+- [x] P5-03 Paper table and figure
 - [ ] P5-04 PAPER_KIT renderer and make paper
 - [ ] P5-05 Clean-clone regeneration check
 - [ ] P5-06 Phase 5 hand-off
@@ -237,3 +237,6 @@ Tests: test_conformance x6. API: conformance.generate_corpus(clone,runner) (orac
 
 ### P5-02 — f02148b
 Tests: test_claims x11 (fixtures/results small derived tables+sidecars). API: kits.evidence.Evidence (only via lookup), lookup(table,where,column,results_dir,fmt,transform), table_rows, MissingData, TARGETS; kits.claims.evaluate(results_dir,cfg)->[ClaimResult(id,status,text,evidence,reason)], ORDER of 10 claims (conformance, safety, perf_range, trajectory, similarity, effort, parity_with_zlib, faster_than_zrs, faster_than_mox, gzip_gap_is_hw_crc). provenance.read_table/table_path/sidecar_path take optional results_dir. Config [paper] added. Overreach claims rejected by default; gzip_gap reads framing_hypothesis row machine=ALL column verdict (P6-02). Current repo evaluation: conformance supported, safety supported, effort supported (28.5 h, cost not priced), similarity REJECTED (statement says NOT allowed), perf_range/trajectory pending, overreach rejected (no data), gzip_gap pending.
+
+### P5-03 — 80ea88f
+Tests: test_paper_assets x5. API: paper_assets.build_table(results_dir,cfg)->PaperTable(columns,rows[Row(label,cells{cf,zlib,mox}:Cell(display,evidence,status,reason))],footnote).to_markdown(); build_figure(results_dir,out_dir,cfg)->(paths|None,evidence,pending reasons); draw_bars/_bar_data. Config [paper] figure='throughput_unsafe' (or 'trajectory'), figure_corpus/framing/level/mode/subjects, table_opt='3', table_machine='M-B'. 6 rows: Silesia raw L6 oneshot M-A, M-B, gzip ratio M-B (mox n/a), unsafe blocks+fns, runtime deps, stripped binary opt3 M-B. Fixture results dir extended. Figure paper_throughput_unsafe at paper width; PNG inspected.
