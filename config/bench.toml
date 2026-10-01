@@ -40,6 +40,9 @@ min_sample_ms = 2
 [profiles.quick.perf.tiny]
 prefix_bytes = [256]
 
+[conformance]
+subjects = ["cf", "zlib", "zng", "zrs", "mox", "zsys"]
+
 [trajectory]
 subjects = ["cf-r1", "cf-r2", "cf-r3", "zlib"]
 modes = ["oneshot", "stream_small"]
