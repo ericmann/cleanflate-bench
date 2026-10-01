@@ -1,0 +1,341 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/loc.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "892d09273606c9c9fcc1ad5acb76520c56c5842c"
+ },
+ "category": "size",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   4.55078125,
+   3.44921875,
+   2.7978515625
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "892d09273606c9c9fcc1ad5acb76520c56c5842c",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 63.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 63.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 68.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 59.000\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 870.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 600.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "kind": "loc",
+  "subjects": {
+   "cf": {
+    "files": [
+     "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+     "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+     "third_party/cleanflate/crates/cleanflate/src/config.rs",
+     "third_party/cleanflate/crates/cleanflate/src/decode_path.rs",
+     "third_party/cleanflate/crates/cleanflate/src/error.rs",
+     "third_party/cleanflate/crates/cleanflate/src/fast_loop.rs",
+     "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+     "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+     "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+     "third_party/cleanflate/crates/cleanflate/src/lib.rs",
+     "third_party/cleanflate/crates/cleanflate/src/options.rs",
+     "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+     "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+     "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+     "third_party/cleanflate/crates/cleanflate/src/tables.rs",
+     "third_party/cleanflate/crates/cleanflate/src/window.rs",
+     "third_party/cleanflate/crates/cleanflate/src/zlib.rs"
+    ],
+    "languages": {
+     "Markdown (embedded)": {
+      "blanks": 27,
+      "code": 0,
+      "comments": 1013,
+      "files": 0
+     },
+     "Rust": {
+      "blanks": 318,
+      "code": 3683,
+      "comments": 119,
+      "files": 17
+     },
+     "Total": {
+      "blanks": 345,
+      "code": 3683,
+      "comments": 1132,
+      "files": 17
+     }
+    }
+   },
+   "mox": {
+    "files": [
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/shared.rs"
+    ],
+    "languages": {
+     "Markdown (embedded)": {
+      "blanks": 75,
+      "code": 0,
+      "comments": 353,
+      "files": 0
+     },
+     "Rust": {
+      "blanks": 339,
+      "code": 2293,
+      "comments": 363,
+      "files": 5
+     },
+     "Total": {
+      "blanks": 414,
+      "code": 2293,
+      "comments": 716,
+      "files": 5
+     }
+    }
+   },
+   "zlib": {
+    "files": [
+     "third_party/src/zlib-1.3.2/adler32.c",
+     "third_party/src/zlib-1.3.2/crc32.c",
+     "third_party/src/zlib-1.3.2/crc32.h",
+     "third_party/src/zlib-1.3.2/inffast.c",
+     "third_party/src/zlib-1.3.2/inffast.h",
+     "third_party/src/zlib-1.3.2/inffixed.h",
+     "third_party/src/zlib-1.3.2/inflate.c",
+     "third_party/src/zlib-1.3.2/inflate.h",
+     "third_party/src/zlib-1.3.2/inftrees.c",
+     "third_party/src/zlib-1.3.2/inftrees.h",
+     "third_party/src/zlib-1.3.2/uncompr.c",
+     "third_party/src/zlib-1.3.2/zutil.c",
+     "third_party/src/zlib-1.3.2/zutil.h"
+    ],
+    "languages": {
+     "C": {
+      "blanks": 292,
+      "code": 2666,
+      "comments": 761,
+      "files": 7
+     },
+     "C Header": {
+      "blanks": 134,
+      "code": 9791,
+      "comments": 147,
+      "files": 6
+     },
+     "Total": {
+      "blanks": 426,
+      "code": 12457,
+      "comments": 908,
+      "files": 13
+     }
+    }
+   },
+   "zng": {
+    "files": [
+     "third_party/src/zlib-ng-2.3.3/adler32.c",
+     "third_party/src/zlib-ng-2.3.3/adler32_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/arm_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/crc32_armv8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/adler32_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/adler32_fold_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunk_128bit_perm_idx_lut.h",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunk_256bit_perm_idx_lut.h",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunk_permute_table.h",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunkset_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_braid_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_fold_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/generic_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/crc32_la.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/power/adler32_power8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/adler32_vmx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/crc32_constants.h",
+     "third_party/src/zlib-ng-2.3.3/arch/power/crc32_power8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/power_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/power_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/power/power_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/adler32_rvv.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/crc32_zbc.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/crc32-vx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/s390_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/s390_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/s390_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_vnni.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_sse42.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse41.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_fold_pclmulqdq_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_fold_vpclmulqdq_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_vpclmulqdq.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/x86_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch_functions.h",
+     "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/cpu_features.c",
+     "third_party/src/zlib-ng-2.3.3/cpu_features.h",
+     "third_party/src/zlib-ng-2.3.3/crc32.c",
+     "third_party/src/zlib-ng-2.3.3/crc32.h",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_comb_p.h",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_p.h",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_tbl.h",
+     "third_party/src/zlib-ng-2.3.3/fallback_builtins.h",
+     "third_party/src/zlib-ng-2.3.3/functable.c",
+     "third_party/src/zlib-ng-2.3.3/functable.h",
+     "third_party/src/zlib-ng-2.3.3/inffast_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/inffixed_tbl.h",
+     "third_party/src/zlib-ng-2.3.3/inflate.c",
+     "third_party/src/zlib-ng-2.3.3/inflate.h",
+     "third_party/src/zlib-ng-2.3.3/inflate_p.h",
+     "third_party/src/zlib-ng-2.3.3/inftrees.c",
+     "third_party/src/zlib-ng-2.3.3/inftrees.h",
+     "third_party/src/zlib-ng-2.3.3/uncompr.c",
+     "third_party/src/zlib-ng-2.3.3/zbuild.h",
+     "third_party/src/zlib-ng-2.3.3/zendian.h",
+     "third_party/src/zlib-ng-2.3.3/zmemory.h",
+     "third_party/src/zlib-ng-2.3.3/zutil.c",
+     "third_party/src/zlib-ng-2.3.3/zutil.h",
+     "third_party/src/zlib-ng-2.3.3/zutil_p.h"
+    ],
+    "languages": {
+     "C": {
+      "blanks": 1425,
+      "code": 6843,
+      "comments": 1747,
+      "files": 50
+     },
+     "C Header": {
+      "blanks": 551,
+      "code": 12908,
+      "comments": 1192,
+      "files": 43
+     },
+     "Total": {
+      "blanks": 1976,
+      "code": 19751,
+      "comments": 2939,
+      "files": 93
+     }
+    }
+   },
+   "zrs": {
+    "files": [
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/generic.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/vpclmulqdq.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/infback.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inffixed_tbl.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs"
+    ],
+    "languages": {
+     "Markdown (embedded)": {
+      "blanks": 64,
+      "code": 0,
+      "comments": 225,
+      "files": 0
+     },
+     "Rust": {
+      "blanks": 1632,
+      "code": 7296,
+      "comments": 695,
+      "files": 26
+     },
+     "Total": {
+      "blanks": 1696,
+      "code": 7296,
+      "comments": 920,
+      "files": 26
+     }
+    }
+   }
+  },
+  "tool": {
+   "tokei": "15.0.0"
+  }
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.loc",
+ "session": null,
+ "timestamp": "20261001T065129Z"
+}

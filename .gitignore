@@ -1,0 +1,15 @@
+.foundry/implement.lock
+/target
+/fuzz/target
+/third_party/
+/build/
+/data/smoke/
+/data/workloads/
+/environment.json
+/.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+/fuzz/corpus
+/fuzz/artifacts
+/fuzz/coverage

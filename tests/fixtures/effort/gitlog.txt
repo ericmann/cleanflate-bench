@@ -1,0 +1,32 @@
+a11000first commit
+
+a21600P0-01: scaffold
+
+[stage:implement] [task:P0-01]
+
+Defects-caught: none
+
+a32200P1-02: parser
+
+[stage:implement] [task:P1-02]
+
+Defects-caught: unit test for the bit reader found an off-by-one
+
+a42800review: round 1
+
+[stage:review] [task:review]
+
+a53400R1-01: fix
+
+[stage:fix] [task:R1-01]
+
+Defects-caught: reviewer noticed a missing fuzz seed and a test gap
+
+b120000P2-01: later round
+
+[stage:implement] [task:P2-01]
+
+Defects-caught: conformance run vs the oracle caught a header bug
+
+b220600merge things
+

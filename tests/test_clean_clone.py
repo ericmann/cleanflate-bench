@@ -1,0 +1,222 @@
+import io
+import re
+import subprocess
+from pathlib import Path
+
+from cfbench import clean_clone as cc
+from tests.conftest import HERMETIC_GIT_ARGS, hermetic_git_env
+
+
+def git(repo, *args):
+    subprocess.run(
+        ["git", "-C", str(repo), *HERMETIC_GIT_ARGS, *args],
+        check=True, capture_output=True, env=hermetic_git_env(),
+    )  # fmt: skip
+
+
+def make_repo(tmp_path, committed="old\n", recipe="printf 'new\\n' > out.txt") -> Path:
+    repo = tmp_path / "repo"
+    repo.mkdir(parents=True)
+    git(repo, "init", "-q", "-b", "main")
+    (repo / "out.txt").write_text(committed)
+    (repo / "Makefile").write_text(f"all:\n\t{recipe}\n.PHONY: all\n")
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "init")
+    return repo
+
+
+def test_dirty_tree_is_refused(tmp_path):
+    repo = make_repo(tmp_path)
+    (repo / "out.txt").write_text("edited\n")
+    out = io.StringIO()
+    assert cc.run_check("all", ["out.txt"], repo=repo, sync=None, out=out) == cc.DIRTY
+    assert "uncommitted changes" in out.getvalue() and "out.txt" in out.getvalue()
+    # an untracked file also means HEAD is not the whole story
+    git(repo, "checkout", "--", "out.txt")
+    (repo / "stray.txt").write_text("x")
+    assert cc.run_check("all", ["out.txt"], repo=repo, sync=None, out=io.StringIO()) == cc.DIRTY
+    # but explicitly ignored paths do not block the check
+    assert cc.dirty_paths(repo, ignore=("stray.txt",)) == []
+
+
+def test_difference_exits_nonzero(tmp_path):
+    repo = make_repo(tmp_path, committed="old\n")
+    out = io.StringIO()
+    assert cc.run_check("all", ["out.txt"], repo=repo, sync=None, out=out) == cc.DIFFERENT
+    text = out.getvalue()
+    assert "DIFFERENT: out.txt" in text and "-old" in text and "+new" in text
+    assert "--- HEAD:out.txt" in text and "+++ regenerated:out.txt" in text
+
+
+def test_identical_regeneration_exits_zero(tmp_path):
+    repo = make_repo(tmp_path, committed="new\n")
+    out = io.StringIO()
+    assert cc.run_check("all", ["out.txt"], repo=repo, sync=None, out=out) == 0
+    assert "identical: out.txt" in out.getvalue()
+    # the working tree is untouched: the clone is where the target ran
+    assert (repo / "out.txt").read_text() == "new\n"
+    assert (
+        cc.committed_bytes(repo, "out.txt") == b"new\n" and cc.committed_bytes(repo, "nope") is None
+    )
+
+
+def test_missing_files_are_compared_as_absence(tmp_path):
+    # absent in HEAD and in the clone (output still pending): consistent, reported as such
+    repo = make_repo(tmp_path, recipe="true")
+    out = io.StringIO()
+    assert cc.run_check("all", ["gone.txt"], repo=repo, sync=None, out=out) == 0
+    assert "identical: gone.txt (absent in both" in out.getvalue()
+    # committed but not regenerated: a difference
+    out2 = io.StringIO()
+    repo2 = make_repo(tmp_path / "b", recipe="rm out.txt")
+    assert cc.run_check("all", ["out.txt"], repo=repo2, sync=None, out=out2) == cc.DIFFERENT
+    assert "missing in the regenerated clone" in out2.getvalue()
+    # regenerated but never committed: a difference too
+    out3 = io.StringIO()
+    repo3 = make_repo(tmp_path / "c", recipe="printf 'x' > extra.txt")
+    assert cc.run_check("all", ["extra.txt"], repo=repo3, sync=None, out=out3) == cc.DIFFERENT
+    assert "missing in HEAD" in out3.getvalue()
+
+
+def test_directory_compare_is_recursive(tmp_path):
+    repo = tmp_path / "repo"
+    (repo / "kit" / "sub").mkdir(parents=True)
+    git(repo, "init", "-q", "-b", "main")
+    (repo / "kit" / "a.txt").write_text("a\n")
+    (repo / "kit" / "sub" / "b.txt").write_text("b\n")
+    (repo / "Makefile").write_text(
+        "all:\n\tprintf 'b2\\n' > kit/sub/b.txt\n\tprintf 'c\\n' > kit/sub/c.txt\n.PHONY: all\n"
+    )
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "init")
+    out = io.StringIO()
+    assert cc.run_check("all", ["kit"], repo=repo, sync=None, out=out) == cc.DIFFERENT
+    text = out.getvalue()
+    assert "identical: kit/a.txt" in text  # a file nobody regenerated is still compared
+    assert "DIFFERENT: kit/sub/b.txt" in text  # nested change found
+    assert "DIFFERENT: kit/sub/c.txt" in text and "missing in HEAD" in text  # new nested file found
+    assert cc.tracked_files(repo, "kit") == ["kit/a.txt", "kit/sub/b.txt"]
+
+
+def test_makefile_has_no_remaining_stubs():
+    makefile = (Path(__file__).parent.parent / "Makefile").read_text()
+    assert "not implemented yet" not in makefile
+    targets = set(re.findall(r"^([a-z][a-z0-9-]*):", makefile, flags=re.MULTILINE))
+    for t in (
+        "all",
+        "kits",
+        "kits-check",
+        "pitch",
+        "blog",
+        "paper",
+        "content",
+        "perf-native",
+        "correctness",
+    ):
+        assert t in targets, t
+    all_line = next(ln for ln in makefile.splitlines() if ln.startswith("all:"))
+    assert all_line.split()[1:] == [
+        "env",
+        "pins",
+        "perf",
+        "perf-native",
+        "framing",
+        "content",
+        "trajectory",
+        "correctness",
+        "size",
+        "similarity",
+        "effort",
+        "paper",
+        "pitch",
+        "blog",
+    ]
+    helped = set(re.findall(r'@echo "([a-z][a-z0-9-]*) ', makefile))
+    assert targets <= helped | {"help"}, sorted(targets - helped)  # help lists every target
+
+
+def test_helpers_ignore_hostile_global_git_config(tmp_path, monkeypatch):
+    hostile = tmp_path / "gitconfig"
+    hostile.write_text(
+        "[commit]\n\tgpgsign = true\n[tag]\n\tgpgsign = true\n"
+        '[gpg]\n\tprogram = false\n\tformat = ssh\n[gpg "ssh"]\n\tprogram = false\n'
+    )
+    monkeypatch.setenv("GIT_CONFIG_GLOBAL", str(hostile))
+    repo = make_repo(tmp_path / "x")
+    assert (repo / ".git").is_dir()
+
+
+def test_paper_data_target_runs_t1_measurements():
+    makefile = (Path(__file__).parent.parent / "Makefile").read_text()
+    m = re.search(r"^paper-data:([^\n]*)\n((?:\t[^\n]*\n)+)", makefile, flags=re.MULTILINE)
+    assert m, "paper-data target is missing"
+    prereqs = m.group(1).split()
+    for t in ("env", "pins", "perf", "trajectory", "size", "conformance"):
+        assert t in prereqs, t
+    assert "$(MAKE) paper" in m.group(2).splitlines()[-1]
+    assert re.search(r"^\.PHONY:.*\bpaper-data\b", makefile, flags=re.MULTILINE)
+    helped = subprocess.run(
+        ["make", "-s", "help"],
+        cwd=Path(__file__).parent.parent,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    assert re.search(r"^paper-data\s", helped, flags=re.MULTILINE)
+
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def _makefile_graph():
+    prereqs, recipes, current = {}, {}, []
+    for line in (ROOT / "Makefile").read_text().splitlines():
+        if line.startswith("\t"):
+            for t in current:
+                recipes.setdefault(t, []).append(line)
+            continue
+        m = re.match(r"^([A-Za-z0-9_.-]+(?: [A-Za-z0-9_.-]+)*)\s*:(?!=)\s*(.*)$", line)
+        current = []
+        if m and not line.startswith("."):
+            current = m.group(1).split()
+            for t in current:
+                prereqs.setdefault(t, set()).update(m.group(2).split())
+    return prereqs, recipes
+
+
+def _closure(prereqs, target):
+    seen, stack = set(), [target]
+    while stack:
+        for p in prereqs.get(stack.pop(), ()):
+            if p not in seen:
+                seen.add(p)
+                stack.append(p)
+    return seen
+
+
+def _first_line(out, needle):
+    return next(i for i, line in enumerate(out) if needle in line)
+
+
+def test_measurement_targets_depend_on_their_inputs():
+    prereqs, recipes = _makefile_graph()
+    needles = (
+        "cfbench.perf run", "cfbench.trajectory run",
+        "cfbench.conformance run", "cfbench.content.features run",
+        "cfbench.framing run", "cfbench.fuzzing run",
+    )  # fmt: skip
+    checked = 0
+    for target, lines in recipes.items():
+        if any(n in line for line in lines for n in needles):
+            checked += 1
+            assert "workloads" in _closure(prereqs, target), target
+    assert checked >= 9
+    assert "fetch" in _closure(prereqs, "malformed")
+    for goal in ("all", "paper-data"):
+        out = subprocess.run(
+            ["make", "-n", goal], cwd=ROOT, check=True, capture_output=True, text=True
+        ).stdout.splitlines()
+
+        gen = _first_line(out, "cfbench.workloads generate")
+        assert gen < _first_line(out, "cfbench.perf run"), goal
+        assert gen < _first_line(out, "cfbench.trajectory run"), goal

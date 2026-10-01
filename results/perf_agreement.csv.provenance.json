@@ -1,0 +1,18 @@
+{
+ "columns": [
+  "machine",
+  "variant",
+  "subject",
+  "workload",
+  "level",
+  "framing",
+  "mode",
+  "median_run1_ns",
+  "median_run2_ns",
+  "rel_diff"
+ ],
+ "pending": "no full perf runs; run make perf on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.agreement",
+ "table": "perf_agreement.csv"
+}

@@ -1,0 +1,25 @@
+{
+ "columns": [
+  "round",
+  "milestone",
+  "wall_clock_s",
+  "review_rounds"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T134645Z.json",
+   "sha256": "80d32c96221fab1319eb16cfde848e303e12bfcb6784639bacbecf3ff5025339",
+   "timestamp": "20261001T134645Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T134646Z.json",
+   "sha256": "dfce1f931cdd7cbd05802ff021323870c82d065c70849c4f16fecc2e9f695ecd",
+   "timestamp": "20261001T134646Z"
+  }
+ ],
+ "script": "cfbench.effort.derive",
+ "table": "effort_milestones.csv"
+}

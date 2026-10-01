@@ -1,0 +1,5 @@
+{"ts": "1970-01-01T00:20:00Z", "foundry_stage": "implement", "task_id": "P0-01", "model": "m-opus", "tool": "Bash", "decision": "allowed", "reason": null}
+{"ts": "1970-01-01T00:30:00Z", "foundry_stage": "implement", "task_id": "P0-01", "model": "m-opus", "tool": "Bash", "decision": "denied", "reason": "forbidden word in command outside repo/target: grep -rn x"}
+{"ts": "1970-01-01T00:40:00Z", "foundry_stage": "review", "task_id": null, "model": "m-sonnet", "tool": "Read", "decision": "denied", "reason": "recursive grep at repo root without --exclude-dir=target"}
+{"ts": "1970-01-01T00:50:00Z", "foundry_stage": null, "task_id": null, "model": null, "tool": "Bash", "decision": "denied", "reason": "something new"}
+{"ts": "1970-01-01T05:40:00Z", "foundry_stage": "implement", "task_id": "P2-01", "model": "m-opus", "tool": "Edit", "decision": "denied", "reason": "fetch script denied: post-M0 lockdown"}

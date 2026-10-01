@@ -1,0 +1,5 @@
+round,wall_clock_s,idle_s,models,input_tokens,output_tokens,cache_write_tokens,cache_read_tokens,cost_usd
+1,30485,0,claude-opus-5-5;claude-sonnet-5,4338,850772,5338331,769582775,181.816
+2,26218,28931,claude-opus-5-5;claude-sonnet-5-5,1096,168462,9928038,153669576,62.9849
+3,45863,0,claude-opus-5-5;claude-sonnet-5-5,1214,143298,25095429,200948466,116.476
+total,102566,28931,claude-opus-5-5;claude-sonnet-5;claude-sonnet-5-5,6648,1162532,40361798,1124200817,361.278

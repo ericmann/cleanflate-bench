@@ -1,0 +1,138 @@
+{
+ "name": "crates/cleanflate/src/bitreader.rs",
+ "start_line": 1,
+ "end_line": 192,
+ "kind": "unit",
+ "metrics": {
+  "cyclomatic": {
+   "sum": 26.0
+  },
+  "cognitive": {
+   "sum": 18.0
+  }
+ },
+ "spaces": [
+  {
+   "name": "BitReader",
+   "start_line": 29,
+   "end_line": 192,
+   "kind": "impl",
+   "metrics": {
+    "cyclomatic": {
+     "sum": 25.0
+    },
+    "cognitive": {
+     "sum": 18.0
+    }
+   },
+   "spaces": [
+    {
+     "name": "new",
+     "start_line": 31,
+     "end_line": 33,
+     "kind": "function",
+     "metrics": {
+      "cyclomatic": {
+       "sum": 1.0
+      },
+      "cognitive": {
+       "sum": 0.0
+      }
+     },
+     "spaces": []
+    },
+    {
+     "name": "bits",
+     "start_line": 37,
+     "end_line": 39,
+     "kind": "function",
+     "metrics": {
+      "cyclomatic": {
+       "sum": 1.0
+      },
+      "cognitive": {
+       "sum": 0.0
+      }
+     },
+     "spaces": []
+    },
+    {
+     "name": "available",
+     "start_line": 43,
+     "end_line": 45,
+     "kind": "function",
+     "metrics": {
+      "cyclomatic": {
+       "sum": 1.0
+      },
+      "cognitive": {
+       "sum": 0.0
+      }
+     },
+     "spaces": []
+    },
+    {
+     "name": "fill",
+     "start_line": 51,
+     "end_line": 73,
+     "kind": "function",
+     "metrics": {
+      "cyclomatic": {
+       "sum": 3.0
+      },
+      "cognitive": {
+       "sum": 3.0
+      }
+     },
+     "spaces": []
+    },
+    {
+     "name": "refill_bulk",
+     "start_line": 81,
+     "end_line": 121,
+     "kind": "function",
+     "metrics": {
+      "cyclomatic": {
+       "sum": 8.0
+      },
+      "cognitive": {
+       "sum": 8.0
+      }
+     },
+     "spaces": [
+      {
+       "name": "<anonymous>",
+       "start_line": 87,
+       "end_line": 87,
+       "kind": "function",
+       "metrics": {
+        "cyclomatic": {
+         "sum": 1.0
+        },
+        "cognitive": {
+         "sum": 0.0
+        }
+       },
+       "spaces": []
+      }
+     ]
+    },
+    {
+     "name": "give_back",
+     "start_line": 129,
+     "end_line": 146,
+     "kind": "function",
+     "metrics": {
+      "cyclomatic": {
+       "sum": 3.0
+      },
+      "cognitive": {
+       "sum": 4.0
+      }
+     },
+     "spaces": []
+    }
+   ]
+  }
+ ]
+}

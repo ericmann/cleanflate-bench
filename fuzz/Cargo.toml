@@ -1,0 +1,42 @@
+[package]
+name = "cfbench-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[lib]
+name = "cffuzz"
+path = "src/lib.rs"
+
+[dependencies]
+libfuzzer-sys = "0.4"
+# Same revision as subj-cf round 3 (config/rounds.json).
+cleanflate = { git = "ssh://git@github.com/ericmann/cleanflate.git", rev = "85f210084a367dcc706c732f5776bf0563cdc0cd" }
+libz-rs-sys = "=0.6.8"
+miniz_oxide = "=0.9.1"
+
+[workspace]
+
+[[bin]]
+name = "diff_cf_zlib"
+path = "fuzz_targets/diff_cf_zlib.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "diff_cf_zrs"
+path = "fuzz_targets/diff_cf_zrs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "diff_cf_mox"
+path = "fuzz_targets/diff_cf_mox.rs"
+test = false
+doc = false
+bench = false

@@ -1,0 +1,1 @@
+machine,variant,subject,workload,prefix_bytes,level,framing,mode,median_ns_per_op,ci_lo_ns,ci_hi_ns,time_ratio_vs_zlib

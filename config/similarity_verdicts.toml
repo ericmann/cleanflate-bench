@@ -1,0 +1,11 @@
+# Human verdicts on similar fragments (SPEC 3.8). Regeneration of the fragment tables keeps these.
+#
+# Format, one table per pair named <left>_<right>, keyed by fragment_id (shown in
+# results/similarity_fragments/<left>_<right>.md):
+#
+#   [cf_zrs]
+#   "0123456789ab" = { verdict = "RFC-forced", note = "RFC 1951 section 3.2.2 code assignment" }
+#
+# Allowed verdict values: "RFC-forced", "idiomatic-inevitable", "suspicious".
+# Fragment ids that no longer occur are ignored. No verdicts have been assigned yet; filling them
+# in is a human task.

@@ -1,0 +1,9 @@
+{
+ "repo_url": "ssh://git@github.com/ericmann/cleanflate.git",
+ "primary_round": 3,
+ "rounds": [
+  {"round": 1, "tag": "v0.1.0-cleanroom", "sha": "e94efcfa92de1f2d301d3a0208f67dcc303a9ba9"},
+  {"round": 2, "tag": "v0.2.0-cleanroom", "sha": "d3e911b463c8aed50c3fcc7c17e0a26e8af1d298"},
+  {"round": 3, "tag": "v0.3.0-cleanroom", "sha": "85f210084a367dcc706c732f5776bf0563cdc0cd"}
+ ]
+}

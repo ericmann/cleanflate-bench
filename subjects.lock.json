@@ -1,0 +1,362 @@
+{
+ "machines": {
+  "M-B": {
+   "builds": {
+    "cf": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "release profile from root Cargo.toml (opt-level 3, lto fat, codegen-units 1)",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "cleanflate"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "cf@native": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "rustflags": "-C target-cpu=native",
+     "target_cpu": "native",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "cleanflate"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "mox": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "release profile from root Cargo.toml (opt-level 3, lto fat, codegen-units 1)",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "miniz_oxide"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "mox@native": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "rustflags": "-C target-cpu=native",
+     "target_cpu": "native",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "miniz_oxide"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "zlib": {
+     "compiler": "cc",
+     "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+     "flags": "-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic"
+    },
+    "zlib-nohw": {
+     "compiler": "cc",
+     "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+     "flags": "-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "stock zlib has no x86_64 hardware-CRC path",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic"
+    },
+    "zng": {
+     "compiler": "cc",
+     "compiler_version": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+     "flags": "-O3 -DNDEBUG",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "cmake_options": {
+        "WITH_ALL_FALLBACKS": "OFF",
+        "WITH_AVX2": "ON",
+        "WITH_AVX512": "ON",
+        "WITH_AVX512VNNI": "ON",
+        "WITH_CODE_COVERAGE": "OFF",
+        "WITH_CRC32_CHORBA": "ON",
+        "WITH_GTEST": "OFF",
+        "WITH_GZFILEOP": "ON",
+        "WITH_INFLATE_ALLOW_INVALID_DIST": "OFF",
+        "WITH_INFLATE_STRICT": "OFF",
+        "WITH_MAINTAINER_WARNINGS": "OFF",
+        "WITH_NATIVE_INSTRUCTIONS": "OFF",
+        "WITH_NEW_STRATEGIES": "ON",
+        "WITH_OPTIM": "ON",
+        "WITH_PCLMULQDQ": "ON",
+        "WITH_REDUCED_MEM": "OFF",
+        "WITH_RUNTIME_CPU_DETECTION": "ON",
+        "WITH_SANITIZER": "AUTO",
+        "WITH_SSE2": "ON",
+        "WITH_SSE41": "ON",
+        "WITH_SSE42": "ON",
+        "WITH_SSSE3": "ON",
+        "WITH_VPCLMULQDQ": "ON"
+       },
+       "dispatch_symbols": [
+        "crc32_pclmulqdq",
+        "crc32_vpclmulqdq"
+       ],
+       "pclmul_instructions": 208,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "cmake-options",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": true
+     },
+     "target_cpu": "generic"
+    },
+    "zrs": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "release profile from root Cargo.toml (opt-level 3, lto fat, codegen-units 1)",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 62,
+       "runtime_dispatch_source": true,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols",
+       "source"
+      ],
+      "note": "",
+      "runtime_dispatch": true
+     },
+     "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": false,
+      "roots": [
+       "zlib-rs",
+       "libz-rs-sys"
+      ],
+      "target_feature": 46,
+      "unsafe_blocks": 674,
+      "unsafe_fns": 196,
+      "unsafe_impls": 5,
+      "unsafe_traits": 0
+     }
+    },
+    "zrs@native": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 78,
+       "runtime_dispatch_source": true,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols",
+       "source"
+      ],
+      "note": "",
+      "runtime_dispatch": true
+     },
+     "rustflags": "-C target-cpu=native",
+     "target_cpu": "native",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": false,
+      "roots": [
+       "zlib-rs",
+       "libz-rs-sys"
+      ],
+      "target_feature": 46,
+      "unsafe_blocks": 674,
+      "unsafe_fns": 196,
+      "unsafe_impls": 5,
+      "unsafe_traits": 0
+     }
+    },
+    "zsys": {
+     "compiler": null,
+     "compiler_version": null,
+     "flags": null,
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "system_library": {
+      "library": "/lib/x86_64-linux-gnu/libz.so.1",
+      "package": "zlib1g:amd64 1:1.3.dfsg-3.1ubuntu2.2",
+      "version": null,
+      "zlib_version": "1.3"
+     },
+     "target_cpu": "generic"
+    }
+   },
+   "recorded_at": "20261001T051312Z"
+  }
+ },
+ "rust_profile": {
+  "codegen-units": 1,
+  "lto": "fat",
+  "opt-level": 3,
+  "panic": "default"
+ },
+ "rust_toolchain": "1.89.0",
+ "schema": "cfbench.subjects-lock/1",
+ "subjects": {
+  "cf": {
+   "git_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "tag": "v0.3.0-cleanroom"
+  },
+  "mox": {
+   "checksum": "b63fbc4a50860e98e7b2aa7804ded1db5cbc3aff9193adaff57a6931bf7c4b4c",
+   "crate": "miniz_oxide",
+   "version": "0.9.1"
+  },
+  "zlib": {
+   "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+   "url": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz",
+   "version": "1.3.2"
+  },
+  "zng": {
+   "sha256": "f9c65aa9c852eb8255b636fd9f07ce1c406f061ec19a2e7d508b318ca0c907d1",
+   "url": "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.3.3.tar.gz",
+   "version": "2.3.3"
+  },
+  "zrs": {
+   "checksum": "434324ee61a8e4a05dd3fdf03d51c073ea7fdaf5a35b2ca33c4ca9f3f37def4a",
+   "core_checksum": "b268e58e7c693d7c271f93ffc4ba3b380412554231c85bf61ca7af91042a4112",
+   "core_crate": "zlib-rs",
+   "crate": "libz-rs-sys",
+   "version": "0.6.8"
+  },
+  "zsys": {
+   "note": "platform zlib, dynamically linked as installed (SPEC 2.2)"
+  }
+ }
+}

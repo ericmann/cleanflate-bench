@@ -1,0 +1,114 @@
+{
+ "argv": [
+  "x"
+ ],
+ "bench_git": {
+  "dirty": false,
+  "sha": "abc"
+ },
+ "category": "perf",
+ "environment": {
+  "machine": "M-T"
+ },
+ "machine": "M-T",
+ "payload": {
+  "build": "release",
+  "cells": [
+   {
+    "corpus": "silesia",
+    "framing": "raw",
+    "in_chunk": 0,
+    "level": 6,
+    "mode": "oneshot",
+    "order_index": 0,
+    "out_chunk": 0,
+    "result": {
+     "alloc_calls": 3,
+     "error": null,
+     "input_bytes": 500000,
+     "iters_per_sample": 1,
+     "ok": true,
+     "output_bytes": 1048576,
+     "peak_heap_bytes": 1000,
+     "samples_ns": [
+      1000000.0,
+      1001000.0,
+      1002000.0,
+      1003000.0,
+      1004000.0
+     ]
+    },
+    "subject": "cf",
+    "workload": "silesia/xml"
+   },
+   {
+    "corpus": "silesia",
+    "framing": "raw",
+    "in_chunk": 0,
+    "level": 6,
+    "mode": "oneshot",
+    "order_index": 0,
+    "out_chunk": 0,
+    "result": {
+     "alloc_calls": 3,
+     "error": null,
+     "input_bytes": 500000,
+     "iters_per_sample": 1,
+     "ok": true,
+     "output_bytes": 1048576,
+     "peak_heap_bytes": 1000,
+     "samples_ns": [
+      500000.0,
+      501000.0,
+      502000.0,
+      503000.0,
+      504000.0
+     ]
+    },
+    "subject": "zlib",
+    "workload": "silesia/xml"
+   },
+   {
+    "corpus": "silesia",
+    "framing": "gzip",
+    "in_chunk": 0,
+    "level": 6,
+    "mode": "oneshot",
+    "order_index": null,
+    "out_chunk": 0,
+    "result": null,
+    "status": "unsupported",
+    "subject": "mox",
+    "workload": "silesia/xml"
+   },
+   {
+    "corpus": "silesia",
+    "framing": "raw",
+    "in_chunk": 0,
+    "level": 6,
+    "mode": "oneshot",
+    "order_index": 0,
+    "out_chunk": 0,
+    "result": {
+     "error": "output mismatch",
+     "ok": false,
+     "samples_ns": []
+    },
+    "subject": "zrs",
+    "workload": "silesia/xml"
+   }
+  ],
+  "environment_end": {},
+  "kind": "perf",
+  "preconditions": [],
+  "seed": 1,
+  "subjects": {},
+  "variant": "generic"
+ },
+ "profile": "full",
+ "run_index": 2,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.perf",
+ "session": "new",
+ "timestamp": "20260102T000100Z"
+}

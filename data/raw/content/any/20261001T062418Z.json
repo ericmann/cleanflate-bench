@@ -1,0 +1,3519 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/content/features.py",
+  "run"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "2b3f001a7d767856eb4d799c8484d9380b3dabdd"
+ },
+ "category": "content",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   1.7763671875,
+   1.83935546875,
+   1.8671875
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "2b3f001a7d767856eb4d799c8484d9380b3dabdd",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 59.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 59.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 64.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 59.750\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 870.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 600.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "entries": [
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 152089,
+    "stats": {
+     "blocks": {
+      "dynamic": 3,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 65130,
+     "dist1_byte_fraction": 0.0007561362097193091,
+     "dist1_fraction": 0.00024130442276534868,
+     "dist2_7_byte_fraction": 0.0009336638415664512,
+     "dist2_7_fraction": 0.0013099382950118928,
+     "literal_fraction": 0.033552722419109865,
+     "literals": 5103,
+     "match_dist_hist": {
+      "1": 7,
+      "2-7": 38,
+      "4097-32768": 9601,
+      "513-4096": 11894,
+      "65-512": 6219,
+      "8-64": 1250
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 220,
+      "3": 9233,
+      "33-64": 21,
+      "4": 7154,
+      "5-8": 10225,
+      "65-128": 2,
+      "9-16": 2153
+     },
+     "matches": 29009,
+     "mean_match_len": 5.066910269226792,
+     "output_bytes": 152089,
+     "overlap_byte_fraction": 0.0030442701313046967,
+     "overlap_fraction": 0.0008273294494811954,
+     "ratio": 0.42823609860016176
+    },
+    "stream_sizes": {
+     "gzip": 65148,
+     "raw": 65130,
+     "zlib": 65136
+    },
+    "workload": "canterbury/alice29.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 152089,
+    "stats": {
+     "blocks": {
+      "dynamic": 2,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 54398,
+     "dist1_byte_fraction": 0.001078315986034493,
+     "dist1_fraction": 0.0008534136546184739,
+     "dist2_7_byte_fraction": 0.0004536817258315855,
+     "dist2_7_fraction": 0.0007028112449799197,
+     "literal_fraction": 0.061897967637370224,
+     "literals": 9414,
+     "match_dist_hist": {
+      "1": 17,
+      "2-7": 14,
+      "4097-32768": 10862,
+      "513-4096": 6032,
+      "65-512": 2451,
+      "8-64": 544
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 554,
+      "3": 1392,
+      "33-64": 39,
+      "4": 3134,
+      "5-8": 10520,
+      "65-128": 2,
+      "9-16": 4278
+     },
+     "matches": 19920,
+     "mean_match_len": 7.162399598393574,
+     "output_bytes": 152089,
+     "overlap_byte_fraction": 0.0028141417196509938,
+     "overlap_fraction": 0.0015060240963855422,
+     "ratio": 0.35767215248966067
+    },
+    "stream_sizes": {
+     "gzip": 54416,
+     "raw": 54398,
+     "zlib": 54404
+    },
+    "workload": "canterbury/alice29.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 152089,
+    "stats": {
+     "blocks": {
+      "dynamic": 2,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 54164,
+     "dist1_byte_fraction": 0.0007692864046709492,
+     "dist1_fraction": 0.0003552217598700903,
+     "dist2_7_byte_fraction": 0.0004536817258315855,
+     "dist2_7_fraction": 0.0007104435197401806,
+     "literal_fraction": 0.062371374655629266,
+     "literals": 9486,
+     "match_dist_hist": {
+      "1": 7,
+      "2-7": 14,
+      "4097-32768": 10981,
+      "513-4096": 5835,
+      "65-512": 2354,
+      "8-64": 515
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 582,
+      "3": 1373,
+      "33-64": 42,
+      "4": 3054,
+      "5-8": 10302,
+      "65-128": 2,
+      "9-16": 4350
+     },
+     "matches": 19706,
+     "mean_match_len": 7.236526946107785,
+     "output_bytes": 152089,
+     "overlap_byte_fraction": 0.002399910578674329,
+     "overlap_fraction": 0.0009641733482188167,
+     "ratio": 0.3561335796803188
+    },
+    "stream_sizes": {
+     "gzip": 54182,
+     "raw": 54164,
+     "zlib": 54170
+    },
+    "workload": "canterbury/alice29.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 125179,
+    "stats": {
+     "blocks": {
+      "dynamic": 2,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 56791,
+     "dist1_byte_fraction": 0.00023965681144600933,
+     "dist1_fraction": 0.00015482872072769498,
+     "dist2_7_byte_fraction": 0.0012861582214269167,
+     "dist2_7_fraction": 0.0015869943874588736,
+     "literal_fraction": 0.0361402471660582,
+     "literals": 4524,
+     "match_dist_hist": {
+      "1": 4,
+      "2-7": 41,
+      "4097-32768": 8274,
+      "513-4096": 10364,
+      "65-512": 5639,
+      "8-64": 1513
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 113,
+      "3": 9594,
+      "33-64": 26,
+      "4": 6852,
+      "5-8": 7902,
+      "65-128": 1,
+      "9-16": 1346
+     },
+     "matches": 25835,
+     "mean_match_len": 4.670214824850009,
+     "output_bytes": 125179,
+     "overlap_byte_fraction": 0.001142364134559311,
+     "overlap_fraction": 0.0005419005225469325,
+     "ratio": 0.45367833262767715
+    },
+    "stream_sizes": {
+     "gzip": 56809,
+     "raw": 56791,
+     "zlib": 56797
+    },
+    "workload": "canterbury/asyoulik.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 125179,
+    "stats": {
+     "blocks": {
+      "dynamic": 2,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 48891,
+     "dist1_byte_fraction": 0.0003275309756428794,
+     "dist1_fraction": 0.00016818028927009755,
+     "dist2_7_byte_fraction": 0.0007748903570087635,
+     "dist2_7_fraction": 0.001121201928467317,
+     "literal_fraction": 0.07704167631951046,
+     "literals": 9644,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 20,
+      "4097-32768": 9872,
+      "513-4096": 4984,
+      "65-512": 2250,
+      "8-64": 709
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 229,
+      "3": 1355,
+      "33-64": 39,
+      "4": 3274,
+      "5-8": 10335,
+      "65-128": 1,
+      "9-16": 2604
+     },
+     "matches": 17838,
+     "mean_match_len": 6.476903240273574,
+     "output_bytes": 125179,
+     "overlap_byte_fraction": 0.0011743183760854457,
+     "overlap_fraction": 0.0006727211570803902,
+     "ratio": 0.3905687056135614
+    },
+    "stream_sizes": {
+     "gzip": 48909,
+     "raw": 48891,
+     "zlib": 48897
+    },
+    "workload": "canterbury/asyoulik.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 125179,
+    "stats": {
+     "blocks": {
+      "dynamic": 2,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 48772,
+     "dist1_byte_fraction": 0.0003275309756428794,
+     "dist1_fraction": 0.00016924292000451314,
+     "dist2_7_byte_fraction": 0.0007748903570087635,
+     "dist2_7_fraction": 0.001128286133363421,
+     "literal_fraction": 0.07729731025171954,
+     "literals": 9676,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 20,
+      "4097-32768": 9952,
+      "513-4096": 4854,
+      "65-512": 2197,
+      "8-64": 700
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 240,
+      "3": 1352,
+      "33-64": 40,
+      "4": 3248,
+      "5-8": 10189,
+      "65-128": 1,
+      "9-16": 2655
+     },
+     "matches": 17726,
+     "mean_match_len": 6.516021663093761,
+     "output_bytes": 125179,
+     "overlap_byte_fraction": 0.0011743183760854457,
+     "overlap_fraction": 0.0006769716800180526,
+     "ratio": 0.38961806692815887
+    },
+    "stream_sizes": {
+     "gzip": 48790,
+     "raw": 48772,
+     "zlib": 48778
+    },
+    "workload": "canterbury/asyoulik.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 24603,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 9028,
+     "dist1_byte_fraction": 0.0010974271430313376,
+     "dist1_fraction": 0.0010362694300518134,
+     "dist2_7_byte_fraction": 0.006462626508962322,
+     "dist2_7_fraction": 0.01070811744386874,
+     "literal_fraction": 0.1223021582733813,
+     "literals": 3009,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 31,
+      "4097-32768": 880,
+      "513-4096": 1244,
+      "65-512": 593,
+      "8-64": 144
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 245,
+      "3": 1068,
+      "33-64": 35,
+      "4": 446,
+      "5-8": 692,
+      "65-128": 9,
+      "9-16": 400
+     },
+     "matches": 2895,
+     "mean_match_len": 7.459067357512954,
+     "output_bytes": 24603,
+     "overlap_byte_fraction": 0.003820672275738731,
+     "overlap_fraction": 0.002072538860103627,
+     "ratio": 0.3669471202698858
+    },
+    "stream_sizes": {
+     "gzip": 9046,
+     "raw": 9028,
+     "zlib": 9034
+    },
+    "workload": "canterbury/cp.html"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 24603,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 7955,
+     "dist1_byte_fraction": 0.0012600089419989432,
+     "dist1_fraction": 0.0013410818059901655,
+     "dist2_7_byte_fraction": 0.006381335609478519,
+     "dist2_7_fraction": 0.012516763522574878,
+     "literal_fraction": 0.14079583790594644,
+     "literals": 3464,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 28,
+      "4097-32768": 543,
+      "513-4096": 1009,
+      "65-512": 514,
+      "8-64": 140
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 251,
+      "3": 542,
+      "33-64": 68,
+      "4": 372,
+      "5-8": 618,
+      "65-128": 13,
+      "9-16": 373
+     },
+     "matches": 2237,
+     "mean_match_len": 9.44970943227537,
+     "output_bytes": 24603,
+     "overlap_byte_fraction": 0.0044709994716091534,
+     "overlap_fraction": 0.003576218149307108,
+     "ratio": 0.3233345526968256
+    },
+    "stream_sizes": {
+     "gzip": 7973,
+     "raw": 7955,
+     "zlib": 7961
+    },
+    "workload": "canterbury/cp.html"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 24603,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 7934,
+     "dist1_byte_fraction": 0.0012600089419989432,
+     "dist1_fraction": 0.0013507429085997298,
+     "dist2_7_byte_fraction": 0.006381335609478519,
+     "dist2_7_fraction": 0.012606933813597478,
+     "literal_fraction": 0.14164939235052637,
+     "literals": 3485,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 28,
+      "4097-32768": 545,
+      "513-4096": 995,
+      "65-512": 511,
+      "8-64": 139
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 238,
+      "3": 538,
+      "33-64": 74,
+      "4": 373,
+      "5-8": 610,
+      "65-128": 12,
+      "9-16": 376
+     },
+     "matches": 2221,
+     "mean_match_len": 9.508329581269699,
+     "output_bytes": 24603,
+     "overlap_byte_fraction": 0.0044709994716091534,
+     "overlap_fraction": 0.0036019810895992796,
+     "ratio": 0.3224809982522457
+    },
+    "stream_sizes": {
+     "gzip": 7952,
+     "raw": 7934,
+     "zlib": 7940
+    },
+    "workload": "canterbury/cp.html"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 11150,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3647,
+     "dist1_byte_fraction": 0.0011659192825112107,
+     "dist1_fraction": 0.002952029520295203,
+     "dist2_7_byte_fraction": 0.0006278026905829596,
+     "dist2_7_fraction": 0.0014760147601476014,
+     "literal_fraction": 0.09219730941704037,
+     "literals": 1028,
+     "match_dist_hist": {
+      "1": 4,
+      "2-7": 2,
+      "4097-32768": 90,
+      "513-4096": 541,
+      "65-512": 493,
+      "8-64": 225
+     },
+     "match_len_hist": {
+      "129-258": 2,
+      "17-32": 69,
+      "3": 286,
+      "33-64": 15,
+      "4": 247,
+      "5-8": 503,
+      "65-128": 1,
+      "9-16": 232
+     },
+     "matches": 1355,
+     "mean_match_len": 7.470110701107011,
+     "output_bytes": 11150,
+     "overlap_byte_fraction": 0.0015246636771300448,
+     "overlap_fraction": 0.0036900369003690036,
+     "ratio": 0.32708520179372197
+    },
+    "stream_sizes": {
+     "gzip": 3665,
+     "raw": 3647,
+     "zlib": 3653
+    },
+    "workload": "canterbury/fields.c"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 11150,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3116,
+     "dist1_byte_fraction": 0.0008968609865470852,
+     "dist1_fraction": 0.0028957528957528956,
+     "dist2_7_byte_fraction": 0.001883408071748879,
+     "dist2_7_fraction": 0.003861003861003861,
+     "literal_fraction": 0.09677130044843049,
+     "literals": 1079,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 4,
+      "4097-32768": 59,
+      "513-4096": 401,
+      "65-512": 385,
+      "8-64": 184
+     },
+     "match_len_hist": {
+      "129-258": 2,
+      "17-32": 113,
+      "3": 134,
+      "33-64": 21,
+      "4": 138,
+      "5-8": 366,
+      "65-128": 1,
+      "9-16": 261
+     },
+     "matches": 1036,
+     "mean_match_len": 9.721042471042471,
+     "output_bytes": 11150,
+     "overlap_byte_fraction": 0.0012556053811659193,
+     "overlap_fraction": 0.003861003861003861,
+     "ratio": 0.27946188340807177
+    },
+    "stream_sizes": {
+     "gzip": 3134,
+     "raw": 3116,
+     "zlib": 3122
+    },
+    "workload": "canterbury/fields.c"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 11150,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3109,
+     "dist1_byte_fraction": 0.0008968609865470852,
+     "dist1_fraction": 0.002912621359223301,
+     "dist2_7_byte_fraction": 0.001883408071748879,
+     "dist2_7_fraction": 0.003883495145631068,
+     "literal_fraction": 0.09721973094170404,
+     "literals": 1084,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 4,
+      "4097-32768": 58,
+      "513-4096": 399,
+      "65-512": 383,
+      "8-64": 183
+     },
+     "match_len_hist": {
+      "129-258": 2,
+      "17-32": 109,
+      "3": 134,
+      "33-64": 24,
+      "4": 138,
+      "5-8": 365,
+      "65-128": 1,
+      "9-16": 257
+     },
+     "matches": 1030,
+     "mean_match_len": 9.772815533980582,
+     "output_bytes": 11150,
+     "overlap_byte_fraction": 0.0012556053811659193,
+     "overlap_fraction": 0.003883495145631068,
+     "ratio": 0.2788340807174888
+    },
+    "stream_sizes": {
+     "gzip": 3127,
+     "raw": 3109,
+     "zlib": 3115
+    },
+    "workload": "canterbury/fields.c"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 3721,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1326,
+     "dist1_byte_fraction": 0.0,
+     "dist1_fraction": 0.0,
+     "dist2_7_byte_fraction": 0.009137328675087342,
+     "dist2_7_fraction": 0.01627906976744186,
+     "literal_fraction": 0.16232195646331632,
+     "literals": 604,
+     "match_dist_hist": {
+      "1": 0,
+      "2-7": 7,
+      "4097-32768": 0,
+      "513-4096": 131,
+      "65-512": 173,
+      "8-64": 119
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 14,
+      "3": 119,
+      "33-64": 7,
+      "4": 65,
+      "5-8": 147,
+      "65-128": 0,
+      "9-16": 78
+     },
+     "matches": 430,
+     "mean_match_len": 7.248837209302326,
+     "output_bytes": 3721,
+     "overlap_byte_fraction": 0.0,
+     "overlap_fraction": 0.0,
+     "ratio": 0.35635581832840635
+    },
+    "stream_sizes": {
+     "gzip": 1344,
+     "raw": 1326,
+     "zlib": 1332
+    },
+    "workload": "canterbury/grammar.lsp"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 3721,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1216,
+     "dist1_byte_fraction": 0.0,
+     "dist1_fraction": 0.0,
+     "dist2_7_byte_fraction": 0.009674818597151304,
+     "dist2_7_fraction": 0.019021739130434784,
+     "literal_fraction": 0.16339693630744423,
+     "literals": 608,
+     "match_dist_hist": {
+      "1": 0,
+      "2-7": 7,
+      "4097-32768": 0,
+      "513-4096": 96,
+      "65-512": 150,
+      "8-64": 115
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 24,
+      "3": 80,
+      "33-64": 7,
+      "4": 53,
+      "5-8": 114,
+      "65-128": 1,
+      "9-16": 89
+     },
+     "matches": 368,
+     "mean_match_len": 8.459239130434783,
+     "output_bytes": 3721,
+     "overlap_byte_fraction": 0.0,
+     "overlap_fraction": 0.0,
+     "ratio": 0.32679387261488846
+    },
+    "stream_sizes": {
+     "gzip": 1234,
+     "raw": 1216,
+     "zlib": 1222
+    },
+    "workload": "canterbury/grammar.lsp"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 3721,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1216,
+     "dist1_byte_fraction": 0.0,
+     "dist1_fraction": 0.0,
+     "dist2_7_byte_fraction": 0.009674818597151304,
+     "dist2_7_fraction": 0.019021739130434784,
+     "literal_fraction": 0.16339693630744423,
+     "literals": 608,
+     "match_dist_hist": {
+      "1": 0,
+      "2-7": 7,
+      "4097-32768": 0,
+      "513-4096": 96,
+      "65-512": 150,
+      "8-64": 115
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 24,
+      "3": 80,
+      "33-64": 7,
+      "4": 53,
+      "5-8": 114,
+      "65-128": 1,
+      "9-16": 89
+     },
+     "matches": 368,
+     "mean_match_len": 8.459239130434783,
+     "output_bytes": 3721,
+     "overlap_byte_fraction": 0.0,
+     "overlap_fraction": 0.0,
+     "ratio": 0.32679387261488846
+    },
+    "stream_sizes": {
+     "gzip": 1234,
+     "raw": 1216,
+     "zlib": 1222
+    },
+    "workload": "canterbury/grammar.lsp"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 1029744,
+    "stats": {
+     "blocks": {
+      "dynamic": 11,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 242293,
+     "dist1_byte_fraction": 0.0004253484361161609,
+     "dist1_fraction": 0.001493853415633591,
+     "dist2_7_byte_fraction": 0.000146638387793471,
+     "dist2_7_fraction": 0.0005186991026505524,
+     "literal_fraction": 0.08119590888609207,
+     "literals": 83611,
+     "match_dist_hist": {
+      "1": 144,
+      "2-7": 50,
+      "4097-32768": 15800,
+      "513-4096": 31742,
+      "65-512": 8301,
+      "8-64": 40358
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 1050,
+      "33-64": 0,
+      "4": 6194,
+      "5-8": 26497,
+      "65-128": 0,
+      "9-16": 62654
+     },
+     "matches": 96395,
+     "mean_match_len": 9.815166761761501,
+     "output_bytes": 1029744,
+     "overlap_byte_fraction": 0.0004253484361161609,
+     "overlap_fraction": 0.001493853415633591,
+     "ratio": 0.23529440326916204
+    },
+    "stream_sizes": {
+     "gzip": 242311,
+     "raw": 242293,
+     "zlib": 242299
+    },
+    "workload": "canterbury/kennedy.xls"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 1029744,
+    "stats": {
+     "blocks": {
+      "dynamic": 10,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 203986,
+     "dist1_byte_fraction": 4.175795149085598e-05,
+     "dist1_fraction": 0.00015605493133583021,
+     "dist2_7_byte_fraction": 1.3595612113301946e-05,
+     "dist2_7_fraction": 4.801690194948622e-05,
+     "literal_fraction": 0.07800094003946612,
+     "literals": 80321,
+     "match_dist_hist": {
+      "1": 13,
+      "2-7": 4,
+      "4097-32768": 10957,
+      "513-4096": 33712,
+      "65-512": 3621,
+      "8-64": 34997
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 6,
+      "3": 46,
+      "33-64": 0,
+      "4": 83,
+      "5-8": 8094,
+      "65-128": 0,
+      "9-16": 75075
+     },
+     "matches": 83304,
+     "mean_match_len": 11.397087774896765,
+     "output_bytes": 1029744,
+     "overlap_byte_fraction": 4.175795149085598e-05,
+     "overlap_fraction": 0.00015605493133583021,
+     "ratio": 0.19809389518171508
+    },
+    "stream_sizes": {
+     "gzip": 204004,
+     "raw": 203986,
+     "zlib": 203992
+    },
+    "workload": "canterbury/kennedy.xls"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 1029744,
+    "stats": {
+     "blocks": {
+      "dynamic": 10,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 207023,
+     "dist1_byte_fraction": 3.884460603800556e-05,
+     "dist1_fraction": 0.00014505893019038985,
+     "dist2_7_byte_fraction": 6.797806056650973e-06,
+     "dist2_7_fraction": 2.4176488365064975e-05,
+     "literal_fraction": 0.07765522304572788,
+     "literals": 79965,
+     "match_dist_hist": {
+      "1": 12,
+      "2-7": 2,
+      "4097-32768": 10471,
+      "513-4096": 36429,
+      "65-512": 3857,
+      "8-64": 31954
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 6,
+      "3": 43,
+      "33-64": 0,
+      "4": 73,
+      "5-8": 6949,
+      "65-128": 0,
+      "9-16": 75654
+     },
+     "matches": 82725,
+     "mean_match_len": 11.481160471441523,
+     "output_bytes": 1029744,
+     "overlap_byte_fraction": 3.884460603800556e-05,
+     "overlap_fraction": 0.00014505893019038985,
+     "ratio": 0.20104317189515064
+    },
+    "stream_sizes": {
+     "gzip": 207041,
+     "raw": 207023,
+     "zlib": 207029
+    },
+    "workload": "canterbury/kennedy.xls"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 426754,
+    "stats": {
+     "blocks": {
+      "dynamic": 6,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 174124,
+     "dist1_byte_fraction": 0.0006233099162515173,
+     "dist1_fraction": 0.00014374199618430336,
+     "dist2_7_byte_fraction": 0.0013731564320428162,
+     "dist2_7_fraction": 0.0012544756030630113,
+     "literal_fraction": 0.030853840854450105,
+     "literals": 13167,
+     "match_dist_hist": {
+      "1": 11,
+      "2-7": 96,
+      "4097-32768": 26824,
+      "513-4096": 31074,
+      "65-512": 15507,
+      "8-64": 3014
+     },
+     "match_len_hist": {
+      "129-258": 5,
+      "17-32": 823,
+      "3": 24703,
+      "33-64": 90,
+      "4": 17507,
+      "5-8": 25586,
+      "65-128": 110,
+      "9-16": 7702
+     },
+     "matches": 76526,
+     "mean_match_len": 5.404529179625225,
+     "output_bytes": 426754,
+     "overlap_byte_fraction": 0.0022917184138871575,
+     "overlap_fraction": 0.0006272378015315057,
+     "ratio": 0.40801960848638796
+    },
+    "stream_sizes": {
+     "gzip": 174142,
+     "raw": 174124,
+     "zlib": 174130
+    },
+    "workload": "canterbury/lcet10.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 426754,
+    "stats": {
+     "blocks": {
+      "dynamic": 5,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 144898,
+     "dist1_byte_fraction": 0.001007606255594558,
+     "dist1_fraction": 0.0004903439951719976,
+     "dist2_7_byte_fraction": 0.00042178866513260566,
+     "dist2_7_fraction": 0.000697797223898612,
+     "literal_fraction": 0.05584481926355699,
+     "literals": 23832,
+     "match_dist_hist": {
+      "1": 26,
+      "2-7": 37,
+      "4097-32768": 28976,
+      "513-4096": 16262,
+      "65-512": 6436,
+      "8-64": 1287
+     },
+     "match_len_hist": {
+      "129-258": 17,
+      "17-32": 1504,
+      "3": 3437,
+      "33-64": 159,
+      "4": 7946,
+      "5-8": 26860,
+      "65-128": 105,
+      "9-16": 12996
+     },
+     "matches": 53024,
+     "mean_match_len": 7.598860893180446,
+     "output_bytes": 426754,
+     "overlap_byte_fraction": 0.0011646053698383613,
+     "overlap_fraction": 0.0005846409173204586,
+     "ratio": 0.33953518889102385
+    },
+    "stream_sizes": {
+     "gzip": 144916,
+     "raw": 144898,
+     "zlib": 144904
+    },
+    "workload": "canterbury/lcet10.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 426754,
+    "stats": {
+     "blocks": {
+      "dynamic": 5,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 144433,
+     "dist1_byte_fraction": 0.0005951906719093436,
+     "dist1_fraction": 0.0002279202279202279,
+     "dist2_7_byte_fraction": 0.00042178866513260566,
+     "dist2_7_fraction": 0.0007027540360873694,
+     "literal_fraction": 0.05591746064477427,
+     "literals": 23863,
+     "match_dist_hist": {
+      "1": 12,
+      "2-7": 37,
+      "4097-32768": 29310,
+      "513-4096": 15853,
+      "65-512": 6222,
+      "8-64": 1216
+     },
+     "match_len_hist": {
+      "129-258": 19,
+      "17-32": 1525,
+      "3": 3407,
+      "33-64": 170,
+      "4": 7807,
+      "5-8": 26459,
+      "65-128": 105,
+      "9-16": 13158
+     },
+     "matches": 52650,
+     "mean_match_len": 7.652250712250712,
+     "output_bytes": 426754,
+     "overlap_byte_fraction": 0.0007521897861531468,
+     "overlap_fraction": 0.00032288698955365623,
+     "ratio": 0.3384455681727646
+    },
+    "stream_sizes": {
+     "gzip": 144451,
+     "raw": 144433,
+     "zlib": 144439
+    },
+    "workload": "canterbury/lcet10.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 481861,
+    "stats": {
+     "blocks": {
+      "dynamic": 8,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 228883,
+     "dist1_byte_fraction": 0.0011621608721187231,
+     "dist1_fraction": 0.00012144879065031156,
+     "dist2_7_byte_fraction": 0.0007097482469010772,
+     "dist2_7_fraction": 0.000850141534552181,
+     "literal_fraction": 0.027368888538395926,
+     "literals": 13188,
+     "match_dist_hist": {
+      "1": 13,
+      "2-7": 91,
+      "4097-32768": 36029,
+      "513-4096": 44370,
+      "65-512": 21610,
+      "8-64": 4928
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 80,
+      "3": 39791,
+      "33-64": 19,
+      "4": 30091,
+      "5-8": 34378,
+      "65-128": 3,
+      "9-16": 2678
+     },
+     "matches": 107041,
+     "mean_match_len": 4.3784437738810364,
+     "output_bytes": 481861,
+     "overlap_byte_fraction": 0.001471378675593169,
+     "overlap_fraction": 0.0002615820106314403,
+     "ratio": 0.47499797659491017
+    },
+    "stream_sizes": {
+     "gzip": 228901,
+     "raw": 228883,
+     "zlib": 228889
+    },
+    "workload": "canterbury/plrabn12.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 481861,
+    "stats": {
+     "blocks": {
+      "dynamic": 7,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 195255,
+     "dist1_byte_fraction": 0.0010314177740053667,
+     "dist1_fraction": 0.0001381482607133976,
+     "dist2_7_byte_fraction": 0.00027186263258491554,
+     "dist2_7_fraction": 0.0003177409996408145,
+     "literal_fraction": 0.0731518010380587,
+     "literals": 35249,
+     "match_dist_hist": {
+      "1": 10,
+      "2-7": 23,
+      "4097-32768": 45233,
+      "513-4096": 19914,
+      "65-512": 5727,
+      "8-64": 1479
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 174,
+      "3": 4247,
+      "33-64": 22,
+      "4": 12556,
+      "5-8": 46401,
+      "65-128": 3,
+      "9-16": 8982
+     },
+     "matches": 72386,
+     "mean_match_len": 6.169867101373193,
+     "output_bytes": 481861,
+     "overlap_byte_fraction": 0.0012347959266261431,
+     "overlap_fraction": 0.000290111347498135,
+     "ratio": 0.40521021622418085
+    },
+    "stream_sizes": {
+     "gzip": 195273,
+     "raw": 195255,
+     "zlib": 195261
+    },
+    "workload": "canterbury/plrabn12.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 481861,
+    "stats": {
+     "blocks": {
+      "dynamic": 7,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 194326,
+     "dist1_byte_fraction": 0.0010708482321665376,
+     "dist1_fraction": 0.00013965505202150687,
+     "dist2_7_byte_fraction": 0.0002594109089550721,
+     "dist2_7_fraction": 0.00030724111444731516,
+     "literal_fraction": 0.07331989930706158,
+     "literals": 35330,
+     "match_dist_hist": {
+      "1": 10,
+      "2-7": 22,
+      "4097-32768": 45919,
+      "513-4096": 18936,
+      "65-512": 5319,
+      "8-64": 1399
+     },
+     "match_len_hist": {
+      "129-258": 1,
+      "17-32": 190,
+      "3": 4207,
+      "33-64": 22,
+      "4": 12095,
+      "5-8": 45498,
+      "65-128": 3,
+      "9-16": 9589
+     },
+     "matches": 71605,
+     "mean_match_len": 6.236031003421549,
+     "output_bytes": 481861,
+     "overlap_byte_fraction": 0.0012680005229723924,
+     "overlap_fraction": 0.0002932756092451644,
+     "ratio": 0.40328227434882674
+    },
+    "stream_sizes": {
+     "gzip": 194344,
+     "raw": 194326,
+     "zlib": 194332
+    },
+    "workload": "canterbury/plrabn12.txt"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 513216,
+    "stats": {
+     "blocks": {
+      "dynamic": 3,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 65553,
+     "dist1_byte_fraction": 0.05490086045641601,
+     "dist1_fraction": 0.03434034061905425,
+     "dist2_7_byte_fraction": 0.01049850355405911,
+     "dist2_7_fraction": 0.01614924126409578,
+     "literal_fraction": 0.04435169597206634,
+     "literals": 22762,
+     "match_dist_hist": {
+      "1": 740,
+      "2-7": 348,
+      "4097-32768": 4286,
+      "513-4096": 4378,
+      "65-512": 8778,
+      "8-64": 3019
+     },
+     "match_len_hist": {
+      "129-258": 1036,
+      "17-32": 1731,
+      "3": 7060,
+      "33-64": 1646,
+      "4": 2788,
+      "5-8": 3902,
+      "65-128": 914,
+      "9-16": 2472
+     },
+     "matches": 21549,
+     "mean_match_len": 22.75994245672653,
+     "output_bytes": 513216,
+     "overlap_byte_fraction": 0.14521565968325229,
+     "overlap_fraction": 0.07104738038888116,
+     "ratio": 0.12772984474373364
+    },
+    "stream_sizes": {
+     "gzip": 65571,
+     "raw": 65553,
+     "zlib": 65559
+    },
+    "workload": "canterbury/ptt5"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 513216,
+    "stats": {
+     "blocks": {
+      "dynamic": 3,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 56459,
+     "dist1_byte_fraction": 0.2683840722035166,
+     "dist1_fraction": 0.08313145480045901,
+     "dist2_7_byte_fraction": 0.0012158623269734382,
+     "dist2_7_fraction": 0.008988907305877853,
+     "literal_fraction": 0.04953275034293553,
+     "literals": 25421,
+     "match_dist_hist": {
+      "1": 1304,
+      "2-7": 141,
+      "4097-32768": 3807,
+      "513-4096": 3519,
+      "65-512": 6023,
+      "8-64": 892
+     },
+     "match_len_hist": {
+      "129-258": 1124,
+      "17-32": 1463,
+      "3": 2470,
+      "33-64": 1663,
+      "4": 2863,
+      "5-8": 3201,
+      "65-128": 1063,
+      "9-16": 1839
+     },
+     "matches": 15686,
+     "mean_match_len": 31.097475455820476,
+     "output_bytes": 513216,
+     "overlap_byte_fraction": 0.27993281581244545,
+     "overlap_fraction": 0.08619150835139615,
+     "ratio": 0.11001021012595087
+    },
+    "stream_sizes": {
+     "gzip": 56477,
+     "raw": 56459,
+     "zlib": 56465
+    },
+    "workload": "canterbury/ptt5"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 513216,
+    "stats": {
+     "blocks": {
+      "dynamic": 3,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 52215,
+     "dist1_byte_fraction": 0.19060200773163735,
+     "dist1_fraction": 0.038159958180867745,
+     "dist2_7_byte_fraction": 0.0006546950991395435,
+     "dist2_7_fraction": 0.005974161750429393,
+     "literal_fraction": 0.05146176268861454,
+     "literals": 26411,
+     "match_dist_hist": {
+      "1": 511,
+      "2-7": 80,
+      "4097-32768": 3128,
+      "513-4096": 3534,
+      "65-512": 5755,
+      "8-64": 383
+     },
+     "match_len_hist": {
+      "129-258": 1421,
+      "17-32": 954,
+      "3": 2366,
+      "33-64": 1108,
+      "4": 2654,
+      "5-8": 2599,
+      "65-128": 878,
+      "9-16": 1411
+     },
+     "matches": 13391,
+     "mean_match_len": 36.35314763647226,
+     "output_bytes": 513216,
+     "overlap_byte_fraction": 0.2075091189674523,
+     "overlap_fraction": 0.04211784034052722,
+     "ratio": 0.1017407875046764
+    },
+    "stream_sizes": {
+     "gzip": 52233,
+     "raw": 52215,
+     "zlib": 52221
+    },
+    "workload": "canterbury/ptt5"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 38240,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 14112,
+     "dist1_byte_fraction": 0.0223326359832636,
+     "dist1_fraction": 0.02337228714524207,
+     "dist2_7_byte_fraction": 0.015821129707112972,
+     "dist2_7_fraction": 0.034223706176961605,
+     "literal_fraction": 0.14131799163179917,
+     "literals": 5404,
+     "match_dist_hist": {
+      "1": 112,
+      "2-7": 164,
+      "4097-32768": 568,
+      "513-4096": 869,
+      "65-512": 1139,
+      "8-64": 1940
+     },
+     "match_len_hist": {
+      "129-258": 23,
+      "17-32": 56,
+      "3": 1895,
+      "33-64": 33,
+      "4": 914,
+      "5-8": 1400,
+      "65-128": 12,
+      "9-16": 459
+     },
+     "matches": 4792,
+     "mean_match_len": 6.852253756260434,
+     "output_bytes": 38240,
+     "overlap_byte_fraction": 0.03226987447698745,
+     "overlap_fraction": 0.025667779632721203,
+     "ratio": 0.36903765690376567
+    },
+    "stream_sizes": {
+     "gzip": 14130,
+     "raw": 14112,
+     "zlib": 14118
+    },
+    "workload": "canterbury/sum"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 38240,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 12984,
+     "dist1_byte_fraction": 0.010747907949790796,
+     "dist1_fraction": 0.006867406233491812,
+     "dist2_7_byte_fraction": 0.006642259414225941,
+     "dist2_7_fraction": 0.018225039619651346,
+     "literal_fraction": 0.13969665271966528,
+     "literals": 5342,
+     "match_dist_hist": {
+      "1": 26,
+      "2-7": 69,
+      "4097-32768": 596,
+      "513-4096": 979,
+      "65-512": 928,
+      "8-64": 1188
+     },
+     "match_len_hist": {
+      "129-258": 24,
+      "17-32": 84,
+      "3": 850,
+      "33-64": 38,
+      "4": 703,
+      "5-8": 1362,
+      "65-128": 15,
+      "9-16": 710
+     },
+     "matches": 3786,
+     "mean_match_len": 8.689381933438986,
+     "output_bytes": 38240,
+     "overlap_byte_fraction": 0.0212081589958159,
+     "overlap_fraction": 0.008980454305335447,
+     "ratio": 0.3395397489539749
+    },
+    "stream_sizes": {
+     "gzip": 13002,
+     "raw": 12984,
+     "zlib": 12990
+    },
+    "workload": "canterbury/sum"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 38240,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 12832,
+     "dist1_byte_fraction": 0.008969665271966527,
+     "dist1_fraction": 0.004654983570646221,
+     "dist2_7_byte_fraction": 0.005883891213389121,
+     "dist2_7_fraction": 0.016976998904709748,
+     "literal_fraction": 0.1394612970711297,
+     "literals": 5333,
+     "match_dist_hist": {
+      "1": 17,
+      "2-7": 62,
+      "4097-32768": 595,
+      "513-4096": 959,
+      "65-512": 897,
+      "8-64": 1122
+     },
+     "match_len_hist": {
+      "129-258": 24,
+      "17-32": 90,
+      "3": 830,
+      "33-64": 37,
+      "4": 592,
+      "5-8": 1264,
+      "65-128": 16,
+      "9-16": 799
+     },
+     "matches": 3652,
+     "mean_match_len": 9.010679079956189,
+     "output_bytes": 38240,
+     "overlap_byte_fraction": 0.019586820083682007,
+     "overlap_fraction": 0.007119386637458927,
+     "ratio": 0.33556485355648535
+    },
+    "stream_sizes": {
+     "gzip": 12850,
+     "raw": 12832,
+     "zlib": 12838
+    },
+    "workload": "canterbury/sum"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 4227,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1846,
+     "dist1_byte_fraction": 0.0,
+     "dist1_fraction": 0.0,
+     "dist2_7_byte_fraction": 0.0007097232079489,
+     "dist2_7_fraction": 0.0017211703958691911,
+     "literal_fraction": 0.20463685829193282,
+     "literals": 865,
+     "match_dist_hist": {
+      "1": 0,
+      "2-7": 1,
+      "4097-32768": 0,
+      "513-4096": 264,
+      "65-512": 236,
+      "8-64": 80
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 18,
+      "3": 192,
+      "33-64": 0,
+      "4": 122,
+      "5-8": 171,
+      "65-128": 0,
+      "9-16": 78
+     },
+     "matches": 581,
+     "mean_match_len": 5.7865748709122204,
+     "output_bytes": 4227,
+     "overlap_byte_fraction": 0.0,
+     "overlap_fraction": 0.0,
+     "ratio": 0.4367163472912231
+    },
+    "stream_sizes": {
+     "gzip": 1864,
+     "raw": 1846,
+     "zlib": 1852
+    },
+    "workload": "canterbury/xargs.1"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 4227,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1730,
+     "dist1_byte_fraction": 0.0,
+     "dist1_fraction": 0.0,
+     "dist2_7_byte_fraction": 0.0007097232079489,
+     "dist2_7_fraction": 0.0019455252918287938,
+     "literal_fraction": 0.20558315590253134,
+     "literals": 869,
+     "match_dist_hist": {
+      "1": 0,
+      "2-7": 1,
+      "4097-32768": 0,
+      "513-4096": 219,
+      "65-512": 207,
+      "8-64": 87
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 24,
+      "3": 126,
+      "33-64": 0,
+      "4": 114,
+      "5-8": 163,
+      "65-128": 0,
+      "9-16": 87
+     },
+     "matches": 514,
+     "mean_match_len": 6.533073929961089,
+     "output_bytes": 4227,
+     "overlap_byte_fraction": 0.0,
+     "overlap_fraction": 0.0,
+     "ratio": 0.40927371658386563
+    },
+    "stream_sizes": {
+     "gzip": 1748,
+     "raw": 1730,
+     "zlib": 1736
+    },
+    "workload": "canterbury/xargs.1"
+   },
+   {
+    "corpus": "canterbury",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 4227,
+    "stats": {
+     "blocks": {
+      "dynamic": 1,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1730,
+     "dist1_byte_fraction": 0.0,
+     "dist1_fraction": 0.0,
+     "dist2_7_byte_fraction": 0.0007097232079489,
+     "dist2_7_fraction": 0.0019455252918287938,
+     "literal_fraction": 0.20558315590253134,
+     "literals": 869,
+     "match_dist_hist": {
+      "1": 0,
+      "2-7": 1,
+      "4097-32768": 0,
+      "513-4096": 219,
+      "65-512": 207,
+      "8-64": 87
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 24,
+      "3": 126,
+      "33-64": 0,
+      "4": 114,
+      "5-8": 163,
+      "65-128": 0,
+      "9-16": 87
+     },
+     "matches": 514,
+     "mean_match_len": 6.533073929961089,
+     "output_bytes": 4227,
+     "overlap_byte_fraction": 0.0,
+     "overlap_fraction": 0.0,
+     "ratio": 0.40927371658386563
+    },
+    "stream_sizes": {
+     "gzip": 1748,
+     "raw": 1730,
+     "zlib": 1736
+    },
+    "workload": "canterbury/xargs.1"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 10192446,
+    "stats": {
+     "blocks": {
+      "dynamic": 144,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 4585612,
+     "dist1_byte_fraction": 3.3456149779944875e-05,
+     "dist1_fraction": 2.636558424957662e-05,
+     "dist2_7_byte_fraction": 0.0009999562421032203,
+     "dist2_7_fraction": 0.0013196916544922011,
+     "literal_fraction": 0.023020578181135322,
+     "literals": 234636,
+     "match_dist_hist": {
+      "1": 56,
+      "2-7": 2803,
+      "4097-32768": 743790,
+      "513-4096": 862018,
+      "65-512": 425276,
+      "8-64": 90038
+     },
+     "match_len_hist": {
+      "129-258": 4,
+      "17-32": 8110,
+      "3": 737274,
+      "33-64": 396,
+      "4": 562228,
+      "5-8": 711812,
+      "65-128": 21,
+      "9-16": 104136
+     },
+     "matches": 2123981,
+     "mean_match_len": 4.688276401719224,
+     "output_bytes": 10192446,
+     "overlap_byte_fraction": 0.0003298521277424477,
+     "overlap_fraction": 0.000224578280125858,
+     "ratio": 0.4499029967880134
+    },
+    "stream_sizes": {
+     "gzip": 4585630,
+     "raw": 4585612,
+     "zlib": 4585618
+    },
+    "workload": "silesia/dickens"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 10192446,
+    "stats": {
+     "blocks": {
+      "dynamic": 127,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3871628,
+     "dist1_byte_fraction": 6.043691573151332e-05,
+     "dist1_fraction": 5.6651391517075904e-05,
+     "dist2_7_byte_fraction": 0.0004131491106256536,
+     "dist2_7_fraction": 0.0006293831423421481,
+     "literal_fraction": 0.06114194767379685,
+     "literals": 623186,
+     "match_dist_hist": {
+      "1": 82,
+      "2-7": 911,
+      "4097-32768": 890785,
+      "513-4096": 396786,
+      "65-512": 127204,
+      "8-64": 31681
+     },
+     "match_len_hist": {
+      "129-258": 6,
+      "17-32": 16214,
+      "3": 78413,
+      "33-64": 673,
+      "4": 235923,
+      "5-8": 867396,
+      "65-128": 28,
+      "9-16": 248796
+     },
+     "matches": 1447449,
+     "mean_match_len": 6.611120668154802,
+     "output_bytes": 10192446,
+     "overlap_byte_fraction": 0.000344765132922951,
+     "overlap_fraction": 0.00029638349952226296,
+     "ratio": 0.37985268698014196
+    },
+    "stream_sizes": {
+     "gzip": 3871646,
+     "raw": 3871628,
+     "zlib": 3871634
+    },
+    "workload": "silesia/dickens"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 10192446,
+    "stats": {
+     "blocks": {
+      "dynamic": 126,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3854729,
+     "dist1_byte_fraction": 6.279160076001384e-05,
+     "dist1_fraction": 5.7858590815680654e-05,
+     "dist2_7_byte_fraction": 0.0004064775030449021,
+     "dist2_7_fraction": 0.0006231997613158856,
+     "literal_fraction": 0.061197086548214236,
+     "literals": 623748,
+     "match_dist_hist": {
+      "1": 83,
+      "2-7": 894,
+      "4097-32768": 902326,
+      "513-4096": 380269,
+      "65-512": 120857,
+      "8-64": 30103
+     },
+     "match_len_hist": {
+      "129-258": 6,
+      "17-32": 16763,
+      "3": 77271,
+      "33-64": 693,
+      "4": 229199,
+      "5-8": 852807,
+      "65-128": 28,
+      "9-16": 257765
+     },
+     "matches": 1434532,
+     "mean_match_len": 6.670257617118335,
+     "output_bytes": 10192446,
+     "overlap_byte_fraction": 0.00034407834978963833,
+     "overlap_fraction": 0.00029486968572328817,
+     "ratio": 0.378194694384449
+    },
+    "stream_sizes": {
+     "gzip": 3854747,
+     "raw": 3854729,
+     "zlib": 3854735
+    },
+    "workload": "silesia/dickens"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 51220480,
+    "stats": {
+     "blocks": {
+      "dynamic": 904,
+      "fixed": 0,
+      "stored": 13
+     },
+     "compressed_bytes": 20577220,
+     "dist1_byte_fraction": 0.004009079961765294,
+     "dist1_fraction": 0.0037210320440813236,
+     "dist2_7_byte_fraction": 0.005463263913184726,
+     "dist2_7_fraction": 0.009272755249309863,
+     "literal_fraction": 0.17997342078793482,
+     "literals": 9218325,
+     "match_dist_hist": {
+      "1": 20773,
+      "2-7": 51766,
+      "4097-32768": 1080001,
+      "513-4096": 1409329,
+      "65-512": 1464002,
+      "8-64": 1556720
+     },
+     "match_len_hist": {
+      "129-258": 11778,
+      "17-32": 224836,
+      "3": 1811126,
+      "33-64": 53919,
+      "4": 1016242,
+      "5-8": 1702158,
+      "65-128": 14787,
+      "9-16": 747745
+     },
+     "matches": 5582591,
+     "mean_match_len": 7.485431943697828,
+     "output_bytes": 51220480,
+     "overlap_byte_fraction": 0.015983157518242704,
+     "overlap_fraction": 0.0068100994681501836,
+     "ratio": 0.4017381328718513
+    },
+    "stream_sizes": {
+     "gzip": 20577238,
+     "raw": 20577220,
+     "zlib": 20577226
+    },
+    "workload": "silesia/mozilla"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 51220480,
+    "stats": {
+     "blocks": {
+      "dynamic": 862,
+      "fixed": 0,
+      "stored": 8
+     },
+     "compressed_bytes": 19089118,
+     "dist1_byte_fraction": 0.03263259149465214,
+     "dist1_fraction": 0.004398331345877498,
+     "dist2_7_byte_fraction": 0.003296611043082767,
+     "dist2_7_fraction": 0.008363965843829027,
+     "literal_fraction": 0.19352264953393641,
+     "literals": 9912323,
+     "match_dist_hist": {
+      "1": 18490,
+      "2-7": 35161,
+      "4097-32768": 1025397,
+      "513-4096": 1074545,
+      "65-512": 999283,
+      "8-64": 1050991
+     },
+     "match_len_hist": {
+      "129-258": 12661,
+      "17-32": 290341,
+      "3": 681538,
+      "33-64": 82340,
+      "4": 649329,
+      "5-8": 1509060,
+      "65-128": 17742,
+      "9-16": 960856
+     },
+     "matches": 4203867,
+     "mean_match_len": 9.795012306526349,
+     "output_bytes": 51220480,
+     "overlap_byte_fraction": 0.037694258234206315,
+     "overlap_fraction": 0.006309666790124426,
+     "ratio": 0.3726852618327669
+    },
+    "stream_sizes": {
+     "gzip": 19089136,
+     "raw": 19089118,
+     "zlib": 19089124
+    },
+    "workload": "silesia/mozilla"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 51220480,
+    "stats": {
+     "blocks": {
+      "dynamic": 858,
+      "fixed": 0,
+      "stored": 8
+     },
+     "compressed_bytes": 19044390,
+     "dist1_byte_fraction": 0.026559356726059576,
+     "dist1_fraction": 0.0024247176913425347,
+     "dist2_7_byte_fraction": 0.0027752766081067574,
+     "dist2_7_fraction": 0.007105733037351607,
+     "literal_fraction": 0.19332019145466814,
+     "literals": 9901953,
+     "match_dist_hist": {
+      "1": 10049,
+      "2-7": 29449,
+      "4097-32768": 1070254,
+      "513-4096": 1065819,
+      "65-512": 967163,
+      "8-64": 1001666
+     },
+     "match_len_hist": {
+      "129-258": 13549,
+      "17-32": 290916,
+      "3": 665500,
+      "33-64": 86689,
+      "4": 632898,
+      "5-8": 1482979,
+      "65-128": 17875,
+      "9-16": 953994
+     },
+     "matches": 4144400,
+     "mean_match_len": 9.938043383843258,
+     "output_bytes": 51220480,
+     "overlap_byte_fraction": 0.031207341282237105,
+     "overlap_fraction": 0.0041709294469645785,
+     "ratio": 0.37181201738054775
+    },
+    "stream_sizes": {
+     "gzip": 19044408,
+     "raw": 19044390,
+     "zlib": 19044396
+    },
+    "workload": "silesia/mozilla"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 9970564,
+    "stats": {
+     "blocks": {
+      "dynamic": 136,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3828360,
+     "dist1_byte_fraction": 0.10699434856443427,
+     "dist1_fraction": 0.002886417085420945,
+     "dist2_7_byte_fraction": 0.011851385739061502,
+     "dist2_7_fraction": 0.015056059073611643,
+     "literal_fraction": 0.05981677666378753,
+     "literals": 596407,
+     "match_dist_hist": {
+      "1": 4686,
+      "2-7": 24443,
+      "4097-32768": 508909,
+      "513-4096": 723790,
+      "65-512": 257634,
+      "8-64": 104004
+     },
+     "match_len_hist": {
+      "129-258": 10118,
+      "17-32": 5258,
+      "3": 470287,
+      "33-64": 47,
+      "4": 844716,
+      "5-8": 280835,
+      "65-128": 32,
+      "9-16": 12173
+     },
+     "matches": 1623466,
+     "mean_match_len": 5.774162809692349,
+     "output_bytes": 9970564,
+     "overlap_byte_fraction": 0.1588617253748133,
+     "overlap_fraction": 0.01241233262661491,
+     "ratio": 0.3839662430329919
+    },
+    "stream_sizes": {
+     "gzip": 3828378,
+     "raw": 3828360,
+     "zlib": 3828366
+    },
+    "workload": "silesia/mr"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 9970564,
+    "stats": {
+     "blocks": {
+      "dynamic": 140,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3675935,
+     "dist1_byte_fraction": 0.14814859019008353,
+     "dist1_fraction": 0.01263507416771908,
+     "dist2_7_byte_fraction": 0.0047198934784431455,
+     "dist2_7_fraction": 0.010818186034991725,
+     "literal_fraction": 0.11461076825744261,
+     "literals": 1142734,
+     "match_dist_hist": {
+      "1": 14437,
+      "2-7": 12361,
+      "4097-32768": 559311,
+      "513-4096": 434829,
+      "65-512": 86238,
+      "8-64": 35437
+     },
+     "match_len_hist": {
+      "129-258": 10117,
+      "17-32": 8054,
+      "3": 281960,
+      "33-64": 138,
+      "4": 102276,
+      "5-8": 678721,
+      "65-128": 662,
+      "9-16": 60685
+     },
+     "matches": 1142613,
+     "mean_match_len": 7.726001717116819,
+     "output_bytes": 9970564,
+     "overlap_byte_fraction": 0.15156925927159184,
+     "overlap_fraction": 0.01931362587332719,
+     "ratio": 0.3686787427471505
+    },
+    "stream_sizes": {
+     "gzip": 3675953,
+     "raw": 3675935,
+     "zlib": 3675941
+    },
+    "workload": "silesia/mr"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 9970564,
+    "stats": {
+     "blocks": {
+      "dynamic": 141,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3660788,
+     "dist1_byte_fraction": 0.12381345729288734,
+     "dist1_fraction": 0.007199274846508577,
+     "dist2_7_byte_fraction": 0.004362742167845269,
+     "dist2_7_fraction": 0.010742147023789143,
+     "literal_fraction": 0.11880902624966852,
+     "literals": 1184593,
+     "match_dist_hist": {
+      "1": 7990,
+      "2-7": 11922,
+      "4097-32768": 576427,
+      "513-4096": 404418,
+      "65-512": 76483,
+      "8-64": 32594
+     },
+     "match_len_hist": {
+      "129-258": 10125,
+      "17-32": 10170,
+      "3": 281756,
+      "33-64": 371,
+      "4": 96807,
+      "5-8": 594854,
+      "65-128": 50,
+      "9-16": 115701
+     },
+     "matches": 1109834,
+     "mean_match_len": 7.916473094174444,
+     "output_bytes": 9970564,
+     "overlap_byte_fraction": 0.12678410168171028,
+     "overlap_fraction": 0.013675919101415166,
+     "ratio": 0.3671595709129393
+    },
+    "stream_sizes": {
+     "gzip": 3660806,
+     "raw": 3660788,
+     "zlib": 3660794
+    },
+    "workload": "silesia/mr"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 33553445,
+    "stats": {
+     "blocks": {
+      "dynamic": 139,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 4624591,
+     "dist1_byte_fraction": 0.00017348442164433488,
+     "dist1_fraction": 0.000890009602596187,
+     "dist2_7_byte_fraction": 0.0034078467948671144,
+     "dist2_7_fraction": 0.004752175901814775,
+     "literal_fraction": 0.01120394642040482,
+     "literals": 375931,
+     "match_dist_hist": {
+      "1": 1685,
+      "2-7": 8997,
+      "4097-32768": 684580,
+      "513-4096": 565221,
+      "65-512": 503164,
+      "8-64": 129591
+     },
+     "match_len_hist": {
+      "129-258": 11537,
+      "17-32": 252973,
+      "3": 530164,
+      "33-64": 312785,
+      "4": 202210,
+      "5-8": 212605,
+      "65-128": 20244,
+      "9-16": 350720
+     },
+     "matches": 1893238,
+     "mean_match_len": 17.524217240515984,
+     "output_bytes": 33553445,
+     "overlap_byte_fraction": 0.005369910600833983,
+     "overlap_fraction": 0.005404497479978745,
+     "ratio": 0.13782760607740874
+    },
+    "stream_sizes": {
+     "gzip": 4624609,
+     "raw": 4624591,
+     "zlib": 4624597
+    },
+    "workload": "silesia/nci"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 33553445,
+    "stats": {
+     "blocks": {
+      "dynamic": 109,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3200182,
+     "dist1_byte_fraction": 6.55372347012356e-05,
+     "dist1_fraction": 0.0003403164753099447,
+     "dist2_7_byte_fraction": 0.0019088948988695497,
+     "dist2_7_fraction": 0.004517273437633679,
+     "literal_fraction": 0.02165750789523997,
+     "literals": 726684,
+     "match_dist_hist": {
+      "1": 358,
+      "2-7": 4752,
+      "4097-32768": 568291,
+      "513-4096": 248433,
+      "65-512": 202449,
+      "8-64": 27679
+     },
+     "match_len_hist": {
+      "129-258": 19940,
+      "17-32": 219238,
+      "3": 60484,
+      "33-64": 285369,
+      "4": 82098,
+      "5-8": 142190,
+      "65-128": 68503,
+      "9-16": 174140
+     },
+     "matches": 1051962,
+     "mean_match_len": 31.205272623916073,
+     "output_bytes": 33553445,
+     "overlap_byte_fraction": 0.0038278632790165064,
+     "overlap_fraction": 0.004500162553400218,
+     "ratio": 0.09537566112808983
+    },
+    "stream_sizes": {
+     "gzip": 3200200,
+     "raw": 3200182,
+     "zlib": 3200188
+    },
+    "workload": "silesia/nci"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 33553445,
+    "stats": {
+     "blocks": {
+      "dynamic": 109,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 2987995,
+     "dist1_byte_fraction": 6.371923955945507e-05,
+     "dist1_fraction": 0.0003815568600788839,
+     "dist2_7_byte_fraction": 0.00027100048892148037,
+     "dist2_7_fraction": 0.002219082815132999,
+     "literal_fraction": 0.025237170132604864,
+     "literals": 846794,
+     "match_dist_hist": {
+      "1": 353,
+      "2-7": 2053,
+      "4097-32768": 545670,
+      "513-4096": 208348,
+      "65-512": 145465,
+      "8-64": 23268
+     },
+     "match_len_hist": {
+      "129-258": 22026,
+      "17-32": 172405,
+      "3": 47016,
+      "33-64": 266495,
+      "4": 65901,
+      "5-8": 128085,
+      "65-128": 98425,
+      "9-16": 124804
+     },
+     "matches": 925157,
+     "mean_match_len": 35.35254124435096,
+     "output_bytes": 33553445,
+     "overlap_byte_fraction": 0.0020930190625731574,
+     "overlap_fraction": 0.002189898579376257,
+     "ratio": 0.08905180973220485
+    },
+    "stream_sizes": {
+     "gzip": 2988013,
+     "raw": 2987995,
+     "zlib": 2988001
+    },
+    "workload": "silesia/nci"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 6152192,
+    "stats": {
+     "blocks": {
+      "dynamic": 138,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3290526,
+     "dist1_byte_fraction": 0.002664903826148469,
+     "dist1_fraction": 0.0016214821821219306,
+     "dist2_7_byte_fraction": 0.020101940901714382,
+     "dist2_7_fraction": 0.03424357446738814,
+     "literal_fraction": 0.20751936870630824,
+     "literals": 1276699,
+     "match_dist_hist": {
+      "1": 1584,
+      "2-7": 33452,
+      "4097-32768": 291098,
+      "513-4096": 257291,
+      "65-512": 220402,
+      "8-64": 173057
+     },
+     "match_len_hist": {
+      "129-258": 550,
+      "17-32": 16325,
+      "3": 464647,
+      "33-64": 2726,
+      "4": 215230,
+      "5-8": 216078,
+      "65-128": 649,
+      "9-16": 60679
+     },
+     "matches": 976884,
+     "mean_match_len": 4.990861760454671,
+     "output_bytes": 6152192,
+     "overlap_byte_fraction": 0.006844714859354195,
+     "overlap_fraction": 0.0030372081024973283,
+     "ratio": 0.534854243820739
+    },
+    "stream_sizes": {
+     "gzip": 3290544,
+     "raw": 3290526,
+     "zlib": 3290532
+    },
+    "workload": "silesia/ooffice"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 6152192,
+    "stats": {
+     "blocks": {
+      "dynamic": 136,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3097288,
+     "dist1_byte_fraction": 0.008414399290529295,
+     "dist1_fraction": 0.001976719542216208,
+     "dist2_7_byte_fraction": 0.01645511063373835,
+     "dist2_7_fraction": 0.03625887825581332,
+     "literal_fraction": 0.24115632281957392,
+     "literals": 1483640,
+     "match_dist_hist": {
+      "1": 1455,
+      "2-7": 26689,
+      "4097-32768": 234160,
+      "513-4096": 212179,
+      "65-512": 150744,
+      "8-64": 110841
+     },
+     "match_len_hist": {
+      "129-258": 672,
+      "17-32": 23920,
+      "3": 150395,
+      "33-64": 3386,
+      "4": 189420,
+      "5-8": 292328,
+      "65-128": 674,
+      "9-16": 75273
+     },
+     "matches": 736068,
+     "mean_match_len": 6.342555307390078,
+     "output_bytes": 6152192,
+     "overlap_byte_fraction": 0.013417494122420107,
+     "overlap_fraction": 0.004303950178516115,
+     "ratio": 0.503444625915446
+    },
+    "stream_sizes": {
+     "gzip": 3097306,
+     "raw": 3097288,
+     "zlib": 3097294
+    },
+    "workload": "silesia/ooffice"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 6152192,
+    "stats": {
+     "blocks": {
+      "dynamic": 135,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3092920,
+     "dist1_byte_fraction": 0.00797796947819574,
+     "dist1_fraction": 0.0013881295057683427,
+     "dist2_7_byte_fraction": 0.01625631969873502,
+     "dist2_7_fraction": 0.03613658755835831,
+     "literal_fraction": 0.24055881220872172,
+     "literals": 1479964,
+     "match_dist_hist": {
+      "1": 1013,
+      "2-7": 26371,
+      "4097-32768": 242524,
+      "513-4096": 206129,
+      "65-512": 146004,
+      "8-64": 107718
+     },
+     "match_len_hist": {
+      "129-258": 693,
+      "17-32": 24453,
+      "3": 147809,
+      "33-64": 3498,
+      "4": 181765,
+      "5-8": 295822,
+      "65-128": 679,
+      "9-16": 75040
+     },
+     "matches": 729759,
+     "mean_match_len": 6.402426006393892,
+     "output_bytes": 6152192,
+     "overlap_byte_fraction": 0.013088993321404794,
+     "overlap_fraction": 0.0037450720032229817,
+     "ratio": 0.5027346350699068
+    },
+    "stream_sizes": {
+     "gzip": 3092938,
+     "raw": 3092920,
+     "zlib": 3092926
+    },
+    "workload": "silesia/ooffice"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 10085684,
+    "stats": {
+     "blocks": {
+      "dynamic": 176,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 4076385,
+     "dist1_byte_fraction": 0.0005819139286933836,
+     "dist1_fraction": 0.0008676061845546104,
+     "dist2_7_byte_fraction": 0.003183026555263877,
+     "dist2_7_fraction": 0.0069086336257940095,
+     "literal_fraction": 0.19565346286875535,
+     "literals": 1973299,
+     "match_dist_hist": {
+      "1": 781,
+      "2-7": 6219,
+      "4097-32768": 474222,
+      "513-4096": 307890,
+      "65-512": 110925,
+      "8-64": 141
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 204398,
+      "3": 241439,
+      "33-64": 16179,
+      "4": 250417,
+      "5-8": 144519,
+      "65-128": 3991,
+      "9-16": 39235
+     },
+     "matches": 900178,
+     "mean_match_len": 9.01197874198214,
+     "output_bytes": 10085684,
+     "overlap_byte_fraction": 0.0033791461243481355,
+     "overlap_fraction": 0.006337635445434126,
+     "ratio": 0.4041753638127072
+    },
+    "stream_sizes": {
+     "gzip": 4076403,
+     "raw": 4076385,
+     "zlib": 4076391
+    },
+    "workload": "silesia/osdb"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 10085684,
+    "stats": {
+     "blocks": {
+      "dynamic": 169,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3695164,
+     "dist1_byte_fraction": 1.4376813709412272e-05,
+     "dist1_fraction": 4.302767294051117e-05,
+     "dist2_7_byte_fraction": 9.835723586025499e-05,
+     "dist2_7_fraction": 0.00033961127570903457,
+     "literal_fraction": 0.20933404219287458,
+     "literals": 2111277,
+     "match_dist_hist": {
+      "1": 28,
+      "2-7": 221,
+      "4097-32768": 405909,
+      "513-4096": 205787,
+      "65-512": 38580,
+      "8-64": 219
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 214305,
+      "3": 55386,
+      "33-64": 17703,
+      "4": 69149,
+      "5-8": 243918,
+      "65-128": 4295,
+      "9-16": 45988
+     },
+     "matches": 650744,
+     "mean_match_len": 12.254292010375815,
+     "output_bytes": 10085684,
+     "overlap_byte_fraction": 7.80313957883273e-05,
+     "overlap_fraction": 0.0002059181490724463,
+     "ratio": 0.3663771341636323
+    },
+    "stream_sizes": {
+     "gzip": 3695182,
+     "raw": 3695164,
+     "zlib": 3695170
+    },
+    "workload": "silesia/osdb"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 10085684,
+    "stats": {
+     "blocks": {
+      "dynamic": 168,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 3673171,
+     "dist1_byte_fraction": 1.4376813709412272e-05,
+     "dist1_fraction": 4.3558140005195864e-05,
+     "dist2_7_byte_fraction": 9.756403234525293e-05,
+     "dist2_7_fraction": 0.0003406868807549248,
+     "literal_fraction": 0.20888132128668715,
+     "literals": 2106711,
+     "match_dist_hist": {
+      "1": 28,
+      "2-7": 219,
+      "4097-32768": 408425,
+      "513-4096": 196839,
+      "65-512": 37089,
+      "8-64": 219
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 213960,
+      "3": 55298,
+      "33-64": 17765,
+      "4": 54550,
+      "5-8": 250917,
+      "65-128": 4305,
+      "9-16": 46024
+     },
+     "matches": 642819,
+     "mean_match_len": 12.412472251131344,
+     "output_bytes": 10085684,
+     "overlap_byte_fraction": 7.763479403082627e-05,
+     "overlap_fraction": 0.00020690116502468037,
+     "ratio": 0.3641965185504523
+    },
+    "stream_sizes": {
+     "gzip": 3673189,
+     "raw": 3673171,
+     "zlib": 3673177
+    },
+    "workload": "silesia/osdb"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 6627202,
+    "stats": {
+     "blocks": {
+      "dynamic": 77,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 2376424,
+     "dist1_byte_fraction": 5.839568493611633e-05,
+     "dist1_fraction": 6.162075460592147e-05,
+     "dist2_7_byte_fraction": 0.003869506316542034,
+     "dist2_7_fraction": 0.006289915533580552,
+     "literal_fraction": 0.024674515730771448,
+     "literals": 163523,
+     "match_dist_hist": {
+      "1": 67,
+      "2-7": 6839,
+      "4097-32768": 283939,
+      "513-4096": 397286,
+      "65-512": 251026,
+      "8-64": 148139
+     },
+     "match_len_hist": {
+      "129-258": 31,
+      "17-32": 31333,
+      "3": 238930,
+      "33-64": 2625,
+      "4": 256581,
+      "5-8": 451431,
+      "65-128": 656,
+      "9-16": 105709
+     },
+     "matches": 1087296,
+     "mean_match_len": 5.944728022543999,
+     "output_bytes": 6627202,
+     "overlap_byte_fraction": 0.00027975607201953404,
+     "overlap_fraction": 0.00010944581788215905,
+     "ratio": 0.3585863234589801
+    },
+    "stream_sizes": {
+     "gzip": 2376442,
+     "raw": 2376424,
+     "zlib": 2376430
+    },
+    "workload": "silesia/reymont"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 6627202,
+    "stats": {
+     "blocks": {
+      "dynamic": 62,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1860865,
+     "dist1_byte_fraction": 1.1015206719215742e-05,
+     "dist1_fraction": 4.5398553904729626e-06,
+     "dist2_7_byte_fraction": 0.00345771865713464,
+     "dist2_7_fraction": 0.006416328951868453,
+     "literal_fraction": 0.053086958870425256,
+     "literals": 351818,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 4240,
+      "4097-32768": 363105,
+      "513-4096": 157801,
+      "65-512": 64231,
+      "8-64": 71434
+     },
+     "match_len_hist": {
+      "129-258": 39,
+      "17-32": 54345,
+      "3": 18368,
+      "33-64": 3565,
+      "4": 57080,
+      "5-8": 290247,
+      "65-128": 1472,
+      "9-16": 235698
+     },
+     "matches": 660814,
+     "mean_match_len": 9.49644529322926,
+     "output_bytes": 6627202,
+     "overlap_byte_fraction": 0.0006287721424516711,
+     "overlap_fraction": 0.0001679746494474996,
+     "ratio": 0.2807919541308685
+    },
+    "stream_sizes": {
+     "gzip": 1860883,
+     "raw": 1860865,
+     "zlib": 1860871
+    },
+    "workload": "silesia/reymont"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 6627202,
+    "stats": {
+     "blocks": {
+      "dynamic": 62,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 1823190,
+     "dist1_byte_fraction": 1.1015206719215742e-05,
+     "dist1_fraction": 4.7833996897168066e-06,
+     "dist2_7_byte_fraction": 0.0030397443747753575,
+     "dist2_7_fraction": 0.0059904108780886815,
+     "literal_fraction": 0.056629781316459044,
+     "literals": 375297,
+     "match_dist_hist": {
+      "1": 3,
+      "2-7": 3757,
+      "4097-32768": 381604,
+      "513-4096": 125662,
+      "65-512": 52059,
+      "8-64": 64084
+     },
+     "match_len_hist": {
+      "129-258": 33,
+      "17-32": 59014,
+      "3": 17666,
+      "33-64": 3856,
+      "4": 51586,
+      "5-8": 252076,
+      "65-128": 2077,
+      "9-16": 240861
+     },
+     "matches": 627169,
+     "mean_match_len": 9.968453479046318,
+     "output_bytes": 6627202,
+     "overlap_byte_fraction": 0.0005226941928131963,
+     "overlap_fraction": 0.00017379685539304398,
+     "ratio": 0.27510705121105405
+    },
+    "stream_sizes": {
+     "gzip": 1823208,
+     "raw": 1823190,
+     "zlib": 1823196
+    },
+    "workload": "silesia/reymont"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 21606400,
+    "stats": {
+     "blocks": {
+      "dynamic": 245,
+      "fixed": 0,
+      "stored": 1
+     },
+     "compressed_bytes": 6329449,
+     "dist1_byte_fraction": 0.0032245075533175356,
+     "dist1_fraction": 0.0018374676787313764,
+     "dist2_7_byte_fraction": 0.0024471452902843603,
+     "dist2_7_fraction": 0.005529996362321098,
+     "literal_fraction": 0.09574408508590047,
+     "literals": 2068685,
+     "match_dist_hist": {
+      "1": 3551,
+      "2-7": 10687,
+      "4097-32768": 710021,
+      "513-4096": 610735,
+      "65-512": 418747,
+      "8-64": 178810
+     },
+     "match_len_hist": {
+      "129-258": 10129,
+      "17-32": 174602,
+      "3": 479551,
+      "33-64": 38172,
+      "4": 314709,
+      "5-8": 615803,
+      "65-128": 19798,
+      "9-16": 279787
+     },
+     "matches": 1932551,
+     "mean_match_len": 10.101287883217571,
+     "output_bytes": 21606400,
+     "overlap_byte_fraction": 0.01563842194905213,
+     "overlap_fraction": 0.003595765389891392,
+     "ratio": 0.29294324829680096
+    },
+    "stream_sizes": {
+     "gzip": 6329467,
+     "raw": 6329449,
+     "zlib": 6329455
+    },
+    "workload": "silesia/samba"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 21606400,
+    "stats": {
+     "blocks": {
+      "dynamic": 226,
+      "fixed": 0,
+      "stored": 1
+     },
+     "compressed_bytes": 5451399,
+     "dist1_byte_fraction": 0.020121676910545023,
+     "dist1_fraction": 0.004438791833951919,
+     "dist2_7_byte_fraction": 0.0010901862411137441,
+     "dist2_7_fraction": 0.0036739560786386936,
+     "literal_fraction": 0.10668454717120852,
+     "literals": 2305069,
+     "match_dist_hist": {
+      "1": 6146,
+      "2-7": 5087,
+      "4097-32768": 580903,
+      "513-4096": 397586,
+      "65-512": 266493,
+      "8-64": 128396
+     },
+     "match_len_hist": {
+      "129-258": 11749,
+      "17-32": 201403,
+      "3": 105516,
+      "33-64": 45930,
+      "4": 165722,
+      "5-8": 528897,
+      "65-128": 23463,
+      "9-16": 301931
+     },
+     "matches": 1384611,
+     "mean_match_len": 13.928049105488833,
+     "output_bytes": 21606400,
+     "overlap_byte_fraction": 0.021070886404028436,
+     "overlap_fraction": 0.005203627589265143,
+     "ratio": 0.2523048263477488
+    },
+    "stream_sizes": {
+     "gzip": 5451417,
+     "raw": 5451399,
+     "zlib": 5451405
+    },
+    "workload": "silesia/samba"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 21606400,
+    "stats": {
+     "blocks": {
+      "dynamic": 225,
+      "fixed": 0,
+      "stored": 1
+     },
+     "compressed_bytes": 5402704,
+     "dist1_byte_fraction": 0.007670921578791469,
+     "dist1_fraction": 0.0019334977002872246,
+     "dist2_7_byte_fraction": 0.0010677391883886255,
+     "dist2_7_fraction": 0.0036680455609869682,
+     "literal_fraction": 0.10739012514810427,
+     "literals": 2320314,
+     "match_dist_hist": {
+      "1": 2624,
+      "2-7": 4978,
+      "4097-32768": 563593,
+      "513-4096": 391710,
+      "65-512": 269090,
+      "8-64": 125131
+     },
+     "match_len_hist": {
+      "129-258": 12903,
+      "17-32": 193952,
+      "3": 101608,
+      "33-64": 48334,
+      "4": 162923,
+      "5-8": 520252,
+      "65-128": 22893,
+      "9-16": 294261
+     },
+     "matches": 1357126,
+     "mean_match_len": 14.198892365189378,
+     "output_bytes": 21606400,
+     "overlap_byte_fraction": 0.008416672837677726,
+     "overlap_fraction": 0.002694665049523773,
+     "ratio": 0.250051095971564
+    },
+    "stream_sizes": {
+     "gzip": 5402722,
+     "raw": 5402704,
+     "zlib": 5402710
+    },
+    "workload": "silesia/samba"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 7251944,
+    "stats": {
+     "blocks": {
+      "dynamic": 264,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 5567768,
+     "dist1_byte_fraction": 2.0546214918372232e-05,
+     "dist1_fraction": 4.201033454229741e-05,
+     "dist2_7_byte_fraction": 0.00019015590853983428,
+     "dist2_7_fraction": 0.00038009350300173843,
+     "literal_fraction": 0.45653882600306894,
+     "literals": 3310794,
+     "match_dist_hist": {
+      "1": 42,
+      "2-7": 380,
+      "4097-32768": 342976,
+      "513-4096": 382991,
+      "65-512": 130008,
+      "8-64": 143357
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 397796,
+      "33-64": 0,
+      "4": 395334,
+      "5-8": 202116,
+      "65-128": 0,
+      "9-16": 4508
+     },
+     "matches": 999754,
+     "mean_match_len": 3.9421197614613197,
+     "output_bytes": 7251944,
+     "overlap_byte_fraction": 2.1235685217646467e-05,
+     "overlap_fraction": 4.30105806028283e-05,
+     "ratio": 0.7677621338499029
+    },
+    "stream_sizes": {
+     "gzip": 5567786,
+     "raw": 5567768,
+     "zlib": 5567774
+    },
+    "workload": "silesia/sao"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 7251944,
+    "stats": {
+     "blocks": {
+      "dynamic": 260,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 5331793,
+     "dist1_byte_fraction": 3.5025091203131186e-05,
+     "dist1_fraction": 6.050394525182137e-05,
+     "dist2_7_byte_fraction": 0.00015292451237902555,
+     "dist2_7_fraction": 0.00036960018729916965,
+     "literal_fraction": 0.48112313057023054,
+     "literals": 3489078,
+     "match_dist_hist": {
+      "1": 46,
+      "2-7": 281,
+      "4097-32768": 356385,
+      "513-4096": 219045,
+      "65-512": 55480,
+      "8-64": 129044
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 170023,
+      "33-64": 0,
+      "4": 216207,
+      "5-8": 339870,
+      "65-128": 0,
+      "9-16": 34181
+     },
+     "matches": 760281,
+     "mean_match_len": 4.949309531607392,
+     "output_bytes": 7251944,
+     "overlap_byte_fraction": 3.571456150240542e-05,
+     "overlap_fraction": 6.181924840946966e-05,
+     "ratio": 0.7352225830756552
+    },
+    "stream_sizes": {
+     "gzip": 5331811,
+     "raw": 5331793,
+     "zlib": 5331799
+    },
+    "workload": "silesia/sao"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 7251944,
+    "stats": {
+     "blocks": {
+      "dynamic": 260,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 5325914,
+     "dist1_byte_fraction": 3.4473514963711796e-05,
+     "dist1_fraction": 6.097795381847924e-05,
+     "dist2_7_byte_fraction": 0.0001556823935761225,
+     "dist2_7_fraction": 0.0003791237998279361,
+     "literal_fraction": 0.4816511269254148,
+     "literals": 3492907,
+     "match_dist_hist": {
+      "1": 46,
+      "2-7": 286,
+      "4097-32768": 359649,
+      "513-4096": 212143,
+      "65-512": 53552,
+      "8-64": 128695
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 169881,
+      "33-64": 0,
+      "4": 212638,
+      "5-8": 329569,
+      "65-128": 0,
+      "9-16": 42283
+     },
+     "matches": 754371,
+     "mean_match_len": 4.983008360607712,
+     "output_bytes": 7251944,
+     "overlap_byte_fraction": 3.516298526298604e-05,
+     "overlap_fraction": 6.23035615101853e-05,
+     "ratio": 0.7344119038977687
+    },
+    "stream_sizes": {
+     "gzip": 5325932,
+     "raw": 5325914,
+     "zlib": 5325920
+    },
+    "workload": "silesia/sao"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 41458703,
+    "stats": {
+     "blocks": {
+      "dynamic": 463,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 14991236,
+     "dist1_byte_fraction": 1.8379735613050896e-05,
+     "dist1_fraction": 1.5397201772868733e-05,
+     "dist2_7_byte_fraction": 0.0005461097034318705,
+     "dist2_7_fraction": 0.000985420913463599,
+     "literal_fraction": 0.03094281555310594,
+     "literals": 1282849,
+     "match_dist_hist": {
+      "1": 97,
+      "2-7": 6208,
+      "4097-32768": 2552714,
+      "513-4096": 2289449,
+      "65-512": 1153877,
+      "8-64": 297501
+     },
+     "match_len_hist": {
+      "129-258": 14,
+      "17-32": 342658,
+      "3": 2135367,
+      "33-64": 59319,
+      "4": 1283194,
+      "5-8": 1783947,
+      "65-128": 1226,
+      "9-16": 694121
+     },
+     "matches": 6299846,
+     "mean_match_len": 6.377275571498097,
+     "output_bytes": 41458703,
+     "overlap_byte_fraction": 0.00018061346492194896,
+     "overlap_fraction": 0.00014714645405617852,
+     "ratio": 0.3615944280746072
+    },
+    "stream_sizes": {
+     "gzip": 14991254,
+     "raw": 14991236,
+     "zlib": 14991242
+    },
+    "workload": "silesia/webster"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 41458703,
+    "stats": {
+     "blocks": {
+      "dynamic": 415,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 12213941,
+     "dist1_byte_fraction": 2.8486178161434524e-05,
+     "dist1_fraction": 3.566153211927213e-05,
+     "dist2_7_byte_fraction": 0.000364073135621247,
+     "dist2_7_fraction": 0.0008611071289066912,
+     "literal_fraction": 0.06226453828041847,
+     "literals": 2581407,
+     "match_dist_hist": {
+      "1": 150,
+      "2-7": 3622,
+      "4097-32768": 2245849,
+      "513-4096": 1168112,
+      "65-512": 591896,
+      "8-64": 196584
+     },
+     "match_len_hist": {
+      "129-258": 20,
+      "17-32": 417299,
+      "3": 354335,
+      "33-64": 134398,
+      "4": 769060,
+      "5-8": 1780521,
+      "65-128": 4057,
+      "9-16": 746523
+     },
+     "matches": 4206213,
+     "mean_match_len": 9.242826266763,
+     "output_bytes": 41458703,
+     "overlap_byte_fraction": 0.00020849663338479258,
+     "overlap_fraction": 0.0002168221152851746,
+     "ratio": 0.2946049952406857
+    },
+    "stream_sizes": {
+     "gzip": 12213959,
+     "raw": 12213941,
+     "zlib": 12213947
+    },
+    "workload": "silesia/webster"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 41458703,
+    "stats": {
+     "blocks": {
+      "dynamic": 413,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 12073469,
+     "dist1_byte_fraction": 3.6084100363679975e-05,
+     "dist1_fraction": 3.6943014185388306e-05,
+     "dist2_7_byte_fraction": 0.0003631806812673325,
+     "dist2_7_fraction": 0.0008771535407570159,
+     "literal_fraction": 0.0639323907455571,
+     "literals": 2650554,
+     "match_dist_hist": {
+      "1": 152,
+      "2-7": 3609,
+      "4097-32768": 2244097,
+      "513-4096": 1113191,
+      "65-512": 563417,
+      "8-64": 189979
+     },
+     "match_len_hist": {
+      "129-258": 21,
+      "17-32": 379544,
+      "3": 349833,
+      "33-64": 160509,
+      "4": 758607,
+      "5-8": 1739658,
+      "65-128": 5554,
+      "9-16": 720719
+     },
+     "matches": 4114445,
+     "mean_match_len": 9.432171046155679,
+     "output_bytes": 41458703,
+     "overlap_byte_fraction": 0.00021428552649126528,
+     "overlap_fraction": 0.00022165808511232985,
+     "ratio": 0.29121675610546716
+    },
+    "stream_sizes": {
+     "gzip": 12073487,
+     "raw": 12073469,
+     "zlib": 12073475
+    },
+    "workload": "silesia/webster"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 8474240,
+    "stats": {
+     "blocks": {
+      "dynamic": 240,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 6033926,
+     "dist1_byte_fraction": 5.440015859829318e-05,
+     "dist1_fraction": 5.044070694898147e-05,
+     "dist2_7_byte_fraction": 0.01713392587417869,
+     "dist2_7_fraction": 0.023618736175625554,
+     "literal_fraction": 0.22743077845328902,
+     "literals": 1927303,
+     "match_dist_hist": {
+      "1": 101,
+      "2-7": 47293,
+      "4097-32768": 870498,
+      "513-4096": 657135,
+      "65-512": 232623,
+      "8-64": 194701
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 1547574,
+      "33-64": 3,
+      "4": 384120,
+      "5-8": 70611,
+      "65-128": 0,
+      "9-16": 43
+     },
+     "matches": 2002351,
+     "mean_match_len": 3.2696250557469693,
+     "output_bytes": 8474240,
+     "overlap_byte_fraction": 0.007413408164035949,
+     "overlap_fraction": 0.010087641976856205,
+     "ratio": 0.7120315214107695
+    },
+    "stream_sizes": {
+     "gzip": 6033944,
+     "raw": 6033926,
+     "zlib": 6033932
+    },
+    "workload": "silesia/x-ray"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 8474240,
+    "stats": {
+     "blocks": {
+      "dynamic": 278,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 6045111,
+     "dist1_byte_fraction": 6.21884676383959e-05,
+     "dist1_fraction": 8.570352294628781e-05,
+     "dist2_7_byte_fraction": 0.016775899667698813,
+     "dist2_7_fraction": 0.03063469105873083,
+     "literal_fraction": 0.35848666075069857,
+     "literals": 3037902,
+     "match_dist_hist": {
+      "1": 129,
+      "2-7": 46111,
+      "4097-32768": 434299,
+      "513-4096": 673670,
+      "65-512": 186191,
+      "8-64": 164789
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 956844,
+      "33-64": 3,
+      "4": 209436,
+      "5-8": 338605,
+      "65-128": 0,
+      "9-16": 301
+     },
+     "matches": 1505189,
+     "mean_match_len": 3.6117311513703596,
+     "output_bytes": 8474240,
+     "overlap_byte_fraction": 0.007534362963522392,
+     "overlap_fraction": 0.013525211784035094,
+     "ratio": 0.7133514037837021
+    },
+    "stream_sizes": {
+     "gzip": 6045129,
+     "raw": 6045111,
+     "zlib": 6045117
+    },
+    "workload": "silesia/x-ray"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 8474240,
+    "stats": {
+     "blocks": {
+      "dynamic": 278,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 6045032,
+     "dist1_byte_fraction": 6.620062684087304e-05,
+     "dist1_fraction": 8.570517420074943e-05,
+     "dist2_7_byte_fraction": 0.01677684370515822,
+     "dist2_7_fraction": 0.030636610061388823,
+     "literal_fraction": 0.3584789904463409,
+     "literals": 3037837,
+     "match_dist_hist": {
+      "1": 129,
+      "2-7": 46113,
+      "4097-32768": 434334,
+      "513-4096": 673642,
+      "65-512": 186161,
+      "8-64": 164781
+     },
+     "match_len_hist": {
+      "129-258": 0,
+      "17-32": 0,
+      "3": 956838,
+      "33-64": 3,
+      "4": 209364,
+      "5-8": 338644,
+      "65-128": 0,
+      "9-16": 311
+     },
+     "matches": 1505160,
+     "mean_match_len": 3.6118439235695874,
+     "output_bytes": 8474240,
+     "overlap_byte_fraction": 0.00753837512272487,
+     "overlap_fraction": 0.013525472375029898,
+     "ratio": 0.7133420814137905
+    },
+    "stream_sizes": {
+     "gzip": 6045050,
+     "raw": 6045032,
+     "zlib": 6045038
+    },
+    "workload": "silesia/x-ray"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 1,
+    "orig_len": 5345280,
+    "stats": {
+     "blocks": {
+      "dynamic": 31,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 965242,
+     "dist1_byte_fraction": 0.0008356905531609196,
+     "dist1_fraction": 0.00027707117298740775,
+     "dist2_7_byte_fraction": 0.00130301873802682,
+     "dist2_7_fraction": 0.003145417506676096,
+     "literal_fraction": 0.021884354046934867,
+     "literals": 116978,
+     "match_dist_hist": {
+      "1": 105,
+      "2-7": 1192,
+      "4097-32768": 126655,
+      "513-4096": 153908,
+      "65-512": 73924,
+      "8-64": 23180
+     },
+     "match_len_hist": {
+      "129-258": 4323,
+      "17-32": 47860,
+      "3": 90181,
+      "33-64": 18347,
+      "4": 56877,
+      "5-8": 88771,
+      "65-128": 6217,
+      "9-16": 66388
+     },
+     "matches": 378964,
+     "mean_match_len": 13.79630255116581,
+     "output_bytes": 5345280,
+     "overlap_byte_fraction": 0.004299494133141762,
+     "overlap_fraction": 0.0016861759956090815,
+     "ratio": 0.18057837943007662
+    },
+    "stream_sizes": {
+     "gzip": 965260,
+     "raw": 965242,
+     "zlib": 965248
+    },
+    "workload": "silesia/xml"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 6,
+    "orig_len": 5345280,
+    "stats": {
+     "blocks": {
+      "dynamic": 24,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 687991,
+     "dist1_byte_fraction": 0.002995539990421456,
+     "dist1_fraction": 0.0007056875703991206,
+     "dist2_7_byte_fraction": 0.0005670423251915709,
+     "dist2_7_fraction": 0.0024427646667661866,
+     "literal_fraction": 0.03055742636494253,
+     "literals": 163338,
+     "match_dist_hist": {
+      "1": 156,
+      "2-7": 540,
+      "4097-32768": 117779,
+      "513-4096": 65747,
+      "65-512": 27851,
+      "8-64": 8988
+     },
+     "match_len_hist": {
+      "129-258": 6398,
+      "17-32": 44803,
+      "3": 12552,
+      "33-64": 21499,
+      "4": 23322,
+      "5-8": 65170,
+      "65-128": 9481,
+      "9-16": 37836
+     },
+     "matches": 221061,
+     "mean_match_len": 23.44123115339205,
+     "output_bytes": 5345280,
+     "overlap_byte_fraction": 0.005274559985632184,
+     "overlap_fraction": 0.0017958843939003262,
+     "ratio": 0.1287100020953065
+    },
+    "stream_sizes": {
+     "gzip": 688009,
+     "raw": 687991,
+     "zlib": 687997
+    },
+    "workload": "silesia/xml"
+   },
+   {
+    "corpus": "silesia",
+    "framing_analysed": "raw",
+    "level": 9,
+    "orig_len": 5345280,
+    "stats": {
+     "blocks": {
+      "dynamic": 24,
+      "fixed": 0,
+      "stored": 0
+     },
+     "compressed_bytes": 658899,
+     "dist1_byte_fraction": 0.002898444983237548,
+     "dist1_fraction": 0.0006572765381488171,
+     "dist2_7_byte_fraction": 0.0004645219707854406,
+     "dist2_7_fraction": 0.002375932967530539,
+     "literal_fraction": 0.03284112338362069,
+     "literals": 175545,
+     "match_dist_hist": {
+      "1": 135,
+      "2-7": 488,
+      "4097-32768": 112128,
+      "513-4096": 58290,
+      "65-512": 25874,
+      "8-64": 8478
+     },
+     "match_len_hist": {
+      "129-258": 6890,
+      "17-32": 34618,
+      "3": 12349,
+      "33-64": 20070,
+      "4": 22773,
+      "5-8": 63110,
+      "65-128": 11651,
+      "9-16": 33932
+     },
+     "matches": 205393,
+     "mean_match_len": 25.169966844050187,
+     "output_bytes": 5345280,
+     "overlap_byte_fraction": 0.00450752813697318,
+     "overlap_fraction": 0.0015287765405831747,
+     "ratio": 0.12326744342672413
+    },
+    "stream_sizes": {
+     "gzip": 658917,
+     "raw": 658899,
+     "zlib": 658905
+    },
+    "workload": "silesia/xml"
+   }
+  ],
+  "kind": "content-features",
+  "tool": {
+   "infgen": "1e36c3da205ce3da7df1abd1f1c765a3cf49b267"
+  },
+  "workload_manifest_sha256": "6f3ee2919c9517d89e4b1143ebd32c666b7a2feb4c48a94aa0e1cffe7c7475b9"
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.content.features",
+ "session": null,
+ "timestamp": "20261001T062418Z"
+}

@@ -1,0 +1,4 @@
+machine,subject,streams,passed,failed,unsupported,pass_rate
+M-B,cf,100,100,0,0,1
+M-B,mox,100,90,0,10,1
+M-B,zlib,100,100,0,0,1

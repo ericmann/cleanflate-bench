@@ -1,0 +1,27 @@
+{
+ "columns": [
+  "machine",
+  "variant",
+  "subject",
+  "corpus",
+  "workload",
+  "level",
+  "framing",
+  "mode",
+  "input_bytes",
+  "output_bytes",
+  "n_samples",
+  "median_mib_s",
+  "best_mib_s",
+  "ci_lo_mib_s",
+  "ci_hi_mib_s",
+  "ns_per_byte",
+  "peak_heap_bytes",
+  "ratio_vs_zlib",
+  "status"
+ ],
+ "pending": "no full perf runs; run make perf on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.perf_report",
+ "table": "perf_cells.csv"
+}

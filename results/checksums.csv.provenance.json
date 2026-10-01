@@ -1,0 +1,16 @@
+{
+ "columns": [
+  "machine",
+  "subject",
+  "algo",
+  "size",
+  "median_gib_s",
+  "ci_lo_gib_s",
+  "ci_hi_gib_s",
+  "status"
+ ],
+ "pending": "no checksum run; run make checksums on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.checksums",
+ "table": "checksums.csv"
+}

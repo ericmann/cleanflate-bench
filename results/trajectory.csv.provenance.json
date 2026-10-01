@@ -1,0 +1,19 @@
+{
+ "columns": [
+  "machine",
+  "round",
+  "tag",
+  "sha",
+  "corpus",
+  "framing",
+  "mode",
+  "level",
+  "agg_mib_s",
+  "ratio_vs_zlib",
+  "complete"
+ ],
+ "pending": "no trajectory run; run make trajectory on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.trajectory",
+ "table": "trajectory.csv"
+}

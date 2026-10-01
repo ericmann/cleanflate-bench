@@ -1,0 +1,16 @@
+{
+ "columns": [
+  "machine",
+  "corpus",
+  "level",
+  "cf_overhead_gzip",
+  "zlib_nohw_overhead_gzip",
+  "zlib_overhead_gzip",
+  "rel_diff",
+  "verdict"
+ ],
+ "pending": "no framing run; run make framing on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.framing",
+ "table": "framing_hypothesis.csv"
+}

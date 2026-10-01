@@ -1,0 +1,15 @@
+{
+ "columns": [
+  "machine",
+  "subject",
+  "corpus",
+  "level",
+  "mode",
+  "overhead_zlib",
+  "overhead_gzip"
+ ],
+ "pending": "no framing run; run make framing on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.framing",
+ "table": "framing_overhead.csv"
+}

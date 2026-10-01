@@ -1,0 +1,19 @@
+{
+ "columns": [
+  "machine",
+  "subject",
+  "case",
+  "ratio",
+  "overall_ratio",
+  "output_bytes",
+  "limit_bytes",
+  "outcome",
+  "peak_rss_bytes",
+  "seconds",
+  "limit_enforcement"
+ ],
+ "pending": "no bomb sweep; run make bombs (a human step: 4 GiB cases)",
+ "raw_files": [],
+ "script": "cfbench.bombs",
+ "table": "bombs.csv"
+}

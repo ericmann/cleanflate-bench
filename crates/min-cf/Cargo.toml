@@ -1,0 +1,12 @@
+[package]
+name = "min-cf"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "min-cf"
+path = "src/main.rs"
+
+[dependencies]
+cleanflate = { git = "ssh://git@github.com/ericmann/cleanflate.git", rev = "85f210084a367dcc706c732f5776bf0563cdc0cd" }

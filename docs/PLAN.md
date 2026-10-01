@@ -1324,3 +1324,122 @@ Derived from docs/SPEC.md v(unversioned, commit 082220a) on 2026-09-30. SPEC.md 
 11. §4 says `make paper` is "T1 only, fastest path", but B5 says it must regenerate from a clean clone, which cannot re-measure two physical machines. Resolution: `make paper` renders from committed raw data, and `make paper-data` measures.
 12. The §3.2 full matrix (6 subjects × 207 streams × 3 modes, plus tiny inputs, ≥30 samples, 2 runs) takes several hours per machine. Resolution: full timing runs are human-run on quiet machines, and the implementer validates with the quick profile.
 13. "Canterbury" is read as the standard 11-file Canterbury corpus (`cantrbry.tar.gz`) that cleanflate pins, not the large or artificial collections.
+
+## Review fixes (round 1)
+
+### R1-01: Hermetic git in throwaway-repo tests
+**Goal:** Make the throwaway-repo tests independent of the user's global and system git config (commit/tag signing, signing program), so `make test` passes on any machine regardless of ~/.gitconfig.
+**Files touched:** tests/conftest.py, tests/test_clean_clone.py, tests/test_cleanflate_src.py
+**Design constraints:** Tests only; no change to cfbench/ behaviour. No git write subcommand may appear in cfbench/, scripts/ or the Makefile (rule cleanflate-read-only-git); tests/ may keep their own commits. Prefer environment isolation (GIT_CONFIG_GLOBAL=/dev/null, GIT_CONFIG_NOSYSTEM=1 via monkeypatch in an autouse fixture scoped to these modules) or explicit `-c commit.gpgsign=false -c tag.gpgsign=false` on every helper git call. Do not change the user's or the repo's git config.
+**Acceptance tests:** New tests/test_clean_clone.py::test_helpers_ignore_hostile_global_git_config: point GIT_CONFIG_GLOBAL at a tmp file with `[commit] gpgsign = true` and `[gpg] program = false` (and `[gpg] format = ssh`, `[gpg "ssh"] program = false`), then build a repo with the module's helper and assert the commit succeeds. Before the fix this fails exactly as the 9 current failures do. All existing tests in tests/test_clean_clone.py and tests/test_cleanflate_src.py must pass with the signing agent unavailable.
+**Out of scope:** Re-signing existing commits; any change to cfbench/clean_clone.py or cfbench/cleanflate_src.py.
+**Verification:** make lint; make test (must be fully green with no GIT_CONFIG override in the shell).
+**Depends on:** none
+
+### R1-02: Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
+**Goal:** `decode --mode oneshot` reports the input bytes each subject actually consumed and the true `trailing_bytes`, so the malformed matrix distinguishes `accept` from `accept+trailing` as PLAN P8-01 requires. The subject tests cover cf's trailing-data rejection and the zlib-family trailing count.
+**Files touched:** crates/harness/src/subject.rs, crates/harness/src/cli.rs, crates/harness/tests/cli.rs, crates/subj-cf/src/main.rs, crates/subj-zrs/src/main.rs, crates/subj-mox/src/main.rs, crates/subj-zng/src/main.rs, crates/zlibapi/src/lib.rs, tests/test_rust_subjects.py, tests/test_c_subjects.py, tests/test_malformed.py, data/raw/correctness/M-B/, results/malformed_matrix.csv, results/malformed_matrix.csv.provenance.json, results/malformed_disagreements.csv, results/malformed_disagreements.csv.provenance.json, results/MALFORMED_HIGHLIGHTS.md, results/findings.md, results/RESULTS.md, results/BLOG_NOTES.md, results/PITCH_KIT/
+**Design constraints:** SPEC §3.6 and PLAN P8-01. Extend `Subject::oneshot` so it returns the consumed input length as well as the produced length (or an equivalent), and make cli.rs `decode` oneshot set `consumed` and `trailing_bytes = input.len() - consumed`. Every subject keeps its default options and checksum verification; no 'ignore trailing' or 'skip checksum' flags. Keep `bench` timing behaviour unchanged (the extra return value must not add work inside the timed op beyond reading a field). Literal test values go in crates/harness/tests/, never inline #[cfg(test)] in the harness. Data-run protocol: run `make malformed` on M-B (deterministic, full profile), commit the new raw file and the regenerated results. Then run `make kits` and commit the regenerated kits; they must still pass `make kits-check`. Never edit raw files by hand.
+**Acceptance tests:** tests/test_rust_subjects.py and tests/test_c_subjects.py: new test_trailing_byte_reported[subject] that decodes `hello.zlib` plus one extra byte in both `--mode oneshot` and `--mode stream`. For zlib, zlib-nohw, zsys, zng, zrs and mox, assert ok, `consumed == len - 1` and `trailing_bytes == 1` in both modes. For cf, assert `ok == false` and `error_kind == "TrailingData"` in both modes. These kill the two surviving mutants: deleting the `if !inp.is_empty()` block in subj-cf oneshot, and setting `trailing_bytes: 0` in zlibapi stream. crates/harness/tests/cli.rs: IdentitySubject oneshot with trailing input reports the right consumed/trailing. tests/test_malformed.py: a run_all test with a fake runner returning trailing_bytes > 0 yields `accept+trailing` in the matrix row.
+**Out of scope:** Changing cf (never), gzip multi-member looping in the zlib shim, conformance (stays stream mode), bench timing semantics.
+**Verification:** make lint; make test; make subjects; make malformed; then grep results/malformed_matrix.csv for `accept+trailing` on rfc1950/trailing_byte.bin for the zlib-family subjects; make kits; make kits-check (commit first).
+**Depends on:** R1-01
+
+### R1-03: RESULTS.md parity footnotes on tables and accurate methodology
+**Goal:** Every comparison table in results/RESULTS.md carries the §2.4 parity footnote. The methodology and threats sections describe the load precondition and the streaming chunk sizes as the code actually behaves.
+**Files touched:** cfbench/kits/results_md.py, tests/test_results_md.py, results/RESULTS.md, results/BLOG_NOTES.md
+**Design constraints:** SPEC §2.4 and CLAUDE.md ('Every table and figure carries the §2.4 parity note'; 'Kit tables carry the parity footnote'). Use `cfbench.parity.PARITY_NOTE` (or `parity.with_context`), never a re-typed copy. Methodology: the start-load check is a recorded precondition warning that refuses a run only with `--strict` (make perf does not pass it). Streaming is small = `small_in_chunk` in / `small_out_chunk` out and large = `large_in_chunk` in / `large_out_chunk` out, all read from config. Output stays deterministic (byte-identical on rerun).
+**Acceptance tests:** tests/test_results_md.py::test_every_table_carries_parity_note: render the full document from fixtures and assert that every Markdown table (a `|---` separator line) is followed by PARITY_NOTE before the next heading or table. It fails today. tests/test_results_md.py::test_methodology_matches_precondition_behaviour: the rendered methodology and threats text never say a run is refused for load unless strict mode is mentioned, and the streaming line contains all four configured chunk sizes.
+**Out of scope:** Changing perf precondition behaviour; PAPER_KIT (already compliant); pitch talking points (no tables).
+**Verification:** make lint; make test; make blog; make kits-check (commit first).
+**Depends on:** R1-01, R1-02
+
+### R1-04: Token-exact evidence checks for kit numbers
+**Goal:** Pitch, blog and paper-kit number checks accept a number only when the same whole number token appears in an Evidence display or a label, never as a substring.
+**Files touched:** cfbench/kits/pitch.py, cfbench/kits/blog.py, tests/test_pitch_kit.py, tests/test_paper_kit.py, tests/test_blog_notes.py, results/PITCH_KIT/TALKING_POINTS.md, results/BLOG_NOTES.md
+**Design constraints:** CLAUDE.md: kits print numbers only through kits.evidence.Evidence. Tokenise both sides with the same `_NUMBER` pattern and compare sets of whole tokens. Keep the existing exclusion for digits attached after a hyphen (SHA-256). If a current bullet only passed through substring matching, give it the proper Evidence or label rather than loosening the check. Regenerated kits must stay deterministic.
+**Acceptance tests:** tests/test_pitch_kit.py::test_substring_of_evidence_is_not_evidence: `check_bullet(Bullet('cf is 9 times faster than zlib on 35 files', (), ('0.935',)))` raises ValueError (it passes today). tests/test_paper_kit.py::test_every_number_in_claims_comes_from_evidence changed to compare whole tokens against the set of display tokens, plus a negative case showing that a claim containing '35' with only a '0.935' display fails. Existing pitch, blog and paper tests still pass.
+**Out of scope:** Changing which claims are supported; RESULTS.md (table-copy approach accepted).
+**Verification:** make lint; make test; make kits; make kits-check (commit first).
+**Depends on:** R1-01, R1-03
+
+### R1-05: Boundary tests for the hypothesis thresholds
+**Goal:** Tests pin the framing hypothesis tolerance band and the H1/H2 rho thresholds at their configured values, so a test fails if either stops being applied.
+**Files touched:** tests/test_framing.py, tests/test_content_correlate.py, cfbench/framing.py, cfbench/content/correlate.py
+**Design constraints:** Hypothesis protocol (CLAUDE.md): verdicts are decided by the config thresholds `framing.hypothesis_tolerance`, `content.min_abs_rho`, `content.null_abs_rho` and `content.alpha`. Tests read the thresholds from config (no re-typed literals for the thresholds themselves) and construct inputs just inside and just outside them. Change cfbench code only if a new test reveals a real bug.
+**Acceptance tests:** tests/test_framing.py::test_tolerance_band_edges: with M-A and M-B both at |rel_diff| = tol * 0.9 the verdict is within band and ALL is confirmed; at tol * 1.2 on both, outside band and refuted. This kills the surviving mutant `abs(rel_diff) <= 10 * tol`. tests/test_content_correlate.py::test_verdict_threshold_edges: verdict() with rho = -(null_abs_rho + min_abs_rho)/2 and p < alpha gives inconclusive (kills the mutant that drops `abs(rho) >= min_abs_rho`); rho = -(null_abs_rho/2) gives refuted; rho = +0.6 with p < alpha gives refuted; rho = -0.6 with p >= alpha gives inconclusive.
+**Out of scope:** Changing thresholds or verdict rules.
+**Verification:** make lint; make test.
+**Depends on:** R1-01
+
+### R1-06: Binary-size figure renders a missing value as n/a, never a zero bar
+**Goal:** The binary_size figure never draws a zero-height bar for a (subject, opt-level) with no measurement. It labels the slot n/a instead.
+**Files touched:** cfbench/more_charts.py, tests/test_more_charts.py
+**Design constraints:** CLAUDE.md like-for-like rule: missing or unsupported cells render as 'n/a', never zero. Figures only via charts.save_figure with the parity note. The committed results/figures/binary_size.svg/png must stay byte-identical for the current complete data (rerun `make figures` and confirm git shows no change).
+**Acceptance tests:** tests/test_more_charts.py::test_binary_size_missing_opt_is_na_not_zero: render from a fixture binary_size table in which one subject lacks opt 's' (empty bytes). Assert that the axes have no bar of height 0 at that slot and that a Text artist reading 'n/a' is present. Factor the drawing into a function returning the figure if needed. It fails today because `d.get(opt, 0)` draws a 0-height bar.
+**Out of scope:** Other figures' layout.
+**Verification:** make lint; make test; make figures (no diff in results/figures/binary_size.*).
+**Depends on:** R1-01
+
+### R1-07: Bomb table reports per-layer and overall ratios separately
+**Goal:** results/bombs.csv gives each row its own output/compressed ratio in `ratio` and the nested overall ratio in a separate `overall_ratio` column, as PLAN P8-05 and Spec issue 4 require.
+**Files touched:** cfbench/bombs.py, tests/test_bombs.py, cfbench/kits/results_md.py, tests/test_results_md.py, results/bombs.csv, results/bombs.csv.provenance.json, results/RESULTS.md
+**Design constraints:** PLAN P8-05 ('The sweep reports per-layer and overall ratios'). `ratio` = the case file's output_bytes / compressed_bytes. `overall_ratio` = base output / outermost compressed size for nested-layer rows, empty otherwise. The table is still pending (no full run); regenerate its pending header and sidecar with the new column. Update any RESULTS.md renderer that lists bomb columns. Do not run the full bomb sweep (human step).
+**Acceptance tests:** tests/test_bombs.py::test_layer_rows_carry_layer_and_overall_ratio: run_all with fake cases for a two-layer nest and a fake runner. Assert that layer 2's `ratio` equals its own output/compressed and differs from `overall_ratio`, and that single-layer rows have an empty `overall_ratio`. It fails today because layer rows carry the overall ratio in `ratio`.
+**Out of scope:** Changing bomb generation or measurement; full-size runs.
+**Verification:** make lint; make test; uv run --frozen python -m cfbench.bombs derive (pending table header shows overall_ratio); make blog; make kits-check (commit first).
+**Depends on:** R1-01, R1-04
+
+### R1-08: Add make paper-data for the T1 measurements
+**Goal:** `make paper-data` runs the machine-specific T1 measurements for the current machine and then renders the paper kit, as the PLAN Decisions and Spec issue 11 describe.
+**Files touched:** Makefile, README.md, tests/test_clean_clone.py
+**Design constraints:** PLAN Decisions (Make targets) and Spec issue 11: `make paper` renders only; `make paper-data` measures. Prerequisites are the machine-specific T1 categories: env, pins, perf, trajectory, size, conformance. Then `$(MAKE) paper`. GNU make 3.81 and bash 3.2 portable (rule portable-shell-and-make). Add it to .PHONY and `make help`, and mention it in README's Reproducing section. Do not run it (it includes human timing runs).
+**Acceptance tests:** tests/test_clean_clone.py::test_paper_data_target_runs_t1_measurements: parse the Makefile and assert that a `paper-data` target exists, its prerequisites include env, pins, perf, trajectory, size and conformance, its recipe invokes the paper target, and `make help` lists it. It fails today because the target is missing.
+**Out of scope:** Running the measurements; changing `make paper`.
+**Verification:** make lint; make test; make -n paper-data shows the expected chain.
+**Depends on:** R1-01
+
+## Review fixes (round 2)
+
+### R2-01: Make prerequisites so make all and make paper-data run from a fresh clone
+**Goal:** Every Makefile target that measures over workload streams or the cleanflate test data depends on the target that creates them, so `make all`, `make paper-data` and `make smoke` work from a fresh clone (SPEC §4, B0 and B10 acceptance).
+**Files touched:** Makefile, tests/test_clean_clone.py
+**Design constraints:** SPEC §4 ('make all runs everything end to end') and B10 ('make all reproduces everything from a clean clone'). Add `workloads` as a prerequisite of `perf`, `perf-native`, `smoke-bench` and `trajectory` (`workloads` already depends on `fetch subjects`). Add `fetch` as a prerequisite of `malformed`. Keep GNU make 3.81 and bash 3.2 portability (rule portable-shell-and-make). No git write subcommand in the Makefile (rule cleanflate-read-only-git). Do not change any recipe's commands or the order of `all`/`paper-data` prerequisites beyond what is needed. The test must be hermetic: parse the Makefile and use `make -n` only, never run measurements and never touch the network.
+**Acceptance tests:** New tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs:
+- Parse the Makefile's target to prerequisite graph.
+- For every target whose recipe runs `cfbench.perf run`, `cfbench.trajectory run`, `cfbench.conformance run` or `cfbench.content.features run`, assert that `workloads` is a transitive prerequisite.
+- For `malformed`, assert that `fetch` is a transitive prerequisite.
+- Run `make -n all` and `make -n paper-data` from the repo root and assert that the first line containing `cfbench.workloads generate` comes before the first line containing `cfbench.perf run` and the first line containing `cfbench.trajectory run`.
+- It fails today: `make -n paper-data` prints `cfbench.perf run` at line 5 and `cfbench.workloads generate` at line 27.
+**Out of scope:** Running any measurement; changing cfbench modules; changing what `paper-data` or `all` measure; similarity/size source-fetch ordering (pins and c-subjects already precede them in `all`).
+**Verification:** make lint; make test; make -n paper-data and make -n all show `cfbench.cleanflate_src fetch` and `cfbench.workloads generate` before `cfbench.perf run`.
+**Depends on:** none
+
+## Review fixes (round 3)
+
+### R3-01: Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
+**Goal:** The P0-05 harness tests catch the loss of the elapsed/iters normalisation in timing::measure and of the dealloc/realloc decrements in the counting allocator, so the SPEC 3.2 throughput and peak-heap numbers are protected against regression.
+**Files touched:** crates/harness/tests/timing.rs, crates/harness/tests/alloc.rs
+**Design constraints:** Tests only: do not change crates/harness/src unless a new test exposes a real bug (then say so in the commit Interpretation). Literal values stay in crates/harness/tests/, never inline #[cfg(test)] (rule no-hardcoded-tunables). No threads (rule harness-single-threaded). Alloc tests take the existing LOCK because the counters are process-global. Timing assertions must be invariants that hold under any machine load, not tight wall-clock bounds.
+**Acceptance tests:** New crates/harness/tests/timing.rs::samples_are_per_iteration: warmup_ms=0, min_samples=20, min_sample_ms=2, op spins ~100 us; time the whole measure() call with Instant; assert iters_per_sample >= 2 and sum(samples_ns) * iters_per_sample <= total elapsed ns. New crates/harness/tests/alloc.rs::dealloc_and_realloc_are_counted: under LOCK, base = current_bytes(); v = Vec::<u8>::with_capacity(BIG/2); v.reserve_exact(BIG) (forces realloc); assert current-base in [BIG, BIG+SLACK); drop(v); assert current-base < SLACK (signed arithmetic). Each must fail on its mutant: removing '/ iters as f64' at timing.rs:49; removing sub(layout.size()) in dealloc; removing sub(layout.size()) in realloc.
+**Out of scope:** Changing the timing loop, allocator or CLI behaviour; Python-side statistics.
+**Verification:** make lint; make test; foundry_mutate each of the three mutants above reports killed.
+**Depends on:** none
+
+### R3-02: Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
+**Goal:** Every real subject's oneshot reports output_full when the output buffer is too small, and a test proves it, so decode --mode oneshot regrows correctly and --max-output yields limit_hit (SPEC 3.6 malformed matrix and limits).
+**Files touched:** tests/test_rust_subjects.py, tests/test_c_subjects.py
+**Design constraints:** Tests only; hermetic (no network, rule hermetic-tests): build the input in the test with Python zlib (1 MiB of zeros; zlib and raw framing, which every subject supports). Use the debug binaries the existing tests already use. Do not change subject or harness code unless a test exposes a real bug.
+**Acceptance tests:** tests/test_rust_subjects.py and tests/test_c_subjects.py each gain test_oneshot_grows_past_initial_buffer[subject] (decode --mode oneshot of the 1 MiB zero stream: ok, produced == 1048576, sha256 matches) and test_oneshot_max_output_sets_limit_hit[subject] (same stream, --max-output 1000: ok false, limit_hit true, error_kind 'output_full'), parametrized over cf/zrs/mox and zlib/zlib-nohw/zsys/zng. They must fail on: cf ERR_OUTPUT_FULL at crates/subj-cf/src/main.rs:104 replaced by another kind; deleting the 'Z_OK | Z_BUF_ERROR if inf.strm.avail_out == 0' arm in crates/zlibapi/src/lib.rs (check with commands ['make test']); deleting the HasMoreOutput arm in crates/subj-mox/src/main.rs.
+**Out of scope:** Stream-mode limits (covered by bombs tests); changing initial buffer sizing in cli.rs.
+**Verification:** make lint; make test; foundry_mutate on the three mutants above (commands ['make test']) reports killed.
+**Depends on:** none
+
+### R3-03: framing, fuzz and fuzz-smoke depend on workloads
+**Goal:** Complete R2-01's goal: every Makefile target that measures over workload streams or cleanflate test data depends on the target that creates them, so make framing and make fuzz run from a fresh clone and fuzz never silently seeds without workload streams.
+**Files touched:** Makefile, tests/test_clean_clone.py
+**Design constraints:** Add workloads as a prerequisite of framing, fuzz and fuzz-smoke (workloads already depends on fetch subjects). Keep GNU make 3.81 / bash 3.2 portability (rule portable-shell-and-make). No git write subcommand (rule cleanflate-read-only-git). Do not change recipe commands or the order of all/paper-data prerequisites. Test stays hermetic: Makefile parse and make -n only.
+**Acceptance tests:** Extend tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs: add 'cfbench.framing run' and 'cfbench.fuzzing run' to the needles and raise the checked floor to 9 (perf, perf-native, smoke-bench, trajectory, conformance, content-features, framing, fuzz, fuzz-smoke). It fails today on framing, fuzz and fuzz-smoke.
+**Out of scope:** fetch/c-subjects prerequisites for similarity, effort and size (they fail loudly); changing cfbench/fuzzing.py seed selection; running any measurement.
+**Verification:** make lint; make test; make -n framing and make -n fuzz show cfbench.workloads generate before cfbench.framing run / cfbench.fuzzing run.
+**Depends on:** none

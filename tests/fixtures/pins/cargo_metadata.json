@@ -1,0 +1,7 @@
+{
+ "packages": [
+  {"name": "zlib-rs", "version": "0.6.8", "manifest_path": "/reg/zlib-rs-0.6.8/Cargo.toml"},
+  {"name": "libz-rs-sys", "version": "0.6.8", "manifest_path": "/reg/libz-rs-sys-0.6.8/Cargo.toml"},
+  {"name": "miniz_oxide", "version": "0.9.1", "manifest_path": "/reg/miniz_oxide-0.9.1/Cargo.toml"}
+ ]
+}

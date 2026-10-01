@@ -1,0 +1,21 @@
+{
+ "columns": [
+  "subject",
+  "language",
+  "files",
+  "code",
+  "comments",
+  "blanks"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/size/any/20261001T065129Z.json",
+   "sha256": "3c7ac3125b3382da36badca682ac7f0e03c4a2663e07dcec6f768fde2bcf4798",
+   "timestamp": "20261001T065129Z"
+  }
+ ],
+ "script": "cfbench.loc",
+ "table": "loc.csv"
+}

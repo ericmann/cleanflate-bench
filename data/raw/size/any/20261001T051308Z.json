@@ -1,0 +1,166 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/unsafe_scan.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "a0fa4a8d383a710c90f45094c8bc2a855198f6df"
+ },
+ "category": "size",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   2.58984375,
+   3.5673828125,
+   3.9296875
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "a0fa4a8d383a710c90f45094c8bc2a855198f6df",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 64.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 64.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 67.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 61.625\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 900.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 630.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "kind": "unsafe",
+  "rows": [
+   {
+    "crate": "cleanflate",
+    "deny_unsafe_code": false,
+    "forbid_unsafe_code": true,
+    "geiger_unused": 0,
+    "geiger_used": 0,
+    "note": "",
+    "role": "subject",
+    "subject": "cf",
+    "target_feature_attrs": 0,
+    "unsafe_blocks": 0,
+    "unsafe_fns": 0,
+    "unsafe_impls": 0,
+    "unsafe_traits": 0,
+    "version": "0.1.0"
+   },
+   {
+    "crate": "zlib-rs",
+    "deny_unsafe_code": false,
+    "forbid_unsafe_code": false,
+    "geiger_unused": 1045,
+    "geiger_used": 2860,
+    "note": "",
+    "role": "subject",
+    "subject": "zrs",
+    "target_feature_attrs": 46,
+    "unsafe_blocks": 354,
+    "unsafe_fns": 94,
+    "unsafe_impls": 5,
+    "unsafe_traits": 0,
+    "version": "0.6.8"
+   },
+   {
+    "crate": "libz-rs-sys",
+    "deny_unsafe_code": false,
+    "forbid_unsafe_code": false,
+    "geiger_unused": 1958,
+    "geiger_used": 495,
+    "note": "",
+    "role": "subject",
+    "subject": "zrs",
+    "target_feature_attrs": 0,
+    "unsafe_blocks": 320,
+    "unsafe_fns": 102,
+    "unsafe_impls": 0,
+    "unsafe_traits": 0,
+    "version": "0.6.8"
+   },
+   {
+    "crate": "miniz_oxide",
+    "deny_unsafe_code": false,
+    "forbid_unsafe_code": true,
+    "geiger_unused": 0,
+    "geiger_used": 0,
+    "note": "",
+    "role": "subject",
+    "subject": "mox",
+    "target_feature_attrs": 0,
+    "unsafe_blocks": 0,
+    "unsafe_fns": 0,
+    "unsafe_impls": 0,
+    "unsafe_traits": 0,
+    "version": "0.9.1"
+   },
+   {
+    "crate": "adler2",
+    "deny_unsafe_code": false,
+    "forbid_unsafe_code": true,
+    "geiger_unused": 0,
+    "geiger_used": 0,
+    "note": "",
+    "role": "dependency",
+    "subject": "mox",
+    "target_feature_attrs": 0,
+    "unsafe_blocks": 0,
+    "unsafe_fns": 0,
+    "unsafe_impls": 0,
+    "unsafe_traits": 0,
+    "version": "2.0.1"
+   },
+   {
+    "crate": "zlib",
+    "note": "C: entire codebase memory-unsafe by language",
+    "role": "subject",
+    "subject": "zlib",
+    "version": ""
+   },
+   {
+    "crate": "zng",
+    "note": "C: entire codebase memory-unsafe by language",
+    "role": "subject",
+    "subject": "zng",
+    "version": ""
+   },
+   {
+    "crate": "zsys",
+    "note": "C: entire codebase memory-unsafe by language",
+    "role": "subject",
+    "subject": "zsys",
+    "version": ""
+   }
+  ],
+  "tool_gaps": []
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.unsafe_scan",
+ "session": null,
+ "timestamp": "20261001T051308Z"
+}

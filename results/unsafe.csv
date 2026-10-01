@@ -1,0 +1,9 @@
+subject,crate,version,role,forbid_unsafe_code,unsafe_blocks,unsafe_fns,unsafe_impls,unsafe_traits,target_feature_attrs,geiger_used,geiger_unused,note
+cf,cleanflate,0.1.0,subject,true,0,0,0,0,0,0,0,
+mox,adler2,2.0.1,dependency,true,0,0,0,0,0,0,0,
+mox,miniz_oxide,0.9.1,subject,true,0,0,0,0,0,0,0,
+zlib,zlib,,subject,,,,,,,,,C: entire codebase memory-unsafe by language
+zng,zng,,subject,,,,,,,,,C: entire codebase memory-unsafe by language
+zrs,libz-rs-sys,0.6.8,subject,false,320,102,0,0,0,495,1958,
+zrs,zlib-rs,0.6.8,subject,false,354,94,5,0,46,2860,1045,
+zsys,zsys,,subject,,,,,,,,,C: entire codebase memory-unsafe by language

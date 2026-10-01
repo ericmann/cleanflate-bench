@@ -1,0 +1,41 @@
+{
+ "columns": [
+  "metric",
+  "pair",
+  "role",
+  "score",
+  "neg_score",
+  "pos_score",
+  "position",
+  "classification"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/similarity/any/20261001T051802Z.json",
+   "sha256": "64df056375f20af97a1ea89586a927ffc59c4c639bcb411df4df4f02635965f2",
+   "timestamp": "20261001T051802Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/similarity/any/20261001T052006Z.json",
+   "sha256": "bf4156f849a0a53a6dab8861d3ad61ed3e62bf36751168aa48c22c24e8f2e38f",
+   "timestamp": "20261001T052006Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/similarity/any/20261001T052008Z.json",
+   "sha256": "9e39c671b115030e8627e783c102ca7c0dea2fac453bd5b487553e8ef628964d",
+   "timestamp": "20261001T052008Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/similarity/any/20261001T052552Z.json",
+   "sha256": "752f1cb8fca9861604e4a9173f3250ce6be7b3504746276e65d442983c707fbd",
+   "timestamp": "20261001T052552Z"
+  }
+ ],
+ "script": "cfbench.similarity.summary",
+ "table": "similarity_summary.csv"
+}

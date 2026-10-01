@@ -1,0 +1,22 @@
+[package]
+name = "subj-cf"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "cfb-cf"
+path = "src/main.rs"
+
+[features]
+default = ["round3"]
+round1 = ["dep:cleanflate_r1"]
+round2 = ["dep:cleanflate_r2"]
+round3 = ["dep:cleanflate_r3"]
+
+[dependencies]
+harness = { path = "../harness" }
+# One renamed dependency per cleanflate round; the SHAs mirror config/rounds.json (a test checks it).
+cleanflate_r1 = { package = "cleanflate", git = "ssh://git@github.com/ericmann/cleanflate.git", rev = "e94efcfa92de1f2d301d3a0208f67dcc303a9ba9", optional = true }
+cleanflate_r2 = { package = "cleanflate", git = "ssh://git@github.com/ericmann/cleanflate.git", rev = "d3e911b463c8aed50c3fcc7c17e0a26e8af1d298", optional = true }
+cleanflate_r3 = { package = "cleanflate", git = "ssh://git@github.com/ericmann/cleanflate.git", rev = "85f210084a367dcc706c732f5776bf0563cdc0cd", optional = true }

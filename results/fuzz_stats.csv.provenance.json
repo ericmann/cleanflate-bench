@@ -1,0 +1,17 @@
+{
+ "columns": [
+  "machine",
+  "target",
+  "budget_cpu_hours",
+  "executions",
+  "exec_per_s",
+  "cov_lines_pct",
+  "cov_regions_pct",
+  "divergences",
+  "archive"
+ ],
+ "pending": "no full fuzz run; run make fuzz on a quiet machine",
+ "raw_files": [],
+ "script": "cfbench.fuzzing",
+ "table": "fuzz_stats.csv"
+}

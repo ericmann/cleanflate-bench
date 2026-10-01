@@ -1,0 +1,2 @@
+machine,corpus,level,cf_overhead_gzip,zlib_nohw_overhead_gzip,zlib_overhead_gzip,rel_diff,verdict
+ALL,,,,,,,confirmed

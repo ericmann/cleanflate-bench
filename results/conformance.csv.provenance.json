@@ -1,0 +1,22 @@
+{
+ "columns": [
+  "machine",
+  "subject",
+  "streams",
+  "passed",
+  "failed",
+  "unsupported",
+  "pass_rate"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/correctness/M-B/20261001T060238Z.json",
+   "sha256": "b1f3ad32a41c380464fc55ba484ee2af56693179235641cbfb924824e0484ce6",
+   "timestamp": "20261001T060238Z"
+  }
+ ],
+ "script": "cfbench.conformance",
+ "table": "conformance.csv"
+}

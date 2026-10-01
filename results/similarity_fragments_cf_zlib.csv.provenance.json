@@ -1,0 +1,24 @@
+{
+ "columns": [
+  "rank",
+  "fragment_id",
+  "tokens",
+  "left_file",
+  "left_lines",
+  "right_file",
+  "right_lines",
+  "verdict",
+  "note"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/similarity/any/20261001T053550Z.json",
+   "sha256": "eb9d317944b4d2de32f42fe8ec4a67e294c37e692a6f9102a995cef18178b73c",
+   "timestamp": "20261001T053550Z"
+  }
+ ],
+ "script": "cfbench.similarity.fragments",
+ "table": "similarity_fragments_cf_zlib.csv"
+}

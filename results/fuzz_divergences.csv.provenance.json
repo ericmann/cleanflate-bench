@@ -1,0 +1,13 @@
+{
+ "columns": [
+  "machine",
+  "target",
+  "artifact_sha256",
+  "classification",
+  "outcomes_by_subject"
+ ],
+ "pending": "no full fuzz run; run make fuzz on a quiet machine",
+ "raw_files": [],
+ "script": "cfbench.fuzzing",
+ "table": "fuzz_divergences.csv"
+}

@@ -1,0 +1,12 @@
+[package]
+name = "min-zrs"
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "min-zrs"
+path = "src/main.rs"
+
+[dependencies]
+libz-rs-sys = "=0.6.8"

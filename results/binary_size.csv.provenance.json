@@ -1,0 +1,20 @@
+{
+ "columns": [
+  "machine",
+  "subject",
+  "opt",
+  "bytes",
+  "note"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/size/M-B/20261001T051108Z.json",
+   "sha256": "12bb81434608e1685da494f5d3b841861f2bb466d01d639967508bc838ee0aa3",
+   "timestamp": "20261001T051108Z"
+  }
+ ],
+ "script": "cfbench.size",
+ "table": "binary_size.csv"
+}

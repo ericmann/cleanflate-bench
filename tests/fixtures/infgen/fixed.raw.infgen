@@ -1,0 +1,9 @@
+! infgen 3.6 output
+!
+last
+fixed
+literal 'abca
+match 11 3
+literal ' hello
+match 6 6
+end

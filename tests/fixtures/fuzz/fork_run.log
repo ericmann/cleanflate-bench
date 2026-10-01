@@ -1,0 +1,16 @@
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.02s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.02s
+     Running `fuzz/target/x86_64-unknown-linux-gnu/release/diff_cf_zlib -artifact_prefix=/repo/fuzz/artifacts/diff_cf_zlib/ -fork=2 -ignore_crashes=1 -max_total_time=10 -seed=20261019 /repo/fuzz/corpus/diff_cf_zlib`
+INFO: Running with entropic power schedule (0xFF, 100).
+INFO: Seed: 20261019
+INFO: Loaded 1 modules   (9463 inline 8-bit counters): 9463 [0x614db1258950, 0x614db125ae47), 
+INFO: Loaded 1 PC tables (9463 PCs): 9463 [0x614db125ae48,0x614db127fdb8), 
+INFO: -fork=2: fuzzing in separate process(s)
+INFO: -fork=2: 0 seed inputs, starting to fuzz in /tmp/libFuzzerTemp.FuzzWithFork2369091.dir
+#12209: cov: 0 ft: 0 corp: 0 exec/s: 6104 oom/timeout/crash: 0/0/0 time: 2s job: 1 dft_time: 0
+#31561: cov: 564 ft: 975 corp: 103 exec/s: 6450 oom/timeout/crash: 0/0/0 time: 3s job: 2 dft_time: 0
+#56900: cov: 632 ft: 1185 corp: 142 exec/s: 6334 oom/timeout/crash: 0/0/0 time: 6s job: 3 dft_time: 0
+#89732: cov: 674 ft: 1537 corp: 203 exec/s: 6566 oom/timeout/crash: 0/0/0 time: 8s job: 4 dft_time: 0
+#129714: cov: 681 ft: 1571 corp: 217 exec/s: 6663 oom/timeout/crash: 0/0/0 time: 12s job: 5 dft_time: 0
+INFO: fuzzed for 12 seconds, wrapping up soon
+INFO: exiting: 0 time: 12s

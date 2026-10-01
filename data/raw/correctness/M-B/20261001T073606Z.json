@@ -1,0 +1,2129 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/malformed.py",
+  "run"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "de1d536cb0a0ab976eaeb62aa84afb840a1c5e18"
+ },
+ "category": "correctness",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   4.2978515625,
+   2.46142578125,
+   2.2490234375
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "de1d536cb0a0ab976eaeb62aa84afb840a1c5e18",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 62.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 62.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 66.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 62.000\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 930.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 630.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "M-B",
+ "payload": {
+  "files": [
+   {
+    "cf_expected": "ChecksumMismatch",
+    "file": "rfc1950/adler_mismatch.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "Adler-32 mismatch: expected 0x062c02ea, got 0x062c0215",
+      "outcome": "error:ChecksumMismatch",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Adler32Mismatch",
+      "outcome": "error:Adler32Mismatch",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1950 S2.3: Adler-32 trailer must match the decoded data"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1950/bad_fcheck.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: zlib header failed the FCHECK mod-31 test",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1950 S2.2: (CMF*256+FLG) must be a multiple of 31"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1950/cinfo_8.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: zlib CINFO 8 exceeds the maximum of 7",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid window size",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid window size",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid window size",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid window size",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1950 S2.2: CINFO must not exceed 7"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1950/cm_7.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: zlib CM 7 is not 8 (deflate)",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1950 S2.2: CM must be 8 (deflate)"
+   },
+   {
+    "cf_expected": "PresetDictionaryRequired",
+    "file": "rfc1950/fdict_no_dictionary.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "stream requires preset dictionary 0x2f39060b",
+      "outcome": "error:PresetDictionaryRequired",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "",
+      "outcome": "error:Z_NEED_DICT",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "",
+      "outcome": "error:Z_NEED_DICT",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "",
+      "outcome": "error:Z_NEED_DICT",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "",
+      "outcome": "error:Z_NEED_DICT",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1950 S2.2: FDICT set requires a preset dictionary"
+   },
+   {
+    "cf_expected": "TrailingData",
+    "file": "rfc1950/trailing_byte.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "trailing data at byte offset 13",
+      "outcome": "error:TrailingData",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 13,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zlib": {
+      "consumed": 13,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zng": {
+      "consumed": 13,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zrs": {
+      "consumed": 13,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zsys": {
+      "consumed": 13,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     }
+    },
+    "rule": "SPEC S3.3: trailing data is rejected by default"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1950/valid_small.bin",
+    "framing": "zlib",
+    "results": {
+     "cf": {
+      "consumed": 24,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 24,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 24,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 24,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 24,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 24,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "control case: a valid minimal zlib stream"
+   },
+   {
+    "cf_expected": "BadBlockType",
+    "file": "rfc1951/btype3.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "reserved block type (BTYPE 11)",
+      "outcome": "error:BadBlockType",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid block type",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid block type",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid block type",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid block type",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.3: BTYPE 11 is reserved"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_codelength_incomplete.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: Huffman code table is incomplete",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.2: code-length alphabet table is incomplete"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_codelength_oversubscribed.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: Huffman code table is over-subscribed",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid code lengths set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.2: code-length alphabet table is over-subscribed"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_dist_incomplete_two_codes.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: Huffman code table is incomplete",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: two distance codes still must form a complete table"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_dist_oversubscribed.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: Huffman code table is over-subscribed",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid distances set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.2: distance table is over-subscribed"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_hlit_287.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: too many code-length symbols transmitted",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "too many length or distance symbols",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "too many length or distance symbols",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "too many length or distance symbols",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "too many length or distance symbols",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: HLIT+257 must not exceed 286"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_litlen_incomplete.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: literal/length table has no end-of-block code",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.2: literal/length table is incomplete (no exception applies)"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_litlen_oversubscribed.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: literal/length table has no end-of-block code",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.2: literal/length table is over-subscribed"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_missing_eob.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: literal/length table has no end-of-block code",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid code -- missing end-of-block",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.3: every block needs an end-of-block code"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1951/dynamic_no_dist_literals.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: no distance codes at all is valid for an all-literal block"
+   },
+   {
+    "cf_expected": "InvalidSymbol",
+    "file": "rfc1951/dynamic_no_dist_then_length.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "decoded symbol has no meaning in its alphabet",
+      "outcome": "error:InvalidSymbol",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: a length code with an empty distance table has no valid decode"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_repeat16_first.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: repeat code with no previous code length",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: repeat code 16 with no previous length to repeat"
+   },
+   {
+    "cf_expected": "InvalidHuffmanTable",
+    "file": "rfc1951/dynamic_repeat_overflow.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "invalid Huffman table: repeat code overruns the code-length sequence",
+      "outcome": "error:InvalidHuffmanTable",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid bit length repeat",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: a repeat run must not exceed HLIT+HDIST lengths"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1951/dynamic_single_dist_code.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 4,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 4,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 4,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 4,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 4,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 43,
+      "error": "",
+      "outcome": "accept",
+      "produced": 4,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.7: a single distance code (length 1) is valid"
+   },
+   {
+    "cf_expected": "InvalidSymbol",
+    "file": "rfc1951/fixed_dist_code_30.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "decoded symbol has no meaning in its alphabet",
+      "outcome": "error:InvalidSymbol",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid distance code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.6: distance codes 30/31 never occur in real data"
+   },
+   {
+    "cf_expected": "InvalidDistance",
+    "file": "rfc1951/fixed_distance_at_start.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "distance 1 exceeds 0 bytes available to copy from",
+      "outcome": "error:InvalidDistance",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.5: a distance cannot refer past the start of output"
+   },
+   {
+    "cf_expected": "InvalidDistance",
+    "file": "rfc1951/fixed_distance_too_far.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "distance 5 exceeds 4 bytes available to copy from",
+      "outcome": "error:InvalidDistance",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid distance too far back",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.5: distance exceeds bytes produced so far"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1951/fixed_len284_extra31.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 5,
+      "error": "",
+      "outcome": "accept",
+      "produced": 259,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 5,
+      "error": "",
+      "outcome": "accept",
+      "produced": 259,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 5,
+      "error": "",
+      "outcome": "accept",
+      "produced": 259,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 5,
+      "error": "",
+      "outcome": "accept",
+      "produced": 259,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 5,
+      "error": "",
+      "outcome": "accept",
+      "produced": 259,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 5,
+      "error": "",
+      "outcome": "accept",
+      "produced": 259,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.5: code 284 extra value 31 decodes to length 258"
+   },
+   {
+    "cf_expected": "InvalidSymbol",
+    "file": "rfc1951/fixed_litlen_286.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "decoded symbol has no meaning in its alphabet",
+      "outcome": "error:InvalidSymbol",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid literal/length code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid literal/length code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid literal/length code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid literal/length code",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.6: litlen codes 286/287 never occur in real data"
+   },
+   {
+    "cf_expected": "InvalidStoredLength",
+    "file": "rfc1951/stored_nlen_mismatch.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "stored block LEN 5 is not the one's complement of NLEN 5",
+      "outcome": "error:InvalidStoredLength",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 0,
+      "error": "Failed",
+      "outcome": "error:Failed",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "invalid stored block lengths",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "invalid stored block lengths",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "invalid stored block lengths",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "invalid stored block lengths",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1951 S3.2.4: NLEN must be the one's complement of LEN"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1951/valid_small_dynamic.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 44,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 44,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 44,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 44,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 44,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 44,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "control case: a valid dynamic-Huffman block"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1951/valid_small_fixed.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 9,
+      "error": "",
+      "outcome": "accept",
+      "produced": 11,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 9,
+      "error": "",
+      "outcome": "accept",
+      "produced": 11,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 9,
+      "error": "",
+      "outcome": "accept",
+      "produced": 11,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 9,
+      "error": "",
+      "outcome": "accept",
+      "produced": 11,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 9,
+      "error": "",
+      "outcome": "accept",
+      "produced": 11,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 9,
+      "error": "",
+      "outcome": "accept",
+      "produced": 11,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "control case: a valid fixed-Huffman block"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1951/valid_small_stored.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 18,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 18,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zlib": {
+      "consumed": 18,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 18,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 18,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 18,
+      "error": "",
+      "outcome": "accept",
+      "produced": 13,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "control case: a valid stored block"
+   },
+   {
+    "cf_expected": "TrailingData",
+    "file": "rfc1951/valid_stored_trailing_byte.bin",
+    "framing": "raw",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "trailing data at byte offset 7",
+      "outcome": "error:TrailingData",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "consumed": 7,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zlib": {
+      "consumed": 7,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zng": {
+      "consumed": 7,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zrs": {
+      "consumed": 7,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     },
+     "zsys": {
+      "consumed": 7,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 1
+     }
+    },
+    "rule": "SPEC S3.3: trailing data is rejected by default"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1952/all_flags_valid.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 52,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 52,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 52,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 52,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 52,
+      "error": "",
+      "outcome": "accept",
+      "produced": 2,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "control case: a valid gzip member using every optional header field"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1952/bad_magic.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: gzip magic number is not 1f 8b",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "incorrect header check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: ID1/ID2 must be 1f 8b"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1952/cm_7.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: gzip CM 7 is not 8 (deflate)",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "unknown compression method",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: CM must be 8 (deflate)"
+   },
+   {
+    "cf_expected": "ChecksumMismatch",
+    "file": "rfc1952/crc32_mismatch.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "CRC-32 mismatch: expected 0xd8932a53, got 0xd8932aac",
+      "outcome": "error:ChecksumMismatch",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "incorrect data check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: member CRC32 must match the decoded data"
+   },
+   {
+    "cf_expected": "ChecksumMismatch",
+    "file": "rfc1952/fhcrc_mismatch.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "gzip header CRC mismatch: expected 0x0000ffff, got 0x0000c990",
+      "outcome": "error:ChecksumMismatch",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "header crc mismatch",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "header crc mismatch",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "header crc mismatch",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "header crc mismatch",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: FHCRC must match the header CRC-32's low 16 bits"
+   },
+   {
+    "cf_expected": "ChecksumMismatch",
+    "file": "rfc1952/isize_mismatch.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "ISIZE mismatch: expected 0xff000002, got 0x00000002",
+      "outcome": "error:ChecksumMismatch",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "incorrect length check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "incorrect length check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "incorrect length check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "incorrect length check",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: ISIZE must match the decoded length mod 2^32"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1952/reserved_flag_bit5.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: gzip FLG 0x20 sets a reserved bit",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: FLG bits 5-7 are reserved and must be zero"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1952/reserved_flag_bit7.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: gzip FLG 0x80 sets a reserved bit",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zng": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zrs": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "zsys": {
+      "consumed": 0,
+      "error": "unknown header flags set",
+      "outcome": "error:Z_DATA_ERROR",
+      "produced": 0,
+      "trailing_bytes": 0
+     }
+    },
+    "rule": "RFC 1952 S2.3.1: FLG bits 5-7 are reserved and must be zero"
+   },
+   {
+    "cf_expected": "BadHeader",
+    "file": "rfc1952/second_member_bad_cm.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "bad header: gzip CM 7 is not 8 (deflate)",
+      "outcome": "error:BadHeader",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 25
+     },
+     "zng": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 25
+     },
+     "zrs": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 25
+     },
+     "zsys": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 25
+     }
+    },
+    "rule": "RFC 1952 S2.2: each concatenated member's header is validated independently"
+   },
+   {
+    "cf_expected": "TrailingData",
+    "file": "rfc1952/trailing_garbage.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 0,
+      "error": "trailing data at byte offset 25",
+      "outcome": "error:TrailingData",
+      "produced": 0,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 4
+     },
+     "zng": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 4
+     },
+     "zrs": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 4
+     },
+     "zsys": {
+      "consumed": 25,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 2,
+      "trailing_bytes": 4
+     }
+    },
+    "rule": "SPEC S3.3: trailing data is rejected by default"
+   },
+   {
+    "cf_expected": "OK",
+    "file": "rfc1952/two_members_valid.bin",
+    "framing": "gzip",
+    "results": {
+     "cf": {
+      "consumed": 52,
+      "error": "",
+      "outcome": "accept",
+      "produced": 6,
+      "trailing_bytes": 0
+     },
+     "mox": {
+      "outcome": "unsupported"
+     },
+     "zlib": {
+      "consumed": 26,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 3,
+      "trailing_bytes": 26
+     },
+     "zng": {
+      "consumed": 26,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 3,
+      "trailing_bytes": 26
+     },
+     "zrs": {
+      "consumed": 26,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 3,
+      "trailing_bytes": 26
+     },
+     "zsys": {
+      "consumed": 26,
+      "error": "",
+      "outcome": "accept+trailing",
+      "produced": 3,
+      "trailing_bytes": 26
+     }
+    },
+    "rule": "RFC 1952 S2.2: members are simply concatenated"
+   }
+  ],
+  "kind": "malformed",
+  "subjects": [
+   "cf",
+   "zlib",
+   "zng",
+   "zrs",
+   "mox",
+   "zsys"
+  ]
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.malformed",
+ "session": null,
+ "timestamp": "20261001T073606Z"
+}
