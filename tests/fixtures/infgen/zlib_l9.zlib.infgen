@@ -1,0 +1,40 @@
+! infgen 3.6 output
+!
+zlib
+!
+last
+fixed
+literal 'It was the best of times, i
+match 10 26
+literal 'wor
+match 24 27
+literal 'age
+match 4 25
+literal 'wisdom
+match 20 26
+literal 'foolishness. I
+match 219 110
+literal 'a
+match 64 1
+literal 'bc
+match 15 3
+literal 'xyz
+match 12 3
+literal ' 0123456789
+literal 10 ' !"#$%&'()*+,-./
+match 10 27
+literal ':;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`
+match 3 95
+literal 'defghijklmnopq
+match 3 262
+literal 'uvw
+match 3 103
+literal '{|}~
+match 190 95
+literal 'I
+match 258 724
+match 258 724
+match 207 724
+end
+!
+adler

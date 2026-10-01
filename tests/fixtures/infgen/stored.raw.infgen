@@ -1,0 +1,6 @@
+! infgen 3.6 output
+!
+last
+stored
+data 'stored block content, no compression here
+end

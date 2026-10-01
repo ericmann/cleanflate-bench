@@ -32,3 +32,10 @@ sha256 = "1731a34baadec5479258ea0202e4d5d865d2efeee60cb0c7d7eb056fe96ca219"
 [jplag.jre."Darwin-arm64"]
 url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4.1%2B1/OpenJDK25U-jre_aarch64_mac_hotspot_25.0.4.1_1.tar.gz"
 sha256 = "5b02bcc908da092e7e00b9772d4f9bbb87f44a60b7c90f7cf5a91a1d98f37e1b"
+
+# infgen (SPEC 3.4): Mark Adler's deflate disassembler, built from source (needs zlib.h and a
+# libz for its PNG CRC code; the build uses the pinned zlib in build/c/zlib when present).
+[infgen]
+commit = "1e36c3da205ce3da7df1abd1f1c765a3cf49b267"
+url = "https://github.com/madler/infgen/archive/1e36c3da205ce3da7df1abd1f1c765a3cf49b267.tar.gz"
+sha256 = "2d7dac46344f8b9109bc31092977595e245707c3bbe27d7e23e6b111f44fa283"
