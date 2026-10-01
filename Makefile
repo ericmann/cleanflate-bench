@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := pins perf framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env $(STUBS)
+.PHONY: help lint test all env fetch $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -11,6 +11,10 @@ help:
 
 env:
 	$(PY) -m cfbench.env
+
+fetch:
+	$(PY) -m cfbench.cleanflate_src fetch
+	$(PY) -m cfbench.cleanflate_src check
 
 lint:
 	cargo fmt --all -- --check
