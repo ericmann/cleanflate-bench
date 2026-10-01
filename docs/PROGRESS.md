@@ -74,6 +74,14 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-05 BLOG_NOTES.md
 - [x] P10-06 make all and the clean-clone check for every kit
 - [x] P10-07 Phase 10 hand-off
+- [ ] R1-01 Hermetic git in throwaway-repo tests
+- [ ] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
+- [ ] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
+- [ ] R1-04 Token-exact evidence checks for kit numbers
+- [ ] R1-05 Boundary tests for the hypothesis thresholds
+- [ ] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
+- [ ] R1-07 Bomb table reports per-layer and overall ratios separately
+- [ ] R1-08 Add make paper-data for the T1 measurements
 
 ## Log
 (one entry per task, appended by implement)
