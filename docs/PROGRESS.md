@@ -37,7 +37,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-06 Positioning against controls, statement and figure
 - [x] P3-07 Structural comparison write-up
 - [x] P3-08 Phase 3 hand-off
-- [ ] P4-01 Round builds of cf
+- [x] P4-01 Round builds of cf
 - [ ] P4-02 Trajectory run, table and figure
 - [ ] P4-03 Effort from git history, tool log and Foundry state
 - [ ] P4-04 Token usage export and cost
@@ -202,3 +202,6 @@ Checklist (verbatim):
 3. Check `results/similarity_statement.md` and decide whether the claim wording is acceptable.
 Manual check: NOT VERIFIED (human)
 Note for the human: the generated statement currently reads 'T1 claim NOT allowed' (identifier metrics place cf-mox and cf-zrs between the controls; n-gram and JPlag metrics cannot be positioned). Rerunning the fragments command makes a new raw run; `python -m cfbench.similarity.fragments` derive step alone is `derive()` in that module.
+
+### P4-01 — 64a9fca
+Tests: test_subjects +2 (round paths, Cargo revs == rounds.json), test_rust_subjects round decode x3 (built on demand, never skipped). subj-cf features round1/round2/round3 (default round3) via renamed git deps cleanflate_r1..r3; Cargo accepted three revisions in one lock, no fallback workspace. Round binaries: target/round<N>/release/cfb-cf (make subjects-rounds); subjects.binary_path('cf-rN') or ('cf','roundN'); SUBJECTS gained cf-r1..r3 (kind round). impl_version 'cleanflate 0.1.0 round N @sha'. perf.build_cells etc unchanged (cf-rN not in perf.subjects).
