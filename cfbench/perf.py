@@ -126,6 +126,8 @@ def run(
     strict: bool = False,
     build: str = "release",
     runner=exec_cell,
+    category: str = "perf",
+    kind: str = "perf",
 ) -> list[Path]:
     profile = profile or os.environ.get("CFB_PROFILE") or "full"
     m = machine.detect_machine()
@@ -170,7 +172,7 @@ def run(
             key=lambda c: (c["subject"], c["workload"], c["level"], c["framing"], c["mode"])
         )
         payload = {
-            "kind": "perf",
+            "kind": kind,
             "variant": variant,
             "build": "native" if variant == "native" else build,
             "seed": seed,
@@ -181,7 +183,7 @@ def run(
         }
         written.append(
             rawio.write_raw(
-                "perf",
+                category,
                 payload,
                 machine=m,
                 profile=profile,

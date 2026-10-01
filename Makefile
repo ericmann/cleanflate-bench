@@ -1,7 +1,7 @@
 PY := uv run --frozen python
-STUBS := framing content trajectory correctness effort paper pitch blog
+STUBS := framing content correctness effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -44,6 +44,10 @@ subjects-rounds:
 	for n in 1 2 3; do \
 	  cargo build --release -p subj-cf --no-default-features --features round$$n --target-dir target/round$$n || exit 1; \
 	done
+
+trajectory: subjects subjects-rounds
+	$(PY) -m cfbench.trajectory run
+	$(PY) -m cfbench.trajectory derive
 
 perf-report:
 	$(PY) -m cfbench.perf_report
@@ -97,4 +101,4 @@ test: c-subjects
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: env pins perf size similarity $(STUBS)
+all: env pins perf size similarity trajectory $(STUBS)

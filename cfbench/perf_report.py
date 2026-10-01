@@ -119,9 +119,9 @@ def _write_pending(raw_files: list) -> None:
         )
 
 
-def compute_rows(cfg: dict) -> tuple[list[dict], list]:
+def compute_rows(cfg: dict, category: str = "perf", kind: str = "perf") -> tuple[list[dict], list]:
     """Per-cell rows (CSV columns plus hidden `_median_ns`, `_best_ns`, `_ci_*_ns`) and raw files."""
-    sessions = load_sessions()
+    sessions = load_sessions(category, kind)
     rng = random.Random(cfg["run"]["seed"])
     rows: list[dict] = []
     raw_files: list = []

@@ -40,6 +40,15 @@ min_sample_ms = 2
 [profiles.quick.perf.tiny]
 prefix_bytes = [256]
 
+[trajectory]
+subjects = ["cf-r1", "cf-r2", "cf-r3", "zlib"]
+modes = ["oneshot", "stream_small"]
+levels = [1, 6, 9]
+runs = 1
+
+[profiles.quick.trajectory]
+levels = [6]
+
 [charts]
 base_dpi = 100
 paper_width_in = 3.3
