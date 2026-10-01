@@ -12,7 +12,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
 - [x] P0-08 zlib-ng native-API subject binary
 - [x] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
-- [ ] P0-10 Workload generation and manifest
+- [x] P0-10 Workload generation and manifest
 - [ ] P0-11 Perf orchestrator and smoke bench
 - [ ] P0-12 Similarity tokenizer and smoke similarity run
 - [ ] P0-13 Phase 0 hand-off
@@ -104,3 +104,6 @@ Tests: subj-zng inline unit zng_stream_layout_matches_header (build.rs C probe: 
 
 ### P0-09 — e084936
 Tests: test_pins x8, test_unsafe_scan x3, test_sources x2. API: pins.hw_crc/merge_lock/rust_profile/mnemonics/collect/main, unsafe_scan.scan_crate/count_text (totals keys unsafe_blocks, unsafe_fns, unsafe_impls, unsafe_traits, target_feature; forbid_unsafe_code, deny_unsafe_code), sources.source_root/extra_roots/package_dirs. M-B data run committed (data/raw/pins/M-B, subjects.lock.json): zlib/zlib-nohw/zsys hw_crc compiled_in false; zng true w/ runtime dispatch (crc32_pclmulqdq, vpclmulqdq); zrs true; cf 0 unsafe + forbid; mox 0 unsafe; zrs 674 blocks. Dispatch pattern excludes chorba. M-A entry still to be recorded by a human (make pins).
+
+### P0-10 — 61ebabd
+Tests: test_workloads x7 (fake compressor, tmp DATA). API: workloads.list_workloads(cfg)->[Workload(id,corpus,file,level,framing,orig_path,path,orig_len,len)], generate(cfg,compressor,write_manifest), verify(cfg), load_manifest(). Layout data/workloads/<corpus>/<file>/{orig,l<level>.<framing>}, tiny at data/workloads/tiny/<corpus>-<file>-<prefix>/. 288 streams generated (207+81), manifest committed (zlib 1.3.2). Manifest verify checks only the active profile's list. Generation takes ~95s.
