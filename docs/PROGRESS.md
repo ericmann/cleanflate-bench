@@ -36,7 +36,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-05 Top-20 fragment pairs with persistent verdicts
 - [x] P3-06 Positioning against controls, statement and figure
 - [x] P3-07 Structural comparison write-up
-- [ ] P3-08 Phase 3 hand-off
+- [x] P3-08 Phase 3 hand-off
 - [ ] P4-01 Round builds of cf
 - [ ] P4-02 Trajectory run, table and figure
 - [ ] P4-03 Effort from git history, tool log and Foundry state
@@ -193,3 +193,12 @@ RESULT (honest): statement reads 'T1 claim NOT allowed': ident_jaccard cf-mox be
 
 ### P3-07 — 1e06f7c
 results/STRUCTURE_COMPARISON.md written: 6 sections (bit reader, Huffman tables, window, fast loop, state machine, observations), header with pinned versions, citations per subject per section (cf 22, zlib 21, zng 17, zrs 18, mox 14). Findings stated plainly: cf body states map 1:1 onto zlib modes (also RFC order); two-level root+subtable shared by cf/zlib/zng/zrs, mox differs; give-back-unread-bytes step common to cf/zlib/zng; zrs mirrors zlib naming/structure much more than cf. Cross-referenced with the similarity statement (T1 similarity claim NOT allowed).
+
+### P3-08 — b83eb83
+Push: git push -u origin HEAD succeeded.
+Checklist (verbatim):
+1. Fill in verdicts for the top-20 fragments of each test pair in `config/similarity_verdicts.toml`, then rerun `python -m cfbench.similarity.fragments`.
+2. Review `results/STRUCTURE_COMPARISON.md` for accuracy.
+3. Check `results/similarity_statement.md` and decide whether the claim wording is acceptable.
+Manual check: NOT VERIFIED (human)
+Note for the human: the generated statement currently reads 'T1 claim NOT allowed' (identifier metrics place cf-mox and cf-zrs between the controls; n-gram and JPlag metrics cannot be positioned). Rerunning the fragments command makes a new raw run; `python -m cfbench.similarity.fragments` derive step alone is `derive()` in that module.
