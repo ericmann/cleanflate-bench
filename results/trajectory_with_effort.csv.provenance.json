@@ -1,0 +1,33 @@
+{
+ "columns": [
+  "machine",
+  "round",
+  "tag",
+  "corpus",
+  "framing",
+  "mode",
+  "level",
+  "agg_mib_s",
+  "ratio_vs_zlib",
+  "wall_clock_s",
+  "output_tokens",
+  "cost_usd"
+ ],
+ "pending": "no trajectory run; run make trajectory on M-A and M-B",
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T055110Z-1.json",
+   "sha256": "7b59b36b1cf280b130305eeabceff4a58899e48f15f70866d21fec19ea379e44",
+   "timestamp": "20261001T055110Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T055110Z.json",
+   "sha256": "27e020dbaf339efe01214e8ef134ce21604ef31b2263f558b6c67787be9cb17a",
+   "timestamp": "20261001T055110Z"
+  }
+ ],
+ "script": "cfbench.effort.derive",
+ "table": "trajectory_with_effort.csv"
+}

@@ -1,0 +1,24 @@
+{
+ "columns": [
+  "round",
+  "category",
+  "count"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T055110Z-1.json",
+   "sha256": "7b59b36b1cf280b130305eeabceff4a58899e48f15f70866d21fec19ea379e44",
+   "timestamp": "20261001T055110Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T055110Z.json",
+   "sha256": "27e020dbaf339efe01214e8ef134ce21604ef31b2263f558b6c67787be9cb17a",
+   "timestamp": "20261001T055110Z"
+  }
+ ],
+ "script": "cfbench.effort.derive",
+ "table": "effort_denied.csv"
+}
