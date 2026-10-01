@@ -71,7 +71,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-02 PITCH_KIT and talking points
 - [x] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
 - [x] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
-- [ ] P10-05 BLOG_NOTES.md
+- [x] P10-05 BLOG_NOTES.md
 - [ ] P10-06 make all and the clean-clone check for every kit
 - [ ] P10-07 Phase 10 hand-off
 
@@ -340,3 +340,6 @@ cfbench/kits/results_md.py: render_sections_part1() returns Environments, Subjec
 
 ### P10-04 — 9611f0d
 results_md.py part 2: Correctness (conformance, disagreements, malformed, fuzz, bombs), Size/safety/complexity, Clean-room verification (methods and tool versions, controls table, result statement, per-pair fragment verdict counts, link to STRUCTURE_COMPARISON.md), Effort/cost/provenance (all effort tables, EFFORT_GAPS link, zlib-rs context with scope note), Findings link, and six Threats-to-validity paragraphs each citing data (similarity statement, agreement flags, hardware-CRC pins, fuzz budget actually run, effort rounds). render() writes results/RESULTS.md (553 lines, deterministic, generated header). Integers print without decimals. make blog now rederives and writes RESULTS.md (stub mechanism removed; STUBS is empty). Tests: 6 in test_results_md; full suite 351 pass with signing disabled for throwaway repos.
+
+### P10-05 — b84cdb7
+cfbench/kits/blog.py writes results/BLOG_NOTES.md: ten fixed beats with evidence-checked bullets (reusing pitch bullet builders and claims), ranked surprises (comparator-bug fuzz divergences, malformed disagreements with row count and examples, unexpected hypothesis verdicts, top-3 best and worst per-file cf ratios, agreement-flagged cells), and open questions (pending or rejected claims, inconclusive hypotheses, every pending table, six threats). The malformed-disagreement count is a row count of the derived table and is passed as a label. check_bullet's number pattern now ignores digits attached after a hyphen (SHA-256). make blog = rederive, results_md, blog. Evidence TARGETS gained zlibrs_context. 354 tests pass with signing disabled for throwaway repos.
