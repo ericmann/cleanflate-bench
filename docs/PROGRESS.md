@@ -63,7 +63,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P8-04 Fuzz coverage and divergence triage
 - [x] P8-05 Decompression-bomb robustness sweep
 - [x] P8-06 Phase 8 hand-off
-- [ ] P9-01 Decompression-path LOC with tokei
+- [x] P9-01 Decompression-path LOC with tokei
 - [ ] P9-02 Rust complexity distributions
 - [ ] P9-03 C complexity and the complexity table
 - [ ] P9-04 Phase 9 hand-off
@@ -312,3 +312,6 @@ Checklist for B8:
 2. make bombs (full, 4 GiB cases) on M-A and M-B; commit. RSS figures carry the launcher's RSS as a floor (rss_floor_bytes in the raw doc).
 3. make malformed on M-A; commit and read results/MALFORMED_HIGHLIGHTS.md. M-B run is committed: 4 disagreements, all cf rejecting trailing data or a bad second gzip member by design; cf matches EXPECTED.tsv on all 42 files.
 Push happens at run finish.
+
+### P9-01 — d8f48f1
+tokei 15.0.0 pinned in config/tools.toml and installed to third_party/tools/bin (cargo +stable install, about 50 s). cfbench/loc.py passes only decomp_paths.files(subject) to tokei --no-ignore --output json; table loc (subject, language, files, code, comments, blanks) with a Total row per subject, raw size/any kind loc. Interpretation: tokei reports Rust doc comments as embedded Markdown children, so they become '<language> (embedded)' rows (files 0) and the rows sum to Total (cf: Rust 3683 code / 119 comments plus Markdown (embedded) 1013 comments). Counts: cf 17 files 3683 code, zlib 13 files 12457 code (C + headers), zng 93 files 19751, zrs 26 files 7296, mox 5 files 2293. make size gained loc. test_tools now asserts the pinned set is a subset. 328 tests pass.
