@@ -4,7 +4,7 @@ Started: 2026-10-01T04:25:03.345Z
 
 ## Tasks
 - [x] P0-01 Repository scaffold, config loader and Makefile skeleton
-- [ ] P0-02 Machine detection, environment capture and raw-data I/O
+- [x] P0-02 Machine detection, environment capture and raw-data I/O
 - [ ] P0-03 Pinned cleanflate clone, corpora and pristine check
 - [ ] P0-04 Pinned C subject builds (zlib, zlib-nohw, zlib-ng)
 - [ ] P0-05 Rust timing harness core
@@ -80,3 +80,6 @@ Started: 2026-10-01T04:25:03.345Z
 
 ### P0-01 — 90271ed
 Tests: test_config.py x4, harness framing unit test. Cargo.lock committed; hatchling backend. Stub targets exit 2. config/bench.toml has initial [run][machines][perf][charts] and quick profile.
+
+### P0-02 — b495a66
+Tests: test_machine x3, test_env x3, test_rawio x4. API: env.capture_environment(cmd,rd,system), capture_end(env,cmd), rawio.write_raw/list_raw/load_raw/latest_session(category,machine,kind,profile), rawio.bench_git(). Interpretation: on_ac null on desktop; cleanflate fields read from rounds.json primary_round when present; env payload {kind:'env',capture}. Committed data/raw/env/M-B run. Makefile: env target real.
