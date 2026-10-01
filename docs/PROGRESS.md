@@ -9,7 +9,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-04 Pinned C subject builds (zlib, zlib-nohw, zlib-ng)
 - [x] P0-05 Rust timing harness core
 - [x] P0-06 Rust subject binaries cf, zrs, mox
-- [ ] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
+- [x] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
 - [ ] P0-08 zlib-ng native-API subject binary
 - [ ] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
 - [ ] P0-10 Workload generation and manifest
@@ -95,3 +95,6 @@ Tests: harness tests/timing.rs x3, alloc.rs x2, cli.rs x8. Subject API in harnes
 
 ### P0-06 — c643c31
 Tests: test_rust_subjects.py 13 cases (session fixture runs cargo build). Binaries cfb-cf/zrs/mox in target/{debug,release}. cf: max_output=u64::MAX unless given, default TrailingData::Reject (trailing -> error TrailingData), oneshot = single Decompressor call into caller buffer. zrs: z_stream via libz-rs-sys, windowBits -15/15/31, Caller limit. mox: raw/zlib only, adler32 via mz_adler32_oxide, no crc32, trailing_bytes reported. Rust subjects have no compress. Error kinds: cf ErrorKind names, zrs Z_* names, mox Debug names; oneshot buffer too small = "output_full". make subjects = cargo build --release --workspace --bins.
+
+### P0-07 — cc14d2c
+Tests: test_c_subjects.py (info versions, decode fixture, compress roundtrip L1/6/9 all framings, gzip header os255/mtime0, only zlib compresses, heap counted). New tests/cli_util.py (run/decode/build_debug/FIX/PLAIN/MODES) shared by subject tests. crates/zlibapi: generic Api<V: Variant> Subject; binaries cfb-zlib (compress), cfb-zlib-nohw, cfb-zsys (dylib -lz). Interpretation: build.rs uses rustc-link-arg-bins=-l<lib> (link-lib=static mis-orders and fails to link). Makefile lint/test/subjects depend on c-subjects. Trailing gzip members not looped; trailing_bytes reported.
