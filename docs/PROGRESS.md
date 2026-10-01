@@ -28,7 +28,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P2-03 Binary-size measurement and cargo bloat
 - [x] P2-04 Unsafe surface
 - [x] P2-05 Dependencies and audit
-- [ ] P2-06 Phase 2 hand-off
+- [x] P2-06 Phase 2 hand-off
 - [ ] P3-01 Decompression-path source manifest
 - [ ] P3-02 Token n-gram similarity for all pairs
 - [ ] P3-03 Identifier and comment overlap
@@ -162,3 +162,11 @@ Tests: test_unsafe_scan +5 (dependency rows incl. build/dev exclusion, geiger fa
 
 ### P2-05 — 300d180
 Tests: test_deps x5. API: deps.parse_tree/parse_audit/filter_advisories/run_audit(runner)/collect(metadata,runner,audit_runner)/derive_table/main. Data run committed (size/any kind deps; results/deps.csv): cf 0/0 deps; mox 1/1 (adler2); libz-rs-sys 1/1 (zlib-rs); zlib-rs 0/0; no advisories in any dependency set. cargo-audit worked (no tool gap). make size = binary + unsafe_scan + deps.
+
+### P2-06 — 0e6327c
+Push: git push -u origin HEAD succeeded.
+Checklist (verbatim):
+1. On M-A: `make tools size`, then commit `data/raw/size/M-A/`.
+2. Review `results/unsafe.csv` and `results/deps.csv` against a manual skim of the crates.
+3. Note any tool gaps recorded in the raw files.
+Manual check: NOT VERIFIED (human)
