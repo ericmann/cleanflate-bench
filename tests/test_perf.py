@@ -59,10 +59,13 @@ def test_stream_modes_use_config_chunk_sizes():
     assert by_mode["stream_large"] == (p["large_in_chunk"], p["large_out_chunk"])
 
 
-def test_native_variant_limits_subjects():
+def test_native_variant_labels_subjects_and_adds_zlib_baseline():
     cfg = config.load_config("full")
-    cells = perf.build_cells(cfg, infos(cf=None, zlib=None, zrs=None), [wl()], "native")
-    assert {c["subject"] for c in cells} == {"cf", "zrs"}
+    assert perf.session_labels(cfg, "native") == ["cf@native", "zrs@native", "mox@native", "zlib"]
+    assert perf.session_labels(cfg, "generic") == cfg["perf"]["subjects"]
+    infos_ = infos(**{"cf@native": None, "zrs@native": None, "zlib": None, "zng": None, "cf": None})
+    cells = perf.build_cells(cfg, infos_, [wl()], "native")
+    assert {c["subject"] for c in cells} == {"cf@native", "zrs@native", "zlib"}
 
 
 def test_shuffle_is_deterministic_per_seed_and_differs_between_runs():
@@ -160,3 +163,23 @@ def test_missing_workloads_are_reported(fake_env):
     fake_env[0].path.unlink()
     with pytest.raises(RuntimeError, match="make workloads"):
         perf.run(config.load_config("full"), ["cf"], profile="full")
+
+
+def test_native_run_records_labelled_subjects_and_generic_baseline(fake_env, monkeypatch):
+    fake = [sys.executable, FAKE]
+    monkeypatch.setenv(
+        "CFB_SUBJECT_CMD", json.dumps({s: fake for s in ("cf", "zrs", "mox", "zlib")})
+    )
+    cfg = config.load_config("full")
+    cfg["perf"]["min_samples"] = 3
+    seen = []
+
+    def runner(argv, path):
+        seen.append(argv)
+        return perf.exec_cell(argv, path)
+
+    out = perf.run(cfg, ["cf", "zrs", "mox"], variant="native", profile="full", runner=runner)
+    payload = rawio.load_raw(out[0])["payload"]
+    assert payload["variant"] == "native" and payload["build"] == "native"
+    assert set(payload["subjects"]) == {"cf@native", "zrs@native", "mox@native", "zlib"}
+    assert {c["subject"] for c in payload["cells"]} == set(payload["subjects"])

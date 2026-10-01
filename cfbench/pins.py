@@ -10,10 +10,21 @@ import tomllib
 from collections import Counter
 from pathlib import Path
 
-from cfbench import cleanflate_src, config, env, machine, paths, rawio, sources, unsafe_scan
+from cfbench import (
+    cleanflate_src,
+    config,
+    env,
+    machine,
+    paths,
+    rawio,
+    sources,
+    subjects,
+    unsafe_scan,
+)
 
 LOCK_SCHEMA = "cfbench.subjects-lock/1"
 LOCK_PATH = paths.ROOT / "subjects.lock.json"
+NATIVE_RUSTFLAGS = "-C target-cpu=native"
 SUBJECT_IDS = ["cf", "zlib", "zlib-nohw", "zng", "zrs", "mox", "zsys"]
 
 _ARM_CRC = re.compile(r"^crc32[bhwx]$")
@@ -307,6 +318,25 @@ def collect(metadata: dict | None = None) -> tuple[dict, list]:
             "unsafe_status": _unsafe_status(bid, metadata),
             "target_cpu": "generic",
         }
+    for bid in ("cf", "zrs", "mox"):
+        exe = subjects.binary_path(bid, "native")
+        if not exe.exists():
+            continue
+        disasm = disassemble(exe, gaps)
+        syms = symbols_of(exe, gaps)
+        hints = {"no_dispatch": bid != "zrs"}
+        if bid == "zrs":
+            hints["runtime_dispatch_source"] = _zrs_source_dispatch(
+                sources.source_root("zrs", metadata)
+            )
+        entry = dict(builds[bid])
+        entry.update(
+            flags="RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+            hw_crc=hw_crc(arch, disasm, [x for x in syms if "crc32" in x], hints),
+            target_cpu="native",
+            rustflags=NATIVE_RUSTFLAGS,
+        )
+        builds[subjects.native_label(bid)] = entry
     zpath, zinfo = _zsys_info(gaps)
     zdis = disassemble(zpath, gaps) if zpath else None
     zsyms = symbols_of(zpath, gaps) if zpath else []

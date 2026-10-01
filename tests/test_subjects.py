@@ -28,3 +28,11 @@ def test_command_override_from_env(monkeypatch):
     assert subjects.command("zlib") == [str(subjects.binary_path("zlib"))]
     monkeypatch.delenv("CFB_SUBJECT_CMD")
     assert subjects.command("cf") == [str(subjects.binary_path("cf"))]
+
+
+def test_native_binary_path():
+    p = subjects.binary_path("cf", "native")
+    assert p == paths.ROOT / "target" / "native" / "release" / "cfb-cf"
+    assert subjects.native_label("zrs") == "zrs@native"
+    assert subjects.split_label("zrs@native") == ("zrs", "native")
+    assert subjects.split_label("zlib") == ("zlib", "release")

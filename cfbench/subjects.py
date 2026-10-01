@@ -59,3 +59,18 @@ def command(subject: str, build: str = "release") -> list[str]:
         if subject in m:
             return list(m[subject])
     return [str(binary_path(subject, build))]
+
+
+NATIVE_SUFFIX = "@native"
+
+
+def native_label(subject: str) -> str:
+    """Label carried by every `target-cpu=native` row in raw data and tables."""
+    return f"{subject}{NATIVE_SUFFIX}"
+
+
+def split_label(label: str) -> tuple[str, str]:
+    """`cf@native` -> (`cf`, `native`); `zlib` -> (`zlib`, `release`)."""
+    if label.endswith(NATIVE_SUFFIX):
+        return label[: -len(NATIVE_SUFFIX)], "native"
+    return label, "release"

@@ -34,6 +34,39 @@
       "unsafe_traits": 0
      }
     },
+    "cf@native": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "rustflags": "-C target-cpu=native",
+     "target_cpu": "native",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "cleanflate"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
     "mox": {
      "compiler": "rustc",
      "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
@@ -53,6 +86,39 @@
       "runtime_dispatch": false
      },
      "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "miniz_oxide-0.9.1"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "mox@native": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 0,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "rustflags": "-C target-cpu=native",
+     "target_cpu": "native",
      "unsafe_status": {
       "deny_unsafe_code": false,
       "forbid_unsafe_code": true,
@@ -190,6 +256,42 @@
       "unsafe_traits": 0
      }
     },
+    "zrs@native": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "RUSTFLAGS='-C target-cpu=native' plus the release profile from root Cargo.toml",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "dispatch_symbols": [],
+       "pclmul_instructions": 78,
+       "runtime_dispatch_source": true,
+       "sse42_crc32c_instructions": 0
+      },
+      "method": [
+       "disassembly",
+       "symbols",
+       "source"
+      ],
+      "note": "",
+      "runtime_dispatch": true
+     },
+     "rustflags": "-C target-cpu=native",
+     "target_cpu": "native",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": false,
+      "roots": [
+       "zlib-rs-0.6.8",
+       "libz-rs-sys-0.6.8"
+      ],
+      "target_feature": 46,
+      "unsafe_blocks": 674,
+      "unsafe_fns": 196,
+      "unsafe_impls": 5,
+      "unsafe_traits": 0
+     }
+    },
     "zsys": {
      "compiler": null,
      "compiler_version": null,
@@ -215,7 +317,7 @@
      "target_cpu": "generic"
     }
    },
-   "recorded_at": "20261001T044148Z"
+   "recorded_at": "20261001T045459Z"
   }
  },
  "rust_profile": {

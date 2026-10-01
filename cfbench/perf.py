@@ -10,6 +10,7 @@ import tempfile
 from pathlib import Path
 
 from cfbench import config, env, machine, rawio, subjects, workloads
+from cfbench.subjects import native_label, split_label
 
 MODE_KIND = {"oneshot": "oneshot", "stream_small": "stream", "stream_large": "stream"}
 
@@ -22,12 +23,22 @@ def _chunks(perf: dict, mode: str) -> tuple[int, int]:
     return 0, 0
 
 
+def session_labels(cfg: dict, variant: str) -> list[str]:
+    """Subject labels measured in a variant's session, in table order.
+
+    The native session holds the native Rust subjects (labelled `<id>@native`) plus the generic
+    `zlib` build as the same-session baseline.
+    """
+    perf = cfg["perf"]
+    if variant == "native":
+        return [native_label(s) for s in perf["native_subjects"]] + ["zlib"]
+    return list(perf["subjects"])
+
+
 def build_cells(cfg: dict, subject_infos: dict, wls: list, variant: str = "generic") -> list[dict]:
     """Every (subject, workload, mode) cell; unsupported ones carry status `unsupported`."""
     perf = cfg["perf"]
-    ids = [s for s in perf["subjects"] if s in subject_infos]
-    if variant == "native":
-        ids = [s for s in ids if s in perf["native_subjects"]]
+    ids = [s for s in session_labels(cfg, variant) if s in subject_infos]
     cells = []
     for sid in ids:
         info = subject_infos[sid]
@@ -118,7 +129,16 @@ def run(
 ) -> list[Path]:
     profile = profile or os.environ.get("CFB_PROFILE") or "full"
     m = machine.detect_machine()
-    cmds = {s: subjects.command(s, build) for s in subject_ids}
+    if variant == "native":
+        wanted = [s for s in subject_ids if s in cfg["perf"]["native_subjects"]]
+        labels = [native_label(s) for s in wanted] + ["zlib"]
+    else:
+        labels = list(subject_ids)
+    cmds = {}
+    for label in labels:
+        base, label_build = split_label(label)
+        cmds[label] = subjects.command(base, label_build if variant == "native" else build)
+    subject_ids = labels
     infos = {s: _run_json([*cmds[s], "info"]) for s in subject_ids}
     wls = workloads.list_workloads(cfg)
     missing = [str(w.path) for w in wls if not w.path.exists()]
@@ -152,7 +172,7 @@ def run(
         payload = {
             "kind": "perf",
             "variant": variant,
-            "build": build,
+            "build": "native" if variant == "native" else build,
             "seed": seed,
             "subjects": infos,
             "cells": results + unsupported,
@@ -182,8 +202,9 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--strict", action="store_true")
     a = ap.parse_args(argv)
     cfg = config.load_config()
-    ids = a.subjects.split(",") if a.subjects else cfg["perf"]["subjects"]
-    build = "native" if a.variant == "native" else "release"
+    default = cfg["perf"]["native_subjects"] if a.variant == "native" else cfg["perf"]["subjects"]
+    ids = a.subjects.split(",") if a.subjects else default
+    build = "release"
     try:
         for p in run(cfg, ids, variant=a.variant, strict=a.strict, build=build):
             print(p)
