@@ -1,0 +1,46 @@
+# Decompression-path source files per subject (SPEC 3.7 LOC, 3.8 similarity).
+# Globs are relative to sources.source_root(subject) (zrs: the zlib-rs crate).
+# `extra_include` globs, when present, are relative to sources.extra_roots(subject).
+# See docs/methods/decomp-paths.md for the inclusion rule.
+
+[cf]
+include = ["src/**/*.rs"]
+exclude = ["src/tests/**", "src/test_hooks.rs"]
+rationale = "cleanflate is decompression only, so every library source file is on the path; unit tests and the test-hooks module are excluded."
+
+[zlib]
+include = [
+    "inflate.c", "inflate.h", "inffast.c", "inffast.h", "inftrees.c", "inftrees.h", "inffixed.h",
+    "adler32.c", "crc32.c", "crc32.h", "uncompr.c", "zutil.c", "zutil.h",
+]
+exclude = []
+rationale = "inflate state machine, fast loop, Huffman tables, checksums, uncompress and shared utilities; infback.c (callback API), the gz file API and all deflate files are excluded."
+
+[zng]
+include = [
+    "inflate.c", "inflate.h", "inflate_p.h", "inffast_tpl.h", "inftrees.c", "inftrees.h",
+    "inffixed_tbl.h", "adler32.c", "adler32_p.h", "crc32.c", "crc32.h",
+    "crc32_braid_comb.c", "crc32_braid_comb_p.h", "crc32_braid_p.h", "crc32_braid_tbl.h",
+    "chunkset_tpl.h", "functable.c", "functable.h", "zutil.c", "zutil.h", "zutil_p.h",
+    "uncompr.c", "arch_functions.h", "cpu_features.c", "cpu_features.h",
+    "zbuild.h", "zendian.h", "zmemory.h", "fallback_builtins.h",
+    "arch/*/adler32*", "arch/*/crc32*", "arch/*/chorba*", "arch/*/chunk*",
+    "arch/*/*_functions.h", "arch/*/*_features.c", "arch/*/*_features.h",
+]
+exclude = []
+rationale = "inflate, inffast template, tables, checksums, chunkset, runtime dispatch (functable, cpu features) and the arch files implementing adler32, crc32 and chunkset; compare256, slide_hash, insert_string, match and every deflate file are excluded."
+
+[zrs]
+include = [
+    "src/inflate.rs", "src/inflate/**/*.rs", "src/adler32.rs", "src/adler32/**/*.rs",
+    "src/crc32.rs", "src/crc32/**/*.rs", "src/allocate.rs", "src/cpu_features.rs",
+    "src/weak_slice.rs", "src/c_api.rs",
+]
+exclude = []
+extra_include = []
+rationale = "zlib-rs inflate, checksums, allocation, CPU dispatch and the weak slice used by the window; c_api.rs is included although it is not separable into types only (it holds the z_stream ABI types); libz-rs-sys (the C-ABI wrapper crate) and all deflate files are excluded."
+
+[mox]
+include = ["src/inflate/**/*.rs", "src/shared.rs"]
+exclude = []
+rationale = "miniz_oxide inflate module and the shared Adler-32 helper; lib.rs (shared enums for both directions), deflate and the serde helpers are excluded."
