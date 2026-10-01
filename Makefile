@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := pitch blog
 
-.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper paper-check checksums framing content-features perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -100,6 +100,13 @@ content: content-features
 
 content-features: tools workloads
 	$(PY) -m cfbench.content.features run
+
+figures:
+	$(PY) -m cfbench.perf_charts
+	$(PY) -m cfbench.trajectory derive
+	$(PY) -m cfbench.framing derive
+	$(PY) -m cfbench.similarity.summary
+	$(PY) -m cfbench.more_charts
 
 perf-report:
 	$(PY) -m cfbench.perf_report
