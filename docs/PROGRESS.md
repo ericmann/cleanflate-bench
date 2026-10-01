@@ -51,7 +51,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P5-05 Clean-clone regeneration check
 - [x] P5-06 Phase 5 hand-off
 - [x] P6-01 Checksum microbenchmarks
-- [ ] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
+- [x] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
 - [ ] P6-03 Phase 6 hand-off
 - [ ] P7-01 infgen build and parser
 - [ ] P7-02 Content features for every workload
@@ -261,3 +261,7 @@ Note: the current kit has 3 supported claims (target 5-7); the similarity claim 
 ### P6-01 — 6d3e83b
 Tests: test_checksums x5. API: checksums.gib_per_s/build_cells/checksum_argv/value_mismatches/run(cfg,runner,profile,session)/derive(cfg)/main(run|derive). Config [framing] checksum_subjects (7 incl zlib-nohw) and checksum_sizes [64,4096,65536,1048576]. Raw framing/<machine> kind checksums (one file per perf.runs run, shared session); table checksums (pending committed). Quick smoke ok: values agree across subjects; mox crc32 unsupported; quick-run numbers (M-B): crc32 zlib ~3.8 GiB/s, zng/zrs ~12-15 (pclmul), cf ~2.4.
 Manual check: NOT VERIFIED (human): full make checksums on M-A and M-B.
+
+### P6-02 — 87be477
+Tests: test_framing x6. API: framing.overhead/overhead_rows/control_identical/hypothesis_rows(overheads,cfg,lock)/figure_data/draw/derive(cfg,out_dir,lock)/run. Config [framing] subjects (7), modes ['oneshot'], hypothesis_tolerance 0.25, figure_corpus silesia, figure_level 6. Raw framing/<machine> kind framing-perf variant framing; tables framing_overhead and framing_hypothesis (pending committed; ALL row verdict confirmed/refuted/inconclusive) feed P5-02's gzip_gap_is_hw_crc; figure framing_decomposition. paper rederive now includes framing; PAPER_KIT.md regenerated. Quick smoke showed zlib vs zlib-nohw gzip overhead noise on x86 (identical builds), so only a full run is meaningful.
+Manual check: NOT VERIFIED (human): make framing on M-A and M-B.
