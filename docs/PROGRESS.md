@@ -59,7 +59,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P7-04 Phase 7 hand-off
 - [x] P8-01 Malformed-input behaviour matrix
 - [x] P8-02 Differential fuzz harnesses
-- [ ] P8-03 Fuzz orchestration, statistics and corpus archive
+- [x] P8-03 Fuzz orchestration, statistics and corpus archive
 - [ ] P8-04 Fuzz coverage and divergence triage
 - [ ] P8-05 Decompression-bomb robustness sweep
 - [ ] P8-06 Phase 8 hand-off
@@ -295,3 +295,6 @@ cfbench/malformed.py runs 42 malformed files x 6 subjects (oneshot decode, confo
 
 ### P8-02 — 35fd43e
 fuzz/ is its own workspace (crate cfbench-fuzz, lib cffuzz): targets diff_cf_zlib, diff_cf_zrs, diff_cf_mox. zlib linked from build/c/zlib/lib/libcfbz_default.a via fuzz/build.rs; zrs =0.6.8, mox =0.9.1, cf pinned to round-3 rev. Outcome is Ok(bytes), Rejected or Capped; compare() is the agreement rule. Gzip interpretation: cf decodes all members, so zlib-family references loop members (reset while input starts 1f 8b). cf runs TrailingData::Allow. Normalizations listed in fuzz/README.md. make fuzz-build = fmt check, cargo +nightly test (3 tests), cargo +nightly fuzz build. An 8 s sanity run of each target found no divergence (not recorded). .gitignore gained /fuzz/corpus and /fuzz/artifacts.
+
+### P8-03 — 0b89382
+cfbench/fuzzing.py: seeds (level-6 workloads plus malformed files, framing byte 0/1/2; mox skips gzip) go to fuzz/corpus/<t>; runs cargo +nightly fuzz run -fork=<jobs> -ignore_crashes=1 -max_total_time=budget*3600/jobs -seed; parses stat::number_of_executed_units (or last #N in fork mode), exec/s, cov/ft, crash count and artifact paths; cargo fuzz cmin; tar.gz of corpus and artifacts via rawio.blob_path, sha256 in the raw JSON (kind fuzz). New config [fuzz] and quick override jobs=1; make fuzz and make fuzz-smoke. Fixtures: real fork-mode log plus a hand-trimmed crash excerpt in libFuzzer's documented format. Smoke run (60 s, data/smoke only, not committed): zlib 18406 execs 0 divergences, zrs 5459 execs 0, mox 6826 execs 6 divergences (artifacts left in fuzz/artifacts/diff_cf_mox for P8-04). 316 tests pass.
