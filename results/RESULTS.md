@@ -103,12 +103,12 @@ Pending: run `make trajectory` on M-A and M-B.
 
 | File | Framing | Outcomes by subject | cf expected |
 |---|---|---|---|
-| rfc1950/trailing_byte.bin | zlib | cf=error:TrailingData;zlib=accept;zng=accept;zrs=accept;mox=accept;zsys=accept | TrailingData |
-| rfc1951/valid_stored_trailing_byte.bin | raw | cf=error:TrailingData;zlib=accept;zng=accept;zrs=accept;mox=accept;zsys=accept | TrailingData |
-| rfc1952/second_member_bad_cm.bin | gzip | cf=error:BadHeader;zlib=accept;zng=accept;zrs=accept;mox=unsupported;zsys=accept | BadHeader |
-| rfc1952/trailing_garbage.bin | gzip | cf=error:TrailingData;zlib=accept;zng=accept;zrs=accept;mox=unsupported;zsys=accept | TrailingData |
+| rfc1950/trailing_byte.bin | zlib | cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=accept+trailing;zsys=accept+trailing | TrailingData |
+| rfc1951/valid_stored_trailing_byte.bin | raw | cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=accept+trailing;zsys=accept+trailing | TrailingData |
+| rfc1952/second_member_bad_cm.bin | gzip | cf=error:BadHeader;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=unsupported;zsys=accept+trailing | BadHeader |
+| rfc1952/trailing_garbage.bin | gzip | cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=unsupported;zsys=accept+trailing | TrailingData |
 
-*Source: `results/malformed_disagreements.csv` <- `data/raw/correctness/M-B/20261001T062930Z.json` via `cfbench.malformed`.*
+*Source: `results/malformed_disagreements.csv` <- `data/raw/correctness/M-B/20261001T073606Z.json` via `cfbench.malformed`.*
 
 Full matrix: `results/malformed_matrix.csv`; highlights: [MALFORMED_HIGHLIGHTS.md](MALFORMED_HIGHLIGHTS.md).
 
