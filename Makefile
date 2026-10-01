@@ -72,11 +72,11 @@ workloads: fetch subjects
 	$(PY) -m cfbench.workloads generate
 	$(PY) -m cfbench.workloads verify
 
-perf: subjects
+perf: subjects workloads
 	$(PY) -m cfbench.perf run
 	$(MAKE) perf-report
 
-perf-native: subjects subjects-native
+perf-native: subjects subjects-native workloads
 	$(PY) -m cfbench.perf run --variant native
 	$(MAKE) perf-report
 
@@ -88,7 +88,7 @@ subjects-rounds:
 	  cargo build --release -p subj-cf --no-default-features --features round$$n --target-dir target/round$$n || exit 1; \
 	done
 
-trajectory: subjects subjects-rounds
+trajectory: subjects subjects-rounds workloads
 	$(PY) -m cfbench.trajectory run
 	$(PY) -m cfbench.trajectory derive
 
@@ -120,7 +120,7 @@ fuzz-smoke: fuzz-build
 bombs: subjects
 	$(PY) -m cfbench.bombs run
 
-malformed: subjects
+malformed: subjects fetch
 	$(PY) -m cfbench.malformed run
 
 correctness: conformance malformed fuzz bombs
@@ -169,7 +169,7 @@ perf-report:
 	$(PY) -m cfbench.agreement
 	$(PY) -m cfbench.perf_charts
 
-smoke-bench: subjects
+smoke-bench: subjects workloads
 	CFB_PROFILE=quick $(PY) -m cfbench.perf run
 
 smoke-similarity:

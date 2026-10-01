@@ -163,3 +163,59 @@ def test_paper_data_target_runs_t1_measurements():
         check=True,
     ).stdout
     assert re.search(r"^paper-data\s", helped, flags=re.MULTILINE)
+
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def _makefile_graph():
+    prereqs, recipes, current = {}, {}, []
+    for line in (ROOT / "Makefile").read_text().splitlines():
+        if line.startswith("\t"):
+            for t in current:
+                recipes.setdefault(t, []).append(line)
+            continue
+        m = re.match(r"^([A-Za-z0-9_.-]+(?: [A-Za-z0-9_.-]+)*)\s*:(?!=)\s*(.*)$", line)
+        current = []
+        if m and not line.startswith("."):
+            current = m.group(1).split()
+            for t in current:
+                prereqs.setdefault(t, set()).update(m.group(2).split())
+    return prereqs, recipes
+
+
+def _closure(prereqs, target):
+    seen, stack = set(), [target]
+    while stack:
+        for p in prereqs.get(stack.pop(), ()):
+            if p not in seen:
+                seen.add(p)
+                stack.append(p)
+    return seen
+
+
+def _first_line(out, needle):
+    return next(i for i, line in enumerate(out) if needle in line)
+
+
+def test_measurement_targets_depend_on_their_inputs():
+    prereqs, recipes = _makefile_graph()
+    needles = (
+        "cfbench.perf run", "cfbench.trajectory run",
+        "cfbench.conformance run", "cfbench.content.features run",
+    )  # fmt: skip
+    checked = 0
+    for target, lines in recipes.items():
+        if any(n in line for line in lines for n in needles):
+            checked += 1
+            assert "workloads" in _closure(prereqs, target), target
+    assert checked >= 5
+    assert "fetch" in _closure(prereqs, "malformed")
+    for goal in ("all", "paper-data"):
+        out = subprocess.run(
+            ["make", "-n", goal], cwd=ROOT, check=True, capture_output=True, text=True
+        ).stdout.splitlines()
+
+        gen = _first_line(out, "cfbench.workloads generate")
+        assert gen < _first_line(out, "cfbench.perf run"), goal
+        assert gen < _first_line(out, "cfbench.trajectory run"), goal
