@@ -54,7 +54,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
 - [x] P6-03 Phase 6 hand-off
 - [x] P7-01 infgen build and parser
-- [ ] P7-02 Content features for every workload
+- [x] P7-02 Content features for every workload
 - [ ] P7-03 Correlation, H1/H2 verdicts, scatter plots and findings
 - [ ] P7-04 Phase 7 hand-off
 - [ ] P8-01 Malformed-input behaviour matrix
@@ -276,3 +276,6 @@ Note: on M-B (x86_64) zlib-nohw is identical to the default build, so the hypoth
 
 ### P7-01 — 749834e
 Tests: test_infgen x10 (fixtures/infgen real infgen output: stored, fixed, dynamic, zeros, zlib_l9). API: infgen.spec/binary_path/ensure()/count_bytes/parse_lines/summarize(raw,compressed_bytes)/stats(stream_path,framing,infgen). Pinned commit 1e36c3da (v3.6) sha 2d7dac46...; build needs zlib (documented command lacks -lz and fails to link) so uses build/c/zlib or -lz. Stats keys: literals, matches, literal_fraction, match_len_hist/match_dist_hist (dict bins), dist1_fraction, dist1_byte_fraction, dist2_7_fraction, dist2_7_byte_fraction, overlap_fraction, overlap_byte_fraction, blocks{stored,fixed,dynamic}, compressed_bytes, output_bytes, ratio (= compressed/output). Verified on real workloads (output bytes equal original lengths). tools.all_names unaffected (infgen has no 'binary' key).
+
+### P7-02 — 30ec6c4
+infgen run over 207 corpus raw streams (tiny excluded); raw data/raw/content/any records workload manifest SHA-256. results/content_features.csv has one row per workload/level/framing; token features come from the raw-framed stream and are copied to zlib/gzip rows (framing_analysed column), ratio from each framing's own size. Added mean_match_len to infgen.summarize, make content-features, content alias replacing the stub. make lint and make test pass (301 tests).
