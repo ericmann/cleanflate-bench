@@ -33,7 +33,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-02 Token n-gram similarity for all pairs
 - [x] P3-03 Identifier and comment overlap
 - [x] P3-04 JPlag for same-language pairs
-- [ ] P3-05 Top-20 fragment pairs with persistent verdicts
+- [x] P3-05 Top-20 fragment pairs with persistent verdicts
 - [ ] P3-06 Positioning against controls, statement and figure
 - [ ] P3-07 Structural comparison write-up
 - [ ] P3-08 Phase 3 hand-off
@@ -182,3 +182,7 @@ Tests: test_similarity_identifiers x5, test_similarity_comments x3. API: identif
 
 ### P3-04 — 2f1710b
 Tests: test_similarity_jplag x6 (fixtures/jplag: help_languages, comparison, runInformation, options). API: jplag.ensure_jar/ensure_java/ensure_jre/verify/parse_languages/parse_comparison/parse_result_archive/classify/all_pairs/run_pair/payload. Pinned jar sha 5f2c21e8..., JRE 25 pinned per platform (Linux-x86_64, Darwin-arm64) because PATH java is 21 and JPlag 6.3.0 needs 25. Use -M RUN. Rust+C support verified, no tool gap. Results (avg/max): zrs-mox 0.131/0.442 (negative control), cf-zrs 0.181/0.324 (longest match 594 tokens), cf-mox 0.180/0.290, zlib-zng 0.300/0.565 (context); cross-language pairs 'not applicable (cross-language)'. NOTE for review: cf-zrs has a 594-token longest match; P3-05 fragment review should look at it. config [similarity] context_pairs added. Raw similarity/any 20261001T052552Z.
+
+### P3-05 — b782b35
+Tests: test_similarity_fragments x9. API: fragments.find_fragments(left,right,min_len,top_k,max_occurrences)->(frags,skipped), fragment_id, parse_verdicts/load_verdicts/merge_verdicts, pair_rows, payload, markdown, derive(doc_path). Config [similarity] top_k=20, max_window_occurrences=50. Tables similarity_fragments_<left>_<right>.csv for all 6 pairs (controls included) + results/similarity_fragments/*.md. Verdict file empty (human). Interpretation: boilerplate windows (>50 occurrences) skipped (uncapped run took ~7 min); skipped counts recorded per pair. Longest fragments: zrs-mox 43, zrs-zng 54, cf-zrs 38, cf-mox 43, cf-zlib 24, cf-zng 15 tokens. cf-zrs top fragments are the Adler-32 loop (RFC-defined algorithm) and gzip/weak_slice. JPlag's 594-token cf-zrs match is structural (gzip.rs 561-719 vs inflate.rs 1057-1224, state-machine shape), not text. Raw similarity/any 20261001T053550Z.
+Manual check: NOT VERIFIED (human): fill verdicts.
