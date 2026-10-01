@@ -1,0 +1,19 @@
+{
+ "columns": [
+  "fact",
+  "value",
+  "source_url",
+  "fetched_at"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261001T055248Z.json",
+   "sha256": "acdc2ed23b10700c50bef264dc377c405a0025c1a67a60f7b116901dfdd3df41",
+   "timestamp": "20261001T055248Z"
+  }
+ ],
+ "script": "cfbench.effort.context",
+ "table": "zlibrs_context.csv"
+}
