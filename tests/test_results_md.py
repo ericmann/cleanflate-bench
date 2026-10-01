@@ -67,3 +67,52 @@ def test_pending_sections_name_make_target(isolated):
         assert f"Pending: run `{make}`" in text, make
     pend = [p for p in text.split("\n\n") if p.startswith("Pending: run `")]
     assert pend and all(re.match(r"Pending: run `make [\w-]+` on ", p) for p in pend)
+
+
+THREATS = ["Training-data contamination", "Machine variance and thermal effects", "Feature-scope mismatch",
+           "Fuzz budget limits", "n=1 build effort", "Hardware-CRC asymmetry"]  # fmt: skip
+
+
+def test_threats_section_covers_six_required_threats(isolated):
+    d = isolated / "res"
+    shutil.copytree(FIX, d)
+    text = results_md.threats_section(d, CFG)
+    heads = re.findall(r"^### (.+)$", text, flags=re.MULTILINE)
+    assert heads == THREATS
+    paras = [p for p in text.split("### ")[1:]]
+    assert all(len(p.splitlines()) >= 3 for p in paras)  # a real paragraph under each heading
+    assert "T1 claim" in paras[0] or "Pending" in paras[0]
+    assert f"{CFG['perf']['max_start_load']}" in paras[1] and "not 'pass'" in paras[1]
+    assert str(CFG["fuzz"]["budget_cpu_hours"]) in paras[3]
+    assert "hardware CRC" in paras[5]
+
+
+def test_full_render_is_deterministic(isolated):
+    d = isolated / "res"
+    shutil.copytree(FIX, d)
+    a = results_md.render(d, CFG)
+    assert a == results_md.render(d, CFG)
+    assert a.startswith(results_md.HEADER)
+    heads = re.findall(r"^## (.+)$", a, flags=re.MULTILINE)
+    assert heads == [*TITLES, "Correctness", "Size, safety and complexity", "Clean-room verification",
+                     "Effort, cost and provenance", "Findings for the cleanflate repo", "Threats to validity"]  # fmt: skip
+    assert (
+        results_md.num("2962") == "2962"
+        and results_md.num("0.5", 2) == "0.50"
+        and results_md.num("") == "n/a"
+    )
+
+
+def test_similarity_section_reports_verdict_counts(isolated):
+    d = isolated / "res"
+    shutil.copytree(FIX, d)
+    header = "rank,fragment_id,tokens,left_file,left_lines,right_file,right_lines,verdict,note\n"
+    rows = ["1,a,9,x,1-2,y,1-2,RFC-forced,", "2,b,8,x,3-4,y,3-4,RFC-forced,", "3,c,7,x,5-6,y,5-6,suspicious,",
+            "4,d,6,x,7-8,y,7-8,,", "5,e,5,x,9-10,y,9-10,idiomatic-inevitable,"]  # fmt: skip
+    (d / "similarity_fragments_cf_zrs.csv").write_text(header + "\n".join(rows) + "\n")
+    counts = results_md.fragment_counts(d)
+    assert counts == [["cf-zrs", 5, 2, 1, 1, 1]]
+    text = results_md.similarity_section(d, CFG)
+    assert "| cf-zrs | 5 | 2 | 1 | 1 | 1 |" in text
+    assert "RFC-forced" in text and "Unreviewed" in text and "STRUCTURE_COMPARISON.md" in text
+    assert "**Result statement:**" in text and "tree-sitter" in text

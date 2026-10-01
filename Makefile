@@ -1,13 +1,12 @@
 PY := uv run --frozen python
-STUBS := blog
+STUBS :=
 
-.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke blog
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
 	@echo "test   cargo test, bins build and pytest"
 	@echo "all    every measurement and kit"
-	@echo "stubs: $(STUBS)"
 
 env:
 	$(PY) -m cfbench.env
@@ -166,7 +165,8 @@ test: c-subjects
 	cargo build --workspace --bins
 	uv run --frozen pytest -q
 
-$(STUBS):
-	@echo "not implemented yet"; exit 2
+blog:
+	$(PY) -m cfbench.kits.pitch rederive
+	$(PY) -m cfbench.kits.results_md
 
-all: env pins perf size similarity trajectory effort correctness paper framing content-features pitch $(STUBS)
+all: env pins perf size similarity trajectory effort correctness paper framing content-features pitch blog
