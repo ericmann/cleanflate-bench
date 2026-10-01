@@ -41,7 +41,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P4-02 Trajectory run, table and figure
 - [x] P4-03 Effort from git history, tool log and Foundry state
 - [x] P4-04 Token usage export and cost
-- [ ] P4-05 zlib-rs status-quo context
+- [x] P4-05 zlib-rs status-quo context
 - [ ] P4-06 Effort tables, gaps and trajectory join
 - [ ] P4-07 Phase 4 hand-off
 - [ ] P5-01 Conformance runner
@@ -216,3 +216,6 @@ Tests: test_effort_history x5 (fixtures/effort: gitlog, tool-log, state-r1/r2, i
 ### P4-04 — 045fd8c
 Tests: test_effort_usage x7 (synthetic transcripts fixtures with sentinel text). API: usage.read_records/export_record/attribute/stage_from_agent/cost_of/summarize/collect/main(--allow-gaps); EXPORT_FIELDS/DERIVED_FIELDS. config/pricing.toml all UNSET (cost null, gaps list each model); [effort] transcripts_dir. history.state_summary reviews[] now has 'at'; history re-run -> newer raw 20261001T055110Z (older one still committed; latest wins). Usage raw: effort/any 20261001T055110Z-1.json (3291 msgs, 2518 dups dropped, no content/text keys, verified by grep). Output tokens by round/stage computed; costs null until prices supplied (human). Stage methods: agent type 2182, agent type after first review 919, main session 190 records.
 Manual check: NOT VERIFIED (human): supply sourced prices in config/pricing.toml.
+
+### P4-05 — 0c1a127
+Tests: test_effort_context x5 (recorded responses, no network). API: context.last_page/count_via_last_page/releases/crate_versions/collect(fetch)/table_rows(payload,fetched_at)/derive/main; open_url is the single network call. Raw effort/any 20261001T055248Z; results/zlibrs_context.csv with scope_note row. Facts: zlib-rs first commit 2023-12-05, 1083 commits, 37 contributors incl. anonymous, first GitHub release v0.2.0 2024-06-12, first crate version 0.0.1 2024-02-23, latest 0.6.8 2026-09-15, no 1.0 published. GITHUB_TOKEN used if set, never stored. Note: a failed attempt of my own test sent a fake token to the live API once (401), no real token involved.
