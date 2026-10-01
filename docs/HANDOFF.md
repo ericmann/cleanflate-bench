@@ -45,3 +45,10 @@ Review-fix round on branch `build/2026-10-01`. All eight R1 tasks done, none blo
 - R1-08: `make paper-data` added (env pins perf trajectory size conformance, then paper); not run.
 
 Human checks: run `make paper-data` on M-A and M-B; the full bomb sweep; kits-check requires a clean tree, so run it after committing.
+
+## Round 2
+
+- Branch build/2026-10-01, head 89c8cf1 plus handoff; 80 of 80 tasks done, 0 blocked, 0 skipped.
+- R2-01: Makefile prerequisites. `perf`, `perf-native`, `smoke-bench`, `trajectory` now depend on `workloads`; `malformed` depends on `fetch`. `make -n paper-data` orders cleanflate_src fetch, workloads generate, then perf run.
+- Test: tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs (hermetic: Makefile parse and `make -n` only).
+- Interpretation choices: none. Manual check: NOT VERIFIED (human) on a real fresh clone (needs network).
