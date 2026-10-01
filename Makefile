@@ -1,7 +1,7 @@
 PY := uv run --frozen python
-STUBS := framing content trajectory correctness similarity effort paper pitch blog
+STUBS := framing content trajectory correctness effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -72,6 +72,12 @@ similarity-jplag:
 similarity-fragments:
 	$(PY) -m cfbench.similarity.fragments
 
+similarity-summary:
+	$(PY) -m cfbench.similarity.summary
+
+similarity: similarity-ngram similarity-jplag similarity-fragments
+	$(PY) -m cfbench.similarity.summary
+
 lint: c-subjects
 	cargo fmt --all -- --check
 	cargo clippy --workspace --all-targets -- -D warnings
@@ -86,4 +92,4 @@ test: c-subjects
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: env pins perf size $(STUBS)
+all: env pins perf size similarity $(STUBS)

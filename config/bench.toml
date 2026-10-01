@@ -57,6 +57,7 @@ ngram_max = 10
 min_ident_len = 6
 comment_ngram = 5
 top_k = 20
+near_fraction = 0.25
 max_window_occurrences = 50
 context_pairs = [{ left = "zlib", right = "zng", role = "context" }]
 pairs = [

@@ -1,0 +1,65 @@
+metric,pair,role,score,neg_score,pos_score,position,classification
+comment_jaccard,cf-mox,test,0.000306466,0.00101963,0.0394729,-0.0185462,below negative
+comment_jaccard,cf-zlib,test,0.000256915,0.00101963,0.0394729,-0.0198348,below negative
+comment_jaccard,cf-zng,test,0.000269165,0.00101963,0.0394729,-0.0195163,below negative
+comment_jaccard,cf-zrs,test,0.000511404,0.00101963,0.0394729,-0.0132167,below negative
+comment_jaccard,zrs-mox,negative,0.00101963,0.00101963,0.0394729,0,negative control
+comment_jaccard,zrs-zng,positive,0.0394729,0.00101963,0.0394729,1,positive control
+ident_jaccard,cf-mox,test,0.0747384,0.0438513,0.143809,0.309002,between
+ident_jaccard,cf-zlib,test,0.0207006,0.0438513,0.143809,-0.231604,below negative
+ident_jaccard,cf-zng,test,0.0108043,0.0438513,0.143809,-0.330609,below negative
+ident_jaccard,cf-zrs,test,0.0529197,0.0438513,0.143809,0.0907226,at or near negative
+ident_jaccard,zrs-mox,negative,0.0438513,0.0438513,0.143809,0,negative control
+ident_jaccard,zrs-zng,positive,0.143809,0.0438513,0.143809,1,positive control
+ident_match_rate_left,cf-mox,test,0.128535,0.0601307,0.338562,0.245676,at or near negative
+ident_match_rate_left,cf-zlib,test,0.033419,0.0601307,0.338562,-0.0959364,below negative
+ident_match_rate_left,cf-zng,test,0.0462725,0.0601307,0.338562,-0.0497725,below negative
+ident_match_rate_left,cf-zrs,test,0.1491,0.0601307,0.338562,0.319538,between
+ident_match_rate_left,zrs-mox,negative,0.0601307,0.0601307,0.338562,0,negative control
+ident_match_rate_left,zrs-zng,positive,0.338562,0.0601307,0.338562,1,positive control
+jplag_avg,cf-mox,test,0.179505,0.131145,,,positive control unavailable
+jplag_avg,cf-zrs,test,0.181236,0.131145,,,positive control unavailable
+jplag_avg,zlib-zng,context,0.299652,0.131145,,,positive control unavailable
+jplag_avg,zrs-mox,negative,0.131145,0.131145,,0,negative control
+ngram_containment@5,cf-mox,test,0.367311,0.525103,0.109499,,controls not separated
+ngram_containment@5,cf-zlib,test,0.0687777,0.525103,0.109499,,controls not separated
+ngram_containment@5,cf-zng,test,0.0901573,0.525103,0.109499,,controls not separated
+ngram_containment@5,cf-zrs,test,0.51553,0.525103,0.109499,,controls not separated
+ngram_containment@5,zrs-mox,negative,0.525103,0.525103,0.109499,0,negative control
+ngram_containment@5,zrs-zng,positive,0.109499,0.525103,0.109499,1,positive control
+ngram_jaccard@10,cf-mox,test,0.041404,0.0394638,0.0082158,,controls not separated
+ngram_jaccard@10,cf-zlib,test,0.000973552,0.0394638,0.0082158,,controls not separated
+ngram_jaccard@10,cf-zng,test,0.00169328,0.0394638,0.0082158,,controls not separated
+ngram_jaccard@10,cf-zrs,test,0.0499715,0.0394638,0.0082158,,controls not separated
+ngram_jaccard@10,zrs-mox,negative,0.0394638,0.0394638,0.0082158,0,negative control
+ngram_jaccard@10,zrs-zng,positive,0.0082158,0.0394638,0.0082158,1,positive control
+ngram_jaccard@5,cf-mox,test,0.214767,0.215272,0.0554577,,controls not separated
+ngram_jaccard@5,cf-zlib,test,0.0351546,0.215272,0.0554577,,controls not separated
+ngram_jaccard@5,cf-zng,test,0.0347887,0.215272,0.0554577,,controls not separated
+ngram_jaccard@5,cf-zrs,test,0.223427,0.215272,0.0554577,,controls not separated
+ngram_jaccard@5,zrs-mox,negative,0.215272,0.215272,0.0554577,0,negative control
+ngram_jaccard@5,zrs-zng,positive,0.0554577,0.215272,0.0554577,1,positive control
+ngram_jaccard@6,cf-mox,test,0.153873,0.151555,0.0333087,,controls not separated
+ngram_jaccard@6,cf-zlib,test,0.0170732,0.151555,0.0333087,,controls not separated
+ngram_jaccard@6,cf-zng,test,0.0182259,0.151555,0.0333087,,controls not separated
+ngram_jaccard@6,cf-zrs,test,0.164337,0.151555,0.0333087,,controls not separated
+ngram_jaccard@6,zrs-mox,negative,0.151555,0.151555,0.0333087,0,negative control
+ngram_jaccard@6,zrs-zng,positive,0.0333087,0.151555,0.0333087,1,positive control
+ngram_jaccard@7,cf-mox,test,0.110483,0.107553,0.020873,,controls not separated
+ngram_jaccard@7,cf-zlib,test,0.00751703,0.107553,0.020873,,controls not separated
+ngram_jaccard@7,cf-zng,test,0.00938227,0.107553,0.020873,,controls not separated
+ngram_jaccard@7,cf-zrs,test,0.122037,0.107553,0.020873,,controls not separated
+ngram_jaccard@7,zrs-mox,negative,0.107553,0.107553,0.020873,0,negative control
+ngram_jaccard@7,zrs-zng,positive,0.020873,0.107553,0.020873,1,positive control
+ngram_jaccard@8,cf-mox,test,0.0785401,0.0773209,0.0136818,,controls not separated
+ngram_jaccard@8,cf-zlib,test,0.00339779,0.0773209,0.0136818,,controls not separated
+ngram_jaccard@8,cf-zng,test,0.0049871,0.0773209,0.0136818,,controls not separated
+ngram_jaccard@8,cf-zrs,test,0.0910722,0.0773209,0.0136818,,controls not separated
+ngram_jaccard@8,zrs-mox,negative,0.0773209,0.0773209,0.0136818,0,negative control
+ngram_jaccard@8,zrs-zng,positive,0.0136818,0.0773209,0.0136818,1,positive control
+ngram_jaccard@9,cf-mox,test,0.0575404,0.0554349,0.0103079,,controls not separated
+ngram_jaccard@9,cf-zlib,test,0.00173233,0.0554349,0.0103079,,controls not separated
+ngram_jaccard@9,cf-zng,test,0.00293255,0.0554349,0.0103079,,controls not separated
+ngram_jaccard@9,cf-zrs,test,0.0682458,0.0554349,0.0103079,,controls not separated
+ngram_jaccard@9,zrs-mox,negative,0.0554349,0.0554349,0.0103079,0,negative control
+ngram_jaccard@9,zrs-zng,positive,0.0103079,0.0554349,0.0103079,1,positive control
