@@ -49,7 +49,7 @@ Figure pending: table perf_aggregates is pending: no full perf runs; run make pe
 
 - **perf_range**: table perf_agreement_summary is pending: no full perf runs; run make perf on M-A and M-B
 - **trajectory**: table trajectory is pending: no trajectory run; run make trajectory on M-A and M-B
-- **gzip_gap_is_hw_crc**: table framing_hypothesis is missing: run `make framing`
+- **gzip_gap_is_hw_crc**: table framing_hypothesis is pending: no framing run; run make framing on M-A and M-B
 
 ## Environments
 

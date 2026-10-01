@@ -43,6 +43,14 @@ prefix_bytes = [256]
 [framing]
 checksum_subjects = ["cf", "zlib", "zlib-nohw", "zng", "zrs", "mox", "zsys"]
 checksum_sizes = [64, 4096, 65536, 1048576]
+subjects = ["cf", "zlib", "zlib-nohw", "zng", "zrs", "mox", "zsys"]
+modes = ["oneshot"]
+hypothesis_tolerance = 0.25
+figure_corpus = "silesia"
+figure_level = 6
+
+[profiles.quick.framing]
+figure_level = 6
 
 [paper]
 parity_ratio = 0.95
