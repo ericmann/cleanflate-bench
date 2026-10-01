@@ -36,7 +36,7 @@ def check_bullet(b: Bullet) -> Bullet:
     shown = " ".join([e.display for e in b.evidence] + list(b.labels))
     allowed = set(_NUMBER.findall(shown))
     for token in _NUMBER.findall(b.text):
-        if token not in allowed and not any(token in a for a in allowed):
+        if token not in allowed:
             raise ValueError(f"number {token!r} in {b.text!r} has no evidence")
     return b
 
@@ -387,7 +387,15 @@ def bullets_claims(ids: list[str], d: Path, cfg: dict) -> list[Bullet]:
         if c.status == claims_mod.SUPPORTED and c.text:
             out.append(Bullet(c.text, tuple(c.evidence), labels))
         elif c.status == claims_mod.REJECTED:
-            out.append(Bullet(f"Not claimed ({c.id}): {c.reason}.", tuple(c.evidence), labels))
+            # A rejection reason may tally the evidence cells ("8 of 8 cells below ..."); those
+            # tallies are counted here from the evidence itself so they are labelled, not assumed.
+            below = sum(
+                1 for e in c.evidence if isinstance(e.value, float) and e.value < p["parity_ratio"]
+            )
+            tallies = (str(len(c.evidence)), str(below)) if c.evidence else ()
+            out.append(
+                Bullet(f"Not claimed ({c.id}): {c.reason}.", tuple(c.evidence), (*labels, *tallies))
+            )
     return out
 
 

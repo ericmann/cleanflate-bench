@@ -106,3 +106,10 @@ def test_talking_point_numbers_come_from_evidence(fixture_results, tmp_path):
     assert doc.read_text().startswith(pitch.HEADER)
     again = pitch.render_document(figs, fixture_results, CFG)
     assert again == doc.read_text()  # deterministic
+
+
+def test_substring_of_evidence_is_not_evidence():
+    with pytest.raises(ValueError):
+        pitch.check_bullet(
+            pitch.Bullet("cf is 9 times faster than zlib on 35 files", (), ("0.935",))
+        )

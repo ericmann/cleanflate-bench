@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from cfbench import config, paths
-from cfbench.kits import claims, paper
+from cfbench.kits import claims, paper, pitch
 
 FIX = Path(__file__).parent / "fixtures" / "results"
 CFG = config.load_config("full")
@@ -63,11 +63,19 @@ def test_shortfall_is_stated_explicitly(tmp_path):
 def test_every_number_in_claims_comes_from_evidence(results):
     md = paper.render(results, CFG, results / "figures")
     results_list = claims.evaluate(results, CFG)
-    displays = " ".join(e.display for c in results_list for e in c.evidence)
+    displays = {tok for c in results_list for e in c.evidence for tok in pitch.numbers(e.display)}
     # descriptors, not results: levels, round numbers and the "256" of SHA-256
     allowed = {
         str(x)
-        for x in [*CFG["paper"]["perf_levels"], 1, 2, 3, CFG["paper"]["trajectory_level"], 256]
+        for x in [
+            *CFG["paper"]["perf_levels"],
+            1,
+            2,
+            3,
+            CFG["paper"]["trajectory_level"],
+            256,
+            "1.00",
+        ]
     }
     bullets = [
         ln for ln in sections(md)["Headline claims"].splitlines() if re.match(r"^\d+\. ", ln)
@@ -75,7 +83,7 @@ def test_every_number_in_claims_comes_from_evidence(results):
     assert len(bullets) >= 5
     for line in bullets:
         text = re.sub(r"^\d+\. ", "", line)  # the list marker is not a claim number
-        for run in re.findall(r"\d+(?:[.,]\d+)*", text):
+        for run in pitch.numbers(text):
             assert run in displays or run in allowed, (run, line)
     # and the claim sentences are exactly the evaluated texts
     assert [re.sub(r"^\d+\. ", "", b) for b in bullets] == [
@@ -122,3 +130,9 @@ def test_environments_come_from_referenced_raw_files(results):
     env = sections(md)["Environments"]
     assert "| M-T |" in env  # the fixture raw files record machine M-T
     assert paths.ROOT.joinpath("tests/fixtures/raw/perf/M-T").exists()
+
+
+def test_whole_token_check_rejects_substring_of_display():
+    displays = set(pitch.numbers("speed 0.935 MiB/s"))
+    assert "35" not in displays
+    assert "0.935" in displays
