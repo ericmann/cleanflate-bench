@@ -1,7 +1,7 @@
 PY := uv run --frozen python
-STUBS := perf framing content trajectory correctness size similarity effort paper pitch blog
+STUBS := framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads perf smoke-bench $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -29,6 +29,12 @@ workloads: fetch subjects
 	$(PY) -m cfbench.workloads generate
 	$(PY) -m cfbench.workloads verify
 
+perf: subjects
+	$(PY) -m cfbench.perf run
+
+smoke-bench: subjects
+	CFB_PROFILE=quick $(PY) -m cfbench.perf run
+
 lint: c-subjects
 	cargo fmt --all -- --check
 	cargo clippy --workspace --all-targets -- -D warnings
@@ -43,4 +49,4 @@ test: c-subjects
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: env pins $(STUBS)
+all: env pins perf $(STUBS)
