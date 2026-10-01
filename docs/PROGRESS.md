@@ -26,7 +26,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P2-01 Pinned third-party tools
 - [x] P2-02 Minimal stdin→stdout decompressors
 - [x] P2-03 Binary-size measurement and cargo bloat
-- [ ] P2-04 Unsafe surface
+- [x] P2-04 Unsafe surface
 - [ ] P2-05 Dependencies and audit
 - [ ] P2-06 Phase 2 hand-off
 - [ ] P3-01 Decompression-path source manifest
@@ -156,3 +156,6 @@ Tests: test_minimal_programs x9. Bins min-cf/min-zrs/min-mox (crates/min-*, no h
 
 ### P2-03 — 25e16ea
 Tests: test_size x7 (+1 test_cbuild). API: size.rust_build_cmd/bloat_cmd/c_link_flags/zlib_sources/parse_bloat/rows_from_payload/measure_binary/derive_binary; target_dir(opt,stripped). Config [size] opt_levels ['3','s'], bloat_top 30. Fixed zng source dir naming (cbuild.SOURCE_DIR_NAMES: zng->zlib-ng, matching sources.source_root); build-info untouched. M-B data run committed: sizes (opt3 bytes) zlib 43136, zng 158040, mox 361120, cf 393888, zrs 406184; opt s: zlib 34944, zng 100696, mox 340640, cf 373408, zrs 381608; zsys excluded row. No tool gaps. make size = tools + cfbench.size binary (P2-04/P2-05 to chain).
+
+### P2-04 — de55b3d
+Tests: test_unsafe_scan +5 (dependency rows incl. build/dev exclusion, geiger failure gap, geiger parse, C note, table+lock status from latest raw). API: unsafe_scan.scan_subject(subject, metadata), geiger_counts(subject, runner), collect(), derive_table(), status_from_latest_raw(subject), main; UNSAFE_COLUMNS. cargo-geiger runs on crates/min-<x>/Cargo.toml (virtual workspace manifest unsupported). Raw: data/raw/size/any (kind unsafe), results/unsafe.csv. Results: cf 0 unsafe, forbid true, 0 deps; mox 0 unsafe + adler2 0; zrs 674 unsafe blocks. pins lock unsafe_status reads latest raw. make size runs unsafe_scan after binary.
