@@ -52,6 +52,7 @@ levels = [6]
 [effort]
 # Gaps between consecutive commits longer than this are treated as idle time, not stage work.
 idle_gap_hours = 3
+transcripts_dir = "~/.claude/projects/-media-ericmann-Data-Projects-cleanflate"
 # Defect source keywords (matched case-insensitively in `Defects-caught:` trailers); a stage of
 # `review` or `fix` breaks ties in favour of review and is the default source when nothing matches.
 defect_keywords = { fuzzing = ["fuzz"], conformance = ["conformance", "oracle", "corpus", "compare"], unit_tests = ["test", "mutant", "mutation"], review = ["review"] }

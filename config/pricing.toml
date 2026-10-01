@@ -1,0 +1,19 @@
+# Model prices for cost estimates (SPEC 3.9). Deliberately UNSET: the benchmark never guesses a
+# price. Fill in the five per-million-token keys of a model (USD) and set `source` to the URL or
+# document the number came from and `as_of` to its date; cost is computed only for models with all
+# five prices. TOML has no null, so a missing price is a missing key.
+#
+#   input_per_mtok, output_per_mtok, cache_write_5m_per_mtok, cache_write_1h_per_mtok,
+#   cache_read_per_mtok
+
+[models."claude-opus-5-5"]
+source = "UNSET"
+as_of = ""
+
+[models."claude-sonnet-5-5"]
+source = "UNSET"
+as_of = ""
+
+[models."claude-sonnet-5"]
+source = "UNSET"
+as_of = ""

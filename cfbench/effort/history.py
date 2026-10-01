@@ -227,7 +227,12 @@ def state_summary(state: dict) -> dict:
         "verdict": state.get("verdict"),
         "review_rounds": len(state.get("rounds", [])),
         "reviews": [
-            {"round": r["round"], "verdict": r["verdict"], "fix_tasks": r.get("fixTasks")}
+            {
+                "round": r["round"],
+                "verdict": r["verdict"],
+                "fix_tasks": r.get("fixTasks"),
+                "at": r.get("at"),
+            }
             for r in state.get("rounds", [])
         ],
     }
