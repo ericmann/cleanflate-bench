@@ -1,0 +1,259 @@
+{
+  "verify": [
+    {
+      "cmd": "make lint",
+      "timeoutMs": 1200000
+    },
+    {
+      "cmd": "make test",
+      "timeoutMs": 1200000
+    }
+  ],
+  "extraVerify": {
+    "fuzz/": [
+      {
+        "cmd": "make fuzz-build",
+        "timeoutMs": 1800000
+      }
+    ]
+  },
+  "build": [
+    {
+      "cmd": "make subjects",
+      "timeoutMs": 1800000
+    }
+  ],
+  "baseBranch": "main",
+  "branchPrefix": "build/",
+  "maxRounds": 3,
+  "maxRoundsHard": 6,
+  "constraints": [
+    {
+      "id": "no-unseeded-random-py",
+      "description": "SPEC §4 deterministic seeds: Python randomness only through an instance seeded from config run.seed (random.Random(seed) / np.random.default_rng(seed)); no module-level random functions or global seeding.",
+      "paths": [
+        "cfbench/"
+      ],
+      "pattern": "(^|[^\\w.])random\\.(random|shuffle|choice|choices|randint|randrange|sample|uniform|seed)\\(|\\bnp\\.random\\.(rand|randn|randint|shuffle|choice|seed|random|permutation)\\(|^\\s*from random import|^\\s*from numpy\\.random import (?!default_rng)",
+      "shouldMatch": [
+        "random.shuffle(cells)",
+        "x = random.random()",
+        "random.seed(1)",
+        "np.random.shuffle(a)",
+        "idx = np.random.choice(n)",
+        "from random import shuffle",
+        "from numpy.random import permutation"
+      ],
+      "shouldNotMatch": [
+        "rng = random.Random(seed)",
+        "rng.shuffle(cells)",
+        "self.rng.random()",
+        "gen = np.random.default_rng(seed)",
+        "from numpy.random import default_rng",
+        "import random"
+      ]
+    },
+    {
+      "id": "no-unseeded-random-rs",
+      "description": "SPEC §4 deterministic seeds: Rust code under crates/ never draws entropy from the OS or a thread RNG.",
+      "paths": [
+        "crates/"
+      ],
+      "pattern": "\\bthread_rng\\(|\\brand::random\\b|from_entropy\\(|\\bOsRng\\b|\\brand::rng\\(\\)|\\bgetrandom\\b",
+      "shouldMatch": [
+        "let mut rng = rand::thread_rng();",
+        "let x: u8 = rand::random();",
+        "let rng = StdRng::from_entropy();",
+        "let mut rng = rand::rng();",
+        "let k = OsRng.next_u64();"
+      ],
+      "shouldNotMatch": [
+        "let mut rng = StdRng::seed_from_u64(seed);",
+        "let r = rng.random::<u64>();",
+        "let mut state = seed ^ 0x9e37_79b9_7f4a_7c15;"
+      ]
+    },
+    {
+      "id": "no-hardcoded-tunables",
+      "description": "Every SPEC numeric default lives in config/bench.toml; a tunable name assigned a literal number in code (assignment, keyword default, dict/struct literal, typed const) is a value that was never wired to config. (`content.alpha` is deliberately not in the name list because matplotlib's alpha= keyword would collide; reviewer checks it by reading.)",
+      "paths": [
+        "cfbench/",
+        "crates/harness/src/"
+      ],
+      "pattern": "\\b(min_samples|warmup_ms|min_sample_ms|bootstrap_resamples|ci_level|agreement_tolerance|small_in_chunk|small_out_chunk|large_in_chunk|large_out_chunk|prefix_bytes|max_start_load|budget_cpu_hours|smoke_seconds|ngram_min|ngram_max|comment_ngram|min_ident_len|top_k|near_fraction|hypothesis_tolerance|min_abs_rho|null_abs_rho|permutations|output_limit_bytes|parity_ratio|seed|runs)\\b[\"']?\\s*(?::\\s*[\\w<>]+\\s*)?[:=]\\s*-?\\d",
+      "flags": "i",
+      "shouldMatch": [
+        "min_samples = 30",
+        "\"agreement_tolerance\": 0.05,",
+        "def run(cells, min_samples=30):",
+        "const MIN_SAMPLES: usize = 30;",
+        "let warmup_ms: u64 = 500;",
+        "HarnessConfig { min_sample_ms: 10, ..cfg }",
+        "budget_cpu_hours: float = 4.0",
+        "seed=1234",
+        "'top_k': 20,"
+      ],
+      "shouldNotMatch": [
+        "min_samples = cfg[\"perf\"][\"min_samples\"]",
+        "\"agreement_tolerance\": cfg[\"perf\"][\"agreement_tolerance\"],",
+        "if min_samples == 0:",
+        "let warmup_ms = args.warmup_ms;",
+        "rng = random.Random(seed)",
+        "pub min_samples: u32,",
+        "top_k: int",
+        "ax.scatter(x, y, alpha=0.6)"
+      ]
+    },
+    {
+      "id": "wall-clock-only-in-rawio-env",
+      "description": "Derived outputs must be byte-identical on regeneration (B5 clean-clone check): only cfbench/rawio.py and cfbench/env.py read the wall clock; durations use time.perf_counter/monotonic.",
+      "paths": [
+        "cfbench/"
+      ],
+      "exclude": [
+        "cfbench/rawio.py",
+        "cfbench/env.py"
+      ],
+      "pattern": "datetime\\.(now|utcnow|today)\\(|\\btime\\.time\\(\\)|\\bdate\\.today\\(\\)",
+      "shouldMatch": [
+        "stamp = datetime.now(timezone.utc)",
+        "ts = datetime.datetime.utcnow()",
+        "t0 = time.time()",
+        "today = date.today()"
+      ],
+      "shouldNotMatch": [
+        "t0 = time.perf_counter()",
+        "elapsed = time.monotonic() - start",
+        "stamp = rawio.utc_timestamp()"
+      ]
+    },
+    {
+      "id": "raw-paths-only-via-rawio",
+      "description": "SPEC §4 raw layout data/raw/<category>/<machine>/<timestamp>.json is owned by cfbench/rawio.py; no other module spells the data/raw path.",
+      "paths": [
+        "cfbench/"
+      ],
+      "exclude": [
+        "cfbench/rawio.py",
+        "cfbench/paths.py"
+      ],
+      "pattern": "[\"']data/raw|[\"']data[\"']\\s*[/,]\\s*[\"']raw[\"']",
+      "shouldMatch": [
+        "out = Path(\"data/raw/perf\")",
+        "p = ROOT / \"data\" / \"raw\" / category",
+        "os.path.join('data', 'raw', cat)"
+      ],
+      "shouldNotMatch": [
+        "path = rawio.write_raw(\"perf\", payload, machine=m, profile=p, script=s, environment=e)",
+        "files = rawio.list_raw(\"perf\", machine=machine)",
+        "# raw files live under data/raw (see rawio)"
+      ]
+    },
+    {
+      "id": "figures-only-via-save-figure",
+      "description": "SPEC §2.4/§4: every figure goes through charts.save_figure, which enforces the parity note, SVG + 2x PNG and deterministic metadata.",
+      "paths": [
+        "cfbench/"
+      ],
+      "exclude": [
+        "cfbench/charts.py"
+      ],
+      "pattern": "\\.savefig\\(",
+      "shouldMatch": [
+        "fig.savefig(out)",
+        "plt.savefig(\"x.png\", dpi=200)"
+      ],
+      "shouldNotMatch": [
+        "charts.save_figure(fig, \"trajectory_M-A\", parity_note=note, size=\"paper\")"
+      ]
+    },
+    {
+      "id": "cleanflate-read-only-git",
+      "description": "SPEC: never modify cleanflate. No script or module issues a git write subcommand (commit/push/rebase/cherry-pick/stash/apply/reset), in shell or argv-list form. Comments must be phrased without the literal 'git push' etc.",
+      "paths": [
+        "cfbench/",
+        "scripts/",
+        "Makefile"
+      ],
+      "pattern": "\\bgit\\s+(-C\\s+\\S+\\s+)?(commit|push|rebase|cherry-pick|stash|apply|reset)\\b|[\"']git[\"'].*[\"'](commit|push|rebase|cherry-pick|stash|apply|reset)[\"']|\\bgit\\(\\s*[\"'](commit|push|rebase|cherry-pick|stash|apply|reset)[\"']",
+      "shouldMatch": [
+        "subprocess.run([\"git\", \"-C\", str(clone), \"commit\", \"-m\", msg])",
+        "git -C third_party/cleanflate push origin HEAD",
+        "run([\"git\", \"reset\", \"--hard\"])",
+        "git -C \"$CF\" stash",
+        "git(\"apply\", patch)"
+      ],
+      "shouldNotMatch": [
+        "subprocess.run([\"git\", \"-C\", str(clone), \"rev-parse\", \"HEAD\"], check=True)",
+        "git -C \"$dir\" fetch --tags origin",
+        "run([\"git\", \"status\", \"--porcelain\"])",
+        "run([\"git\", \"-C\", str(clone), \"checkout\", \"--detach\", sha])",
+        "sha = git(\"rev-parse\", commit)"
+      ]
+    },
+    {
+      "id": "portable-shell-and-make",
+      "description": "Measurements must run on M-A (macOS: bash 3.2, BSD userland, GNU make 3.81): no bash-4 builtins, GNU-only flags or make-4 features in scripts/ or the Makefile.",
+      "paths": [
+        "scripts/",
+        "Makefile"
+      ],
+      "pattern": "\\bdeclare -A\\b|\\bmapfile\\b|\\breadarray\\b|readlink -f|\\bsed -i\\b|\\bdate -d\\b|\\bstat -c\\b|\\$\\{\\w+(,,|\\^\\^)\\}|\\bnproc\\b|\\bgrep -P\\b|^\\.ONESHELL|\\$\\(file ",
+      "shouldMatch": [
+        "declare -A seen",
+        "mapfile -t lines < f",
+        "root=$(readlink -f \"$0\")",
+        "sed -i 's/a/b/' f",
+        "ts=$(date -d @1 +%s)",
+        "size=$(stat -c %s f)",
+        "echo \"${name,,}\"",
+        "jobs=$(nproc)",
+        "grep -P '\\d' f",
+        ".ONESHELL:",
+        "$(file >out.txt,hello)"
+      ],
+      "shouldNotMatch": [
+        "root=\"$(cd \"$(dirname \"$0\")\" && pwd)\"",
+        "sed 's/a/b/' in > out",
+        "jobs=\"$(getconf _NPROCESSORS_ONLN)\"",
+        "size=\"$(wc -c < \"$f\")\""
+      ]
+    },
+    {
+      "id": "harness-single-threaded",
+      "description": "SPEC §3.2 single thread: no threads or parallel iterators in the Rust harness, subjects or minimal programs.",
+      "paths": [
+        "crates/"
+      ],
+      "pattern": "\\bthread::spawn\\b|\\bthread::scope\\b|\\brayon\\b|\\.par_iter\\(",
+      "shouldMatch": [
+        "std::thread::spawn(move || run(cell));",
+        "thread::scope(|s| {",
+        "use rayon::prelude::*;",
+        "cells.par_iter().for_each(run);"
+      ],
+      "shouldNotMatch": [
+        "let samples = run_cell(&cell);",
+        "// single-threaded by design (SPEC 3.2)"
+      ]
+    },
+    {
+      "id": "hermetic-tests",
+      "description": "Tests run in every verify; they use recorded fixtures, never the network.",
+      "paths": [
+        "tests/"
+      ],
+      "pattern": "\\burlopen\\(|\\brequests\\.(get|post|head)\\(|\\bhttp\\.client\\b|\\burllib\\.request\\b|[\"']curl[\"']|\\bcurl\\s",
+      "shouldMatch": [
+        "resp = urllib.request.urlopen(url)",
+        "r = requests.get(url)",
+        "subprocess.run([\"curl\", \"-fsSL\", url])",
+        "import http.client"
+      ],
+      "shouldNotMatch": [
+        "monkeypatch.setattr(download, \"_fetch_bytes\", fake_fetch)",
+        "assert pins[\"zlib\"][\"url\"].startswith(\"https://\")"
+      ]
+    }
+  ]
+}
