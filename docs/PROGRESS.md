@@ -47,7 +47,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P5-01 Conformance runner
 - [x] P5-02 Claims engine with evidence links
 - [x] P5-03 Paper table and figure
-- [ ] P5-04 PAPER_KIT renderer and make paper
+- [x] P5-04 PAPER_KIT renderer and make paper
 - [ ] P5-05 Clean-clone regeneration check
 - [ ] P5-06 Phase 5 hand-off
 - [ ] P6-01 Checksum microbenchmarks
@@ -240,3 +240,7 @@ Tests: test_claims x11 (fixtures/results small derived tables+sidecars). API: ki
 
 ### P5-03 — 80ea88f
 Tests: test_paper_assets x5. API: paper_assets.build_table(results_dir,cfg)->PaperTable(columns,rows[Row(label,cells{cf,zlib,mox}:Cell(display,evidence,status,reason))],footnote).to_markdown(); build_figure(results_dir,out_dir,cfg)->(paths|None,evidence,pending reasons); draw_bars/_bar_data. Config [paper] figure='throughput_unsafe' (or 'trajectory'), figure_corpus/framing/level/mode/subjects, table_opt='3', table_machine='M-B'. 6 rows: Silesia raw L6 oneshot M-A, M-B, gzip ratio M-B (mox n/a), unsafe blocks+fns, runtime deps, stripped binary opt3 M-B. Fixture results dir extended. Figure paper_throughput_unsafe at paper width; PNG inspected.
+
+### P5-04 — 3edde63
+Tests: test_paper_kit x6. API: kits.paper.render(results_dir,cfg,out_dir)/rederive/main/source_line/environments; make paper = rederive tables from committed raw then write results/PAPER_KIT.md (byte-identical on rerun, verified). Current kit: 3 supported (conformance 2962/2962 on M-B, safety zero unsafe/zero deps, effort 28.5 h cost not priced), rejected: similarity + 3 overreach (no perf data), pending: perf_range, trajectory, gzip_gap_is_hw_crc; table perf rows pending; figure pending (no figure file committed). Environments section lists M-B CPU/OS from raw env.
+Manual check: NOT VERIFIED (human): rerun make paper after full perf/trajectory runs.
