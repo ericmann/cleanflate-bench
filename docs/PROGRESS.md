@@ -35,7 +35,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-04 JPlag for same-language pairs
 - [x] P3-05 Top-20 fragment pairs with persistent verdicts
 - [x] P3-06 Positioning against controls, statement and figure
-- [ ] P3-07 Structural comparison write-up
+- [x] P3-07 Structural comparison write-up
 - [ ] P3-08 Phase 3 hand-off
 - [ ] P4-01 Round builds of cf
 - [ ] P4-02 Trajectory run, table and figure
@@ -190,3 +190,6 @@ Manual check: NOT VERIFIED (human): fill verdicts.
 ### P3-06 — e60322a
 Tests: test_similarity_summary x7. API: summary.collect_scores/summarize/classify/position/failing_metrics/statement/draw/derive. Config [similarity] near_fraction=0.25. Outputs: results/similarity_summary.csv(+provenance), results/similarity_statement.md, results/figures/similarity_controls.svg/.png (PNG inspected). make similarity = ngram+identifiers+comments, jplag, fragments, summary; make similarity-summary derives only.
 RESULT (honest): statement reads 'T1 claim NOT allowed': ident_jaccard cf-mox between (pos 0.31), ident_match_rate_left cf-zrs between (pos 0.32). N-gram metrics and jplag_avg cannot separate/position (positive control cross-language zrs-zng scores below negative zrs-mox; JPlag has no positive); cf-zrs/cf-mox n-gram Jaccard is 1.0-1.08x the negative control. Comment overlap below negative for all cf pairs. cf-zlib/cf-zng below negative everywhere. For P5+/review: the claim is NOT supported by the data; do not put a similarity-at-baseline claim in the paper kit.
+
+### P3-07 — 1e06f7c
+results/STRUCTURE_COMPARISON.md written: 6 sections (bit reader, Huffman tables, window, fast loop, state machine, observations), header with pinned versions, citations per subject per section (cf 22, zlib 21, zng 17, zrs 18, mox 14). Findings stated plainly: cf body states map 1:1 onto zlib modes (also RFC order); two-level root+subtable shared by cf/zlib/zng/zrs, mox differs; give-back-unread-bytes step common to cf/zlib/zng; zrs mirrors zlib naming/structure much more than cf. Cross-referenced with the similarity statement (T1 similarity claim NOT allowed).
