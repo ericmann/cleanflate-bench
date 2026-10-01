@@ -45,3 +45,7 @@ base_dpi = 100
 paper_width_in = 3.3
 slide_width_in = 13.333
 slide_height_in = 7.5
+
+[similarity]
+ngram_min = 5
+ngram_max = 10
