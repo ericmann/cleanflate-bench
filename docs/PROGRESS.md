@@ -53,7 +53,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P6-01 Checksum microbenchmarks
 - [x] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
 - [x] P6-03 Phase 6 hand-off
-- [ ] P7-01 infgen build and parser
+- [x] P7-01 infgen build and parser
 - [ ] P7-02 Content features for every workload
 - [ ] P7-03 Correlation, H1/H2 verdicts, scatter plots and findings
 - [ ] P7-04 Phase 7 hand-off
@@ -273,3 +273,6 @@ Checklist (verbatim):
 2. Read `results/framing_hypothesis.csv` and the figure. On M-A, confirm that the zlib-nohw disassembly in `subjects.lock.json` shows no `crc32x`.
 Manual check: NOT VERIFIED (human)
 Note: on M-B (x86_64) zlib-nohw is identical to the default build, so the hypothesis can only be tested meaningfully on M-A.
+
+### P7-01 — 749834e
+Tests: test_infgen x10 (fixtures/infgen real infgen output: stored, fixed, dynamic, zeros, zlib_l9). API: infgen.spec/binary_path/ensure()/count_bytes/parse_lines/summarize(raw,compressed_bytes)/stats(stream_path,framing,infgen). Pinned commit 1e36c3da (v3.6) sha 2d7dac46...; build needs zlib (documented command lacks -lz and fails to link) so uses build/c/zlib or -lz. Stats keys: literals, matches, literal_fraction, match_len_hist/match_dist_hist (dict bins), dist1_fraction, dist1_byte_fraction, dist2_7_fraction, dist2_7_byte_fraction, overlap_fraction, overlap_byte_fraction, blocks{stored,fixed,dynamic}, compressed_bytes, output_bytes, ratio (= compressed/output). Verified on real workloads (output bytes equal original lengths). tools.all_names unaffected (infgen has no 'binary' key).
