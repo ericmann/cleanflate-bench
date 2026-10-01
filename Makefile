@@ -63,6 +63,8 @@ size: tools
 
 similarity-ngram:
 	$(PY) -m cfbench.similarity.run ngram
+	$(PY) -m cfbench.similarity.run identifiers
+	$(PY) -m cfbench.similarity.run comments
 
 lint: c-subjects
 	cargo fmt --all -- --check

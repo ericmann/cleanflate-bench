@@ -6,8 +6,8 @@ import sys
 from importlib import metadata
 from pathlib import Path
 
-from cfbench import config, decomp_paths, env, rawio, sources
-from cfbench.similarity import pairs
+from cfbench import config, decomp_paths, env, paths, rawio, sources
+from cfbench.similarity import comments, identifiers, pairs
 
 TOOL_PACKAGES = ["tree-sitter", "tree-sitter-rust", "tree-sitter-c"]
 
@@ -67,7 +67,78 @@ def cmd_ngram() -> Path:
     )
 
 
-COMMANDS = {"ngram": cmd_ngram}
+def identifiers_payload(cfg: dict | None = None) -> dict:
+    cfg = cfg or config.load_config("full")
+    min_len = identifiers.min_ident_len(cfg)
+    excl = identifiers.load_exclusions()
+    excluded = excl["rfc"] | excl["language"]
+    plist = pairs.load_pairs(cfg)
+    subjects = sorted({s for p in plist for s in (p["left"], p["right"])})
+    ids = {s: identifiers.collect(decomp_paths.files(s), min_len, excluded) for s in subjects}
+    results = [{**p, **identifiers.compare(ids[p["left"]], ids[p["right"]])} for p in plist]
+    text = identifiers.exclusions_path().read_bytes()
+    return {
+        "kind": "identifiers",
+        "min_ident_len": min_len,
+        "exclusions": {
+            "sha256": hashlib.sha256(text).hexdigest(),
+            "rfc_names": len(excl["rfc"]),
+            "language_names": len(excl["language"]),
+        },
+        "identifier_counts": {s: len(v) for s, v in ids.items()},
+        "pairs": results,
+        "files": {s: subject_files(s) for s in subjects},
+        "tools": tool_versions(),
+    }
+
+
+def comments_payload(cfg: dict | None = None) -> dict:
+    cfg = cfg or config.load_config("full")
+    n = cfg["similarity"]["comment_ngram"]
+    plist = pairs.load_pairs(cfg)
+    subjects = sorted({s for p in plist for s in (p["left"], p["right"])})
+    sets, counts = {}, {}
+    for s in subjects:
+        sets[s], counts[s] = comments.comment_shingles(decomp_paths.files(s), n)
+    results = [{**p, **comments.compare(sets[p["left"]], sets[p["right"]])} for p in plist]
+    return {
+        "kind": "comments",
+        "comment_ngram": n,
+        "comment_counts": counts,
+        "pairs": results,
+        "files": {s: subject_files(s) for s in subjects},
+        "tools": tool_versions(),
+    }
+
+
+def cmd_identifiers() -> Path:
+    payload = identifiers_payload()
+    # published copy of the exclusion list, byte for byte
+    out = paths.RESULTS / "similarity_identifier_exclusions.txt"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_bytes(identifiers.exclusions_path().read_bytes())
+    return rawio.write_raw(
+        "similarity",
+        payload,
+        machine="any",
+        profile="full",
+        script="cfbench.similarity.run identifiers",
+        environment=env.capture_environment(),
+    )
+
+
+def cmd_comments() -> Path:
+    return rawio.write_raw(
+        "similarity",
+        comments_payload(),
+        machine="any",
+        profile="full",
+        script="cfbench.similarity.run comments",
+        environment=env.capture_environment(),
+    )
+
+
+COMMANDS = {"ngram": cmd_ngram, "identifiers": cmd_identifiers, "comments": cmd_comments}
 
 
 def main(argv: list[str]) -> int:

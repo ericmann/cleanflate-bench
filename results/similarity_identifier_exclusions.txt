@@ -1,0 +1,119 @@
+# Names excluded from the identifier-overlap measurement (SPEC 3.8), published verbatim in
+# results/similarity_identifier_exclusions.txt. One name per line; names are compared after
+# normalisation (lowercase, underscores removed). Text after `#` is a comment.
+#
+# Part 1: names the RFCs mandate or use in their normative text and sample code. Each carries the
+# section where it appears (RFC texts: third_party/cleanflate/docs/rfc).
+# rfc
+
+CMF            # RFC 1950 §2.2
+FLG            # RFC 1950 §2.2 and RFC 1952 §2.3
+CINFO          # RFC 1950 §2.2
+FCHECK         # RFC 1950 §2.2
+FDICT          # RFC 1950 §2.2
+FLEVEL         # RFC 1950 §2.2
+DICTID         # RFC 1950 §2.2
+ADLER32        # RFC 1950 §2.2
+update_adler32 # RFC 1950 §9 sample code
+original_adler # RFC 1950 §9 sample code
+read_buffer    # RFC 1950 §9 and RFC 1952 §8 sample code
+BFINAL         # RFC 1951 §3.2.3
+BTYPE          # RFC 1951 §3.2.3
+LEN            # RFC 1951 §3.2.4
+NLEN           # RFC 1951 §3.2.4
+HLIT           # RFC 1951 §3.2.7
+HDIST          # RFC 1951 §3.2.7
+HCLEN          # RFC 1951 §3.2.7
+bl_count       # RFC 1951 §3.2.2
+next_code      # RFC 1951 §3.2.2
+max_code       # RFC 1951 §3.2.2
+MAX_BITS       # RFC 1951 §3.2.2
+ID1            # RFC 1952 §2.3
+ID2            # RFC 1952 §2.3
+MTIME          # RFC 1952 §2.3
+XFL            # RFC 1952 §2.3
+XLEN           # RFC 1952 §2.3.1
+FTEXT          # RFC 1952 §2.3.1
+FHCRC          # RFC 1952 §2.3.1
+FEXTRA         # RFC 1952 §2.3.1
+FNAME          # RFC 1952 §2.3.1
+FCOMMENT       # RFC 1952 §2.3.1
+CRC16          # RFC 1952 §2.3.1
+CRC32          # RFC 1952 §2.3
+ISIZE          # RFC 1952 §2.3
+update_crc          # RFC 1952 §8 sample code
+crc_table           # RFC 1952 §8 sample code
+crc_table_computed  # RFC 1952 §8 sample code
+make_crc_table      # RFC 1952 §8 sample code
+# Part 2: language keywords-as-identifiers and standard-library or libc names. These are not
+# written by the implementer in any meaningful sense, so a shared occurrence says nothing.
+# Zlib API names (inflate, avail_in, z_stream, ...) are deliberately NOT excluded: they are
+# project vocabulary, and sharing them with zlib is a legitimate signal.
+# language
+
+Option
+Result
+String
+Vec
+Self
+Some
+None
+Default
+Debug
+Clone
+Iterator
+IntoIterator
+unwrap
+expect
+unwrap_or
+unwrap_or_else
+map_err
+ok_or
+wrapping_add
+wrapping_sub
+wrapping_mul
+saturating_sub
+saturating_add
+checked_add
+checked_sub
+copy_from_slice
+copy_within
+extend_from_slice
+split_at
+split_at_mut
+chunks_exact
+from_le_bytes
+to_le_bytes
+from_be_bytes
+trailing_zeros
+leading_zeros
+count_ones
+rotate_left
+rotate_right
+core
+alloc
+std
+memcpy
+memmove
+memset
+memcmp
+strlen
+malloc
+calloc
+realloc
+free
+size_t
+ssize_t
+ptrdiff_t
+uintptr_t
+intptr_t
+uint8_t
+uint16_t
+uint32_t
+uint64_t
+int8_t
+int16_t
+int32_t
+int64_t
+unsigned
+NULL

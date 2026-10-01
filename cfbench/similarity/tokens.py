@@ -64,6 +64,7 @@ class Token:
     kind: str  # ID NUM STR CHAR TYPE CLASS or TOK (literal operator, punctuation, keyword)
     text: str
     line: int
+    node: str = ""  # tree-sitter node type of an ID token, e.g. `field_identifier`
 
     @property
     def norm(self) -> str:
@@ -97,7 +98,7 @@ def _leaf_token(node: Node, language: str) -> Token | None:
     if t in NUM_TYPES:
         return Token("NUM", text, line)
     if t in ID_TYPES:
-        return Token("ID", text, line)
+        return Token("ID", text, line, t)
     if t in TYPE_TYPES:
         return Token("TYPE", text, line)
     if t in KEYWORD_CLASS and not node.is_named:
