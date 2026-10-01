@@ -116,8 +116,13 @@ def figure_series(table: list[dict], machine: str) -> dict[str, list[tuple[int, 
     return {k: sorted(v) for k, v in sorted(series.items())}
 
 
-def draw(series: dict[str, list[tuple[int, float]]], tags: dict[int, str], machine: str):
-    fig = new_figure("default")
+def draw(
+    series: dict[str, list[tuple[int, float]]],
+    tags: dict[int, str],
+    machine: str,
+    size: str = "default",
+):
+    fig = new_figure(size)
     ax = fig.subplots()
     for label, pts in series.items():
         ax.plot(

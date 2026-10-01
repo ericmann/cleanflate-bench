@@ -8,13 +8,10 @@ M-A,generic,cf,silesia,6,zlib,oneshot,12,,,80,,,0.86,true
 M-A,generic,cf,silesia,9,gzip,oneshot,12,,,80,,,0.89,true
 M-A,generic,cf,silesia,9,raw,oneshot,12,,,80,,,0.89,true
 M-A,generic,cf,silesia,9,zlib,oneshot,12,,,80,,,0.89,true
-M-A,generic,mox,silesia,1,gzip,oneshot,12,,,50,,,0.5,true
 M-A,generic,mox,silesia,1,raw,oneshot,12,,,50,,,0.5,true
 M-A,generic,mox,silesia,1,zlib,oneshot,12,,,50,,,0.5,true
-M-A,generic,mox,silesia,6,gzip,oneshot,12,,,50,,,0.5,true
 M-A,generic,mox,silesia,6,raw,oneshot,12,,,50,,,0.5,true
 M-A,generic,mox,silesia,6,zlib,oneshot,12,,,50,,,0.5,true
-M-A,generic,mox,silesia,9,gzip,oneshot,12,,,50,,,0.5,true
 M-A,generic,mox,silesia,9,raw,oneshot,12,,,50,,,0.5,true
 M-A,generic,mox,silesia,9,zlib,oneshot,12,,,50,,,0.5,true
 M-A,generic,zlib,silesia,1,gzip,oneshot,12,,,100,,,1,true
@@ -44,13 +41,10 @@ M-B,generic,cf,silesia,6,zlib,oneshot,12,,,70,,,0.76,true
 M-B,generic,cf,silesia,9,gzip,oneshot,12,,,70,,,0.79,true
 M-B,generic,cf,silesia,9,raw,oneshot,12,,,70,,,0.79,true
 M-B,generic,cf,silesia,9,zlib,oneshot,12,,,70,,,0.79,true
-M-B,generic,mox,silesia,1,gzip,oneshot,12,,,45,,,0.45,true
 M-B,generic,mox,silesia,1,raw,oneshot,12,,,45,,,0.45,true
 M-B,generic,mox,silesia,1,zlib,oneshot,12,,,45,,,0.45,true
-M-B,generic,mox,silesia,6,gzip,oneshot,12,,,45,,,0.45,true
 M-B,generic,mox,silesia,6,raw,oneshot,12,,,45,,,0.45,true
 M-B,generic,mox,silesia,6,zlib,oneshot,12,,,45,,,0.45,true
-M-B,generic,mox,silesia,9,gzip,oneshot,12,,,45,,,0.45,true
 M-B,generic,mox,silesia,9,raw,oneshot,12,,,45,,,0.45,true
 M-B,generic,mox,silesia,9,zlib,oneshot,12,,,45,,,0.45,true
 M-B,generic,zlib,silesia,1,gzip,oneshot,12,,,100,,,1,true

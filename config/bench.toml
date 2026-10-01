@@ -51,6 +51,14 @@ perf_variant = "generic"
 trajectory_level = 6
 trajectory_framing = "raw"
 trajectory_mode = "oneshot"
+figure = "throughput_unsafe"
+figure_corpus = "silesia"
+figure_framing = "raw"
+figure_level = 6
+figure_mode = "oneshot"
+figure_subjects = ["cf", "mox", "zlib"]
+table_opt = "3"
+table_machine = "M-B"
 
 [conformance]
 subjects = ["cf", "zlib", "zng", "zrs", "mox", "zsys"]
