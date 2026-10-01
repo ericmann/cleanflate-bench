@@ -30,7 +30,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P2-05 Dependencies and audit
 - [x] P2-06 Phase 2 hand-off
 - [x] P3-01 Decompression-path source manifest
-- [ ] P3-02 Token n-gram similarity for all pairs
+- [x] P3-02 Token n-gram similarity for all pairs
 - [ ] P3-03 Identifier and comment overlap
 - [ ] P3-04 JPlag for same-language pairs
 - [ ] P3-05 Top-20 fragment pairs with persistent verdicts
@@ -173,3 +173,6 @@ Manual check: NOT VERIFIED (human)
 
 ### P3-01 — bdaf520
 Tests: test_decomp_paths x5. API: decomp_paths.files(subject, metadata)->sorted Paths, resolve(subject, roots, spec), spec(subject), StaleManifest, SUBJECTS. File counts: cf 17, zlib 13, zng 93, zrs 26, mox 5; none contain deflate. Interpretation: trailing '/**' globs expanded to '/**/*' (pathlib 3.12 quirk); zng arch files for all ISAs; zrs c_api.rs included whole, libz-rs-sys excluded; mox lib.rs excluded. docs/methods/decomp-paths.md documents the rule.
+
+### P3-02 — 04ec5d4
+Tests: test_similarity_pairs x5, tokens deep-nesting test. API: pairs.load_pairs(cfg)->[{left,right,role,cross_language}], file_token_lists(files), shingle_union(lists,n), compare_pair(left,right,cfg)->rows n=ngram_min..max {n,jaccard,containment,size_left,size_right}; run.ngram_payload/cmd_ngram, run.COMMANDS registry (extend per subcommand). Config [similarity].pairs. tokens._walk made iterative (recursion overflow bug). Data run: raw similarity/any 20261001T051802Z. n=5 Jaccard: zrs-mox 0.215 (negative), zrs-zng 0.056 (positive), cf-zrs 0.223, cf-mox 0.215, cf-zlib 0.035, cf-zng 0.035. Note the positive control (zrs-zng) scores LOWER than the negative control under this method (cross-language), a point for the P3-06 positioning write-up.
