@@ -65,7 +65,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P8-06 Phase 8 hand-off
 - [x] P9-01 Decompression-path LOC with tokei
 - [x] P9-02 Rust complexity distributions
-- [ ] P9-03 C complexity and the complexity table
+- [x] P9-03 C complexity and the complexity table
 - [ ] P9-04 Phase 9 hand-off
 - [ ] P10-01 Remaining figures
 - [ ] P10-02 PITCH_KIT and talking points
@@ -318,3 +318,6 @@ tokei 15.0.0 pinned in config/tools.toml and installed to third_party/tools/bin 
 
 ### P9-02 — fc2609a
 rust-code-analysis-cli 0.0.25 pinned and installed (about 43 s). cfbench/complexity.py: distribution(values) -> {n, median, p90, max} (p90 nearest rank ceil(0.9 n); shared with P9-03), rca_functions (closures named <anonymous> excluded because the enclosing function's sum already contains them), lizard fallback (cyclomatic only, cognitive unavailable, tool_gap recorded; lizard is not installed, run as python -m lizard, so P9-03 must add it). Raw size/any kind complexity-rust committed. cf: 173 functions, cyclomatic median 2 / p90 8 / max 106, cognitive median 0 / p90 7 / max 171. zrs: 326 functions, cyclomatic 1 / 6 / 161, cognitive 0 / 5 / 332. mox: 93 functions, cyclomatic 1 / 9 / 86, cognitive 0 / 5 / 40. make size gained complexity rust. No tool gap. 331 tests pass.
+
+### P9-03 — 8794053
+lizard 1.24.0 added (pyproject, uv.lock). complexity.collect_c uses lizard.analyze_file over decomp_paths.files(zlib|zng) restricted to .c and .h (headers carry inline functions and macros); cognitive unavailable for C. Table complexity (subject, tool, tool_version, metric, n_functions, median, p90, max): for C the cognitive row has tool 'lizard (cognitive unavailable)' and empty median/p90/max. Raw size/any kind complexity-c committed. zlib: 71 functions cyclomatic 3/13/209 (median/p90/max); zng: 284 functions 1/9/210. make size runs rust, c, derive. 333 tests pass.
