@@ -16,7 +16,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-11 Perf orchestrator and smoke bench
 - [x] P0-12 Similarity tokenizer and smoke similarity run
 - [x] P0-13 Phase 0 hand-off
-- [ ] P1-01 Statistics core
+- [x] P1-01 Statistics core
 - [ ] P1-02 Provenance-tracked tables and per-cell perf table
 - [ ] P1-03 Ratios, per-corpus aggregates and tiny-input table
 - [ ] P1-04 Run-to-run agreement check
@@ -121,3 +121,6 @@ Checklist (verbatim):
 2. On M-A: `make env workloads smoke` completes; commit the env and pins raw files.
 3. `python -m cfbench.workloads verify` passes on M-A, which proves the workloads are byte-identical across machines.
 Manual check: NOT VERIFIED (human)
+
+### P1-01 — 8cfd4b9
+Tests: test_stats x8. API: stats.median/best/bootstrap_ci(xs,level,resamples,rng:random.Random)/mib_per_s(bytes,ns)/ns_per_byte/cell_stats(samples,out_bytes,cfg,rng)->CellStats/like_for_like_key(cell dict: machine,session,workload,level,framing,mode)/ratio_vs_baseline/ratios_vs_baseline(cells,baseline='zlib') (cells need subject, median_mib_s + key fields). Bootstrap via numpy default_rng(rng.getrandbits(64)). Missing baseline => None.
