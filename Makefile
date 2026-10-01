@@ -1,13 +1,16 @@
 PY := uv run --frozen python
-STUBS := env pins perf framing content trajectory correctness size similarity effort paper pitch blog
+STUBS := pins perf framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all $(STUBS)
+.PHONY: help lint test all env $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
 	@echo "test   cargo test, bins build and pytest"
 	@echo "all    every measurement and kit"
 	@echo "stubs: $(STUBS)"
+
+env:
+	$(PY) -m cfbench.env
 
 lint:
 	cargo fmt --all -- --check
@@ -23,4 +26,4 @@ test:
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: $(STUBS)
+all: env $(STUBS)
