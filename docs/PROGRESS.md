@@ -19,7 +19,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-01 Statistics core
 - [x] P1-02 Provenance-tracked tables and per-cell perf table
 - [x] P1-03 Ratios, per-corpus aggregates and tiny-input table
-- [ ] P1-04 Run-to-run agreement check
+- [x] P1-04 Run-to-run agreement check
 - [ ] P1-05 target-cpu=native Rust variant
 - [ ] P1-06 Chart helpers and throughput figure
 - [ ] P1-07 Phase 1 hand-off
@@ -130,3 +130,6 @@ Tests: test_provenance x4, test_perf_report x5 (fixtures tests/fixtures/raw/perf
 
 ### P1-03 — 4045d55
 Tests: test_perf_report +6 (aggregate, no cross-mode ratios, incomplete flag, tiny ratio, all-tables-from-fixtures, pending for all). API: perf_report.compute_rows(cfg)->(rows with hidden _median_ns/_best_ns/_ci_lo_ns/_ci_hi_ns, raw_files), add_ratios, aggregates(rows), tiny_rows(rows), derive_all(cfg) (writes perf_cells, perf_aggregates, perf_tiny), CELL/AGG/TINY_COLUMNS. perf_cells gained ratio_vs_zlib. Aggregate ratio None unless zlib covers same file set. results/perf_*.csv committed as pending. make perf-report added; make perf chains it.
+
+### P1-04 — 58b7119
+Tests: test_agreement x5. API: agreement.compare_session(docs,tol)->(flagged rows, summary), derive(cfg), FLAG_COLUMNS, SUMMARY_COLUMNS. Tables perf_agreement(.csv) and perf_agreement_summary. Verdict pass/flagged/insufficient runs from aggregates only; first two runs compared; make perf-report also runs agreement. Pending sidecars committed.
