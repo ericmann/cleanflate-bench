@@ -1,0 +1,20 @@
+# Pinned subject sources (SPEC 2.1). Every download pins URL and SHA-256.
+
+[zlib]
+version = "1.3.2"
+url = "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz"
+sha256 = "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16"
+
+[zng]
+version = "2.3.3"
+url = "https://github.com/zlib-ng/zlib-ng/archive/refs/tags/2.3.3.tar.gz"
+sha256 = "f9c65aa9c852eb8255b636fd9f07ce1c406f061ec19a2e7d508b318ca0c907d1"
+
+[zrs]
+crate = "libz-rs-sys"
+core_crate = "zlib-rs"
+version = "0.6.8"
+
+[mox]
+crate = "miniz_oxide"
+version = "0.9.1"

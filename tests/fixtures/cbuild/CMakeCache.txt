@@ -1,0 +1,14 @@
+# This is the CMakeCache file.
+//Flags used by the C compiler during all build types.
+CMAKE_C_FLAGS:STRING=
+
+//Flags used by the C compiler during RELEASE builds.
+CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
+
+CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
+//Enable AVX2
+WITH_AVX2:BOOL=ON
+WITH_PCLMULQDQ:BOOL=ON
+WITH_GTEST:BOOL=OFF
+WITH_AVX2-ADVANCED:INTERNAL=1
+CMAKE_BUILD_TYPE:STRING=Release
