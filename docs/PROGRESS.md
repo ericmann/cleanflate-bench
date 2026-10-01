@@ -56,7 +56,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P7-01 infgen build and parser
 - [x] P7-02 Content features for every workload
 - [x] P7-03 Correlation, H1/H2 verdicts, scatter plots and findings
-- [ ] P7-04 Phase 7 hand-off
+- [x] P7-04 Phase 7 hand-off
 - [ ] P8-01 Malformed-input behaviour matrix
 - [ ] P8-02 Differential fuzz harnesses
 - [ ] P8-03 Fuzz orchestration, statistics and corpus archive
@@ -282,3 +282,10 @@ infgen run over 207 corpus raw streams (tiny excluded); raw data/raw/content/any
 
 ### P7-03 — 08eed8f
 cfbench/content/correlate.py: joins cf generic oneshot ratio_vs_zlib with content_features; scipy Spearman (scipy pinned in uv.lock) with seeded permutation p (content.permutations=10000 from run.seed). Verdict per machine, weaker of H1's two features, machine disagreement gives inconclusive. Table content_hypotheses and results/CONTENT_FINDINGS.md written; with no perf data both are pending and inconclusive. Scatter figures content_scatter_<feature>_<machine> render only with perf data. make content = content-features then correlate (rerunning features adds a new raw file; I committed only the first). 307 tests pass.
+
+### P7-04 — 20ba3b9
+Manual check: NOT VERIFIED (human)
+Checklist for B7:
+1. Once full perf data exists for both machines, rerun `make content` and read results/CONTENT_FINDINGS.md and the scatter plots (rerunning adds a new raw content file; keep one).
+2. Sanity-check the infgen statistics for kennedy.xls and ptt5 by hand (results/content_features.csv).
+Current state: content_features.csv is real data (207 rows); content_hypotheses is pending and inconclusive until perf data exists. Push happens at run finish.
