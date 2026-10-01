@@ -40,6 +40,10 @@ min_sample_ms = 2
 [profiles.quick.perf.tiny]
 prefix_bytes = [256]
 
+[framing]
+checksum_subjects = ["cf", "zlib", "zlib-nohw", "zng", "zrs", "mox", "zsys"]
+checksum_sizes = [64, 4096, 65536, 1048576]
+
 [paper]
 parity_ratio = 0.95
 machines = ["M-A", "M-B"]
