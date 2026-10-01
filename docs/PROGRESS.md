@@ -69,7 +69,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P9-04 Phase 9 hand-off
 - [x] P10-01 Remaining figures
 - [x] P10-02 PITCH_KIT and talking points
-- [ ] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
+- [x] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
 - [ ] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
 - [ ] P10-05 BLOG_NOTES.md
 - [ ] P10-06 make all and the clean-clone check for every kit
@@ -334,3 +334,6 @@ cfbench/more_charts.py: unsafe_counts, binary_size, effort_cost_per_stage, malfo
 
 ### P10-02 — 1d8392b
 Work is in commit 7417b5f. cfbench/kits/pitch.py renders slide-size (16:9) figures into results/PITCH_KIT and generates TALKING_POINTS.md. charts.size_override re-renders existing figure functions at slide size. Every bullet is Bullet(text, evidence, labels); check_bullet refuses numbers not in evidence displays or config labels. Q&A covers the four named questions with 'no measurement in this study' where data is missing. Current data: 5 figures render (similarity, unsafe, binary size, effort, malformed); trajectory, throughput, framing, fuzz, checksums, content pending and listed with reasons (fewer than 8 stated). The similarity bullet states the independence claim is NOT allowed. make pitch = rederive, make figures, render; pitch removed from STUBS. Signing agent (1Password) died: commit.gpgsign=false set locally per policy; foundry_verify make test fails only in throwaway-repo tests (clean_clone, cleanflate_src); 345 pass with a GIT_CONFIG override. Feedback logged.
+
+### P10-03 — 082f60a
+cfbench/kits/results_md.py: render_sections_part1() returns Environments, Subjects and pins (hardware-CRC determinations from subjects.lock.json), Performance methodology (config values restated), Performance results (aggregates per machine and variant, per-file tables per machine/corpus/framing with level 6 inline and other levels in details, tiny inputs, agreement), Framing decomposition, Content analysis, Trajectory. Tables are read through evidence.table_rows (pending tables refused) with a source line each; pending data becomes 'Pending: run `make X` on ...'. Figures embedded relative to results/ with caption and parity note. Interpretation: table cells are copied from the derived tables (they are the evidence) rather than one Evidence object per cell. Evidence TARGETS gained env, perf_tiny, perf_agreement. 3 new tests pass (full make test affected only by the signing-agent outage).
