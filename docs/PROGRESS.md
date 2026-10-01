@@ -15,7 +15,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-10 Workload generation and manifest
 - [x] P0-11 Perf orchestrator and smoke bench
 - [x] P0-12 Similarity tokenizer and smoke similarity run
-- [ ] P0-13 Phase 0 hand-off
+- [x] P0-13 Phase 0 hand-off
 - [ ] P1-01 Statistics core
 - [ ] P1-02 Provenance-tracked tables and per-cell perf table
 - [ ] P1-03 Ratios, per-corpus aggregates and tiny-input table
@@ -113,3 +113,11 @@ Tests: test_perf x10, test_subjects x3, fixtures/fake_subject.py (flags --framin
 
 ### P0-12 — b5d6e86
 Tests: test_similarity_tokens x7, test_similarity_ngram x5. API: tokens.tokenize(path,language)->[Token(kind,text,line).norm], tokens.comments(path)->[(line,text)], tokens.language_for; ngram.shingles/jaccard/containment/file_shingles/compare(files_a,files_b,n). Config [similarity] ngram_min=5 ngram_max=10. docs/methods/similarity.md has vocabulary table. Smoke cf~mox n=5 Jaccard 0.214 (smoke only). make smoke-similarity, make smoke real. Deps added: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2.
+
+### P0-13 — b81f6cb
+Push: git push -u origin HEAD succeeded (build/2026-10-01).
+Checklist (verbatim):
+1. On M-A (Apple M4): `make fetch c-subjects subjects pins` succeeds, and `subjects.lock.json` gains an `M-A` entry in which zlib shows `compiled_in: true` (`crc32x` present) and zlib-nohw shows `compiled_in: false`.
+2. On M-A: `make env workloads smoke` completes; commit the env and pins raw files.
+3. `python -m cfbench.workloads verify` passes on M-A, which proves the workloads are byte-identical across machines.
+Manual check: NOT VERIFIED (human)
