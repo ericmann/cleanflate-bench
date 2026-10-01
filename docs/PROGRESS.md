@@ -73,7 +73,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
 - [x] P10-05 BLOG_NOTES.md
 - [x] P10-06 make all and the clean-clone check for every kit
-- [ ] P10-07 Phase 10 hand-off
+- [x] P10-07 Phase 10 hand-off
 
 ## Log
 (one entry per task, appended by implement)
@@ -346,3 +346,11 @@ cfbench/kits/blog.py writes results/BLOG_NOTES.md: ten fixed beats with evidence
 
 ### P10-06 — 978b2a1
 Makefile: all = env pins perf perf-native framing content trajectory correctness size similarity effort paper pitch blog; kits (paper pitch blog) and kits-check added; help lists every target; no stub remains. clean_clone expands compared directories recursively (tracked files at HEAD plus files the clone generated). README has a Reproducing section (prerequisites, human-run measurements with durations, make kits). Tests: test_directory_compare_is_recursive, test_makefile_has_no_remaining_stubs (6 clean_clone tests pass). make kits-check ran on HEAD in a fresh clone (about 20 s): PAPER_KIT.md, all 11 PITCH_KIT files, RESULTS.md and BLOG_NOTES.md identical (docs/PROGRESS.md stashed because Foundry keeps it dirty; throwaway-repo git needed the GIT_CONFIG signing override).
+
+### P10-07 — 90d2c5f
+Manual check: NOT VERIFIED (human)
+Checklist for B10:
+1. Run make all on M-A and on M-B from a clean clone (several hours each), commit the raw data, then make kits and make kits-check.
+2. Read results/PITCH_KIT/TALKING_POINTS.md, results/RESULTS.md (including threats to validity) and results/BLOG_NOTES.md for accuracy and balance.
+3. Confirm every kit renders with no Pending entries left that you intend to fill. Currently pending: perf, perf-native, framing, checksums, trajectory, content hypotheses, fuzz, bombs (all human-run), plus M-A data for env, conformance and malformed.
+Notes: similarity T1 claim is NOT allowed by the generated statement. PITCH_KIT has 5 of 8 to 12 figures until perf data exists. The signing agent died mid-run; commits after P10-02 were made with commit.gpgsign=false locally. Push happens at run finish.
