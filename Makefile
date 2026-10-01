@@ -74,6 +74,7 @@ framing: checksums
 	$(PY) -m cfbench.framing derive
 
 content: content-features
+	$(PY) -m cfbench.content.correlate
 
 content-features: tools workloads
 	$(PY) -m cfbench.content.features run
