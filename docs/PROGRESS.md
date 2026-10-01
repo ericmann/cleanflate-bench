@@ -72,7 +72,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
 - [x] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
 - [x] P10-05 BLOG_NOTES.md
-- [ ] P10-06 make all and the clean-clone check for every kit
+- [x] P10-06 make all and the clean-clone check for every kit
 - [ ] P10-07 Phase 10 hand-off
 
 ## Log
@@ -343,3 +343,6 @@ results_md.py part 2: Correctness (conformance, disagreements, malformed, fuzz, 
 
 ### P10-05 — b84cdb7
 cfbench/kits/blog.py writes results/BLOG_NOTES.md: ten fixed beats with evidence-checked bullets (reusing pitch bullet builders and claims), ranked surprises (comparator-bug fuzz divergences, malformed disagreements with row count and examples, unexpected hypothesis verdicts, top-3 best and worst per-file cf ratios, agreement-flagged cells), and open questions (pending or rejected claims, inconclusive hypotheses, every pending table, six threats). The malformed-disagreement count is a row count of the derived table and is passed as a label. check_bullet's number pattern now ignores digits attached after a hyphen (SHA-256). make blog = rederive, results_md, blog. Evidence TARGETS gained zlibrs_context. 354 tests pass with signing disabled for throwaway repos.
+
+### P10-06 — 978b2a1
+Makefile: all = env pins perf perf-native framing content trajectory correctness size similarity effort paper pitch blog; kits (paper pitch blog) and kits-check added; help lists every target; no stub remains. clean_clone expands compared directories recursively (tracked files at HEAD plus files the clone generated). README has a Reproducing section (prerequisites, human-run measurements with durations, make kits). Tests: test_directory_compare_is_recursive, test_makefile_has_no_remaining_stubs (6 clean_clone tests pass). make kits-check ran on HEAD in a fresh clone (about 20 s): PAPER_KIT.md, all 11 PITCH_KIT files, RESULTS.md and BLOG_NOTES.md identical (docs/PROGRESS.md stashed because Foundry keeps it dirty; throwaway-repo git needed the GIT_CONFIG signing override).
