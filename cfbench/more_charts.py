@@ -115,8 +115,12 @@ def binary_size(out_dir=None):
     width = 0.8 / len(opts)
     for k, opt in enumerate(opts):
         xs = [i + (k - (len(opts) - 1) / 2) * width for i in range(len(data))]
-        ax.bar(xs, [d.get(opt, 0) / 1024 for d in data.values()], width * 0.9,
+        have = [(x, d[opt] / 1024) for x, d in zip(xs, data.values(), strict=True) if opt in d]
+        ax.bar([x for x, _ in have], [h for _, h in have], width * 0.9,
                color=COLORS[k], label=f"opt-level {opt}")  # fmt: skip
+        for x, d in zip(xs, data.values(), strict=True):
+            if opt not in d:  # unmeasured: label the slot, never draw a zero-height bar
+                ax.text(x, 0, "n/a", ha="center", va="bottom", fontsize=6, rotation=90)
     ax.set_xticks(range(len(data)), list(data), fontsize=7)
     ax.set_ylabel("stripped minimal decoder binary (KiB)", fontsize=7)
     ax.legend(fontsize=6, frameon=False)

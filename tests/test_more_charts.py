@@ -112,3 +112,22 @@ def test_figure_data_helpers():
         and tokens["plan"] == {"1": 6, "2": 0}
         and cost == {"1": 1.5, "2": None}
     )
+
+
+def test_binary_size_missing_opt_is_na_not_zero(results, monkeypatch):
+    put("binary_size", ["machine", "subject", "opt", "bytes", "note"], [
+        {"machine": "M-B", "subject": s, "opt": o, "bytes": b, "note": ""}
+        for s, o, b in [("cf", "3", 393888), ("cf", "s", 373408), ("zng", "3", 90000), ("zng", "s", "")]
+    ])  # fmt: skip
+    grabbed = {}
+
+    def grab(fig, name, note, out_dir=None):
+        grabbed["fig"] = fig
+        return []
+
+    monkeypatch.setattr(more_charts, "_save", grab)
+    more_charts.binary_size(results / "figs")
+    ax = grabbed["fig"].axes[0]
+    assert all(p.get_height() > 0 for p in ax.patches)
+    assert len(ax.patches) == 3
+    assert [t.get_text() for t in ax.texts].count("n/a") == 1
