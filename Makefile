@@ -43,6 +43,7 @@ subjects-native: c-subjects
 perf-report:
 	$(PY) -m cfbench.perf_report
 	$(PY) -m cfbench.agreement
+	$(PY) -m cfbench.perf_charts
 
 smoke-bench: subjects
 	CFB_PROFILE=quick $(PY) -m cfbench.perf run
