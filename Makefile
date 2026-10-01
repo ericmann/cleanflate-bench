@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := framing content pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance correctness paper perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance correctness paper paper-check perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -62,6 +62,9 @@ correctness: conformance
 
 paper:
 	$(PY) -m cfbench.kits.paper
+
+paper-check:
+	$(PY) -m cfbench.clean_clone paper --compare results/PAPER_KIT.md results/figures/paper_throughput_unsafe.svg
 
 perf-report:
 	$(PY) -m cfbench.perf_report
