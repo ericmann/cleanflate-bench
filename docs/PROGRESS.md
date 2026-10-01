@@ -55,7 +55,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P6-03 Phase 6 hand-off
 - [x] P7-01 infgen build and parser
 - [x] P7-02 Content features for every workload
-- [ ] P7-03 Correlation, H1/H2 verdicts, scatter plots and findings
+- [x] P7-03 Correlation, H1/H2 verdicts, scatter plots and findings
 - [ ] P7-04 Phase 7 hand-off
 - [ ] P8-01 Malformed-input behaviour matrix
 - [ ] P8-02 Differential fuzz harnesses
@@ -279,3 +279,6 @@ Tests: test_infgen x10 (fixtures/infgen real infgen output: stored, fixed, dynam
 
 ### P7-02 — 30ec6c4
 infgen run over 207 corpus raw streams (tiny excluded); raw data/raw/content/any records workload manifest SHA-256. results/content_features.csv has one row per workload/level/framing; token features come from the raw-framed stream and are copied to zlib/gzip rows (framing_analysed column), ratio from each framing's own size. Added mean_match_len to infgen.summarize, make content-features, content alias replacing the stub. make lint and make test pass (301 tests).
+
+### P7-03 — 08eed8f
+cfbench/content/correlate.py: joins cf generic oneshot ratio_vs_zlib with content_features; scipy Spearman (scipy pinned in uv.lock) with seeded permutation p (content.permutations=10000 from run.seed). Verdict per machine, weaker of H1's two features, machine disagreement gives inconclusive. Table content_hypotheses and results/CONTENT_FINDINGS.md written; with no perf data both are pending and inconclusive. Scatter figures content_scatter_<feature>_<machine> render only with perf data. make content = content-features then correlate (rerunning features adds a new raw file; I committed only the first). 307 tests pass.
