@@ -109,21 +109,24 @@ def _leaf_token(node: Node, language: str) -> Token | None:
     return Token("TOK", text, line)
 
 
-def _walk(node: Node, language: str, toks: list[Token], comments: list[tuple[int, str]]) -> None:
-    t = node.type
-    if t in COMMENT_TYPES:
-        comments.append((node.start_point[0] + 1, node.text.decode("utf-8", errors="replace")))
-        return
-    atomic = t in STRING_TYPES or t in CHAR_TYPES
-    if language == "c" and t == "function_definition":
-        toks.append(Token("CLASS", "FN", node.start_point[0] + 1))
-    if atomic or node.child_count == 0:
-        tok = _leaf_token(node, language)
-        if tok is not None:
-            toks.append(tok)
-        return
-    for child in node.children:
-        _walk(child, language, toks, comments)
+def _walk(root: Node, language: str, toks: list[Token], comments: list[tuple[int, str]]) -> None:
+    """Depth-first, in source order, with an explicit stack (deep else-if chains overflow recursion)."""
+    stack = [root]
+    while stack:
+        node = stack.pop()
+        t = node.type
+        if t in COMMENT_TYPES:
+            comments.append((node.start_point[0] + 1, node.text.decode("utf-8", errors="replace")))
+            continue
+        atomic = t in STRING_TYPES or t in CHAR_TYPES
+        if language == "c" and t == "function_definition":
+            toks.append(Token("CLASS", "FN", node.start_point[0] + 1))
+        if atomic or node.child_count == 0:
+            tok = _leaf_token(node, language)
+            if tok is not None:
+                toks.append(tok)
+            continue
+        stack.extend(reversed(node.children))
 
 
 def _parse(path: Path | str, language: str | None) -> tuple[list[Token], list[tuple[int, str]]]:

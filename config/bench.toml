@@ -54,6 +54,14 @@ font_family = "DejaVu Sans"
 [similarity]
 ngram_min = 5
 ngram_max = 10
+pairs = [
+    { left = "zrs", right = "mox", role = "negative" },
+    { left = "zrs", right = "zng", role = "positive" },
+    { left = "cf", right = "zrs", role = "test" },
+    { left = "cf", right = "mox", role = "test" },
+    { left = "cf", right = "zlib", role = "test" },
+    { left = "cf", right = "zng", role = "test" },
+]
 
 [size]
 opt_levels = ["3", "s"]

@@ -79,3 +79,15 @@ def test_unknown_extension_is_rejected(tmp_path):
 def test_token_lines_are_one_based(tmp_path):
     toks = tokens.tokenize(write(tmp_path, "a.rs", "\n\nfn f() {}\n"))
     assert toks[0].line == 3
+
+
+def test_deeply_nested_source_does_not_overflow_the_stack(tmp_path):
+    depth = 3000
+    src = "fn f() { " + "if x { " * depth + "y" + " }" * depth + " }"
+    toks = tokens.tokenize(write(tmp_path, "deep.rs", src))
+    assert sum(1 for t in toks if t.norm == "if") == depth
+    chain = "int f(int x) { " + "if (x) {} else " * depth + "{} }"
+    assert (
+        sum(1 for t in tokens.tokenize(write(tmp_path, "chain.c", chain)) if t.norm == "else")
+        == depth
+    )
