@@ -70,7 +70,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-01 Remaining figures
 - [x] P10-02 PITCH_KIT and talking points
 - [x] P10-03 RESULTS.md, part 1 (performance, framing, content, trajectory)
-- [ ] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
+- [x] P10-04 RESULTS.md, part 2 (correctness, size/safety, similarity, effort, threats)
 - [ ] P10-05 BLOG_NOTES.md
 - [ ] P10-06 make all and the clean-clone check for every kit
 - [ ] P10-07 Phase 10 hand-off
@@ -337,3 +337,6 @@ Work is in commit 7417b5f. cfbench/kits/pitch.py renders slide-size (16:9) figur
 
 ### P10-03 — 082f60a
 cfbench/kits/results_md.py: render_sections_part1() returns Environments, Subjects and pins (hardware-CRC determinations from subjects.lock.json), Performance methodology (config values restated), Performance results (aggregates per machine and variant, per-file tables per machine/corpus/framing with level 6 inline and other levels in details, tiny inputs, agreement), Framing decomposition, Content analysis, Trajectory. Tables are read through evidence.table_rows (pending tables refused) with a source line each; pending data becomes 'Pending: run `make X` on ...'. Figures embedded relative to results/ with caption and parity note. Interpretation: table cells are copied from the derived tables (they are the evidence) rather than one Evidence object per cell. Evidence TARGETS gained env, perf_tiny, perf_agreement. 3 new tests pass (full make test affected only by the signing-agent outage).
+
+### P10-04 — 9611f0d
+results_md.py part 2: Correctness (conformance, disagreements, malformed, fuzz, bombs), Size/safety/complexity, Clean-room verification (methods and tool versions, controls table, result statement, per-pair fragment verdict counts, link to STRUCTURE_COMPARISON.md), Effort/cost/provenance (all effort tables, EFFORT_GAPS link, zlib-rs context with scope note), Findings link, and six Threats-to-validity paragraphs each citing data (similarity statement, agreement flags, hardware-CRC pins, fuzz budget actually run, effort rounds). render() writes results/RESULTS.md (553 lines, deterministic, generated header). Integers print without decimals. make blog now rederives and writes RESULTS.md (stub mechanism removed; STUBS is empty). Tests: 6 in test_results_md; full suite 351 pass with signing disabled for throwaway repos.
