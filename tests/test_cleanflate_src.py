@@ -5,11 +5,13 @@ import pytest
 
 from cfbench import cleanflate_src as cs
 from cfbench import paths
+from tests.conftest import HERMETIC_GIT_ARGS, hermetic_git_env
 
 
 def _g(cwd, *args):
     out = subprocess.run(
-        ["git", "-C", str(cwd), "-c", "user.email=t@t", "-c", "user.name=t", *args],
+        ["git", "-C", str(cwd), *HERMETIC_GIT_ARGS, *args],
+        env=hermetic_git_env(),
         capture_output=True,
         text=True,
         check=True,

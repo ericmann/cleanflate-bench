@@ -4,12 +4,13 @@ import subprocess
 from pathlib import Path
 
 from cfbench import clean_clone as cc
+from tests.conftest import HERMETIC_GIT_ARGS, hermetic_git_env
 
 
 def git(repo, *args):
     subprocess.run(
-        ["git", "-C", str(repo), "-c", "user.email=t@t", "-c", "user.name=t", *args],
-        check=True, capture_output=True,
+        ["git", "-C", str(repo), *HERMETIC_GIT_ARGS, *args],
+        check=True, capture_output=True, env=hermetic_git_env(),
     )  # fmt: skip
 
 
@@ -132,3 +133,14 @@ def test_makefile_has_no_remaining_stubs():
     ]
     helped = set(re.findall(r'@echo "([a-z][a-z0-9-]*) ', makefile))
     assert targets <= helped | {"help"}, sorted(targets - helped)  # help lists every target
+
+
+def test_helpers_ignore_hostile_global_git_config(tmp_path, monkeypatch):
+    hostile = tmp_path / "gitconfig"
+    hostile.write_text(
+        "[commit]\n\tgpgsign = true\n[tag]\n\tgpgsign = true\n"
+        '[gpg]\n\tprogram = false\n\tformat = ssh\n[gpg "ssh"]\n\tprogram = false\n'
+    )
+    monkeypatch.setenv("GIT_CONFIG_GLOBAL", str(hostile))
+    repo = make_repo(tmp_path / "x")
+    assert (repo / ".git").is_dir()
