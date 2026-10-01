@@ -43,7 +43,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P4-04 Token usage export and cost
 - [x] P4-05 zlib-rs status-quo context
 - [x] P4-06 Effort tables, gaps and trajectory join
-- [ ] P4-07 Phase 4 hand-off
+- [x] P4-07 Phase 4 hand-off
 - [ ] P5-01 Conformance runner
 - [ ] P5-02 Claims engine with evidence links
 - [ ] P5-03 Paper table and figure
@@ -222,3 +222,12 @@ Tests: test_effort_context x5 (recorded responses, no network). API: context.las
 
 ### P4-06 — 186924a
 Tests: test_effort_derive x4. API: derive.build_tables(history, usage, trajectory)/gaps_markdown/derive; TABLES dict of columns. Tables: effort_stage_round, effort_totals (+idle_s, total row), effort_milestones, effort_review_rounds, effort_defects, effort_interventions, effort_denied, trajectory_with_effort (pending until trajectory.csv has rows); results/EFFORT_GAPS.md generated. Costs all null (prices unset) and listed as gaps. Wall-clock attributed s r1/r2/r3 = 30485/26218/45863 (+28931 idle in r2); output tokens 850772/168462/143298. make effort = history+usage+context+derive.
+
+### P4-07 — 1f1af76
+Push: git push -u origin HEAD succeeded.
+Checklist (verbatim):
+1. `make trajectory` on M-A and on M-B (quiet machine), then commit `data/raw/trajectory/`.
+2. Fill in `config/pricing.toml` from the published price list (with `source` and `as_of`), then rerun `make effort`.
+3. Confirm that `results/EFFORT_GAPS.md` is complete and that the transcripts covered all three rounds.
+4. Look at `results/figures/trajectory_<machine>.png`.
+Manual check: NOT VERIFIED (human)
