@@ -3,7 +3,7 @@ Branch: build/2026-10-01
 Started: 2026-10-01T04:25:03.345Z
 
 ## Tasks
-- [ ] P0-01 Repository scaffold, config loader and Makefile skeleton
+- [x] P0-01 Repository scaffold, config loader and Makefile skeleton
 - [ ] P0-02 Machine detection, environment capture and raw-data I/O
 - [ ] P0-03 Pinned cleanflate clone, corpora and pristine check
 - [ ] P0-04 Pinned C subject builds (zlib, zlib-nohw, zlib-ng)
@@ -77,3 +77,6 @@ Started: 2026-10-01T04:25:03.345Z
 
 ## Log
 (one entry per task, appended by implement)
+
+### P0-01 — 90271ed
+Tests: test_config.py x4, harness framing unit test. Cargo.lock committed; hatchling backend. Stub targets exit 2. config/bench.toml has initial [run][machines][perf][charts] and quick profile.
