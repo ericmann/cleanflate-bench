@@ -23,7 +23,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-05 target-cpu=native Rust variant
 - [x] P1-06 Chart helpers and throughput figure
 - [x] P1-07 Phase 1 hand-off
-- [ ] P2-01 Pinned third-party tools
+- [x] P2-01 Pinned third-party tools
 - [ ] P2-02 Minimal stdin→stdout decompressors
 - [ ] P2-03 Binary-size measurement and cargo bloat
 - [ ] P2-04 Unsafe surface
@@ -147,3 +147,6 @@ Checklist (verbatim):
 2. `make perf-report`: check that `results/perf_agreement_summary.csv` shows `pass` for both machines, or review the flagged cells.
 3. Look at `results/figures/perf_throughput_M-A.png` and `perf_throughput_M-B.png`.
 Manual check: NOT VERIFIED (human)
+
+### P2-01 — 2a9f39d
+Tests: test_tools x6. API: tools.ensure(name, runner)->ToolStatus(name,version,path,ok,error), tools.binary_path(binary), tools.all_names(). config/tools.toml has version, binary, version_args per tool (cargo-bloat uses ['bloat','--version']). make tools installed all three: cargo-bloat 0.12.1, cargo-geiger 0.13.0, cargo-audit 0.22.2 at third_party/tools/bin (build took ~8 min). No tool gaps on M-B.
