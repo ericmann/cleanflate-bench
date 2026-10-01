@@ -1,12 +1,55 @@
 PY := uv run --frozen python
 STUBS :=
 
-.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke blog
+.PHONY: kits kits-check content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke blog
 
 help:
-	@echo "lint   cargo fmt/clippy and ruff"
-	@echo "test   cargo test, bins build and pytest"
-	@echo "all    every measurement and kit"
+	@echo "help                  this list"
+	@echo "lint                  cargo fmt/clippy and ruff"
+	@echo "test                  cargo test, bins build and pytest"
+	@echo "all                   every measurement, then every kit (human-run parts take hours)"
+	@echo "env                   capture the machine environment"
+	@echo "fetch                 fetch pinned sources and corpora"
+	@echo "c-subjects            build the pinned C libraries (zlib, zlib-nohw, zlib-ng)"
+	@echo "subjects              build every subject binary"
+	@echo "pins                  record build provenance in subjects.lock.json"
+	@echo "workloads             generate and verify the compressed workloads"
+	@echo "tools                 install the pinned analysis tools"
+	@echo "size                  binary size, bloat, unsafe, deps, LOC and complexity"
+	@echo "perf                  full performance runs (human, quiet machine) and perf reports"
+	@echo "perf-native           performance runs of the native-CPU variant"
+	@echo "subjects-native       build the native-CPU subjects"
+	@echo "subjects-rounds       build the three cleanflate round subjects"
+	@echo "trajectory            benchmark each cleanflate round and derive the trajectory"
+	@echo "effort                effort, cost and provenance tables"
+	@echo "conformance           conformance of every subject over the shared corpus"
+	@echo "malformed             malformed-input behaviour matrix"
+	@echo "fuzz-build            build and test the fuzz targets"
+	@echo "fuzz                  differential fuzzing for the full budget (human), coverage and triage"
+	@echo "fuzz-report           derive fuzz tables from raw data"
+	@echo "fuzz-smoke            short fuzz run into the smoke tree"
+	@echo "bombs                 decompression-bomb sweep"
+	@echo "correctness           conformance, malformed, fuzz and bombs"
+	@echo "paper                 render results/PAPER_KIT.md"
+	@echo "pitch                 render results/PITCH_KIT"
+	@echo "blog                  render RESULTS.md and BLOG_NOTES.md"
+	@echo "kits                  paper, pitch and blog (re-derive and render only)"
+	@echo "kits-check            regenerate the kits in a clean clone and compare byte for byte"
+	@echo "paper-check           clean-clone check of the paper kit alone"
+	@echo "checksums             checksum microbenchmarks"
+	@echo "framing               framing overhead runs and hypothesis verdict"
+	@echo "content               content analysis: features, correlation, findings"
+	@echo "content-features      infgen features of every workload"
+	@echo "figures               re-derive and render every figure"
+	@echo "perf-report           derive the performance tables"
+	@echo "smoke-bench           quick performance smoke run"
+	@echo "smoke-similarity      similarity smoke run"
+	@echo "smoke                 all smoke runs"
+	@echo "similarity-ngram      token n-gram similarity"
+	@echo "similarity-jplag      JPlag similarity"
+	@echo "similarity-fragments  top fragment pairs for review"
+	@echo "similarity-summary    similarity result statement"
+	@echo "similarity            every similarity measurement"
 
 env:
 	$(PY) -m cfbench.env
@@ -89,6 +132,11 @@ pitch:
 	$(MAKE) figures
 	$(PY) -m cfbench.kits.pitch render
 
+kits: paper pitch blog
+
+kits-check:
+	$(PY) -m cfbench.clean_clone kits --compare results/PAPER_KIT.md results/PITCH_KIT results/RESULTS.md results/BLOG_NOTES.md
+
 paper-check:
 	$(PY) -m cfbench.clean_clone paper --compare results/PAPER_KIT.md results/figures/paper_throughput_unsafe.svg
 
@@ -170,4 +218,4 @@ blog:
 	$(PY) -m cfbench.kits.results_md
 	$(PY) -m cfbench.kits.blog
 
-all: env pins perf size similarity trajectory effort correctness paper framing content-features pitch blog
+all: env pins perf perf-native framing content trajectory correctness size similarity effort paper pitch blog

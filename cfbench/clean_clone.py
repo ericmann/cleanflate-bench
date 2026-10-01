@@ -2,7 +2,7 @@
 
 `python -m cfbench.clean_clone <target> [--compare <paths...>]` clones HEAD into a temporary
 directory, installs the locked environment, runs `make <target>` there and compares each listed path
-with its committed version. A difference exits non-zero with a unified diff. Uncommitted changes in
+(directories recursively) with its committed version. A difference exits non-zero with a unified diff. Uncommitted changes in
 the working tree are refused because the check is against HEAD.
 """
 
@@ -40,6 +40,26 @@ def committed_bytes(repo: Path, rel: str) -> bytes | None:
     return res.stdout if res.returncode == 0 else None
 
 
+def tracked_files(repo: Path, rel: str) -> list[str]:
+    """Files tracked at HEAD under `rel` (the path itself when it is a file)."""
+    res = subprocess.run(
+        ["git", "-C", str(repo), "ls-tree", "-r", "--name-only", "HEAD", "--", rel],
+        capture_output=True, text=True, check=False,
+    )  # fmt: skip
+    return [ln for ln in res.stdout.splitlines() if ln]
+
+
+def expand(repo: Path, clone: Path, rel: str) -> list[str]:
+    """A compared path as files: tracked ones under it plus any the clone generated (recursive)."""
+    found = set(tracked_files(repo, rel))
+    target = clone / rel
+    if target.is_dir():
+        found |= {p.relative_to(clone).as_posix() for p in target.rglob("*") if p.is_file()}
+    elif not found:
+        found.add(rel)  # absent in HEAD: compared as absence, or as a single new file
+    return sorted(found)
+
+
 def run_check(
     target: str,
     compare: list[str],
@@ -71,7 +91,7 @@ def run_check(
             subprocess.run(sync, cwd=clone, check=True)
         subprocess.run(["make", target], cwd=clone, check=True)
         status = 0
-        for rel in compare:
+        for rel in [f for arg in compare for f in expand(repo, clone, arg)]:
             fresh = (clone / rel).read_bytes() if (clone / rel).exists() else None
             want = committed_bytes(repo, rel)
             if fresh == want:

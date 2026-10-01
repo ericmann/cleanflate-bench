@@ -1,4 +1,5 @@
 import io
+import re
 import subprocess
 from pathlib import Path
 
@@ -74,3 +75,60 @@ def test_missing_files_are_compared_as_absence(tmp_path):
     repo3 = make_repo(tmp_path / "c", recipe="printf 'x' > extra.txt")
     assert cc.run_check("all", ["extra.txt"], repo=repo3, sync=None, out=out3) == cc.DIFFERENT
     assert "missing in HEAD" in out3.getvalue()
+
+
+def test_directory_compare_is_recursive(tmp_path):
+    repo = tmp_path / "repo"
+    (repo / "kit" / "sub").mkdir(parents=True)
+    git(repo, "init", "-q", "-b", "main")
+    (repo / "kit" / "a.txt").write_text("a\n")
+    (repo / "kit" / "sub" / "b.txt").write_text("b\n")
+    (repo / "Makefile").write_text(
+        "all:\n\tprintf 'b2\\n' > kit/sub/b.txt\n\tprintf 'c\\n' > kit/sub/c.txt\n.PHONY: all\n"
+    )
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "init")
+    out = io.StringIO()
+    assert cc.run_check("all", ["kit"], repo=repo, sync=None, out=out) == cc.DIFFERENT
+    text = out.getvalue()
+    assert "identical: kit/a.txt" in text  # a file nobody regenerated is still compared
+    assert "DIFFERENT: kit/sub/b.txt" in text  # nested change found
+    assert "DIFFERENT: kit/sub/c.txt" in text and "missing in HEAD" in text  # new nested file found
+    assert cc.tracked_files(repo, "kit") == ["kit/a.txt", "kit/sub/b.txt"]
+
+
+def test_makefile_has_no_remaining_stubs():
+    makefile = (Path(__file__).parent.parent / "Makefile").read_text()
+    assert "not implemented yet" not in makefile
+    targets = set(re.findall(r"^([a-z][a-z0-9-]*):", makefile, flags=re.MULTILINE))
+    for t in (
+        "all",
+        "kits",
+        "kits-check",
+        "pitch",
+        "blog",
+        "paper",
+        "content",
+        "perf-native",
+        "correctness",
+    ):
+        assert t in targets, t
+    all_line = next(ln for ln in makefile.splitlines() if ln.startswith("all:"))
+    assert all_line.split()[1:] == [
+        "env",
+        "pins",
+        "perf",
+        "perf-native",
+        "framing",
+        "content",
+        "trajectory",
+        "correctness",
+        "size",
+        "similarity",
+        "effort",
+        "paper",
+        "pitch",
+        "blog",
+    ]
+    helped = set(re.findall(r'@echo "([a-z][a-z0-9-]*) ', makefile))
+    assert targets <= helped | {"help"}, sorted(targets - helped)  # help lists every target
