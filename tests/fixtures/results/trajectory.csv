@@ -1,0 +1,7 @@
+machine,round,tag,sha,corpus,framing,mode,level,agg_mib_s,ratio_vs_zlib,complete
+M-A,1,v1,s1,silesia,raw,oneshot,6,40,0.4,true
+M-A,2,v2,s2,silesia,raw,oneshot,6,60,0.6,true
+M-A,3,v3,s3,silesia,raw,oneshot,6,80,0.8,true
+M-B,1,v1,s1,silesia,raw,oneshot,6,30,0.3,true
+M-B,2,v2,s2,silesia,raw,oneshot,6,50,0.5,true
+M-B,3,v3,s3,silesia,raw,oneshot,6,70,0.7,true

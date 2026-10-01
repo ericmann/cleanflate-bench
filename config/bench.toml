@@ -40,6 +40,18 @@ min_sample_ms = 2
 [profiles.quick.perf.tiny]
 prefix_bytes = [256]
 
+[paper]
+parity_ratio = 0.95
+machines = ["M-A", "M-B"]
+perf_corpus = "silesia"
+perf_framings = ["raw", "zlib"]
+perf_levels = [6, 9]
+perf_mode = "oneshot"
+perf_variant = "generic"
+trajectory_level = 6
+trajectory_framing = "raw"
+trajectory_mode = "oneshot"
+
 [conformance]
 subjects = ["cf", "zlib", "zng", "zrs", "mox", "zsys"]
 

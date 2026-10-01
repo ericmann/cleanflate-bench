@@ -1,0 +1,30 @@
+{
+ "columns": [
+  "machine",
+  "variant",
+  "runs",
+  "cells",
+  "flagged_cells",
+  "max_abs_rel_diff",
+  "aggregates",
+  "flagged_aggregates",
+  "verdict"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-T",
+   "path": "tests/fixtures/raw/perf/M-T/20260101T000000Z.json",
+   "sha256": "1ce7b8f5e4c525c27dba2335d3578aed5a91a9300da7de7e21fb4cdc39a491e0",
+   "timestamp": "20260101T000000Z"
+  },
+  {
+   "machine": "M-T",
+   "path": "tests/fixtures/raw/perf/M-T/20260101T000100Z.json",
+   "sha256": "c5812428407c8bba140b894c129617634ee243fec8dd14a29539703690c0303b",
+   "timestamp": "20260101T000100Z"
+  }
+ ],
+ "script": "cfbench.agreement",
+ "table": "perf_agreement_summary.csv"
+}

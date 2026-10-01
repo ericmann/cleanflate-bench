@@ -37,12 +37,12 @@ def _rel(p: Path) -> str:
         return p.as_posix()
 
 
-def table_path(name: str) -> Path:
-    return paths.RESULTS / f"{name}.csv"
+def table_path(name: str, results_dir: Path | None = None) -> Path:
+    return (results_dir or paths.RESULTS) / f"{name}.csv"
 
 
-def sidecar_path(name: str) -> Path:
-    return paths.RESULTS / f"{name}.csv.provenance.json"
+def sidecar_path(name: str, results_dir: Path | None = None) -> Path:
+    return (results_dir or paths.RESULTS) / f"{name}.csv.provenance.json"
 
 
 def _raw_entry(p: Path) -> dict:
@@ -87,11 +87,11 @@ def write_table(
     return out
 
 
-def read_table(name: str) -> tuple[list[dict], dict]:
+def read_table(name: str, results_dir: Path | None = None) -> tuple[list[dict], dict]:
     """Rows as dicts of strings (empty cells are ''), plus the parsed sidecar."""
-    with open(table_path(name), encoding="utf-8", newline="") as f:
+    with open(table_path(name, results_dir), encoding="utf-8", newline="") as f:
         rows = list(csv.DictReader(f))
-    with open(sidecar_path(name), encoding="utf-8") as f:
+    with open(sidecar_path(name, results_dir), encoding="utf-8") as f:
         sidecar = json.load(f)
     return rows, sidecar
 
