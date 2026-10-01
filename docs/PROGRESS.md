@@ -62,7 +62,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P8-03 Fuzz orchestration, statistics and corpus archive
 - [x] P8-04 Fuzz coverage and divergence triage
 - [x] P8-05 Decompression-bomb robustness sweep
-- [ ] P8-06 Phase 8 hand-off
+- [x] P8-06 Phase 8 hand-off
 - [ ] P9-01 Decompression-path LOC with tokei
 - [ ] P9-02 Rust complexity distributions
 - [ ] P9-03 C complexity and the complexity table
@@ -304,3 +304,11 @@ fuzzing.py gained coverage (cargo +nightly fuzz coverage, then nightly llvm-cov 
 
 ### P8-05 — f8c3c8f
 cfbench/bombs.py: zeros of each [bomb].output_sizes in zlib framing plus gzip^2(zeros of the largest size). Interpretation: bombs are compressed with Python's zlib.compressobj level 9 streamed chunk-wise (cfb-zlib compress reads the whole input into memory, impossible for 4 GiB). Each case decodes in a child with decode --mode stream --max-output <limit>; each nested layer is decoded separately and layer j output is checked against the stored layer j-1 sha. Peak RSS comes from os.wait4 rusage, normalized to bytes; the kernel seeds a child's peak with the launcher's RSS, so all figures have a floor (~19.5 MB here), recorded as rss_floor_bytes in the raw doc. limit_enforcement comes from info output_limit. Quick smoke (16 MiB base, not committed): nested overall ratio 109,655:1; every subject ok; mox unsupported on gzip layers. The full run (4 GiB, overall ratio about 1.0e6 expected) is a human step. results/bombs.csv committed as pending. make correctness = conformance malformed fuzz bombs. 325 tests pass.
+
+### P8-06 — 485a4d7
+Manual check: NOT VERIFIED (human)
+Checklist for B8:
+1. make fuzz (3 x 4 CPU-hours) on a machine that can spare it; commit the raw files and archives, review results/fuzz_divergences.csv. Needs nightly with llvm-tools-preview (already installed on M-B). A 60 s smoke run showed 0 divergences once the miniz_oxide Adler-32 normalization was added (see fuzz/README.md).
+2. make bombs (full, 4 GiB cases) on M-A and M-B; commit. RSS figures carry the launcher's RSS as a floor (rss_floor_bytes in the raw doc).
+3. make malformed on M-A; commit and read results/MALFORMED_HIGHLIGHTS.md. M-B run is committed: 4 disagreements, all cf rejecting trailing data or a bad second gzip member by design; cf matches EXPECTED.tsv on all 42 files.
+Push happens at run finish.
