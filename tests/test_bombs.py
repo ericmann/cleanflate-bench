@@ -90,8 +90,8 @@ def test_limit_enforcement_taken_from_info_caps(tmp_path, monkeypatch):
         by[("cf", "nested-2x-65536:layer2")]["outcome"] == "output-mismatch"
     )  # runner's sha is fake
     assert (
-        by[("cf", "nested-2x-65536:layer1")]["ratio"]
-        == by[("cf", "nested-2x-65536:layer2")]["ratio"]
+        by[("cf", "nested-2x-65536:layer1")]["overall_ratio"]
+        == by[("cf", "nested-2x-65536:layer2")]["overall_ratio"]
     )
     assert len(seen) == 3 * 4 - 2
 
@@ -114,3 +114,33 @@ def test_derive_pending_then_rows(tmp_path, monkeypatch):
     bombs.derive()
     rows, side = provenance.read_table("bombs")
     assert side["pending"] is None and rows[0]["subject"] == "cf"
+
+
+def test_layer_rows_carry_layer_and_overall_ratio(tmp_path, monkeypatch):
+    cfg = small_cfg()
+    cfg["bomb"]["subjects"] = ["cf"]
+    cases = bombs.generate(cfg, tmp_path)
+    monkeypatch.setattr(bombs.subjects, "command", lambda s: [s])
+    monkeypatch.setattr(
+        bombs.subprocess,
+        "run",
+        lambda argv, **k: type(
+            "R",
+            (),
+            {"stdout": json.dumps({"output_limit": "native", "framings": ["raw", "zlib", "gzip"]})},
+        )(),
+    )
+
+    def runner(argv):
+        return {"result": {"ok": True, "limit_hit": False, "produced": 1, "sha256": "x"},
+                "seconds": 0.1, "peak_rss_bytes": 1}  # fmt: skip
+
+    rows = bombs.run_all(cfg, cases, "M-T", runner)
+    by = {r["case"]: r for r in rows}
+    layer2 = by["nested-2x-65536:layer2"]
+    c2 = next(c for c in cases if c["layer"] == 2)
+    assert layer2["ratio"] == pytest.approx(c2["output_bytes"] / c2["compressed_bytes"])
+    assert layer2["ratio"] != pytest.approx(layer2["overall_ratio"])
+    assert layer2["overall_ratio"] == pytest.approx(65536 / c2["compressed_bytes"])
+    assert by["zeros-1024"]["overall_ratio"] is None
+    assert by["zeros-65536"]["overall_ratio"] is None

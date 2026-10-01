@@ -26,7 +26,7 @@ from cfbench import config, env, machine, paths, provenance, rawio, subjects
 
 KIND = "bombs"
 SCRIPT = "cfbench.bombs"
-COLUMNS = ["machine", "subject", "case", "ratio", "output_bytes", "limit_bytes", "outcome",
+COLUMNS = ["machine", "subject", "case", "ratio", "overall_ratio", "output_bytes", "limit_bytes", "outcome",
            "peak_rss_bytes", "seconds", "limit_enforcement"]  # fmt: skip
 PENDING = "no bomb sweep; run make bombs (a human step: 4 GiB cases)"
 CHUNK = 1 << 20
@@ -151,7 +151,8 @@ def run_all(cfg: dict, cases: list[dict], machine_id: str, runner=run_child) -> 
         enforcement = info["output_limit"]  # native or caller
         for c in cases:
             row = {"machine": machine_id, "subject": s, "case": c["case"],
-                   "ratio": c.get("overall_ratio") or ratio(c["output_bytes"], c["compressed_bytes"]),
+                   "ratio": ratio(c["output_bytes"], c["compressed_bytes"]),
+                   "overall_ratio": c.get("overall_ratio"),
                    "output_bytes": None, "limit_bytes": limit, "outcome": "unsupported",
                    "peak_rss_bytes": None, "seconds": None, "limit_enforcement": enforcement}  # fmt: skip
             if c["framing"] in info["framings"]:
