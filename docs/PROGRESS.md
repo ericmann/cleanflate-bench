@@ -13,7 +13,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-08 zlib-ng native-API subject binary
 - [x] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
 - [x] P0-10 Workload generation and manifest
-- [ ] P0-11 Perf orchestrator and smoke bench
+- [x] P0-11 Perf orchestrator and smoke bench
 - [ ] P0-12 Similarity tokenizer and smoke similarity run
 - [ ] P0-13 Phase 0 hand-off
 - [ ] P1-01 Statistics core
@@ -107,3 +107,6 @@ Tests: test_pins x8, test_unsafe_scan x3, test_sources x2. API: pins.hw_crc/merg
 
 ### P0-10 — 61ebabd
 Tests: test_workloads x7 (fake compressor, tmp DATA). API: workloads.list_workloads(cfg)->[Workload(id,corpus,file,level,framing,orig_path,path,orig_len,len)], generate(cfg,compressor,write_manifest), verify(cfg), load_manifest(). Layout data/workloads/<corpus>/<file>/{orig,l<level>.<framing>}, tiny at data/workloads/tiny/<corpus>-<file>-<prefix>/. 288 streams generated (207+81), manifest committed (zlib 1.3.2). Manifest verify checks only the active profile's list. Generation takes ~95s.
+
+### P0-11 — 1dea1f0
+Tests: test_perf x10, test_subjects x3, fixtures/fake_subject.py (flags --framings, --fail). API: subjects.SUBJECTS/SubjectSpec/binary_path(id,build)/command(id,build) (CFB_SUBJECT_CMD override); perf.build_cells/shuffled/check_preconditions/run(cfg,ids,variant,session,profile,strict,build,runner). Raw perf payload {kind,variant,build,seed,subjects,cells[{subject,workload,corpus,level,framing,mode,in_chunk,out_chunk,order_index,result|status:unsupported}],preconditions,environment_end}; one file per run with shared session. Native binaries assumed at target/native/release, cf rounds at build/rounds/rN/cfb-cf. Smoke bench ran: 2 files x 270 cells, all ok (mox gzip unsupported); smoke not committed. make perf/smoke-bench real.
