@@ -1398,3 +1398,19 @@ Derived from docs/SPEC.md v(unversioned, commit 082220a) on 2026-09-30. SPEC.md 
 **Out of scope:** Running the measurements; changing `make paper`.
 **Verification:** make lint; make test; make -n paper-data shows the expected chain.
 **Depends on:** R1-01
+
+## Review fixes (round 2)
+
+### R2-01: Make prerequisites so make all and make paper-data run from a fresh clone
+**Goal:** Every Makefile target that measures over workload streams or the cleanflate test data depends on the target that creates them, so `make all`, `make paper-data` and `make smoke` work from a fresh clone (SPEC §4, B0 and B10 acceptance).
+**Files touched:** Makefile, tests/test_clean_clone.py
+**Design constraints:** SPEC §4 ('make all runs everything end to end') and B10 ('make all reproduces everything from a clean clone'). Add `workloads` as a prerequisite of `perf`, `perf-native`, `smoke-bench` and `trajectory` (`workloads` already depends on `fetch subjects`). Add `fetch` as a prerequisite of `malformed`. Keep GNU make 3.81 and bash 3.2 portability (rule portable-shell-and-make). No git write subcommand in the Makefile (rule cleanflate-read-only-git). Do not change any recipe's commands or the order of `all`/`paper-data` prerequisites beyond what is needed. The test must be hermetic: parse the Makefile and use `make -n` only, never run measurements and never touch the network.
+**Acceptance tests:** New tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs:
+- Parse the Makefile's target to prerequisite graph.
+- For every target whose recipe runs `cfbench.perf run`, `cfbench.trajectory run`, `cfbench.conformance run` or `cfbench.content.features run`, assert that `workloads` is a transitive prerequisite.
+- For `malformed`, assert that `fetch` is a transitive prerequisite.
+- Run `make -n all` and `make -n paper-data` from the repo root and assert that the first line containing `cfbench.workloads generate` comes before the first line containing `cfbench.perf run` and the first line containing `cfbench.trajectory run`.
+- It fails today: `make -n paper-data` prints `cfbench.perf run` at line 5 and `cfbench.workloads generate` at line 27.
+**Out of scope:** Running any measurement; changing cfbench modules; changing what `paper-data` or `all` measure; similarity/size source-fetch ordering (pins and c-subjects already precede them in `all`).
+**Verification:** make lint; make test; make -n paper-data and make -n all show `cfbench.cleanflate_src fetch` and `cfbench.workloads generate` before `cfbench.perf run`.
+**Depends on:** none

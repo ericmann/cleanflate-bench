@@ -1,112 +1,95 @@
 # Review: build/2026-10-01
-Round: 1
+Round: 2
 
 **Verdict: CHANGES REQUESTED**
 
-Scope: the whole branch `e17e6973d7a7..30635db` (71 tasks, all marked done, none blocked or skipped). I read every task commit's stat and the diffs of the harness, subjects, orchestration, statistics, reports, kits, fuzz and bomb modules, checked them against SPEC and PLAN, ran `foundry_verify`, and ran 16 mutations through `foundry_mutate`.
+Scope: the whole branch `e17e6973d7a7..edc8dd1`. Round 1 reviewed every original task commit. This round re-checks the branch with the eight R1 fix commits (`085bc3d`..`15c3bd4`, plus `bef03e6`, which regenerated the kits). For each one I read the diff, then the R1 task in PLAN, then the SPEC sections it cites.
 
-Verify result: all 10 mechanical constraints pass with no fixture failures and no hits. `make lint` passes. `make test` fails: 5 failed and 4 errors, all in throwaway-repo tests (see F-1). Because the baseline is red, `foundry_mutate` reports every mutant as "killed". I read each result's pytest summary and counted a mutant as killed only if a test failed beyond those 9 baseline failures. Four mutants survived on that reading.
+Verify result:
+- `foundry_verify`: all 10 mechanical constraints pass, with no fixture failures and no hits. `make lint` is green, and `make test` is green (374 Python tests plus the Rust tests).
+- The signing agent is still unavailable in this environment, and the throwaway-repo tests now pass anyway.
+- `make kits-check` on the clean tree reports every kit file identical.
+
+## Round-1 findings: status
+
+| R1 finding | Status | Evidence |
+|---|---|---|
+| F-1 (hermetic git) | Fixed | Mutant removing both isolation layers in `tests/conftest.py` is killed (6 failed, 4 errors). |
+| F-2 (oneshot consumed/trailing) | Fixed | `decode --mode oneshot` reports `consumed` and `trailing_bytes` from each subject. New raw file `data/raw/correctness/M-B/20261001T073606Z.json` added; old raw files untouched. The matrix now shows 22 `accept+trailing` cells, and all four disagreements are cf stricter. Mutants killed: zlibapi stream `trailing_bytes: 0`, zng oneshot `consumed: input.len()`, cli.rs trailing assignment deleted, cf `TrailingData::Allow`. |
+| F-3 (parity note, methodology text) | Fixed | All 21 RESULTS.md tables carry the note. Load-precondition and chunk-size wording now matches the code. Mutant removing the note from `md_table` is killed. |
+| F-4 (substring evidence) | Fixed | Mutants restoring the substring clause and corrupting the computed tallies are both killed. `blog.py` uses the same `check_bullet`. |
+| F-5 (threshold boundaries) | Fixed | Mutants `1.5 * tol` and "drop `min_abs_rho`" are both killed. |
+| F-6 (binary-size n/a) | Fixed | Mutant restoring `d.get(opt, 0)` is killed. |
+| F-7 (bomb per-layer ratio) | Fixed | Mutant restoring the overall ratio in `ratio` is killed. |
+| F-8 (`make paper-data`) | Partly fixed | The target exists and its prerequisite list is tested (mutant dropping `conformance` is killed). It cannot run from a fresh clone; see F-1 below. |
 
 ## Findings (most severe first)
 
-### F-1 [Tests / verify red] Throwaway-repo tests depend on the user's global git config, so `make test` fails
-- Where: `tests/test_clean_clone.py:8-12` (the `git()` helper, used by `make_repo` at :23 and :90), and the matching commit helper in `tests/test_cleanflate_src.py`.
-- What is wrong: the helpers run `git commit` in `tmp_path` repos and inherit the user's global `commit.gpgsign=true` and signing program. While the signing agent is down, every such commit fails ("1Password: Could not connect to socket"). That gives 5 FAILED and 4 ERROR in `make test`. With `GIT_CONFIG_*` overrides disabling signing, all 11 tests pass. HANDOFF records this but calls it environmental. It is a test-hermeticity defect: whether the suite passes depends on the reviewer's `~/.gitconfig`.
-- What breaks: `make test` (a verify command) is red, so the task-level "every task leaves make test green" convention fails. It also makes `foundry_mutate` unusable without reading results by hand.
-- Fix: isolate the git subprocesses in these tests from global and system config. One way is an autouse fixture that sets `GIT_CONFIG_GLOBAL=/dev/null` and `GIT_CONFIG_NOSYSTEM=1`. Another is passing `-c commit.gpgsign=false -c tag.gpgsign=false` in the helpers.
-- Task: P5-05, P10-06 (clean_clone tests) and P0-03 (cleanflate_src tests).
-
-### F-2 [Spec drift + Tests] `decode --mode oneshot` always reports `trailing_bytes: 0` and `consumed = input.len()`, so the malformed matrix can never show `accept+trailing`
-- Where: `crates/harness/src/cli.rs:378` (`r.consumed = input.len() as u64;`; trailing is never set). The cause is `Subject::oneshot` in `crates/harness/src/subject.rs`, which returns only the produced length. The consumer is `cfbench/malformed.py:54` (`outcome`).
-- What is wrong: SPEC §3.6 asks for error vs accept plus bytes produced. PLAN P8-01 requires a separate `accept+trailing` outcome. Reproduced with `hello.zlib` plus one byte: `cfb-zlib`, `cfb-zrs` and `cfb-mox` in oneshot mode report `consumed: 45, trailing_bytes: 0`. Stream mode on the same input correctly reports `consumed: 44, trailing_bytes: 1`. The committed `results/malformed_matrix.csv` therefore has zero `accept+trailing` rows, even for `rfc1950/trailing_byte.bin` and `rfc1952/trailing_garbage.bin`. Those files show plain `accept`, and that wording has spread into `MALFORMED_HIGHLIGHTS.md`, `RESULTS.md`, `BLOG_NOTES.md` and `TALKING_POINTS.md`.
-- Test gaps found by mutation:
-  - Deleting cf's oneshot trailing-data check (`crates/subj-cf/src/main.rs`, the `if !inp.is_empty()` block) **survived**. Nothing tests that cf rejects trailing data, and that rejection is the mechanic behind all four committed disagreements.
-  - Setting `trailing_bytes: 0` in the zlib-API stream path (`crates/zlibapi/src/lib.rs`) **survived**.
-  - `tests/test_malformed.py::test_trailing_accept_is_distinguished` only feeds synthetic dicts to `outcome()`.
-- What breaks: a T3 finding (the malformed-input disagreements) is reported less precisely than PLAN requires. A comparator that silently ignores trailing bytes is indistinguishable from a clean accept.
-- Fix:
-  - Make oneshot report the input bytes actually consumed (for example, `Subject::oneshot` returns produced and consumed), and have `decode` report `consumed` and `trailing_bytes` truthfully for every subject.
-  - Add subject-level tests with trailing input in both modes.
-  - Re-run `make malformed` (deterministic, M-B, data-run protocol) and regenerate the kits.
-- Task: P0-05 / P8-01 (plus P0-06, P0-07, P0-08 for the subjects).
-
-### F-3 [Constraint (read-only rule) + Spec drift] RESULTS.md comparison tables lack the parity footnote, and the methodology misstates the load precondition
-- Where: `cfbench/kits/results_md.py:495` (`table_block`), `:162` and `:996`.
+### F-1 [Spec drift: SPEC §4, B10 acceptance, PLAN Decisions] `make all` and `make paper-data` run perf before any workload stream exists, so both fail on a fresh clone
+- Where:
+  - `Makefile:75` (`perf: subjects`), `:79` (`perf-native: subjects subjects-native`), `:91` (`trajectory: subjects subjects-rounds`), `:171` (`smoke-bench: subjects`) and `:123` (`malformed: subjects`).
+  - `paper-data` and `all` list these targets ahead of anything that builds `workloads` or runs `fetch`.
+  - Consumers: `cfbench/perf.py:145-148` and `cfbench/trajectory.py:90`.
 - What is wrong:
-  - CLAUDE.md says every table and figure carries the §2.4 parity note, and SPEC §2.4 says the note "must accompany every comparison table". In `results/RESULTS.md` the note appears only under figure captions and in one threats paragraph. None of the 21 tables carries it. Examples are conformance per subject (line 85), binary size (132), unsafe (192), similarity positioning (265), and the per-file perf tables once data exists.
-  - RESULTS.md says "A run is refused when the starting load average exceeds 1.0" (methodology) and "runs are refused above a starting load of 1.0" (threats). `cfbench/perf.py` only warns unless `--strict` is passed, and `make perf` never passes it (PLAN P0-11 says warnings, never refusal).
-  - The methodology line "Streaming uses 4096-byte and 1048576-byte chunks" mixes `small_out_chunk` with `large_in_chunk` and omits the 1 KiB input chunk.
-- What breaks: the T3 kit misdescribes the method it reports, and its comparison tables break the parity rule.
-- Fix: append the parity footnote to every comparison table that `table_block` (and any other table emitter) renders. Restate the load precondition as a recorded warning (refused only with `--strict`). State small (in/out) and large (in/out) chunk sizes correctly. Regenerate RESULTS.md.
-- Task: P10-03, P10-04.
+  - `data/workloads/` and `third_party/` are gitignored, so a fresh clone has neither the cleanflate clone nor the workload streams.
+  - `perf run` calls `workloads.list_workloads` (which needs the cleanflate corpora via `cleanflate_src.corpus_files`) and raises `RuntimeError("... workload streams are missing: run make workloads")`.
+  - `make -n paper-data` prints `cfbench.perf run` at line 5, but `cleanflate_src fetch` only at line 25 and `cfbench.workloads generate` at line 27. Both come in later, through `conformance`.
+  - `make -n all` has the same order (perf run at line 5, workloads generate at line 26). There, `perf-native` also runs before `content-features` brings in `workloads`.
+  - In `paper-data`, `trajectory` also precedes `conformance`.
+  - `malformed` reads `third_party/cleanflate/testdata/malformed`, but it does not depend on `fetch`.
+- What breaks: SPEC §4 says "`make all` runs everything end to end", and B10's acceptance requires it to reproduce everything from a clean clone. The human step this round added (run `make paper-data` on M-A from a fresh clone) stops at its first measurement. The same applies to `make all` and `make smoke`, which B0's acceptance names. `make kits-check` only re-renders kits, so nothing has exercised the measuring chain from a fresh clone.
+- Fix:
+  - Add `workloads` as a prerequisite of `perf`, `perf-native`, `smoke-bench` and `trajectory`. `workloads` already depends on `fetch subjects`.
+  - Add `fetch` as a prerequisite of `malformed`.
+  - Keep the Makefile GNU make 3.81 portable.
+- Test: one Makefile-structure test in `tests/test_clean_clone.py`, which already parses the Makefile:
+  - For every target whose recipe runs `cfbench.perf run`, `cfbench.trajectory run`, `cfbench.conformance run` or `cfbench.content.features run`, `workloads` must be a transitive prerequisite.
+  - For `malformed`, `fetch` must be one.
+  - In `make -n all` and `make -n paper-data`, the first `cfbench.workloads generate` must come before the first `cfbench.perf run` and `cfbench.trajectory run`.
+  - It fails today.
+- Task: P10-06 (`make all`) and R1-08 (`paper-data`).
 
-### F-4 [Tests / constraint enforcement] Evidence checks for kit numbers accept substrings, so fabricated numbers pass
-- Where: `cfbench/kits/pitch.py:39` (`not any(token in a for a in allowed)`) and `tests/test_paper_kit.py:79` (`run in displays`, where `displays` is one joined string).
-- What is wrong: CLAUDE.md says kits print numbers only through `Evidence`, and these checks are its enforcement. Both match substrings. Verified: `check_bullet(Bullet("cf is 9 times faster than zlib on 35 files", (), ("0.935",)))` passes. "9" and "35" are accepted because they occur inside "0.935". The same weakness applies to every PITCH_KIT and BLOG_NOTES bullet and to the paper-kit test.
-- What breaks: an invented small number in a talking point or claim would not be caught.
-- Fix: compare whole number tokens (same `_NUMBER` tokenisation on both sides) against the set of evidence and label tokens. Keep the hyphen/SHA-256 exclusion.
-- Task: P10-02, P10-05, P5-04.
+## Mutation sample (14 mutants this round)
+- **Killed (13):**
+  - `zlibapi` stream `trailing_bytes`
+  - `subj-zng` oneshot `consumed`
+  - `harness/cli.rs` oneshot trailing assignment
+  - `subj-cf` `TrailingData::Allow`
+  - `results_md.md_table` parity note
+  - `pitch.check_bullet` substring clause
+  - `pitch.bullets_claims` tallies
+  - `framing` tolerance band (`1.5 * tol`)
+  - `correlate` `min_abs_rho`
+  - `bombs` per-layer `ratio`
+  - `more_charts.binary_size` zero bar
+  - `Makefile` `paper-data` prerequisites
+  - `tests/conftest.py` hermetic isolation
+- **Survived (1, equivalent):** deleting the `if !inp.is_empty()` block at the end of `Cf::oneshot` (`crates/subj-cf/src/main.rs:114-117`). It is unreachable: cleanflate's `decompress` already returns `TrailingData` in the call that reaches `Done` with leftover input (cleanflate `85f2100` `crates/cleanflate/src/stream.rs:364-373`). The behaviour it was meant to guard is covered: `test_trailing_byte_reported[cf]` kills the `TrailingData::Allow` mutant. Not a finding.
 
-### F-5 [Tests] Hypothesis thresholds are untested at their boundaries
-- Where: `cfbench/framing.py:124` and `cfbench/content/correlate.py:91-93`.
-- What is wrong, both found by mutation:
-  - Widening the framing band to `10 * tol` **survived**. The only "outside band" fixture has a relative difference of about 12.5, so `hypothesis_tolerance` is never exercised near its value.
-  - Removing the `abs(rho) >= min_abs_rho` condition from the H1/H2 confirmed rule **survived**.
-- What breaks: the Hypothesis protocol says verdicts are decided by the config thresholds, but nothing would notice if those thresholds stopped being applied.
-- Fix: add boundary tests:
-  - framing: |rel_diff| just inside and just outside `hypothesis_tolerance`.
-  - content: p < alpha with |rho| between `null_abs_rho` and `min_abs_rho` gives inconclusive; |rho| < `null_abs_rho` gives refuted; positive rho with p < alpha gives refuted.
-- Task: P6-02, P7-03.
-
-### F-6 [Constraint (read-only rule)] The binary-size figure draws a missing value as a zero-height bar
-- Where: `cfbench/more_charts.py:118` (`d.get(opt, 0) / 1024`).
-- What is wrong: CLAUDE.md says unsupported or missing cells are "n/a", never zero. If a subject lacks one opt-level (for example a failed build, so empty `bytes`), the chart draws a 0 KiB bar. Current M-B data has every value, so the committed figure is unaffected; the defect is latent.
-- Fix: skip the bar and draw an "n/a" label for a missing (subject, opt) slot. Test it with a fixture table that lacks one opt-level.
-- Task: P10-01.
-
-### F-7 [Spec drift] The bomb table's `ratio` for nested-layer rows is the overall ratio, not the per-layer ratio
-- Where: `cfbench/bombs.py:154` (`"ratio": c.get("overall_ratio") or ratio(...)`).
-- What is wrong: PLAN P8-05 and Spec issue 4 say the sweep "reports per-layer and overall ratios". Each layer row shows the overall gzip-of-gzip ratio (about 1e6 at full size) under `ratio`. A reader would attribute that ratio to decoding that single layer. The per-layer ratio appears nowhere in the table.
-- Fix: make `ratio` the layer's own output/compressed ratio and add an `overall_ratio` column (empty for single-layer cases). Update the pending table header and any RESULTS.md renderer that names the bomb columns.
-- Task: P8-05.
-
-### F-8 [Spec drift (PLAN)] `make paper-data` does not exist
-- Where: `Makefile`, PLAN Decisions (line 16) and PLAN Spec issue 11.
-- What is wrong: the PLAN resolves SPEC §4's "make paper (T1 only, fastest path)" against B5 by splitting rendering (`make paper`) from measuring (`make paper-data`: "runs the T1 measurements for the current machine"). Only the render half exists. `make help` and README do not mention it.
-- Fix: add `paper-data` with the machine-specific T1 measurements as prerequisites (env, pins, perf, trajectory, size, conformance), then `$(MAKE) paper`. List it in `make help` and README.
-- Task: P5-04 / P10-06.
-
-## Mutation sample (16 mutants)
-- **Killed:** `timing.rs` calibration, `perf_report` aggregate file-set check, `agreement` aggregate flagging, `similarity.summary` "no metric separates" branch, `conformance.judge` SHA check, `claims._conformance` disagreement check, `effort.history` idle-gap rule, `perf.shuffled` per-run seed, `pins` aarch64 CRC regex.
-- **Survived:** `subj-cf` oneshot trailing-data rejection (F-2), `zlibapi` stream `trailing_bytes` (F-2), `framing` tolerance band (F-5), `correlate` `min_abs_rho` (F-5).
-
-## Interpretation choices (HANDOFF and PROGRESS)
-- Bombs compressed with Python's streaming zlib: accepted. cfb-zlib cannot stream 4 GiB, and the bytes are not claimed byte-identical (see Notes on recording the Python zlib version).
-- Bomb RSS floor (`rss_floor_bytes`): accepted and documented.
-- miniz_oxide Adler-32 check re-done in the fuzz harness under `--cfg fuzzing`: accepted. It is correct, and it is needed for the oracle to be meaningful.
-- tokei embedded-Markdown rows: accepted.
-- Fuzz gzip normalisation (zlib-family reference loops members instead of cf decoding one member): accepted. PLAN let the implementer choose and document it, and `fuzz/README.md` does.
-- RESULTS.md tables copied from derived tables with a per-table source line, rather than one `Evidence` per cell: accepted. Each table names its table, raw files and script, which meets SPEC §6. The missing parity note on those tables is F-3.
-- `zlibapi` and zng linking via `rustc-link-arg-bins` instead of `link-lib=static`: accepted. It is documented, and the version tests prove the right library is linked.
+## Interpretation choices (HANDOFF round 1)
+- **R1-01, helper-level isolation instead of an autouse fixture:** accepted. PLAN allowed either approach, and both layers (`-c` flags and env) are in place.
+- **R1-02, `IdentitySubject` treats NUL as a stream terminator:** accepted. It is a test-only stand-in in `crates/harness/tests/`, which is where literal values belong.
+- **R1-04, tally labels computed from the evidence list:** accepted. The labels are derived from the same `Evidence` objects, not typed in, and a mismatch still raises.
+- **R1-04, paper test allows the baseline `1.00`:** accepted. It is the definitional zlib = 1.00x baseline from SPEC §3.2.
+- **R1-07, `overall_ratio` empty for single-layer rows:** accepted. This matches the task.
+- **R1-08, `paper-data` not run:** accepted as a human step. The ordering defect is F-1.
 
 ## Blocked and skipped tasks
 None.
 
 ## Spec issues
-No new ones. PLAN's Spec issues 1–13 still stand. Issue 6 (x86_64 hardware-CRC control identical to default) and issue 7 (cross-language positive control) visibly shape the current results: every n-gram metric reports "controls not separated".
+No new ones. PLAN's Spec issues 1–13 still stand.
 
 ## Manual checks still owed (from HANDOFF.md)
-1. Timing-sensitive full runs on a quiet machine, M-A and M-B: `make perf perf-native framing trajectory`, then `make content`. All their tables are pending.
-2. `make fuzz` (3 targets x 4 CPU-hours) and `make bombs` (4 GiB cases).
-3. M-A runs of env, conformance and malformed (and `make fetch c-subjects subjects pins` for the M-A `subjects.lock.json` entry).
+1. Timing-sensitive full runs on a quiet machine, M-A and M-B: `make perf perf-native framing trajectory` (or `make paper-data` for the T1 subset, once F-1 is fixed), then `make content`. All their tables are pending.
+2. `make fuzz` (3 targets x 4 CPU-hours) and `make bombs` (the full sweep with 4 GiB cases).
+3. M-A runs of env, conformance and malformed.
 4. Fill in prices in `config/pricing.toml`, and fragment verdicts in `config/similarity_verdicts.toml`.
 5. Review `results/STRUCTURE_COMPARISON.md`, `RESULTS.md` (threats to validity), `PITCH_KIT/TALKING_POINTS.md` and `BLOG_NOTES.md`.
-6. Re-sign commits made with `commit.gpgsign=false` after P10-02, if signed history is required.
+6. Run `make kits-check` after committing (it refuses a dirty tree).
+7. Re-sign commits made with `commit.gpgsign=false`, if signed history is required.
 
 ## Notes (not findings)
-- `fuzz/src/lib.rs` `decode_mox` allocates and zeroes a 64 MiB buffer per fuzz input. That likely explains mox's much lower exec/s in the smoke run. Reusing a buffer would let the 4 CPU-hour budget go further.
-- The mox Adler-32 normalisation in `fuzz/src/lib.rs` cannot be covered by `fuzz/tests`, which build without `--cfg fuzzing`. That is acceptable, but worth a comment in the test file.
-- `bombs.py` does not record `zlib.ZLIB_RUNTIME_VERSION` for the Python-compressed bombs. Adding it to the raw payload would close the provenance loop.
-- RESULTS.md prints "Pending: run `make fuzz` on M-A and M-B." twice in a row (fuzz_stats and fuzz_divergences).
-- BLOG_NOTES "The clean-room setup" states "cleanflate was built from the RFC texts alone" as fact, next to a similarity statement that does not allow the independence claim. The human author may want to soften it to "under clean-room rules".
-- `agreement.compare_session` only compares cells that succeeded in both runs. A cell that fails in one run is not flagged there, though `perf_report` marks it as an error and the aggregate as incomplete, so claims stay safe.
+- BLOG_NOTES.md (lines 26-27) and TALKING_POINTS.md (lines 49-50) still say comparators "accept it". The matrix now shows `accept+trailing`, meaning they return success and leave the trailing input unconsumed. Saying that outright would sharpen the T3 story. This is human-review material (manual check 5); the sentences are not false.
+- `Cf::oneshot`'s final `if !inp.is_empty()` block is dead code given cleanflate's behaviour (see the mutation sample). It is harmless as a defensive check.
+- `STRUCTURE_COMPARISON.md` has 6 hand-written tables with a single parity paragraph at the top. That is acceptable for a non-numeric write-up, but a per-section reminder would match the RESULTS.md convention.

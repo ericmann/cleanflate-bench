@@ -82,6 +82,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
 - [x] R1-07 Bomb table reports per-layer and overall ratios separately
 - [x] R1-08 Add make paper-data for the T1 measurements
+- [ ] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
 
 ## Log
 (one entry per task, appended by implement)
