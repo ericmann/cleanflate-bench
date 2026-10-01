@@ -79,7 +79,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
 - [x] R1-04 Token-exact evidence checks for kit numbers
 - [x] R1-05 Boundary tests for the hypothesis thresholds
-- [ ] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
+- [x] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
 - [ ] R1-07 Bomb table reports per-layer and overall ratios separately
 - [ ] R1-08 Add make paper-data for the T1 measurements
 
@@ -377,3 +377,6 @@ check_bullet now compares whole _NUMBER tokens (substring clause removed). Tests
 
 ### R1-05 — 6e041e2
 Added test_tolerance_band_edges (tol*0.9 within/confirmed, tol*1.2 outside/refuted, both signs) and test_verdict_threshold_edges; thresholds read from config. No cfbench code change needed.
+
+### R1-06 — 2356302
+binary_size now draws bars only for measured (subject, opt) and puts an 'n/a' Text at the slot otherwise. Test captures the figure via monkeypatched _save. make figures produced no diff, so committed binary_size figures are byte-identical.
