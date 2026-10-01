@@ -40,7 +40,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P4-01 Round builds of cf
 - [x] P4-02 Trajectory run, table and figure
 - [x] P4-03 Effort from git history, tool log and Foundry state
-- [ ] P4-04 Token usage export and cost
+- [x] P4-04 Token usage export and cost
 - [ ] P4-05 zlib-rs status-quo context
 - [ ] P4-06 Effort tables, gaps and trajectory join
 - [ ] P4-07 Phase 4 hand-off
@@ -212,3 +212,7 @@ Manual check: NOT VERIFIED (human): make trajectory on M-A and M-B.
 
 ### P4-03 — 69d3632
 Tests: test_effort_history x5 (fixtures/effort: gitlog, tool-log, state-r1/r2, interventions). API: history.parse_git_log/round_windows/stage_wall_clock/milestone/parse_tool_log/tool_log_summary/categorize_denial/defect_source/defects_summary/parse_interventions/intervention_round/state_summary/collect(clone,cfg,git,rounds). Config [effort] idle_gap_hours=3, defect_keywords, denial_categories. docs/methods/effort.md. Raw effort/any 20261001T054826Z. Data: attributed wall-clock h r1 8.5/r2 7.3 (+8.0 idle)/r3 12.7; review rounds 4/3/2; denials 15/5/12; interventions 2/7/2; defects found 10/4/2 vs none 47/33/36. Models counted as tool calls per stage (opus-5-5 mostly; sonnet-5-5 for plan and summarize in r2-r3). Durations of interventions: documented gap. Note for P4-04/06: cleanflate commit messages carry stage tags; token/cost sources are separate.
+
+### P4-04 — 045fd8c
+Tests: test_effort_usage x7 (synthetic transcripts fixtures with sentinel text). API: usage.read_records/export_record/attribute/stage_from_agent/cost_of/summarize/collect/main(--allow-gaps); EXPORT_FIELDS/DERIVED_FIELDS. config/pricing.toml all UNSET (cost null, gaps list each model); [effort] transcripts_dir. history.state_summary reviews[] now has 'at'; history re-run -> newer raw 20261001T055110Z (older one still committed; latest wins). Usage raw: effort/any 20261001T055110Z-1.json (3291 msgs, 2518 dups dropped, no content/text keys, verified by grep). Output tokens by round/stage computed; costs null until prices supplied (human). Stage methods: agent type 2182, agent type after first review 919, main session 190 records.
+Manual check: NOT VERIFIED (human): supply sourced prices in config/pricing.toml.
