@@ -1,0 +1,66 @@
+{
+ "firstSimilarity": 0.28709349593495936,
+ "firstSubmissionId": "mox",
+ "matches": [
+  {
+   "endInFirst": {
+    "column": 11,
+    "line": 522,
+    "tokenListIndex": 1162
+   },
+   "endInSecond": {
+    "column": 68,
+    "line": 51,
+    "tokenListIndex": 9058
+   },
+   "firstFileName": "mox/core.rs",
+   "lengthOfFirst": 54,
+   "lengthOfSecond": 54,
+   "secondFileName": "cf/tables.rs",
+   "startInFirst": {
+    "column": 12,
+    "line": 514,
+    "tokenListIndex": 1109
+   },
+   "startInSecond": {
+    "column": 4,
+    "line": 42,
+    "tokenListIndex": 9005
+   }
+  },
+  {
+   "endInFirst": {
+    "column": 1,
+    "line": 531,
+    "tokenListIndex": 1211
+   },
+   "endInSecond": {
+    "column": 1,
+    "line": 37,
+    "tokenListIndex": 9001
+   },
+   "firstFileName": "mox/core.rs",
+   "lengthOfFirst": 34,
+   "lengthOfSecond": 34,
+   "secondFileName": "cf/tables.rs",
+   "startInFirst": {
+    "column": 0,
+    "line": 527,
+    "tokenListIndex": 1178
+   },
+   "startInSecond": {
+    "column": 11,
+    "line": 34,
+    "tokenListIndex": 8968
+   }
+  }
+ ],
+ "secondSimilarity": 0.12447675699493281,
+ "secondSubmissionId": "cf",
+ "similarities": {
+  "AVG": 0.17365913631473798,
+  "LONGEST_MATCH": 54.0,
+  "MAX": 0.28709349593495936,
+  "MAXIMUM_LENGTH": 9096.0
+ }
+}

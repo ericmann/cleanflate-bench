@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := framing content trajectory correctness similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native perf-report smoke-bench smoke-similarity similarity-ngram smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -65,6 +65,9 @@ similarity-ngram:
 	$(PY) -m cfbench.similarity.run ngram
 	$(PY) -m cfbench.similarity.run identifiers
 	$(PY) -m cfbench.similarity.run comments
+
+similarity-jplag:
+	$(PY) -m cfbench.similarity.jplag
 
 lint: c-subjects
 	cargo fmt --all -- --check

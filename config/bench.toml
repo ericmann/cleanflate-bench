@@ -56,6 +56,7 @@ ngram_min = 5
 ngram_max = 10
 min_ident_len = 6
 comment_ngram = 5
+context_pairs = [{ left = "zlib", right = "zng", role = "context" }]
 pairs = [
     { left = "zrs", right = "mox", role = "negative" },
     { left = "zrs", right = "zng", role = "positive" },

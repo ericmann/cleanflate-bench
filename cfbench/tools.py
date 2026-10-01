@@ -76,7 +76,8 @@ def ensure(name: str, runner=run_cmd) -> ToolStatus:
 
 
 def all_names() -> list[str]:
-    return sorted(config.load_toml("tools.toml"))
+    """The cargo-installed tools (those with a `binary`); JPlag has its own installer."""
+    return sorted(n for n, spec in config.load_toml("tools.toml").items() if "binary" in spec)
 
 
 def main(argv: list[str]) -> int:

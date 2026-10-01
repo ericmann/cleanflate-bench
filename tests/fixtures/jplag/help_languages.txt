@@ -1,0 +1,21 @@
+Languages:
+  c
+  cpp
+  csharp
+  emf
+  emf-model
+  go
+  java
+  javascript
+  kotlin
+  llvmir
+  multi
+  python3
+  rlang
+  rust
+  scala
+  scheme
+  scxml
+  swift
+  text
+  typescript
