@@ -153,3 +153,14 @@ seed = 20261019
 
 [profiles.quick.fuzz]
 jobs = 1
+
+[bomb]
+# Decompression-bomb sweep: zeros of each size in zlib framing, plus gzip nested `nested_layers`
+# deep over the largest size (single-layer DEFLATE caps near 1032:1).
+output_sizes = [1048576, 16777216, 268435456, 1073741824, 4294967296]
+nested_layers = 2
+output_limit_bytes = 268435456
+subjects = ["cf", "zlib", "zng", "zrs", "mox", "zsys"]
+
+[profiles.quick.bomb]
+output_sizes = [1048576, 16777216]
