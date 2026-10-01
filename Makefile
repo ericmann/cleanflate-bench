@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS :=
 
-.PHONY: kits kits-check content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke blog
+.PHONY: kits kits-check content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper paper-data pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke blog
 
 help:
 	@echo "help                  this list"
@@ -31,6 +31,7 @@ help:
 	@echo "bombs                 decompression-bomb sweep"
 	@echo "correctness           conformance, malformed, fuzz and bombs"
 	@echo "paper                 render results/PAPER_KIT.md"
+	@echo "paper-data            run the machine-specific T1 measurements here, then make paper"
 	@echo "pitch                 render results/PITCH_KIT"
 	@echo "blog                  render RESULTS.md and BLOG_NOTES.md"
 	@echo "kits                  paper, pitch and blog (re-derive and render only)"
@@ -126,6 +127,9 @@ correctness: conformance malformed fuzz bombs
 
 paper:
 	$(PY) -m cfbench.kits.paper
+
+paper-data: env pins perf trajectory size conformance
+	$(MAKE) paper
 
 pitch:
 	$(PY) -m cfbench.kits.pitch rederive

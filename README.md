@@ -43,5 +43,9 @@ and are not committed from smoke runs (`data/smoke/` is ignored):
 | Similarity | `make similarity` | tens of minutes | any |
 | Effort | `make effort` | minutes | where the transcripts are |
 
+`make paper-data` runs the machine-specific T1 measurements for the machine you are on (`env`, `pins`,
+`perf`, `trajectory`, `size`, `conformance`) and then renders the paper kit; `make paper` alone only renders.
+It includes the timing runs, so use it on a quiet machine.
+
 Quick profiles (`CFB_PROFILE=quick`, `make smoke`, `make fuzz-smoke`) write to `data/smoke/` and are for
 checking the tooling only. Machine M-A (Apple M4) is run by a human; M-B is the Linux x86_64 workstation.

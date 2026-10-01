@@ -144,3 +144,22 @@ def test_helpers_ignore_hostile_global_git_config(tmp_path, monkeypatch):
     monkeypatch.setenv("GIT_CONFIG_GLOBAL", str(hostile))
     repo = make_repo(tmp_path / "x")
     assert (repo / ".git").is_dir()
+
+
+def test_paper_data_target_runs_t1_measurements():
+    makefile = (Path(__file__).parent.parent / "Makefile").read_text()
+    m = re.search(r"^paper-data:([^\n]*)\n((?:\t[^\n]*\n)+)", makefile, flags=re.MULTILINE)
+    assert m, "paper-data target is missing"
+    prereqs = m.group(1).split()
+    for t in ("env", "pins", "perf", "trajectory", "size", "conformance"):
+        assert t in prereqs, t
+    assert "$(MAKE) paper" in m.group(2).splitlines()[-1]
+    assert re.search(r"^\.PHONY:.*\bpaper-data\b", makefile, flags=re.MULTILINE)
+    helped = subprocess.run(
+        ["make", "-s", "help"],
+        cwd=Path(__file__).parent.parent,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    assert re.search(r"^paper-data\s", helped, flags=re.MULTILINE)
