@@ -60,7 +60,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P8-01 Malformed-input behaviour matrix
 - [x] P8-02 Differential fuzz harnesses
 - [x] P8-03 Fuzz orchestration, statistics and corpus archive
-- [ ] P8-04 Fuzz coverage and divergence triage
+- [x] P8-04 Fuzz coverage and divergence triage
 - [ ] P8-05 Decompression-bomb robustness sweep
 - [ ] P8-06 Phase 8 hand-off
 - [ ] P9-01 Decompression-path LOC with tokei
@@ -298,3 +298,6 @@ fuzz/ is its own workspace (crate cfbench-fuzz, lib cffuzz): targets diff_cf_zli
 
 ### P8-03 — 0b89382
 cfbench/fuzzing.py: seeds (level-6 workloads plus malformed files, framing byte 0/1/2; mox skips gzip) go to fuzz/corpus/<t>; runs cargo +nightly fuzz run -fork=<jobs> -ignore_crashes=1 -max_total_time=budget*3600/jobs -seed; parses stat::number_of_executed_units (or last #N in fork mode), exec/s, cov/ft, crash count and artifact paths; cargo fuzz cmin; tar.gz of corpus and artifacts via rawio.blob_path, sha256 in the raw JSON (kind fuzz). New config [fuzz] and quick override jobs=1; make fuzz and make fuzz-smoke. Fixtures: real fork-mode log plus a hand-trimmed crash excerpt in libFuzzer's documented format. Smoke run (60 s, data/smoke only, not committed): zlib 18406 execs 0 divergences, zrs 5459 execs 0, mox 6826 execs 6 divergences (artifacts left in fuzz/artifacts/diff_cf_mox for P8-04). 316 tests pass.
+
+### P8-04 — fe45697
+fuzzing.py gained coverage (cargo +nightly fuzz coverage, then nightly llvm-cov export -summary-only, filtered to /crates/cleanflate/src/; llvm-tools-preview installed on nightly via rustup, nightly 1.101.0 2026-09-28), triage (strip framing byte, decode --mode oneshot on every conformance subject, classes cf-only-reject, cf-only-accept, output-differs, normalization-gap, comparator-bug; cf TrailingData counts as normalization-gap) and report (tables fuzz_stats and fuzz_divergences from full raw only, pending otherwise; quick profile prints; cf-defect classes go to a marked block in results/findings.md). make fuzz now runs report; make fuzz-report added. Tables committed as pending. Smoke run found that miniz_oxide skips its Adler-32 check under --cfg fuzzing (cargo-fuzz sets it), which caused 6 false divergences; fuzz/src/lib.rs decode_mox now compares adler32() with adler32_header() itself, and the smoke rerun gave 0 divergences, cf line coverage 72.5% (zlib target, 60 s). Triage was exercised against the real subject binaries on handmade inputs only (no real divergence remained). 320 tests pass.
