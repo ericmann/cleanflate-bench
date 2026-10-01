@@ -1,0 +1,114 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/deps.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "d4a9db4aba617aca070b8ab64be61fd66bf89392"
+ },
+ "category": "size",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   2.17724609375,
+   3.2470703125,
+   3.78662109375
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "d4a9db4aba617aca070b8ab64be61fd66bf89392",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 63.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 63.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 67.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 62.125\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 870.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 600.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "audit_database": {
+   "advisory-count": 1277,
+   "last-commit": "9b3a3b73a7f42606494c943e95f8196e9994df46",
+   "last-updated": "2026-09-30T09:15:39+02:00"
+  },
+  "kind": "deps",
+  "rows": [
+   {
+    "advisories": "",
+    "advisory_details": [],
+    "direct": "",
+    "direct_count": 0,
+    "note": "",
+    "package": "cleanflate@0.1.0",
+    "subject": "cf",
+    "transitive": "",
+    "transitive_count": 0
+   },
+   {
+    "advisories": "",
+    "advisory_details": [],
+    "direct": "zlib-rs@0.6.8",
+    "direct_count": 1,
+    "note": "",
+    "package": "libz-rs-sys@0.6.8",
+    "subject": "zrs",
+    "transitive": "zlib-rs@0.6.8",
+    "transitive_count": 1
+   },
+   {
+    "advisories": "",
+    "advisory_details": [],
+    "direct": "",
+    "direct_count": 0,
+    "note": "",
+    "package": "zlib-rs@0.6.8",
+    "subject": "zrs",
+    "transitive": "",
+    "transitive_count": 0
+   },
+   {
+    "advisories": "",
+    "advisory_details": [],
+    "direct": "adler2@2.0.1",
+    "direct_count": 1,
+    "note": "",
+    "package": "miniz_oxide@0.9.1",
+    "subject": "mox",
+    "transitive": "adler2@2.0.1",
+    "transitive_count": 1
+   }
+  ],
+  "tool_gaps": []
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.deps",
+ "session": null,
+ "timestamp": "20261001T051441Z"
+}

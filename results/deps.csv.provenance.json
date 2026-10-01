@@ -1,0 +1,23 @@
+{
+ "columns": [
+  "subject",
+  "package",
+  "direct_count",
+  "transitive_count",
+  "direct",
+  "transitive",
+  "advisories",
+  "note"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/size/any/20261001T051441Z.json",
+   "sha256": "4249d6ef1f6279ea125e00247d9522e029bf45d4d362d1f595a31cb3d8999be4",
+   "timestamp": "20261001T051441Z"
+  }
+ ],
+ "script": "cfbench.deps",
+ "table": "deps.csv"
+}

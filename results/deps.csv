@@ -1,0 +1,5 @@
+subject,package,direct_count,transitive_count,direct,transitive,advisories,note
+cf,cleanflate@0.1.0,0,0,,,,
+mox,miniz_oxide@0.9.1,1,1,adler2@2.0.1,adler2@2.0.1,,
+zrs,libz-rs-sys@0.6.8,1,1,zlib-rs@0.6.8,zlib-rs@0.6.8,,
+zrs,zlib-rs@0.6.8,0,0,,,,

@@ -59,6 +59,7 @@ tools:
 size: tools
 	$(PY) -m cfbench.size binary
 	$(PY) -m cfbench.unsafe_scan
+	$(PY) -m cfbench.deps
 
 lint: c-subjects
 	cargo fmt --all -- --check
