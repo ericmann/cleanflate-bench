@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads perf perf-native subjects-native perf-report smoke-bench smoke-similarity smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools perf perf-native subjects-native perf-report smoke-bench smoke-similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -52,6 +52,9 @@ smoke-similarity:
 	$(PY) -m cfbench.similarity.smoke
 
 smoke: smoke-bench smoke-similarity
+
+tools:
+	$(PY) -m cfbench.tools ensure
 
 lint: c-subjects
 	cargo fmt --all -- --check

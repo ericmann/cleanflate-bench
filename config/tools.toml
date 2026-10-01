@@ -1,0 +1,18 @@
+# Pinned analysis tools (SPEC 3.7), installed into third_party/tools by `make tools`.
+# `version` is the latest published at task time, pinned exactly. P9 adds tokei and
+# rust-code-analysis-cli.
+
+[cargo-bloat]
+version = "0.12.1"
+binary = "cargo-bloat"
+version_args = ["bloat", "--version"]  # runs only as a cargo subcommand
+
+[cargo-geiger]
+version = "0.13.0"
+binary = "cargo-geiger"
+version_args = ["--version"]
+
+[cargo-audit]
+version = "0.22.2"
+binary = "cargo-audit"
+version_args = ["--version"]
