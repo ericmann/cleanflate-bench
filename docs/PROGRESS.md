@@ -44,7 +44,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P4-05 zlib-rs status-quo context
 - [x] P4-06 Effort tables, gaps and trajectory join
 - [x] P4-07 Phase 4 hand-off
-- [ ] P5-01 Conformance runner
+- [x] P5-01 Conformance runner
 - [ ] P5-02 Claims engine with evidence links
 - [ ] P5-03 Paper table and figure
 - [ ] P5-04 PAPER_KIT renderer and make paper
@@ -231,3 +231,6 @@ Checklist (verbatim):
 3. Confirm that `results/EFFORT_GAPS.md` is complete and that the transcripts covered all three rounds.
 4. Look at `results/figures/trajectory_<machine>.png`.
 Manual check: NOT VERIFIED (human)
+
+### P5-01 — dfff425
+Tests: test_conformance x6. API: conformance.generate_corpus(clone,runner) (oracle generate --locked then pristine_check, else ConformanceError), manifest_jobs/workload_jobs/all_jobs, judge, decode_argv, run_all, summary_rows, disagreement_rows, derive, run. Config [conformance].subjects. make conformance (subjects workloads then run) and make correctness (= conformance for now; later P8 tasks extend). RESULT (M-B, raw correctness/M-B 20261001T060238Z): 2962 streams (2674 generated incl. 9 dictionary + 288 workloads): cf 2962 pass 0 fail; zlib/zng/zrs/zsys all pass; mox 2519 pass, 443 unsupported (gzip, dictionary); 0 failures; 0 disagreements; clone stayed pristine. This supports the B5 claim 'byte-identical output across N streams' with N = 2962 on M-B (M-A not run).
