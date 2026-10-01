@@ -1,7 +1,7 @@
 PY := uv run --frozen python
-STUBS := pitch blog
+STUBS := blog
 
-.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: content help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance malformed bombs fuzz-build fuzz fuzz-report fuzz-smoke correctness paper pitch paper-check checksums framing content-features figures perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -85,6 +85,11 @@ correctness: conformance malformed fuzz bombs
 paper:
 	$(PY) -m cfbench.kits.paper
 
+pitch:
+	$(PY) -m cfbench.kits.pitch rederive
+	$(MAKE) figures
+	$(PY) -m cfbench.kits.pitch render
+
 paper-check:
 	$(PY) -m cfbench.clean_clone paper --compare results/PAPER_KIT.md results/figures/paper_throughput_unsafe.svg
 
@@ -164,4 +169,4 @@ test: c-subjects
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: env pins perf size similarity trajectory effort correctness paper framing content-features $(STUBS)
+all: env pins perf size similarity trajectory effort correctness paper framing content-features pitch $(STUBS)

@@ -1,6 +1,7 @@
 """Deterministic figure output: SVG plus 2x PNG, always with the parity footnote."""
 
 import textwrap
+from contextlib import contextmanager
 from pathlib import Path
 
 import matplotlib
@@ -12,6 +13,22 @@ from matplotlib.figure import Figure
 from cfbench import config, paths
 
 SIZES = ("paper", "slide", "default")
+_DEFAULT_AS = ["default"]
+
+
+@contextmanager
+def size_override(size: str):
+    """Within the block, figures asked for the `default` size are made at `size` instead.
+
+    This re-renders the ordinary figure functions at slide size without changing them.
+    """
+    if size not in SIZES:
+        raise ValueError(f"unknown figure size {size!r}; expected one of {SIZES}")
+    _DEFAULT_AS.append(size)
+    try:
+        yield
+    finally:
+        _DEFAULT_AS.pop()
 
 
 def size_inches(size: str, cfg: dict | None = None) -> tuple[float, float]:
@@ -21,6 +38,8 @@ def size_inches(size: str, cfg: dict | None = None) -> tuple[float, float]:
     if size == "slide":
         return c["slide_width_in"], c["slide_height_in"]
     if size == "default":
+        if _DEFAULT_AS[-1] != "default":
+            return size_inches(_DEFAULT_AS[-1], cfg)
         return c["default_width_in"], c["default_height_in"]
     raise ValueError(f"unknown figure size {size!r}; expected one of {SIZES}")
 

@@ -23,6 +23,17 @@ TARGETS = {
     "effort_totals": "make effort",
     "framing_overhead": "make framing",
     "framing_hypothesis": "make framing",
+    "malformed_matrix": "make malformed",
+    "malformed_disagreements": "make malformed",
+    "fuzz_stats": "make fuzz",
+    "fuzz_divergences": "make fuzz",
+    "bombs": "make bombs",
+    "effort_denied": "make effort",
+    "effort_stage_round": "make effort",
+    "checksums": "make checksums",
+    "content_hypotheses": "make content",
+    "loc": "make size",
+    "complexity": "make size",
 }
 _TOKEN = object()
 
