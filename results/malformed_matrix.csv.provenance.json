@@ -1,0 +1,23 @@
+{
+ "columns": [
+  "machine",
+  "file",
+  "framing",
+  "subject",
+  "outcome",
+  "produced",
+  "trailing_bytes",
+  "error"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/correctness/M-B/20261001T062930Z.json",
+   "sha256": "85c8169a1a353720dd3a13793b7cd9e65bbcf9dabc282632f7a1e6d6cf1b1f6d",
+   "timestamp": "20261001T062930Z"
+  }
+ ],
+ "script": "cfbench.malformed",
+ "table": "malformed_matrix.csv"
+}
