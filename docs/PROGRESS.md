@@ -10,7 +10,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-05 Rust timing harness core
 - [x] P0-06 Rust subject binaries cf, zrs, mox
 - [x] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
-- [ ] P0-08 zlib-ng native-API subject binary
+- [x] P0-08 zlib-ng native-API subject binary
 - [ ] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
 - [ ] P0-10 Workload generation and manifest
 - [ ] P0-11 Perf orchestrator and smoke bench
@@ -98,3 +98,6 @@ Tests: test_rust_subjects.py 13 cases (session fixture runs cargo build). Binari
 
 ### P0-07 — cc14d2c
 Tests: test_c_subjects.py (info versions, decode fixture, compress roundtrip L1/6/9 all framings, gzip header os255/mtime0, only zlib compresses, heap counted). New tests/cli_util.py (run/decode/build_debug/FIX/PLAIN/MODES) shared by subject tests. crates/zlibapi: generic Api<V: Variant> Subject; binaries cfb-zlib (compress), cfb-zlib-nohw, cfb-zsys (dylib -lz). Interpretation: build.rs uses rustc-link-arg-bins=-l<lib> (link-lib=static mis-orders and fails to link). Makefile lint/test/subjects depend on c-subjects. Trailing gzip members not looped; trailing_bytes reported.
+
+### P0-08 — f0dc473
+Tests: subj-zng inline unit zng_stream_layout_matches_header (build.rs C probe: sizeof+offsets, ZNG_STREAM_LAYOUT env); test_c_subjects now covers zng (version 2.3.3, decode, checksums for all C subjects). cfb-zng uses zng_* native API, Caller limit, no compress. Linked via rustc-link-arg-bins=-lz-ng.
