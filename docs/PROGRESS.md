@@ -32,7 +32,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P3-01 Decompression-path source manifest
 - [x] P3-02 Token n-gram similarity for all pairs
 - [x] P3-03 Identifier and comment overlap
-- [ ] P3-04 JPlag for same-language pairs
+- [x] P3-04 JPlag for same-language pairs
 - [ ] P3-05 Top-20 fragment pairs with persistent verdicts
 - [ ] P3-06 Positioning against controls, statement and figure
 - [ ] P3-07 Structural comparison write-up
@@ -179,3 +179,6 @@ Tests: test_similarity_pairs x5, tokens deep-nesting test. API: pairs.load_pairs
 
 ### P3-03 — a844869
 Tests: test_similarity_identifiers x5, test_similarity_comments x3. API: identifiers.normalize/load_exclusions/parse_exclusions/collect(files,min_len,excluded)/compare; comments.words/comment_shingles(files,n)->(set,count)/compare; run.py identifiers + comments subcommands. Config [similarity] min_ident_len=6, comment_ngram=5. Token gained node field. config/rfc_identifiers.txt (rfc + '# language' sections) copied to results/similarity_identifier_exclusions.txt. Data: identifier Jaccard negative zrs-mox 0.044, positive zrs-zng 0.144, cf-zrs 0.053, cf-mox 0.075, cf-zlib 0.021, cf-zng 0.011; comment 5-gram Jaccard negative 0.0010, positive 0.0395, cf pairs <=0.0005. Raw: similarity/any 20261001T052006Z (identifiers), 20261001T052008Z (comments).
+
+### P3-04 — 2f1710b
+Tests: test_similarity_jplag x6 (fixtures/jplag: help_languages, comparison, runInformation, options). API: jplag.ensure_jar/ensure_java/ensure_jre/verify/parse_languages/parse_comparison/parse_result_archive/classify/all_pairs/run_pair/payload. Pinned jar sha 5f2c21e8..., JRE 25 pinned per platform (Linux-x86_64, Darwin-arm64) because PATH java is 21 and JPlag 6.3.0 needs 25. Use -M RUN. Rust+C support verified, no tool gap. Results (avg/max): zrs-mox 0.131/0.442 (negative control), cf-zrs 0.181/0.324 (longest match 594 tokens), cf-mox 0.180/0.290, zlib-zng 0.300/0.565 (context); cross-language pairs 'not applicable (cross-language)'. NOTE for review: cf-zrs has a 594-token longest match; P3-05 fragment review should look at it. config [similarity] context_pairs added. Raw similarity/any 20261001T052552Z.
