@@ -80,7 +80,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-04 Token-exact evidence checks for kit numbers
 - [x] R1-05 Boundary tests for the hypothesis thresholds
 - [x] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
-- [ ] R1-07 Bomb table reports per-layer and overall ratios separately
+- [x] R1-07 Bomb table reports per-layer and overall ratios separately
 - [ ] R1-08 Add make paper-data for the T1 measurements
 
 ## Log
@@ -380,3 +380,6 @@ Added test_tolerance_band_edges (tol*0.9 within/confirmed, tol*1.2 outside/refut
 
 ### R1-06 — 2356302
 binary_size now draws bars only for measured (subject, opt) and puts an 'n/a' Text at the slot otherwise. Test captures the figure via monkeypatched _save. make figures produced no diff, so committed binary_size figures are byte-identical.
+
+### R1-07 — 3be3a4d
+bombs.COLUMNS gains overall_ratio after ratio; run_all sets ratio=own output/compressed and overall_ratio only on nested layer rows (None otherwise). RESULTS.md bomb table lists the new column. Tests: test_layer_rows_carry_layer_and_overall_ratio; existing layer-ratio assertion switched to overall_ratio. Pending header and sidecar regenerated via bombs derive; RESULTS.md unchanged (table pending); kits-check identical. Full bomb sweep not run (human step).
