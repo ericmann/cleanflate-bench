@@ -84,7 +84,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-08 Add make paper-data for the T1 measurements
 - [x] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
 - [x] R3-01 Harness tests that fail when per-iteration timing or allocator free/realloc accounting is removed
-- [ ] R3-02 Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
+- [x] R3-02 Subject tests for one-shot output-full: grow-and-retry and --max-output limit_hit
 - [ ] R3-03 framing, fuzz and fuzz-smoke depend on workloads
 
 ## Log
@@ -396,3 +396,6 @@ Added workloads prereq to perf, perf-native, smoke-bench, trajectory; fetch prer
 
 ### R3-01 — 0ea60b6
 Added timing::samples_are_per_iteration and alloc::dealloc_and_realloc_are_counted. Verified by hand-applied mutants (foundry_mutate not available to me): removing '/ iters as f64', dealloc sub, realloc sub each fail the new tests. No src changes.
+
+### R3-02 — ca03e04
+Added test_oneshot_grows_past_initial_buffer and test_oneshot_max_output_sets_limit_hit (7 subjects each) using 1 MiB zeros, zlib framing. Hand-applied mutants (cf error kind, zlibapi avail_out arm, mox HasMoreOutput arm) each caused failures. No src changes.
