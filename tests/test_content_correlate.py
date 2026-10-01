@@ -87,3 +87,14 @@ def test_join_filters_cf_generic_oneshot():
             "dist1_fraction": "0.1", "dist2_7_fraction": "0.2", "literal_fraction": "0.3"}  # fmt: skip
     got = correlate.join([cell, {**cell, "subject": "zrs"}, {**cell, "mode": "stream"}], [feat])
     assert len(got) == 1 and got[0]["short_dist_fraction"] == pytest.approx(0.3)
+
+
+def test_verdict_threshold_edges():
+    c = CFG["content"]
+    p_hit, p_miss = c["alpha"] / 2, c["alpha"] * 2
+    between = -(c["null_abs_rho"] + c["min_abs_rho"]) / 2
+    assert correlate.verdict(between, p_hit, CFG) == "inconclusive"  # needs abs(rho) >= min_abs_rho
+    assert correlate.verdict(-(c["null_abs_rho"] / 2), p_hit, CFG) == "refuted"
+    assert correlate.verdict(0.6, p_hit, CFG) == "refuted"  # significant positive correlation
+    assert correlate.verdict(-0.6, p_miss, CFG) == "inconclusive"  # strong but not significant
+    assert correlate.verdict(-0.6, p_hit, CFG) == "confirmed"

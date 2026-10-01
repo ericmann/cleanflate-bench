@@ -176,3 +176,24 @@ def test_no_data_is_pending(tmp_path, monkeypatch, capsys):
     }
     assert provenance.read_table("framing_hypothesis")[1]["pending"] == framing.PENDING
     assert not (tmp_path / "f").exists() and "pending" in capsys.readouterr().out
+
+
+def _edge_overheads(rel_a, rel_b):
+    f = CFG["framing"]
+    out = []
+    for m, rel in zip(CFG["paper"]["machines"], (rel_a, rel_b), strict=True):
+        base = {"machine": m, "corpus": f["figure_corpus"], "level": f["figure_level"], "mode": "oneshot"}  # fmt: skip
+        out.append({**base, "subject": "zlib-nohw", "overhead_gzip": 1.0})
+        out.append({**base, "subject": "cf", "overhead_gzip": 1.0 * (1 + rel)})
+    return out
+
+
+def test_tolerance_band_edges():
+    tol = CFG["framing"]["hypothesis_tolerance"]
+    for sign in (1, -1):
+        inside = framing.hypothesis_rows(_edge_overheads(sign * tol * 0.9, sign * tol * 0.9), CFG, None)  # fmt: skip
+        assert [r["verdict"] for r in inside[:-1]] == ["within band"] * 2
+        assert inside[-1]["verdict"] == "confirmed"
+        outside = framing.hypothesis_rows(_edge_overheads(sign * tol * 1.2, sign * tol * 1.2), CFG, None)  # fmt: skip
+        assert [r["verdict"] for r in outside[:-1]] == ["outside band"] * 2
+        assert outside[-1]["verdict"] == "refuted"
