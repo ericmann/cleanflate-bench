@@ -1,6 +1,7 @@
 use harness::cli::run;
 use harness::subject::{Caps, DecodeError, OutputLimit, StreamOutcome, Subject, ERR_OUTPUT_FULL};
 use harness::Framing;
+use harness::OneshotOutcome;
 use serde_json::{json, Value};
 use std::path::PathBuf;
 
@@ -30,12 +31,17 @@ impl Subject for IdentitySubject {
         input: &[u8],
         out: &mut [u8],
         _dict: Option<&[u8]>,
-    ) -> Result<usize, DecodeError> {
-        if out.len() < input.len() {
+    ) -> Result<OneshotOutcome, DecodeError> {
+        // A NUL byte terminates the "stream"; the NUL is consumed, anything after is trailing.
+        let (produced, consumed) = match input.iter().position(|&b| b == 0) {
+            Some(i) => (i, i + 1),
+            None => (input.len(), input.len()),
+        };
+        if out.len() < produced {
             return Err(DecodeError::new(ERR_OUTPUT_FULL, "buffer too small"));
         }
-        out[..input.len()].copy_from_slice(input);
-        Ok(input.len())
+        out[..produced].copy_from_slice(&input[..produced]);
+        Ok(OneshotOutcome { produced, consumed })
     }
     fn stream(
         _f: Framing,
@@ -226,4 +232,23 @@ fn usage_errors_exit_two() {
     assert_eq!(call(&[]).0, 2);
     assert_eq!(call(&["frobnicate"]).0, 2);
     assert_eq!(call(&["bench"]).0, 2);
+}
+
+#[test]
+fn oneshot_decode_reports_consumed_and_trailing() {
+    let path = std::env::temp_dir().join(format!("cfb-cli-trail-{}.bin", std::process::id()));
+    std::fs::write(&path, b"abc\0xy").unwrap();
+    let (_, v) = call(&[
+        "decode",
+        "--framing",
+        "raw",
+        "--mode",
+        "oneshot",
+        "--input",
+        path.to_str().unwrap(),
+    ]);
+    assert_eq!(v["ok"], true);
+    assert_eq!(v["produced"], 3);
+    assert_eq!(v["consumed"], 4);
+    assert_eq!(v["trailing_bytes"], 2);
 }

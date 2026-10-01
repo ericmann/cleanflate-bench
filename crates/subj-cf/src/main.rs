@@ -26,7 +26,7 @@ const ROUND: &str = "round 2 @d3e911b";
 const ROUND: &str = "round 3 @85f2100";
 
 use cleanflate::{Decompressor, Error, Format, Options, Status};
-use harness::subject::ERR_OUTPUT_FULL;
+use harness::subject::{OneshotOutcome, ERR_OUTPUT_FULL};
 use harness::{Caps, DecodeError, Framing, OutputLimit, StreamOutcome, Subject};
 
 struct Cf;
@@ -79,7 +79,7 @@ impl Subject for Cf {
         input: &[u8],
         out: &mut [u8],
         dict: Option<&[u8]>,
-    ) -> Result<usize, DecodeError> {
+    ) -> Result<OneshotOutcome, DecodeError> {
         let mut d = Decompressor::new(fmt(f), options(None, dict));
         let mut inp = input;
         let mut pos = 0usize;
@@ -117,7 +117,10 @@ impl Subject for Cf {
             d.decompress(inp, &mut probe).map_err(err)?;
         }
         d.finish().map_err(err)?;
-        Ok(pos)
+        Ok(OneshotOutcome {
+            produced: pos,
+            consumed: input.len() - inp.len(),
+        })
     }
 
     fn stream(

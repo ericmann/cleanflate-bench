@@ -113,3 +113,15 @@ def test_checksums_match_python_zlib(subject):
     c = run(subject, "checksum", "--algo", "crc32", "--size", size, "--seed", seed, *flags)
     assert a["value"] == zlib.adler32(data)
     assert c["value"] == zlib.crc32(data)
+
+
+@pytest.mark.parametrize("subject", C_SUBJECTS)
+def test_trailing_byte_reported(subject, tmp_path):
+    data = (FIX / FILES["zlib"]).read_bytes() + b"\x00"
+    p = tmp_path / "trail.zlib"
+    p.write_bytes(data)
+    for mode, extra in MODES:
+        r = decode(subject, "zlib", p, mode, extra)
+        assert r["ok"], (subject, mode, r)
+        assert r["consumed"] == len(data) - 1, (subject, mode, r)
+        assert r["trailing_bytes"] == 1, (subject, mode, r)

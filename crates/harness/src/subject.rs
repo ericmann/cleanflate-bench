@@ -43,6 +43,12 @@ pub struct StreamOutcome {
     pub trailing_bytes: u64,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct OneshotOutcome {
+    pub produced: usize,
+    pub consumed: usize,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct DecodeError {
     pub kind: String,
@@ -72,13 +78,13 @@ pub trait Subject {
     fn impl_version() -> String;
     fn caps() -> Caps;
 
-    /// Decode all of `input` into `out`, returning the number of bytes written.
+    /// Decode all of `input` into `out`, returning the bytes written and the input bytes consumed.
     fn oneshot(
         f: Framing,
         input: &[u8],
         out: &mut [u8],
         dict: Option<&[u8]>,
-    ) -> Result<usize, DecodeError>;
+    ) -> Result<OneshotOutcome, DecodeError>;
 
     /// Decode `input` fed in `in_chunk`-sized pieces through `out_buf`, passing every
     /// produced slice to `sink`.

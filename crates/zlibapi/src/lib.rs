@@ -4,7 +4,7 @@
 //! library provides the symbols.
 
 use harness::alloc::{c_zalloc, c_zfree};
-use harness::subject::ERR_OUTPUT_FULL;
+use harness::subject::{OneshotOutcome, ERR_OUTPUT_FULL};
 use harness::{Caps, DecodeError, Framing, OutputLimit, StreamOutcome, Subject};
 use std::ffi::{c_char, c_int, c_uint, c_ulong, c_void, CStr};
 use std::marker::PhantomData;
@@ -306,7 +306,7 @@ impl<V: Variant> Subject for Api<V> {
         input: &[u8],
         out: &mut [u8],
         dict: Option<&[u8]>,
-    ) -> Result<usize, DecodeError> {
+    ) -> Result<OneshotOutcome, DecodeError> {
         let mut inf = Inflater::new(f, dict)?;
         inf.strm.next_in = input.as_ptr();
         inf.strm.avail_in = input.len() as c_uint;
@@ -314,7 +314,10 @@ impl<V: Variant> Subject for Api<V> {
         inf.strm.avail_out = out.len() as c_uint;
         let rc = inf.step(Z_FINISH, dict)?;
         match rc {
-            Z_STREAM_END => Ok(inf.strm.total_out as usize),
+            Z_STREAM_END => Ok(OneshotOutcome {
+                produced: inf.strm.total_out as usize,
+                consumed: inf.strm.total_in as usize,
+            }),
             Z_OK | Z_BUF_ERROR if inf.strm.avail_out == 0 => {
                 Err(DecodeError::new(ERR_OUTPUT_FULL, "buffer too small"))
             }

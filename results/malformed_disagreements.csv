@@ -1,5 +1,5 @@
 file,framing,outcomes_by_subject,cf_expected
-rfc1950/trailing_byte.bin,zlib,cf=error:TrailingData;zlib=accept;zng=accept;zrs=accept;mox=accept;zsys=accept,TrailingData
-rfc1951/valid_stored_trailing_byte.bin,raw,cf=error:TrailingData;zlib=accept;zng=accept;zrs=accept;mox=accept;zsys=accept,TrailingData
-rfc1952/second_member_bad_cm.bin,gzip,cf=error:BadHeader;zlib=accept;zng=accept;zrs=accept;mox=unsupported;zsys=accept,BadHeader
-rfc1952/trailing_garbage.bin,gzip,cf=error:TrailingData;zlib=accept;zng=accept;zrs=accept;mox=unsupported;zsys=accept,TrailingData
+rfc1950/trailing_byte.bin,zlib,cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=accept+trailing;zsys=accept+trailing,TrailingData
+rfc1951/valid_stored_trailing_byte.bin,raw,cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=accept+trailing;zsys=accept+trailing,TrailingData
+rfc1952/second_member_bad_cm.bin,gzip,cf=error:BadHeader;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=unsupported;zsys=accept+trailing,BadHeader
+rfc1952/trailing_garbage.bin,gzip,cf=error:TrailingData;zlib=accept+trailing;zng=accept+trailing;zrs=accept+trailing;mox=unsupported;zsys=accept+trailing,TrailingData

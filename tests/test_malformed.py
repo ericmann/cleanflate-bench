@@ -95,3 +95,24 @@ def test_run_all_with_fake_runner_and_derive(tmp_path, monkeypatch):
     assert "rfc1951/u.bin" in findings
     malformed.derive()  # idempotent
     assert (tmp_path / "results" / "findings.md").read_text() == findings
+
+
+def test_run_all_trailing_bytes_yield_accept_trailing(tmp_path, monkeypatch):
+    from cfbench import config
+
+    root = tmp_path / "m"
+    for d in malformed.FRAMING_DIRS:
+        (root / d).mkdir(parents=True)
+    (root / "rfc1950" / "t.bin").write_bytes(b"x")
+    (root / "EXPECTED.tsv").write_text("rfc1950/t.bin\tOK\trule t\n")
+    cfg = config.load_config("full")
+    monkeypatch.setattr(malformed.subjects, "command", lambda s: ["fake", s])
+    monkeypatch.setattr(
+        malformed.subprocess,
+        "run",
+        lambda *a, **k: type(
+            "R", (), {"stdout": json.dumps({"framings": ["raw", "zlib", "gzip"]})}
+        )(),
+    )
+    payload = malformed.run_all(cfg, root, lambda argv: res(True, trailing=1))
+    assert payload["files"][0]["results"]["zlib"]["outcome"] == "accept+trailing"

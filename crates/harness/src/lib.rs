@@ -32,7 +32,7 @@ impl Framing {
     }
 }
 
-pub use subject::{Caps, DecodeError, OutputLimit, StreamOutcome, Subject};
+pub use subject::{Caps, DecodeError, OneshotOutcome, OutputLimit, StreamOutcome, Subject};
 
 #[cfg(test)]
 mod tests {

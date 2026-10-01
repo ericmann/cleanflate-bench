@@ -1,6 +1,6 @@
 //! `cfb-mox`: miniz_oxide behind the harness `Subject` trait.
 
-use harness::subject::ERR_OUTPUT_FULL;
+use harness::subject::{OneshotOutcome, ERR_OUTPUT_FULL};
 use harness::{Caps, DecodeError, Framing, OutputLimit, StreamOutcome, Subject};
 use miniz_oxide::inflate::core::inflate_flags::{
     TINFL_FLAG_COMPUTE_ADLER32, TINFL_FLAG_PARSE_ZLIB_HEADER,
@@ -49,7 +49,7 @@ impl Subject for Mox {
         input: &[u8],
         out: &mut [u8],
         dict: Option<&[u8]>,
-    ) -> Result<usize, DecodeError> {
+    ) -> Result<OneshotOutcome, DecodeError> {
         unsupported(f)?;
         if dict.is_some() {
             return Err(DecodeError::new("unsupported", "no dictionary support"));
@@ -59,9 +59,12 @@ impl Subject for Mox {
             flags |= TINFL_FLAG_PARSE_ZLIB_HEADER | TINFL_FLAG_COMPUTE_ADLER32;
         }
         let mut r = DecompressorOxide::new();
-        let (status, _read, written) = decompress(&mut r, input, out, 0, flags);
+        let (status, read, written) = decompress(&mut r, input, out, 0, flags);
         match status {
-            TINFLStatus::Done => Ok(written),
+            TINFLStatus::Done => Ok(OneshotOutcome {
+                produced: written,
+                consumed: read,
+            }),
             TINFLStatus::HasMoreOutput => {
                 Err(DecodeError::new(ERR_OUTPUT_FULL, "buffer too small"))
             }

@@ -1,6 +1,6 @@
 //! `cfb-zrs`: zlib-rs (via libz-rs-sys's zlib-style API) behind the harness `Subject` trait.
 
-use harness::subject::ERR_OUTPUT_FULL;
+use harness::subject::{OneshotOutcome, ERR_OUTPUT_FULL};
 use harness::{Caps, DecodeError, Framing, OutputLimit, StreamOutcome, Subject};
 use libz_rs_sys as z;
 use std::ffi::{c_int, CStr};
@@ -124,7 +124,7 @@ impl Subject for Zrs {
         input: &[u8],
         out: &mut [u8],
         dict: Option<&[u8]>,
-    ) -> Result<usize, DecodeError> {
+    ) -> Result<OneshotOutcome, DecodeError> {
         let mut inf = Inflater::new(f, dict)?;
         inf.strm.next_in = input.as_ptr() as *mut u8;
         inf.strm.avail_in = input.len() as u32;
@@ -132,7 +132,10 @@ impl Subject for Zrs {
         inf.strm.avail_out = out.len() as u32;
         let rc = inf.step(z::Z_FINISH, dict)?;
         match rc {
-            z::Z_STREAM_END => Ok(inf.strm.total_out as usize),
+            z::Z_STREAM_END => Ok(OneshotOutcome {
+                produced: inf.strm.total_out as usize,
+                consumed: inf.strm.total_in as usize,
+            }),
             z::Z_OK | z::Z_BUF_ERROR if inf.strm.avail_out == 0 => {
                 Err(DecodeError::new(ERR_OUTPUT_FULL, "buffer too small"))
             }

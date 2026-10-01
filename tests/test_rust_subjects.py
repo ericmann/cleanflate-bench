@@ -128,3 +128,19 @@ def test_round_binaries_decode_fixture(n, round_binaries):
         )  # fmt: skip
         r = json.loads(out.stdout)
         assert r["ok"] and r["sha256"] == want, (n, framing, r)
+
+
+@pytest.mark.parametrize("subject", SUBJECTS)
+def test_trailing_byte_reported(subject, tmp_path):
+    data = (FIX / FILES["zlib"]).read_bytes() + b"\x00"
+    p = tmp_path / "trail.zlib"
+    p.write_bytes(data)
+    for mode, extra in MODES:
+        r = decode(subject, "zlib", p, mode, extra)
+        if subject == "cf":
+            assert r["ok"] is False, (mode, r)
+            assert r["error_kind"] == "TrailingData", (mode, r)
+        else:
+            assert r["ok"], (subject, mode, r)
+            assert r["consumed"] == len(data) - 1, (subject, mode, r)
+            assert r["trailing_bytes"] == 1, (subject, mode, r)

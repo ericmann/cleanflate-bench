@@ -201,8 +201,8 @@ fn bench<S: Subject>(a: &Args) -> Result<Value, String> {
         .map(|_| acc)
     } else {
         let mut buf = vec![0u8; expected.len()];
-        S::oneshot(framing, &input, &mut buf, None).map(|n| {
-            buf.truncate(n);
+        S::oneshot(framing, &input, &mut buf, None).map(|o| {
+            buf.truncate(o.produced);
             buf
         })
     };
@@ -369,13 +369,15 @@ fn decode<S: Subject>(a: &Args) -> Result<Value, String> {
             loop {
                 let mut buf = vec![0u8; size];
                 match S::oneshot(framing, &input, &mut buf, dict.as_deref()) {
-                    Ok(n) => {
+                    Ok(o) => {
+                        let n = o.produced;
                         hasher.update(&buf[..n]);
                         if let Some(f) = sink_file.as_mut() {
                             let _ = f.write_all(&buf[..n]);
                         }
                         produced = n as u64;
-                        r.consumed = input.len() as u64;
+                        r.consumed = o.consumed as u64;
+                        r.trailing = (input.len() - o.consumed) as u64;
                         break;
                     }
                     Err(e) if e.kind == ERR_OUTPUT_FULL && max_output.is_some() => {
