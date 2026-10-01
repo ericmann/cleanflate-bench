@@ -61,7 +61,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P8-02 Differential fuzz harnesses
 - [x] P8-03 Fuzz orchestration, statistics and corpus archive
 - [x] P8-04 Fuzz coverage and divergence triage
-- [ ] P8-05 Decompression-bomb robustness sweep
+- [x] P8-05 Decompression-bomb robustness sweep
 - [ ] P8-06 Phase 8 hand-off
 - [ ] P9-01 Decompression-path LOC with tokei
 - [ ] P9-02 Rust complexity distributions
@@ -301,3 +301,6 @@ cfbench/fuzzing.py: seeds (level-6 workloads plus malformed files, framing byte 
 
 ### P8-04 — fe45697
 fuzzing.py gained coverage (cargo +nightly fuzz coverage, then nightly llvm-cov export -summary-only, filtered to /crates/cleanflate/src/; llvm-tools-preview installed on nightly via rustup, nightly 1.101.0 2026-09-28), triage (strip framing byte, decode --mode oneshot on every conformance subject, classes cf-only-reject, cf-only-accept, output-differs, normalization-gap, comparator-bug; cf TrailingData counts as normalization-gap) and report (tables fuzz_stats and fuzz_divergences from full raw only, pending otherwise; quick profile prints; cf-defect classes go to a marked block in results/findings.md). make fuzz now runs report; make fuzz-report added. Tables committed as pending. Smoke run found that miniz_oxide skips its Adler-32 check under --cfg fuzzing (cargo-fuzz sets it), which caused 6 false divergences; fuzz/src/lib.rs decode_mox now compares adler32() with adler32_header() itself, and the smoke rerun gave 0 divergences, cf line coverage 72.5% (zlib target, 60 s). Triage was exercised against the real subject binaries on handmade inputs only (no real divergence remained). 320 tests pass.
+
+### P8-05 — f8c3c8f
+cfbench/bombs.py: zeros of each [bomb].output_sizes in zlib framing plus gzip^2(zeros of the largest size). Interpretation: bombs are compressed with Python's zlib.compressobj level 9 streamed chunk-wise (cfb-zlib compress reads the whole input into memory, impossible for 4 GiB). Each case decodes in a child with decode --mode stream --max-output <limit>; each nested layer is decoded separately and layer j output is checked against the stored layer j-1 sha. Peak RSS comes from os.wait4 rusage, normalized to bytes; the kernel seeds a child's peak with the launcher's RSS, so all figures have a floor (~19.5 MB here), recorded as rss_floor_bytes in the raw doc. limit_enforcement comes from info output_limit. Quick smoke (16 MiB base, not committed): nested overall ratio 109,655:1; every subject ok; mox unsupported on gzip layers. The full run (4 GiB, overall ratio about 1.0e6 expected) is a human step. results/bombs.csv committed as pending. make correctness = conformance malformed fuzz bombs. 325 tests pass.
