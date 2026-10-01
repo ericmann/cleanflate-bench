@@ -18,7 +18,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-13 Phase 0 hand-off
 - [x] P1-01 Statistics core
 - [x] P1-02 Provenance-tracked tables and per-cell perf table
-- [ ] P1-03 Ratios, per-corpus aggregates and tiny-input table
+- [x] P1-03 Ratios, per-corpus aggregates and tiny-input table
 - [ ] P1-04 Run-to-run agreement check
 - [ ] P1-05 target-cpu=native Rust variant
 - [ ] P1-06 Chart helpers and throughput figure
@@ -127,3 +127,6 @@ Tests: test_stats x8. API: stats.median/best/bootstrap_ci(xs,level,resamples,rng
 
 ### P1-02 — 4569819
 Tests: test_provenance x4, test_perf_report x5 (fixtures tests/fixtures/raw/perf/M-T: old/new sessions + native). API: provenance.write_table(name,columns,rows(list of dict),script=,raw_files=,pending=)/read_table(name)->(rows of str dicts, sidecar)/fmt/to_float/table_path; perf_report.load_sessions()->{(machine,variant):[doc+path]}, pooled_cells(docs), derive_cells(cfg), CELL_COLUMNS. perf_cells.csv columns per task. Rng random.Random(seed) iterated over sorted cells. No-data case writes header + pending 'no full perf runs; run make perf on M-A and M-B'.
+
+### P1-03 — 4045d55
+Tests: test_perf_report +6 (aggregate, no cross-mode ratios, incomplete flag, tiny ratio, all-tables-from-fixtures, pending for all). API: perf_report.compute_rows(cfg)->(rows with hidden _median_ns/_best_ns/_ci_lo_ns/_ci_hi_ns, raw_files), add_ratios, aggregates(rows), tiny_rows(rows), derive_all(cfg) (writes perf_cells, perf_aggregates, perf_tiny), CELL/AGG/TINY_COLUMNS. perf_cells gained ratio_vs_zlib. Aggregate ratio None unless zlib covers same file set. results/perf_*.csv committed as pending. make perf-report added; make perf chains it.
