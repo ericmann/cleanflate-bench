@@ -27,7 +27,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P2-02 Minimal stdin→stdout decompressors
 - [x] P2-03 Binary-size measurement and cargo bloat
 - [x] P2-04 Unsafe surface
-- [ ] P2-05 Dependencies and audit
+- [x] P2-05 Dependencies and audit
 - [ ] P2-06 Phase 2 hand-off
 - [ ] P3-01 Decompression-path source manifest
 - [ ] P3-02 Token n-gram similarity for all pairs
@@ -159,3 +159,6 @@ Tests: test_size x7 (+1 test_cbuild). API: size.rust_build_cmd/bloat_cmd/c_link_
 
 ### P2-04 — de55b3d
 Tests: test_unsafe_scan +5 (dependency rows incl. build/dev exclusion, geiger failure gap, geiger parse, C note, table+lock status from latest raw). API: unsafe_scan.scan_subject(subject, metadata), geiger_counts(subject, runner), collect(), derive_table(), status_from_latest_raw(subject), main; UNSAFE_COLUMNS. cargo-geiger runs on crates/min-<x>/Cargo.toml (virtual workspace manifest unsupported). Raw: data/raw/size/any (kind unsafe), results/unsafe.csv. Results: cf 0 unsafe, forbid true, 0 deps; mox 0 unsafe + adler2 0; zrs 674 unsafe blocks. pins lock unsafe_status reads latest raw. make size runs unsafe_scan after binary.
+
+### P2-05 — 300d180
+Tests: test_deps x5. API: deps.parse_tree/parse_audit/filter_advisories/run_audit(runner)/collect(metadata,runner,audit_runner)/derive_table/main. Data run committed (size/any kind deps; results/deps.csv): cf 0/0 deps; mox 1/1 (adler2); libz-rs-sys 1/1 (zlib-rs); zlib-rs 0/0; no advisories in any dependency set. cargo-audit worked (no tool gap). make size = binary + unsafe_scan + deps.
