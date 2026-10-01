@@ -52,7 +52,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P5-06 Phase 5 hand-off
 - [x] P6-01 Checksum microbenchmarks
 - [x] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
-- [ ] P6-03 Phase 6 hand-off
+- [x] P6-03 Phase 6 hand-off
 - [ ] P7-01 infgen build and parser
 - [ ] P7-02 Content features for every workload
 - [ ] P7-03 Correlation, H1/H2 verdicts, scatter plots and findings
@@ -265,3 +265,11 @@ Manual check: NOT VERIFIED (human): full make checksums on M-A and M-B.
 ### P6-02 — 87be477
 Tests: test_framing x6. API: framing.overhead/overhead_rows/control_identical/hypothesis_rows(overheads,cfg,lock)/figure_data/draw/derive(cfg,out_dir,lock)/run. Config [framing] subjects (7), modes ['oneshot'], hypothesis_tolerance 0.25, figure_corpus silesia, figure_level 6. Raw framing/<machine> kind framing-perf variant framing; tables framing_overhead and framing_hypothesis (pending committed; ALL row verdict confirmed/refuted/inconclusive) feed P5-02's gzip_gap_is_hw_crc; figure framing_decomposition. paper rederive now includes framing; PAPER_KIT.md regenerated. Quick smoke showed zlib vs zlib-nohw gzip overhead noise on x86 (identical builds), so only a full run is meaningful.
 Manual check: NOT VERIFIED (human): make framing on M-A and M-B.
+
+### P6-03 — 6286605
+Push: git push -u origin HEAD succeeded.
+Checklist (verbatim):
+1. `make framing` on M-A and on M-B (quiet), then commit `data/raw/framing/`.
+2. Read `results/framing_hypothesis.csv` and the figure. On M-A, confirm that the zlib-nohw disassembly in `subjects.lock.json` shows no `crc32x`.
+Manual check: NOT VERIFIED (human)
+Note: on M-B (x86_64) zlib-nohw is identical to the default build, so the hypothesis can only be tested meaningfully on M-A.
