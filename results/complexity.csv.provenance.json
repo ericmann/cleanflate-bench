@@ -1,0 +1,29 @@
+{
+ "columns": [
+  "subject",
+  "tool",
+  "tool_version",
+  "metric",
+  "n_functions",
+  "median",
+  "p90",
+  "max"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/size/any/20261001T065344Z.json",
+   "sha256": "03af561842d3b0684f11f017afee0f17119d48b9b7e723a89bf96f5176591a71",
+   "timestamp": "20261001T065344Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/size/any/20261001T065504Z.json",
+   "sha256": "2c1ebe3571ed64781b95312f2b9cb641635139cfc47c1b294e429ecf1c0e0092",
+   "timestamp": "20261001T065504Z"
+  }
+ ],
+ "script": "cfbench.complexity",
+ "table": "complexity.csv"
+}

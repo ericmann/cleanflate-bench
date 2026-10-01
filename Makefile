@@ -123,6 +123,8 @@ size: tools
 	$(PY) -m cfbench.deps
 	$(PY) -m cfbench.loc
 	$(PY) -m cfbench.complexity rust
+	$(PY) -m cfbench.complexity c
+	$(PY) -m cfbench.complexity derive
 
 similarity-ngram:
 	$(PY) -m cfbench.similarity.run ngram

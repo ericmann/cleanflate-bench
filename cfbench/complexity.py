@@ -4,6 +4,9 @@ Rust (`python -m cfbench.complexity rust`): rust-code-analysis-cli gives cycloma
 complexity per function space. Closures (`<anonymous>`) are not counted on their own: the enclosing
 function's `sum` already includes them. If the tool cannot run (tool-gap protocol), `lizard` is
 used for cyclomatic complexity only and the raw file marks cognitive as unavailable.
+
+C (`... c`): lizard's Python API over the zlib and zng decompression-path files (cyclomatic only;
+lizard has no cognitive metric). `derive` writes the combined `complexity` table.
 """
 
 import csv
@@ -14,10 +17,17 @@ import subprocess
 import sys
 from pathlib import Path
 
-from cfbench import decomp_paths, env, paths, rawio, tools
+import lizard
+
+from cfbench import decomp_paths, env, paths, provenance, rawio, tools
 
 RUST_SUBJECTS = ["cf", "zrs", "mox"]
+C_SUBJECTS = ["zlib", "zng"]
 KIND_RUST = "complexity-rust"
+KIND_C = "complexity-c"
+COLUMNS = ["subject", "tool", "tool_version", "metric", "n_functions", "median", "p90", "max"]
+PENDING = "no complexity run; run make size"
+UNAVAILABLE = " (cognitive unavailable)"
 SCRIPT = "cfbench.complexity"
 ANONYMOUS = "<anonymous>"
 
@@ -166,12 +176,85 @@ def run_rust() -> Path:
     )
 
 
+def c_functions(info, file: str) -> list[dict]:
+    """Functions of one `lizard` FileInformation (cyclomatic number only)."""
+    return [{"file": file, "name": f.name, "start_line": f.start_line,
+             "cyclomatic": float(f.cyclomatic_complexity), "cognitive": None}
+            for f in info.function_list]  # fmt: skip
+
+
+def collect_c(analyze=lizard.analyze_file, file_lists: dict | None = None) -> dict:
+    """Per-function cyclomatic complexity for zlib and zng with lizard; cognitive is unavailable."""
+    subjects = {}
+    for s in C_SUBJECTS:
+        files = (file_lists or {}).get(s) or [
+            f for f in decomp_paths.files(s) if f.suffix in (".c", ".h")
+        ]
+        funcs: list[dict] = []
+        for f in files:
+            funcs += c_functions(analyze(str(f)), rel(f))
+        subjects[s] = {"files": [rel(f) for f in files], "functions": funcs,
+                       "distributions": summarize(funcs, cognitive=False)}  # fmt: skip
+    return {"kind": KIND_C, "tool": {"name": "lizard", "version": lizard.version},
+            "cognitive": "unavailable", "subjects": subjects}  # fmt: skip
+
+
+def table_rows(rust: dict | None, c: dict | None) -> list[dict]:
+    rows = []
+    for payload in (rust, c):
+        if payload is None:
+            continue
+        tool, version = payload["tool"]["name"], payload["tool"]["version"]
+        cognitive = payload["cognitive"] == "available"
+        for s, d in payload["subjects"].items():
+            for metric in ("cyclomatic", "cognitive"):
+                dist = d["distributions"][metric]
+                n = d["distributions"]["cyclomatic"]["n"]
+                row = {"subject": s, "tool": tool, "tool_version": version, "metric": metric,
+                       "n_functions": n, "median": None, "p90": None, "max": None}  # fmt: skip
+                if metric == "cognitive" and not cognitive:
+                    row["tool"] = tool + UNAVAILABLE
+                elif dist:
+                    row.update(
+                        n_functions=dist["n"],
+                        median=dist["median"],
+                        p90=dist["p90"],
+                        max=dist["max"],
+                    )
+                rows.append(row)
+    return rows
+
+
+def derive() -> None:
+    rust = rawio.list_raw("size", machine="any", kind=KIND_RUST)
+    c = rawio.list_raw("size", machine="any", kind=KIND_C)
+    if not rust and not c:
+        provenance.write_table(
+            "complexity", COLUMNS, [], script=SCRIPT, raw_files=[], pending=PENDING
+        )
+        return
+    docs = [rawio.load_raw(files[-1])["payload"] if files else None for files in (rust, c)]
+    raw = [files[-1] for files in (rust, c) if files]
+    provenance.write_table("complexity", COLUMNS, table_rows(*docs), script=SCRIPT, raw_files=raw)
+
+
+def run_c() -> Path:
+    return rawio.write_raw("size", collect_c(), machine="any", profile="full", script=SCRIPT,
+                           environment=env.capture_environment())  # fmt: skip
+
+
 def main(argv: list[str]) -> int:
-    if argv and argv[0] == "rust":
+    cmd = argv[0] if argv else ""
+    if cmd == "rust":
         print(run_rust())
-        return 0
-    print("usage: cfbench.complexity rust", file=sys.stderr)
-    return 2
+    elif cmd == "c":
+        print(run_c())
+    elif cmd == "derive":
+        derive()
+    else:
+        print("usage: cfbench.complexity rust|c|derive", file=sys.stderr)
+        return 2
+    return 0
 
 
 if __name__ == "__main__":

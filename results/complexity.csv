@@ -1,0 +1,11 @@
+subject,tool,tool_version,metric,n_functions,median,p90,max
+cf,rust-code-analysis-cli,0.0.25,cognitive,173,0,7,171
+cf,rust-code-analysis-cli,0.0.25,cyclomatic,173,2,8,106
+mox,rust-code-analysis-cli,0.0.25,cognitive,93,0,5,40
+mox,rust-code-analysis-cli,0.0.25,cyclomatic,93,1,9,86
+zlib,lizard,1.24.0,cyclomatic,71,3,13,209
+zlib,lizard (cognitive unavailable),1.24.0,cognitive,71,,,
+zng,lizard,1.24.0,cyclomatic,284,1,9,210
+zng,lizard (cognitive unavailable),1.24.0,cognitive,284,,,
+zrs,rust-code-analysis-cli,0.0.25,cognitive,326,0,5,332
+zrs,rust-code-analysis-cli,0.0.25,cyclomatic,326,1,6,161

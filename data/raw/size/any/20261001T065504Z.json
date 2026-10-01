@@ -1,0 +1,2691 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/complexity.py",
+  "c"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "8e0b5092f5f691887069ac81c036fb0a3adf63ee"
+ },
+ "category": "size",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   3.0703125,
+   3.74462890625,
+   3.08984375
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "8e0b5092f5f691887069ac81c036fb0a3adf63ee",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 64.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 64.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 67.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 57.875\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 870.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 600.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "cognitive": "unavailable",
+  "kind": "complexity-c",
+  "subjects": {
+   "zlib": {
+    "distributions": {
+     "cognitive": null,
+     "cyclomatic": {
+      "max": 209.0,
+      "median": 3.0,
+      "n": 71,
+      "p90": 13.0
+     }
+    },
+    "files": [
+     "third_party/src/zlib-1.3.2/adler32.c",
+     "third_party/src/zlib-1.3.2/crc32.c",
+     "third_party/src/zlib-1.3.2/crc32.h",
+     "third_party/src/zlib-1.3.2/inffast.c",
+     "third_party/src/zlib-1.3.2/inffast.h",
+     "third_party/src/zlib-1.3.2/inffixed.h",
+     "third_party/src/zlib-1.3.2/inflate.c",
+     "third_party/src/zlib-1.3.2/inflate.h",
+     "third_party/src/zlib-1.3.2/inftrees.c",
+     "third_party/src/zlib-1.3.2/inftrees.h",
+     "third_party/src/zlib-1.3.2/uncompr.c",
+     "third_party/src/zlib-1.3.2/zutil.c",
+     "third_party/src/zlib-1.3.2/zutil.h"
+    ],
+    "functions": [
+     {
+      "cognitive": null,
+      "cyclomatic": 13.0,
+      "file": "third_party/src/zlib-1.3.2/adler32.c",
+      "name": "adler32_z",
+      "start_line": 61
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/adler32.c",
+      "name": "adler32",
+      "start_line": 128
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/adler32.c",
+      "name": "adler32_combine_",
+      "start_line": 133
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/adler32.c",
+      "name": "adler32_combine",
+      "start_line": 158
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/adler32.c",
+      "name": "adler32_combine64",
+      "start_line": 162
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "byte_swap",
+      "start_line": 121
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "multmodp",
+      "start_line": 163
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "x2nmodp",
+      "start_line": 184
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 19.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "make_crc_table",
+      "start_line": 243
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "write_table",
+      "start_line": 410
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "write_table32hi",
+      "start_line": 423
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "write_table64",
+      "start_line": 439
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "main",
+      "start_line": 449
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "braid",
+      "start_line": 461
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "get_crc_table",
+      "start_line": 482
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_z",
+      "start_line": 508
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc_word",
+      "start_line": 608
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc_word_big",
+      "start_line": 615
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 74.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_z",
+      "start_line": 626
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32",
+      "start_line": 946
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_combine_gen64",
+      "start_line": 954
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_combine_gen",
+      "start_line": 964
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_combine_op",
+      "start_line": 969
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_combine64",
+      "start_line": 976
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/crc32.c",
+      "name": "crc32_combine",
+      "start_line": 981
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 48.0,
+      "file": "third_party/src/zlib-1.3.2/inffast.c",
+      "name": "inflate_fast",
+      "start_line": 50
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateStateCheck",
+      "start_line": 88
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateResetKeep",
+      "start_line": 100
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateReset",
+      "start_line": 125
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateReset2",
+      "start_line": 136
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateInit2_",
+      "start_line": 173
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateInit_",
+      "start_line": 214
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflatePrime",
+      "start_line": 219
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "updatewindow",
+      "start_line": 252
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 209.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflate",
+      "start_line": 474
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateEnd",
+      "start_line": 1155
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateGetDictionary",
+      "start_line": 1167
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 7.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateSetDictionary",
+      "start_line": 1187
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateGetHeader",
+      "start_line": 1219
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "syncsearch",
+      "start_line": 1244
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateSync",
+      "start_line": 1264
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateSyncPoint",
+      "start_line": 1320
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateCopy",
+      "start_line": 1328
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateUndermine",
+      "start_line": 1370
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateValidate",
+      "start_line": 1385
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateMark",
+      "start_line": 1397
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/inflate.c",
+      "name": "inflateCodesUsed",
+      "start_line": 1408
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 43.0,
+      "file": "third_party/src/zlib-1.3.2/inftrees.c",
+      "name": "inflate_table",
+      "start_line": 46
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-1.3.2/inftrees.c",
+      "name": "buildtables",
+      "start_line": 327
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/inftrees.c",
+      "name": "inflate_fixed",
+      "start_line": 364
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-1.3.2/inftrees.c",
+      "name": "main",
+      "start_line": 386
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 19.0,
+      "file": "third_party/src/zlib-1.3.2/uncompr.c",
+      "name": "uncompress2_z",
+      "start_line": 29
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/uncompr.c",
+      "name": "uncompress2",
+      "start_line": 83
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/uncompr.c",
+      "name": "uncompress_z",
+      "start_line": 92
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/uncompr.c",
+      "name": "uncompress",
+      "start_line": 97
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zlibVersion",
+      "start_line": 27
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 30.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zlibCompileFlags",
+      "start_line": 31
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "z_error",
+      "start_line": 130
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zError",
+      "start_line": 139
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zmemcpy",
+      "start_line": 153
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zmemcmp",
+      "start_line": 162
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zmemzero",
+      "start_line": 172
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zcalloc",
+      "start_line": 216
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zcfree",
+      "start_line": 241
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zcalloc",
+      "start_line": 277
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zcfree",
+      "start_line": 282
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zcalloc",
+      "start_line": 300
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.c",
+      "name": "zcfree",
+      "start_line": 306
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.h",
+      "name": "z_once",
+      "start_line": 282
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.h",
+      "name": "test_and_set",
+      "start_line": 306
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-1.3.2/zutil.h",
+      "name": "z_once",
+      "start_line": 315
+     }
+    ]
+   },
+   "zng": {
+    "distributions": {
+     "cognitive": null,
+     "cyclomatic": {
+      "max": 210.0,
+      "median": 1.0,
+      "n": 284,
+      "p90": 9.0
+     }
+    },
+    "files": [
+     "third_party/src/zlib-ng-2.3.3/adler32.c",
+     "third_party/src/zlib-ng-2.3.3/adler32_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/arm_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+     "third_party/src/zlib-ng-2.3.3/arch/arm/crc32_armv8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/adler32_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/adler32_fold_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunk_128bit_perm_idx_lut.h",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunk_256bit_perm_idx_lut.h",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunk_permute_table.h",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/chunkset_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_braid_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_fold_c.c",
+     "third_party/src/zlib-ng-2.3.3/arch/generic/generic_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/crc32_la.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/power/adler32_power8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/adler32_vmx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/crc32_constants.h",
+     "third_party/src/zlib-ng-2.3.3/arch/power/crc32_power8.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/power_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/power/power_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/power/power_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/adler32_rvv.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/crc32_zbc.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/crc32-vx.c",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/s390_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/s390_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/s390/s390_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_vnni.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_sse42.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3_p.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse41.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_fold_pclmulqdq_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_fold_vpclmulqdq_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_vpclmulqdq.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.c",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.h",
+     "third_party/src/zlib-ng-2.3.3/arch/x86/x86_functions.h",
+     "third_party/src/zlib-ng-2.3.3/arch_functions.h",
+     "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/cpu_features.c",
+     "third_party/src/zlib-ng-2.3.3/cpu_features.h",
+     "third_party/src/zlib-ng-2.3.3/crc32.c",
+     "third_party/src/zlib-ng-2.3.3/crc32.h",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_comb_p.h",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_p.h",
+     "third_party/src/zlib-ng-2.3.3/crc32_braid_tbl.h",
+     "third_party/src/zlib-ng-2.3.3/fallback_builtins.h",
+     "third_party/src/zlib-ng-2.3.3/functable.c",
+     "third_party/src/zlib-ng-2.3.3/functable.h",
+     "third_party/src/zlib-ng-2.3.3/inffast_tpl.h",
+     "third_party/src/zlib-ng-2.3.3/inffixed_tbl.h",
+     "third_party/src/zlib-ng-2.3.3/inflate.c",
+     "third_party/src/zlib-ng-2.3.3/inflate.h",
+     "third_party/src/zlib-ng-2.3.3/inflate_p.h",
+     "third_party/src/zlib-ng-2.3.3/inftrees.c",
+     "third_party/src/zlib-ng-2.3.3/inftrees.h",
+     "third_party/src/zlib-ng-2.3.3/uncompr.c",
+     "third_party/src/zlib-ng-2.3.3/zbuild.h",
+     "third_party/src/zlib-ng-2.3.3/zendian.h",
+     "third_party/src/zlib-ng-2.3.3/zmemory.h",
+     "third_party/src/zlib-ng-2.3.3/zutil.c",
+     "third_party/src/zlib-ng-2.3.3/zutil.h",
+     "third_party/src/zlib-ng-2.3.3/zutil_p.h"
+    ],
+    "functions": [
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX( adler32_z)",
+      "start_line": 11
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX( adler32_z)",
+      "start_line": 15
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX( adler32)",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX( adler32)",
+      "start_line": 26
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "adler32_combine_",
+      "start_line": 32
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX( adler32_combine)",
+      "start_line": 58
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX4( adler32_combine)",
+      "start_line": 62
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32.c",
+      "name": "PREFIX4( adler32_combine)",
+      "start_line": 66
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32_p.h",
+      "name": "adler32_len_1",
+      "start_line": 21
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32_p.h",
+      "name": "adler32_len_16",
+      "start_line": 29
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/adler32_p.h",
+      "name": "adler32_copy_len_16",
+      "start_line": 41
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+      "name": "NEON_accum32_copy",
+      "start_line": 23
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+      "name": "NEON_accum32",
+      "start_line": 147
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+      "name": "NEON_handle_tail",
+      "start_line": 260
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 18.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+      "name": "adler32_fold_copy_impl",
+      "start_line": 268
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+      "name": "adler32_neon",
+      "start_line": 378
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/adler32_neon.c",
+      "name": "adler32_fold_copy_neon",
+      "start_line": 382
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 14.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.c",
+      "name": "arm_has_crc32",
+      "start_line": 28
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 10.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.c",
+      "name": "arm_has_neon",
+      "start_line": 64
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.c",
+      "name": "arm_has_simd",
+      "start_line": 92
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/arm_features.c",
+      "name": "arm_check_features",
+      "start_line": 106
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+      "name": "chunkmemset_2",
+      "start_line": 19
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+      "name": "chunkmemset_4",
+      "start_line": 23
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+      "name": "chunkmemset_8",
+      "start_line": 27
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+      "name": "loadchunk",
+      "start_line": 37
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+      "name": "storechunk",
+      "start_line": 41
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/chunkset_neon.c",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 45
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 13.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/crc32_armv8.c",
+      "name": "crc32_armv8",
+      "start_line": 12
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/crc32_armv8.c",
+      "name": "crc32_fold_copy_armv8",
+      "start_line": 76
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/arm/crc32_armv8.c",
+      "name": "crc32_fold_armv8",
+      "start_line": 81
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/adler32_c.c",
+      "name": "adler32_c",
+      "start_line": 11
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/adler32_fold_c.c",
+      "name": "adler32_fold_copy_c",
+      "start_line": 11
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/chunkset_c.c",
+      "name": "chunkmemset_4",
+      "start_line": 15
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/chunkset_c.c",
+      "name": "chunkmemset_8",
+      "start_line": 20
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/chunkset_c.c",
+      "name": "loadchunk",
+      "start_line": 24
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/chunkset_c.c",
+      "name": "storechunk",
+      "start_line": 28
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_braid_c.c",
+      "name": "crc_word",
+      "start_line": 45
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_braid_c.c",
+      "name": "crc_word",
+      "start_line": 52
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 39.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_braid_c.c",
+      "name": "crc32_braid_internal",
+      "start_line": 63
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_braid_c.c",
+      "name": "crc32_braid",
+      "start_line": 215
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 13.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+      "name": "crc32_chorba_118960_nondestructive",
+      "start_line": 37
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+      "name": "crc32_chorba_32768_nondestructive",
+      "start_line": 507
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 23.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+      "name": "crc32_chorba_small_nondestructive",
+      "start_line": 674
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+      "name": "crc32_chorba_small_nondestructive_32bit",
+      "start_line": 1241
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_chorba_c.c",
+      "name": "crc32_chorba",
+      "start_line": 1454
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_fold_c.c",
+      "name": "crc32_fold_reset_c",
+      "start_line": 10
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_fold_c.c",
+      "name": "crc32_fold_copy_c",
+      "start_line": 15
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_fold_c.c",
+      "name": "crc32_fold_c",
+      "start_line": 20
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/generic/crc32_fold_c.c",
+      "name": "crc32_fold_final_c",
+      "start_line": 29
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+      "name": "hsum256",
+      "start_line": 21
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+      "name": "partial_hsum256",
+      "start_line": 28
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+      "name": "adler32_fold_copy_impl",
+      "start_line": 37
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+      "name": "adler32_lasx",
+      "start_line": 119
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lasx.c",
+      "name": "adler32_fold_copy_lasx",
+      "start_line": 123
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+      "name": "partial_hsum",
+      "start_line": 18
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+      "name": "hsum",
+      "start_line": 24
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+      "name": "adler32_fold_copy_impl",
+      "start_line": 32
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+      "name": "adler32_lsx",
+      "start_line": 148
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/adler32_lsx.c",
+      "name": "adler32_fold_copy_lsx",
+      "start_line": 152
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "chunkmemset_2",
+      "start_line": 26
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "chunkmemset_4",
+      "start_line": 30
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "chunkmemset_8",
+      "start_line": 34
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "chunkmemset_16",
+      "start_line": 38
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "loadchunk",
+      "start_line": 42
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "storechunk",
+      "start_line": 46
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 50
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "loadhalfchunk",
+      "start_line": 87
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "storehalfchunk",
+      "start_line": 91
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "halfchunk2whole",
+      "start_line": 95
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lasx.c",
+      "name": "GET_HALFCHUNK_MAG",
+      "start_line": 101
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+      "name": "chunkmemset_2",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+      "name": "chunkmemset_4",
+      "start_line": 26
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+      "name": "chunkmemset_8",
+      "start_line": 30
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+      "name": "loadchunk",
+      "start_line": 34
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+      "name": "storechunk",
+      "start_line": 38
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/chunkset_lsx.c",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 42
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 13.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/crc32_la.c",
+      "name": "crc32_loongarch64",
+      "start_line": 12
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/crc32_la.c",
+      "name": "crc32_fold_copy_loongarch64",
+      "start_line": 76
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/crc32_la.c",
+      "name": "crc32_fold_loongarch64",
+      "start_line": 81
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/loongarch/loongarch_features.c",
+      "name": "loongarch_check_features",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/adler32_power8.c",
+      "name": "vec_sumsu",
+      "start_line": 46
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/adler32_power8.c",
+      "name": "adler32_power8",
+      "start_line": 55
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/adler32_vmx.c",
+      "name": "vmx_handle_head_or_tail",
+      "start_line": 16
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/adler32_vmx.c",
+      "name": "vmx_accum32",
+      "start_line": 24
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 10.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/adler32_vmx.c",
+      "name": "adler32_vmx",
+      "start_line": 121
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+      "name": "chunkmemset_2",
+      "start_line": 18
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+      "name": "chunkmemset_4",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+      "name": "chunkmemset_8",
+      "start_line": 26
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+      "name": "loadchunk",
+      "start_line": 30
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/chunkset_power8.c",
+      "name": "storechunk",
+      "start_line": 34
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/crc32_power8.c",
+      "name": "crc32_align",
+      "start_line": 41
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/crc32_power8.c",
+      "name": "crc32_power8",
+      "start_line": 49
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 10.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/crc32_power8.c",
+      "name": "__crc32_vpmsum",
+      "start_line": 108
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 10.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/power/power_features.c",
+      "name": "power_check_features",
+      "start_line": 19
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 17.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/adler32_rvv.c",
+      "name": "adler32_rvv_impl",
+      "start_line": 15
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/adler32_rvv.c",
+      "name": "adler32_fold_copy_rvv",
+      "start_line": 128
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/adler32_rvv.c",
+      "name": "adler32_rvv",
+      "start_line": 132
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+      "name": "chunkmemset_2",
+      "start_line": 37
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+      "name": "chunkmemset_4",
+      "start_line": 41
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+      "name": "chunkmemset_8",
+      "start_line": 45
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+      "name": "loadchunk",
+      "start_line": 49
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+      "name": "storechunk",
+      "start_line": 53
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/chunkset_rvv.c",
+      "name": "CHUNKCOPY",
+      "start_line": 87
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/crc32_zbc.c",
+      "name": "clmul",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/crc32_zbc.c",
+      "name": "clmulh",
+      "start_line": 28
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/crc32_zbc.c",
+      "name": "crc32_clmul_impl",
+      "start_line": 34
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/crc32_zbc.c",
+      "name": "crc32_riscv64_zbc",
+      "start_line": 83
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_features.c",
+      "name": "riscv_check_features_runtime",
+      "start_line": 16
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/riscv/riscv_features.c",
+      "name": "riscv_check_features",
+      "start_line": 26
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/s390/crc32-vx.c",
+      "name": "crc32_le_vgfm_16",
+      "start_line": 24
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/s390/crc32-vx.c",
+      "name": "crc32_s390_vx",
+      "start_line": 201
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/s390/s390_features.c",
+      "name": "s390_check_features",
+      "start_line": 12
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 13.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2.c",
+      "name": "adler32_fold_copy_impl",
+      "start_line": 21
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2.c",
+      "name": "adler32_avx2",
+      "start_line": 172
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2.c",
+      "name": "adler32_fold_copy_avx2",
+      "start_line": 176
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2_p.h",
+      "name": "hsum256",
+      "start_line": 12
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx2_p.h",
+      "name": "partial_hsum256",
+      "start_line": 20
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512.c",
+      "name": "adler32_fold_copy_impl",
+      "start_line": 18
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512.c",
+      "name": "adler32_fold_copy_avx512",
+      "start_line": 99
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512.c",
+      "name": "adler32_avx512",
+      "start_line": 103
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_p.h",
+      "name": "_mm512_reduce_add_epu32",
+      "start_line": 18
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_p.h",
+      "name": "partial_hsum",
+      "start_line": 35
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_vnni.c",
+      "name": "adler32_avx512_vnni",
+      "start_line": 20
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_avx512_vnni.c",
+      "name": "adler32_fold_copy_avx512_vnni",
+      "start_line": 112
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_sse42.c",
+      "name": "adler32_fold_copy_sse42",
+      "start_line": 16
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3.c",
+      "name": "adler32_ssse3",
+      "start_line": 17
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3_p.h",
+      "name": "partial_hsum",
+      "start_line": 14
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/adler32_ssse3_p.h",
+      "name": "hsum",
+      "start_line": 20
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 7.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse2.c",
+      "name": "chorba_small_nondestructive_sse2",
+      "start_line": 23
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse2.c",
+      "name": "crc32_chorba_sse2",
+      "start_line": 849
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 19.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse41.c",
+      "name": "crc32_chorba_32768_nondestructive_sse41",
+      "start_line": 55
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 7.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chorba_sse41.c",
+      "name": "crc32_chorba_sse41",
+      "start_line": 307
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "chunkmemset_2",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "chunkmemset_4",
+      "start_line": 26
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "chunkmemset_8",
+      "start_line": 30
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "chunkmemset_16",
+      "start_line": 34
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "loadchunk",
+      "start_line": 44
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "storechunk",
+      "start_line": 48
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 52
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "loadhalfchunk",
+      "start_line": 91
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "storehalfchunk",
+      "start_line": 95
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "halfchunk2whole",
+      "start_line": 99
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx2.c",
+      "name": "GET_HALFCHUNK_MAG",
+      "start_line": 105
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "gen_half_mask",
+      "start_line": 28
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "gen_mask",
+      "start_line": 32
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "chunkmemset_2",
+      "start_line": 36
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "chunkmemset_4",
+      "start_line": 40
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "chunkmemset_8",
+      "start_line": 44
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "chunkmemset_16",
+      "start_line": 48
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "loadchunk",
+      "start_line": 62
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "storechunk",
+      "start_line": 66
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "CHUNKCOPY",
+      "start_line": 70
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 105
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "storehalfchunk",
+      "start_line": 139
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "halfchunk2whole",
+      "start_line": 143
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "GET_HALFCHUNK_MAG",
+      "start_line": 149
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_avx512.c",
+      "name": "HALFCHUNKCOPY",
+      "start_line": 162
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+      "name": "chunkmemset_2",
+      "start_line": 17
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+      "name": "chunkmemset_4",
+      "start_line": 21
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+      "name": "chunkmemset_8",
+      "start_line": 25
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+      "name": "loadchunk",
+      "start_line": 29
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_sse2.c",
+      "name": "storechunk",
+      "start_line": 33
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+      "name": "chunkmemset_2",
+      "start_line": 20
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+      "name": "chunkmemset_4",
+      "start_line": 24
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+      "name": "chunkmemset_8",
+      "start_line": 28
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+      "name": "loadchunk",
+      "start_line": 32
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+      "name": "storechunk",
+      "start_line": 36
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/chunkset_ssse3.c",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 40
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "fold_1",
+      "start_line": 40
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "fold_2",
+      "start_line": 61
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "fold_3",
+      "start_line": 90
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "fold_4",
+      "start_line": 125
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "fold_12",
+      "start_line": 168
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "partial_fold",
+      "start_line": 228
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "crc32_fold_load",
+      "start_line": 273
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "crc32_fold_save",
+      "start_line": 280
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "CRC32_FOLD_RESET",
+      "start_line": 288
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "CRC32_FOLD_FINAL",
+      "start_line": 328
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "crc32_small",
+      "start_line": 393
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/crc32_pclmulqdq_tpl.h",
+      "name": "CRC32",
+      "start_line": 404
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.c",
+      "name": "cpuid",
+      "start_line": 30
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.c",
+      "name": "cpuidex",
+      "start_line": 48
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.c",
+      "name": "xgetbv",
+      "start_line": 66
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 10.0,
+      "file": "third_party/src/zlib-ng-2.3.3/arch/x86/x86_features.c",
+      "name": "x86_check_features",
+      "start_line": 79
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "CHUNKSIZE",
+      "start_line": 9
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "CHUNKCOPY",
+      "start_line": 24
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "CHUNKUNROLL",
+      "start_line": 53
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "GET_CHUNK_MAG",
+      "start_line": 69
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "HALFCHUNKCOPY",
+      "start_line": 91
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 25.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "CHUNKMEMSET",
+      "start_line": 112
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "CHUNKMEMSET_SAFE",
+      "start_line": 229
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/chunkset_tpl.h",
+      "name": "CHUNKCOPY_SAFE",
+      "start_line": 263
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 7.0,
+      "file": "third_party/src/zlib-ng-2.3.3/cpu_features.c",
+      "name": "cpu_check_features",
+      "start_line": 10
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32.c",
+      "name": "PREFIX( get_crc_table)",
+      "start_line": 16
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32.c",
+      "name": "PREFIX( crc32_z)",
+      "start_line": 21
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32.c",
+      "name": "PREFIX( crc32_z)",
+      "start_line": 27
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32.c",
+      "name": "PREFIX( crc32)",
+      "start_line": 35
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32.c",
+      "name": "PREFIX( crc32)",
+      "start_line": 39
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "crc32_combine_",
+      "start_line": 16
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "crc32_combine_gen_",
+      "start_line": 19
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "crc32_combine_op_",
+      "start_line": 22
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX( crc32_combine)",
+      "start_line": 29
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX4( crc32_combine)",
+      "start_line": 32
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX( crc32_combine_gen)",
+      "start_line": 35
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX4( crc32_combine_gen)",
+      "start_line": 38
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX( crc32_combine_op)",
+      "start_line": 41
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX4( crc32_combine)",
+      "start_line": 45
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX( crc32_combine_gen)",
+      "start_line": 48
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb.c",
+      "name": "PREFIX( crc32_combine_op)",
+      "start_line": 51
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb_p.h",
+      "name": "multmodp",
+      "start_line": 8
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/crc32_braid_comb_p.h",
+      "name": "x2nmodp",
+      "start_line": 29
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/fallback_builtins.h",
+      "name": "__builtin_ctz",
+      "start_line": 15
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/fallback_builtins.h",
+      "name": "__builtin_ctzll",
+      "start_line": 31
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "force_init_empty",
+      "start_line": 63
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 58.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "init_functable",
+      "start_line": 70
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "force_init_stub",
+      "start_line": 377
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "adler32_stub",
+      "start_line": 381
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "adler32_fold_copy_stub",
+      "start_line": 386
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "chunkmemset_safe_stub",
+      "start_line": 391
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "compare256_stub",
+      "start_line": 396
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "crc32_stub",
+      "start_line": 401
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "crc32_fold_stub",
+      "start_line": 406
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "crc32_fold_copy_stub",
+      "start_line": 411
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "crc32_fold_final_stub",
+      "start_line": 416
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "crc32_fold_reset_stub",
+      "start_line": 421
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "inflate_fast_stub",
+      "start_line": 426
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "longest_match_stub",
+      "start_line": 431
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "longest_match_slow_stub",
+      "start_line": 436
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/functable.c",
+      "name": "slide_hash_stub",
+      "start_line": 441
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 38.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inffast_tpl.h",
+      "name": "INFLATE_FAST",
+      "start_line": 53
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "inf_chksum_cpy",
+      "start_line": 25
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "inf_chksum",
+      "start_line": 39
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "inflateStateCheck",
+      "start_line": 51
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateResetKeep)",
+      "start_line": 61
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateReset)",
+      "start_line": 92
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 9.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateReset2)",
+      "start_line": 104
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "alloc_inflate",
+      "start_line": 152
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "free_inflate",
+      "start_line": 205
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateInit2)",
+      "start_line": 219
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateInit)",
+      "start_line": 257
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateInit_)",
+      "start_line": 263
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateInit2_)",
+      "start_line": 270
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflatePrime)",
+      "start_line": 276
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( fixedtables)",
+      "start_line": 303
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 13.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "updatewindow",
+      "start_line": 324
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 210.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflate)",
+      "start_line": 475
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateEnd)",
+      "start_line": 1202
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 5.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateGetDictionary)",
+      "start_line": 1213
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateSetDictionary)",
+      "start_line": 1233
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateGetHeader)",
+      "start_line": 1262
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "syncsearch",
+      "start_line": 1289
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 8.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateSync)",
+      "start_line": 1307
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateSyncPoint)",
+      "start_line": 1368
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateCopy)",
+      "start_line": 1378
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateUndermine)",
+      "start_line": 1414
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateValidate)",
+      "start_line": 1430
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 4.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateMark)",
+      "start_line": 1443
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.c",
+      "name": "PREFIX( inflateCodesUsed)",
+      "start_line": 1455
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 6.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate.h",
+      "name": "ALIGNED_",
+      "start_line": 99
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate_p.h",
+      "name": "load_64_bits",
+      "start_line": 141
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 11.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inflate_p.h",
+      "name": "chunkcopy_safe",
+      "start_line": 152
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 40.0,
+      "file": "third_party/src/zlib-ng-2.3.3/inftrees.c",
+      "name": "zng_inflate_table",
+      "start_line": 30
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 15.0,
+      "file": "third_party/src/zlib-ng-2.3.3/uncompr.c",
+      "name": "PREFIX( uncompress2)",
+      "start_line": 25
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/uncompr.c",
+      "name": "PREFIX( uncompress)",
+      "start_line": 78
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memread_2",
+      "start_line": 12
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memread_4",
+      "start_line": 23
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memread_8",
+      "start_line": 34
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memwrite_2",
+      "start_line": 45
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memwrite_4",
+      "start_line": 54
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memwrite_8",
+      "start_line": 63
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memcmp_2",
+      "start_line": 75
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memcmp_4",
+      "start_line": 83
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zmemory.h",
+      "name": "zng_memcmp_8",
+      "start_line": 91
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "zlibVersion",
+      "start_line": 27
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "zlibng_version",
+      "start_line": 31
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 18.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "PREFIX( zlibCompileFlags)",
+      "start_line": 36
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "z_error",
+      "start_line": 90
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "PREFIX( zError)",
+      "start_line": 99
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "PREFIX( zcalloc)",
+      "start_line": 105
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "PREFIX( zcfree)",
+      "start_line": 110
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 3.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "zng_alloc_aligned",
+      "start_line": 116
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 2.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil.c",
+      "name": "zng_free_aligned",
+      "start_line": 141
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil_p.h",
+      "name": "zng_alloc",
+      "start_line": 12
+     },
+     {
+      "cognitive": null,
+      "cyclomatic": 1.0,
+      "file": "third_party/src/zlib-ng-2.3.3/zutil_p.h",
+      "name": "zng_free",
+      "start_line": 16
+     }
+    ]
+   }
+  },
+  "tool": {
+   "name": "lizard",
+   "version": "1.24.0"
+  }
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.complexity",
+ "session": null,
+ "timestamp": "20261001T065504Z"
+}

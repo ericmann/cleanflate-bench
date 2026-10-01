@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
 
+import lizard
 import pytest
 
-from cfbench import complexity
+from cfbench import complexity, paths, provenance, rawio
 from cfbench.tools import ToolStatus
 
 FIX = Path(__file__).parent / "fixtures" / "complexity"
@@ -54,3 +55,65 @@ def test_tool_gap_falls_back_and_marks_cognitive_unavailable(tmp_path):
     got = complexity.collect_rust(ok, rca=lambda b, f: doc, file_lists=files)
     assert got["cognitive"] == "available" and got["tool_gap"] is None
     assert got["subjects"]["zrs"]["distributions"]["cognitive"]["n"] > 0
+
+
+C_SOURCE = """
+int classify(int a, int b) {
+    if (a > 0 && b > 0) { return 1; }
+    for (int i = 0; i < a; i++) { if (i == b) return 2; }
+    return 0;
+}
+static int plain(void) { return 3; }
+"""
+
+
+def test_lizard_function_list_parsed():
+    info = lizard.analyze_file.analyze_source_code("a.c", C_SOURCE)
+    funcs = complexity.c_functions(info, "a.c")
+    assert [f["name"] for f in funcs] == ["classify", "plain"]
+    assert funcs[0]["cyclomatic"] == 5.0 and funcs[1]["cyclomatic"] == 1.0
+    assert all(f["cognitive"] is None and f["file"] == "a.c" for f in funcs)
+    payload = complexity.collect_c(
+        analyze=lambda path: lizard.analyze_file.analyze_source_code(path, C_SOURCE),
+        file_lists={s: [Path("x.c")] for s in complexity.C_SUBJECTS},
+    )
+    assert payload["tool"]["version"] == lizard.version and payload["cognitive"] == "unavailable"
+    assert payload["subjects"]["zlib"]["distributions"]["cyclomatic"]["max"] == 5.0
+
+
+def test_table_marks_cognitive_unavailable_for_c(tmp_path, monkeypatch):
+    c = complexity.collect_c(
+        analyze=lambda path: lizard.analyze_file.analyze_source_code(path, C_SOURCE),
+        file_lists={s: [Path("x.c")] for s in complexity.C_SUBJECTS},
+    )
+    rust = {
+        "tool": {"name": "rust-code-analysis-cli", "version": "0.0.25"},
+        "cognitive": "available",
+        "subjects": {"cf": {"distributions": {
+            "cyclomatic": {"n": 3, "median": 2, "p90": 4, "max": 4},
+            "cognitive": {"n": 3, "median": 0, "p90": 6, "max": 6}}}},
+    }  # fmt: skip
+    rows = complexity.table_rows(rust, c)
+    by = {(r["subject"], r["metric"]): r for r in rows}
+    assert (
+        by[("cf", "cognitive")]["p90"] == 6
+        and by[("cf", "cognitive")]["tool"] == "rust-code-analysis-cli"
+    )
+    cog = by[("zlib", "cognitive")]
+    assert (
+        cog["tool"].endswith("(cognitive unavailable)")
+        and cog["median"] is None
+        and cog["max"] is None
+    )
+    assert cog["n_functions"] == 2 and cog["tool_version"] == lizard.version
+    assert (
+        by[("zlib", "cyclomatic")]["max"] == 5.0 and by[("zng", "cyclomatic")]["n_functions"] == 2
+    )
+    monkeypatch.setattr(paths, "RAW", tmp_path / "raw")
+    monkeypatch.setattr(paths, "RESULTS", tmp_path / "results")
+    complexity.derive()
+    assert provenance.read_table("complexity")[1]["pending"] == complexity.PENDING
+    rawio.write_raw("size", c, machine="any", profile="full", script="s", environment=None)
+    complexity.derive()
+    got, side = provenance.read_table("complexity")
+    assert side["pending"] is None and list(got[0]) == complexity.COLUMNS and len(got) == 4
