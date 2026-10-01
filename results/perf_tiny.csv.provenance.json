@@ -1,0 +1,20 @@
+{
+ "columns": [
+  "machine",
+  "variant",
+  "subject",
+  "workload",
+  "prefix_bytes",
+  "level",
+  "framing",
+  "mode",
+  "median_ns_per_op",
+  "ci_lo_ns",
+  "ci_hi_ns",
+  "time_ratio_vs_zlib"
+ ],
+ "pending": "no full perf runs; run make perf on M-A and M-B",
+ "raw_files": [],
+ "script": "cfbench.perf_report",
+ "table": "perf_tiny.csv"
+}

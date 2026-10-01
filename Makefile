@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads perf smoke-bench smoke-similarity smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads perf perf-report smoke-bench smoke-similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -31,6 +31,10 @@ workloads: fetch subjects
 
 perf: subjects
 	$(PY) -m cfbench.perf run
+	$(MAKE) perf-report
+
+perf-report:
+	$(PY) -m cfbench.perf_report
 
 smoke-bench: subjects
 	CFB_PROFILE=quick $(PY) -m cfbench.perf run
