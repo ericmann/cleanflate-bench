@@ -82,7 +82,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
 - [x] R1-07 Bomb table reports per-layer and overall ratios separately
 - [x] R1-08 Add make paper-data for the T1 measurements
-- [ ] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
+- [x] R2-01 Make prerequisites so make all and make paper-data run from a fresh clone
 
 ## Log
 (one entry per task, appended by implement)
@@ -387,3 +387,6 @@ bombs.COLUMNS gains overall_ratio after ratio; run_all sets ratio=own output/com
 
 ### R1-08 — 15c3bd4
 Added paper-data target (prereqs env pins perf trajectory size conformance, then $(MAKE) paper), .PHONY, help line, README paragraph. Test test_paper_data_target_runs_t1_measurements parses the Makefile and runs make help. make -n paper-data shows expected chain; not run.
+
+### R2-01 — 4139c19
+Added workloads prereq to perf, perf-native, smoke-bench, trajectory; fetch prereq to malformed. New test tests/test_clean_clone.py::test_measurement_targets_depend_on_their_inputs (Makefile graph parse + make -n ordering). make -n paper-data now: fetch line 5, workloads generate 7, perf run 9. No interpretation choices. lint/test green.
