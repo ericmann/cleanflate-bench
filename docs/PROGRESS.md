@@ -64,7 +64,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P8-05 Decompression-bomb robustness sweep
 - [x] P8-06 Phase 8 hand-off
 - [x] P9-01 Decompression-path LOC with tokei
-- [ ] P9-02 Rust complexity distributions
+- [x] P9-02 Rust complexity distributions
 - [ ] P9-03 C complexity and the complexity table
 - [ ] P9-04 Phase 9 hand-off
 - [ ] P10-01 Remaining figures
@@ -315,3 +315,6 @@ Push happens at run finish.
 
 ### P9-01 — d8f48f1
 tokei 15.0.0 pinned in config/tools.toml and installed to third_party/tools/bin (cargo +stable install, about 50 s). cfbench/loc.py passes only decomp_paths.files(subject) to tokei --no-ignore --output json; table loc (subject, language, files, code, comments, blanks) with a Total row per subject, raw size/any kind loc. Interpretation: tokei reports Rust doc comments as embedded Markdown children, so they become '<language> (embedded)' rows (files 0) and the rows sum to Total (cf: Rust 3683 code / 119 comments plus Markdown (embedded) 1013 comments). Counts: cf 17 files 3683 code, zlib 13 files 12457 code (C + headers), zng 93 files 19751, zrs 26 files 7296, mox 5 files 2293. make size gained loc. test_tools now asserts the pinned set is a subset. 328 tests pass.
+
+### P9-02 — fc2609a
+rust-code-analysis-cli 0.0.25 pinned and installed (about 43 s). cfbench/complexity.py: distribution(values) -> {n, median, p90, max} (p90 nearest rank ceil(0.9 n); shared with P9-03), rca_functions (closures named <anonymous> excluded because the enclosing function's sum already contains them), lizard fallback (cyclomatic only, cognitive unavailable, tool_gap recorded; lizard is not installed, run as python -m lizard, so P9-03 must add it). Raw size/any kind complexity-rust committed. cf: 173 functions, cyclomatic median 2 / p90 8 / max 106, cognitive median 0 / p90 7 / max 171. zrs: 326 functions, cyclomatic 1 / 6 / 161, cognitive 0 / 5 / 332. mox: 93 functions, cyclomatic 1 / 9 / 86, cognitive 0 / 5 / 40. make size gained complexity rust. No tool gap. 331 tests pass.
