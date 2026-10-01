@@ -1,0 +1,43 @@
+{
+ "columns": [
+  "workload",
+  "corpus",
+  "level",
+  "framing",
+  "framing_analysed",
+  "literal_fraction",
+  "dist1_fraction",
+  "dist2_7_fraction",
+  "overlap_fraction",
+  "mean_match_len",
+  "blocks_stored",
+  "blocks_fixed",
+  "blocks_dynamic",
+  "ratio",
+  "len_frac_3",
+  "len_frac_4",
+  "len_frac_5_8",
+  "len_frac_9_16",
+  "len_frac_17_32",
+  "len_frac_33_64",
+  "len_frac_65_128",
+  "len_frac_129_258",
+  "dist_frac_1",
+  "dist_frac_2_7",
+  "dist_frac_8_64",
+  "dist_frac_65_512",
+  "dist_frac_513_4096",
+  "dist_frac_4097_32768"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/content/any/20261001T062418Z.json",
+   "sha256": "08b2334d0afb96462dbfea642d84035702f9fd958aae134bd7d2b09f0687274f",
+   "timestamp": "20261001T062418Z"
+  }
+ ],
+ "script": "cfbench.content.features",
+ "table": "content_features.csv"
+}

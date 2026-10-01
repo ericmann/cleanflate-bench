@@ -145,6 +145,7 @@ def summarize(raw: dict, compressed_bytes: int) -> dict:
     return {
         "literals": raw["literals"],
         "matches": m,
+        "mean_match_len": frac(raw["match_bytes"], m),
         "literal_fraction": frac(raw["literals"], out_bytes),
         "match_len_hist": dict(zip(LEN_BINS, raw["len_hist"], strict=True)),
         "match_dist_hist": dict(zip(DIST_BINS, raw["dist_hist"], strict=True)),
