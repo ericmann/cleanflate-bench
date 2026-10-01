@@ -22,7 +22,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-04 Run-to-run agreement check
 - [x] P1-05 target-cpu=native Rust variant
 - [x] P1-06 Chart helpers and throughput figure
-- [ ] P1-07 Phase 1 hand-off
+- [x] P1-07 Phase 1 hand-off
 - [ ] P2-01 Pinned third-party tools
 - [ ] P2-02 Minimal stdin→stdout decompressors
 - [ ] P2-03 Binary-size measurement and cargo bloat
@@ -139,3 +139,11 @@ Tests: test_perf native labels + native run, test_subjects native path/labels. A
 
 ### P1-06 — 713892d
 Tests: test_charts x7. API: parity.PARITY_NOTE/with_context(machine,variant); charts.save_figure(fig,name,*,parity_note,size,out_dir)->[svg,png] (2x base_dpi PNG, deterministic svg/png metadata), charts.new_figure(size)/size_inches; perf_charts.throughput_data/draw_throughput/throughput_figure(machine,variant). New [charts] config keys: paper_height_in, default_width_in, default_height_in, footnote_pt, font_family. Figure: perf_throughput_<machine>[_native]. Pending (no figure) without perf data. PNG visually inspected.
+
+### P1-07 — f6ced68
+Push: git push -u origin HEAD succeeded.
+Checklist (verbatim):
+1. On M-A (on AC, lid open, low-power off, quiet), then on M-B (governor `performance`): run `make perf` (two full runs, roughly 2-3 h each) and `make perf-native`, then commit `data/raw/perf/<machine>/`.
+2. `make perf-report`: check that `results/perf_agreement_summary.csv` shows `pass` for both machines, or review the flagged cells.
+3. Look at `results/figures/perf_throughput_M-A.png` and `perf_throughput_M-B.png`.
+Manual check: NOT VERIFIED (human)
