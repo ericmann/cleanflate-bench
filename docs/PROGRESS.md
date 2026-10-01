@@ -77,7 +77,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] R1-01 Hermetic git in throwaway-repo tests
 - [x] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
 - [x] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
-- [ ] R1-04 Token-exact evidence checks for kit numbers
+- [x] R1-04 Token-exact evidence checks for kit numbers
 - [ ] R1-05 Boundary tests for the hypothesis thresholds
 - [ ] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
 - [ ] R1-07 Bomb table reports per-layer and overall ratios separately
@@ -371,3 +371,6 @@ Subject::oneshot now returns OneshotOutcome{produced,consumed} (exported from ha
 
 ### R1-03 — 39af172
 md_table in cfbench/kits/results_md.py now appends the italic PARITY_NOTE after every table (before the source line). Methodology/threats text now says load is a recorded warning, refused only with --strict; streaming line lists all four chunk sizes from config. Tests: test_every_table_carries_parity_note, test_methodology_matches_precondition_behaviour. RESULTS.md regenerated; kits-check identical (with PROGRESS.md stashed).
+
+### R1-04 — 0c9de14
+check_bullet now compares whole _NUMBER tokens (substring clause removed). Tests: test_substring_of_evidence_is_not_evidence (pitch), paper claims test compares token sets via pitch.numbers plus negative token test. Fallout: the rejection bullets quoting '8 of 8 cells' now carry labels for len(evidence) and the count of evidence values below parity_ratio, computed in bullets_claims; paper test allowed set gains baseline '1.00'. Regenerated kits were byte-identical (no result files changed); kits-check identical.
