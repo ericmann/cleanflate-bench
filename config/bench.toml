@@ -1,0 +1,47 @@
+[run]
+seed = 20261019
+
+[machines]
+"Darwin-arm64" = "M-A"
+"Linux-x86_64" = "M-B"
+
+[perf]
+subjects = ["cf", "zlib", "zng", "zrs", "mox", "zsys"]
+native_subjects = ["cf", "zrs", "mox"]
+corpora = ["silesia", "canterbury"]
+files = []
+levels = [1, 6, 9]
+framings = ["raw", "zlib", "gzip"]
+modes = ["oneshot", "stream_small", "stream_large"]
+small_in_chunk = 1024
+small_out_chunk = 4096
+large_in_chunk = 1048576
+large_out_chunk = 1048576
+warmup_ms = 500
+min_samples = 30
+min_sample_ms = 10
+runs = 2
+bootstrap_resamples = 2000
+ci_level = 0.95
+agreement_tolerance = 0.05
+max_start_load = 1.0
+
+[perf.tiny]
+sources = ["canterbury/alice29.txt", "canterbury/kennedy.xls", "silesia/xml"]
+prefix_bytes = [64, 256, 1024]
+
+[profiles.quick.perf]
+files = ["canterbury/alice29.txt", "canterbury/kennedy.xls"]
+levels = [6]
+warmup_ms = 20
+min_samples = 5
+min_sample_ms = 2
+
+[profiles.quick.perf.tiny]
+prefix_bytes = [256]
+
+[charts]
+base_dpi = 100
+paper_width_in = 3.3
+slide_width_in = 13.333
+slide_height_in = 7.5

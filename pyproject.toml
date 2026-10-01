@@ -1,0 +1,21 @@
+[project]
+name = "cfbench"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["numpy", "matplotlib"]
+
+[dependency-groups]
+dev = ["pytest", "ruff"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cfbench"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
