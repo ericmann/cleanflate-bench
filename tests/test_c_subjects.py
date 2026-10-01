@@ -6,7 +6,8 @@ import pytest
 
 from tests.cli_util import FILES, FIX, MODES, PLAIN, build_debug, decode, run
 
-C_SUBJECTS = ["zlib", "zlib-nohw", "zsys"]
+C_SUBJECTS = ["zlib", "zlib-nohw", "zsys", "zng"]
+VERSIONS = {"zlib": "1.3.2", "zlib-nohw": "1.3.2", "zng": "2.3.3"}
 WBITS = {"raw": -15, "zlib": 15, "gzip": 31}
 
 
@@ -23,7 +24,7 @@ def test_info_versions(subject):
     if subject == "zsys":
         assert info["impl_version"]
     else:
-        assert info["impl_version"] == "1.3.2"
+        assert info["impl_version"] == VERSIONS[subject]
 
 
 @pytest.mark.parametrize("subject", C_SUBJECTS)
@@ -54,7 +55,7 @@ def test_compress_roundtrip_all_framings_levels_1_6_9(tmp_path):
 
 
 def test_only_stock_zlib_compresses(tmp_path):
-    for subject in ("zlib-nohw", "zsys", "cf"):
+    for subject in ("zlib-nohw", "zsys", "zng", "cf"):
         r = run(
             subject, "compress", "--level", 6, "--framing", "raw",
             "--input", FIX / "hello.txt", "--output", tmp_path / "x",
@@ -89,3 +90,26 @@ def test_heap_is_counted_via_zalloc(subject, tmp_path):
     if subject != "zsys":
         # zalloc routes the inflate state (window etc.) through the counting allocator
         assert r["peak_heap_bytes"] > len(PLAIN) + 1024
+
+
+def _xorshift(seed, n):
+    mask = (1 << 64) - 1
+    s = seed | 1
+    out = bytearray()
+    while len(out) < n:
+        s ^= (s << 13) & mask
+        s ^= s >> 7
+        s ^= (s << 17) & mask
+        out += s.to_bytes(8, "little")
+    return bytes(out[:n])
+
+
+@pytest.mark.parametrize("subject", C_SUBJECTS)
+def test_checksums_match_python_zlib(subject):
+    size, seed = 4096, 11
+    data = _xorshift(seed, size)
+    flags = ["--warmup-ms", 1, "--min-samples", 3, "--min-sample-ms", 1]
+    a = run(subject, "checksum", "--algo", "adler32", "--size", size, "--seed", seed, *flags)
+    c = run(subject, "checksum", "--algo", "crc32", "--size", size, "--seed", seed, *flags)
+    assert a["value"] == zlib.adler32(data)
+    assert c["value"] == zlib.crc32(data)

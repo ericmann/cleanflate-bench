@@ -217,6 +217,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "subj-zng"
+version = "0.1.0"
+dependencies = [
+ "harness",
+]
+
+[[package]]
 name = "subj-zrs"
 version = "0.1.0"
 dependencies = [
