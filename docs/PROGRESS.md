@@ -74,7 +74,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-05 BLOG_NOTES.md
 - [x] P10-06 make all and the clean-clone check for every kit
 - [x] P10-07 Phase 10 hand-off
-- [ ] R1-01 Hermetic git in throwaway-repo tests
+- [x] R1-01 Hermetic git in throwaway-repo tests
 - [ ] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
 - [ ] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
 - [ ] R1-04 Token-exact evidence checks for kit numbers
@@ -362,3 +362,6 @@ Checklist for B10:
 2. Read results/PITCH_KIT/TALKING_POINTS.md, results/RESULTS.md (including threats to validity) and results/BLOG_NOTES.md for accuracy and balance.
 3. Confirm every kit renders with no Pending entries left that you intend to fill. Currently pending: perf, perf-native, framing, checksums, trajectory, content hypotheses, fuzz, bombs (all human-run), plus M-A data for env, conformance and malformed.
 Notes: similarity T1 claim is NOT allowed by the generated statement. PITCH_KIT has 5 of 8 to 12 figures until perf data exists. The signing agent died mid-run; commits after P10-02 were made with commit.gpgsign=false locally. Push happens at run finish.
+
+### R1-01 — 085bc3d
+Added tests/conftest.py with HERMETIC_GIT_ARGS and hermetic_git_env (GIT_CONFIG_GLOBAL=/dev/null, NOSYSTEM, gpgsign=false -c flags); both modules' git helpers use them. New test test_helpers_ignore_hostile_global_git_config. 357 pass. Interpretation: helper-level isolation rather than autouse fixture, so a test can set a hostile config.
