@@ -20,7 +20,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-02 Provenance-tracked tables and per-cell perf table
 - [x] P1-03 Ratios, per-corpus aggregates and tiny-input table
 - [x] P1-04 Run-to-run agreement check
-- [ ] P1-05 target-cpu=native Rust variant
+- [x] P1-05 target-cpu=native Rust variant
 - [ ] P1-06 Chart helpers and throughput figure
 - [ ] P1-07 Phase 1 hand-off
 - [ ] P2-01 Pinned third-party tools
@@ -133,3 +133,6 @@ Tests: test_perf_report +6 (aggregate, no cross-mode ratios, incomplete flag, ti
 
 ### P1-04 — 58b7119
 Tests: test_agreement x5. API: agreement.compare_session(docs,tol)->(flagged rows, summary), derive(cfg), FLAG_COLUMNS, SUMMARY_COLUMNS. Tables perf_agreement(.csv) and perf_agreement_summary. Verdict pass/flagged/insufficient runs from aggregates only; first two runs compared; make perf-report also runs agreement. Pending sidecars committed.
+
+### P1-05 — 494140e
+Tests: test_perf native labels + native run, test_subjects native path/labels. API: perf.session_labels(cfg,variant); subjects.native_label/split_label; native run payload variant native, build native, subjects cf@native/zrs@native/mox@native + zlib baseline. make subjects-native (target/native), make perf-native (depends subjects+subjects-native, then perf-report). pins records cf@native etc. (target_cpu native, rustflags) - M-B pins rerun committed. Native smoke ran ok.
