@@ -40,3 +40,12 @@ def test_up_to_date_build_is_skipped(tmp_path):
     changed = {**expected, "source_sha256": "def"}
     assert not cbuild.is_up_to_date(info, changed)
     assert not cbuild.is_up_to_date(info, {**expected, "recipe": {"cmake": ["-DX=2"]}})
+
+
+def test_source_dirs_match_sources_module(tmp_path, monkeypatch):
+    from cfbench import paths, sources
+
+    monkeypatch.setattr(paths, "THIRD_PARTY", tmp_path)
+    for name in ("zlib", "zng"):
+        cbuild.source_dir(name).mkdir(parents=True)
+        assert sources.source_root(name) == cbuild.source_dir(name)

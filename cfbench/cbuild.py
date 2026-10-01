@@ -20,9 +20,13 @@ def _sub_cfg(name: str) -> dict:
     return config.load_toml("subjects.toml")[name]
 
 
+# Directory names of the extracted sources (also relied on by sources.source_root).
+SOURCE_DIR_NAMES = {"zlib": "zlib", "zng": "zlib-ng"}
+
+
 def source_dir(name: str) -> Path:
     cfg = _sub_cfg(name)
-    return paths.THIRD_PARTY / "src" / f"{name}-{cfg['version']}"
+    return paths.THIRD_PARTY / "src" / f"{SOURCE_DIR_NAMES[name]}-{cfg['version']}"
 
 
 def ensure_source(name: str) -> tuple[Path, str]:

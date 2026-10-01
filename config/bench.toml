@@ -54,3 +54,7 @@ font_family = "DejaVu Sans"
 [similarity]
 ngram_min = 5
 ngram_max = 10
+
+[size]
+opt_levels = ["3", "s"]
+bloat_top = 30
