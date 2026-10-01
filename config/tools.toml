@@ -17,6 +17,11 @@ version = "15.0.0"
 binary = "tokei"
 version_args = ["--version"]
 
+[rust-code-analysis-cli]
+version = "0.0.25"
+binary = "rust-code-analysis-cli"
+version_args = ["--version"]
+
 [cargo-audit]
 version = "0.22.2"
 binary = "cargo-audit"

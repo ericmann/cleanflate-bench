@@ -122,6 +122,7 @@ size: tools
 	$(PY) -m cfbench.unsafe_scan
 	$(PY) -m cfbench.deps
 	$(PY) -m cfbench.loc
+	$(PY) -m cfbench.complexity rust
 
 similarity-ngram:
 	$(PY) -m cfbench.similarity.run ngram

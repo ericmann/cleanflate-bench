@@ -1,0 +1,4323 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/complexity.py",
+  "rust"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "8bf290b4b57adcfb48b464aac56249e31c4ec482"
+ },
+ "category": "size",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   4.75146484375,
+   4.10400390625,
+   3.1357421875
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "8bf290b4b57adcfb48b464aac56249e31c4ec482",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 64.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 64.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 68.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 55.250\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 840.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 600.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "cognitive": "available",
+  "kind": "complexity-rust",
+  "subjects": {
+   "cf": {
+    "distributions": {
+     "cognitive": {
+      "max": 171.0,
+      "median": 0.0,
+      "n": 173,
+      "p90": 7.0
+     },
+     "cyclomatic": {
+      "max": 106.0,
+      "median": 2.0,
+      "n": 173,
+      "p90": 8.0
+     }
+    },
+    "files": [
+     "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+     "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+     "third_party/cleanflate/crates/cleanflate/src/config.rs",
+     "third_party/cleanflate/crates/cleanflate/src/decode_path.rs",
+     "third_party/cleanflate/crates/cleanflate/src/error.rs",
+     "third_party/cleanflate/crates/cleanflate/src/fast_loop.rs",
+     "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+     "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+     "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+     "third_party/cleanflate/crates/cleanflate/src/lib.rs",
+     "third_party/cleanflate/crates/cleanflate/src/options.rs",
+     "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+     "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+     "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+     "third_party/cleanflate/crates/cleanflate/src/tables.rs",
+     "third_party/cleanflate/crates/cleanflate/src/window.rs",
+     "third_party/cleanflate/crates/cleanflate/src/zlib.rs"
+    ],
+    "functions": [
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "new",
+      "start_line": 31
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "bits",
+      "start_line": 37
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "available",
+      "start_line": 43
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "fill",
+      "start_line": 51
+     },
+     {
+      "cognitive": 8.0,
+      "cyclomatic": 8.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "refill_bulk",
+      "start_line": 81
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "give_back",
+      "start_line": 129
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "peek",
+      "start_line": 151
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "consume",
+      "start_line": 165
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "take",
+      "start_line": 176
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/bitreader.rs",
+      "name": "align_to_byte",
+      "start_line": 187
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "new",
+      "start_line": 45
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "update",
+      "start_line": 55
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "finish",
+      "start_line": 65
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "adler_fold",
+      "start_line": 72
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "adler_split",
+      "start_line": 86
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "adler32_update_value",
+      "start_line": 94
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "adler32_update_bytewise",
+      "start_line": 103
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "default",
+      "start_line": 113
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "adler32",
+      "start_line": 119
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_entry",
+      "start_line": 138
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_zero_byte_step",
+      "start_line": 154
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_slice_entry",
+      "start_line": 169
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_tables",
+      "start_line": 185
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_update_bytewise",
+      "start_line": 209
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_fold_chunk",
+      "start_line": 222
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32_update_sliced",
+      "start_line": 238
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "new",
+      "start_line": 263
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "from_value",
+      "start_line": 269
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "update",
+      "start_line": 276
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "finish",
+      "start_line": 281
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "default",
+      "start_line": 287
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/checksum.rs",
+      "name": "crc32",
+      "start_line": 293
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 13.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "as_str",
+      "start_line": 171
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "fmt",
+      "start_line": 190
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 13.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "kind",
+      "start_line": 197
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 7.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "fmt",
+      "start_line": 216
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 7.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "fmt",
+      "start_line": 237
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "fmt",
+      "start_line": 251
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 13.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/error.rs",
+      "name": "fmt",
+      "start_line": 263
+     },
+     {
+      "cognitive": 17.0,
+      "cyclomatic": 15.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/fast_loop.rs",
+      "name": "run",
+      "start_line": 63
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "new",
+      "start_line": 92
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "new_primed",
+      "start_line": 115
+     },
+     {
+      "cognitive": 8.0,
+      "cyclomatic": 9.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "decide_next",
+      "start_line": 125
+     },
+     {
+      "cognitive": 6.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "build_header",
+      "start_line": 141
+     },
+     {
+      "cognitive": 74.0,
+      "cyclomatic": 59.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "feed",
+      "start_line": 172
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "fail",
+      "start_line": 375
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "stats",
+      "start_line": 438
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "inflater_path",
+      "start_line": 446
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "new",
+      "start_line": 450
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "reset",
+      "start_line": 479
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "total_out",
+      "start_line": 497
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "member_count",
+      "start_line": 502
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "is_done",
+      "start_line": 506
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "headers",
+      "start_line": 510
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "trailing_start",
+      "start_line": 514
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "fail",
+      "start_line": 518
+     },
+     {
+      "cognitive": 45.0,
+      "cyclomatic": 33.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "step_into",
+      "start_line": 523
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "resolve_trailing",
+      "start_line": 727
+     },
+     {
+      "cognitive": 8.0,
+      "cyclomatic": 8.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/gzip.rs",
+      "name": "finish",
+      "start_line": 752
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "symbol",
+      "start_line": 34
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "sub",
+      "start_line": 38
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "kind",
+      "start_line": 42
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "len",
+      "start_line": 46
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "payload",
+      "start_line": 50
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "lookup",
+      "start_line": 91
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "table_bits",
+      "start_line": 148
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "reverse_bits",
+      "start_line": 161
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "empty",
+      "start_line": 192
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "from_lengths",
+      "start_line": 215
+     },
+     {
+      "cognitive": 20.0,
+      "cyclomatic": 15.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "from_lengths_with_bits",
+      "start_line": 222
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 6.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "decode",
+      "start_line": 290
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "decode_table",
+      "start_line": 330
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 9.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "decode_table_method",
+      "start_line": 337
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "fast_table",
+      "start_line": 375
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "table_entries",
+      "start_line": 388
+     },
+     {
+      "cognitive": 48.0,
+      "cyclomatic": 17.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/huffman.rs",
+      "name": "build_table",
+      "start_line": 403
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "new",
+      "start_line": 134
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "new_with_path",
+      "start_line": 139
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "with_dictionary",
+      "start_line": 172
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "prefill_dictionary",
+      "start_line": 179
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "reset",
+      "start_line": 187
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "path",
+      "start_line": 208
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "stats",
+      "start_line": 214
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "count_decode",
+      "start_line": 226
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "total_out",
+      "start_line": 231
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "is_done",
+      "start_line": 236
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 12.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "peek_symbol",
+      "start_line": 246
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "step_into",
+      "start_line": 298
+     },
+     {
+      "cognitive": 171.0,
+      "cyclomatic": 106.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "step_inner",
+      "start_line": 326
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/inflate.rs",
+      "name": "next_block_state",
+      "start_line": 871
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/options.rs",
+      "name": "default",
+      "start_line": 50
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "new",
+      "start_line": 54
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "at",
+      "start_line": 61
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "written",
+      "start_line": 69
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "room",
+      "start_line": 74
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "push",
+      "start_line": 79
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "extend_from_slice",
+      "start_line": 91
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 6.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "copy_within_back",
+      "start_line": 104
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "get_back",
+      "start_line": 119
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "written_since",
+      "start_line": 127
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "new",
+      "start_line": 150
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "written",
+      "start_line": 159
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "room",
+      "start_line": 164
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "push",
+      "start_line": 169
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "extend_from_slice",
+      "start_line": 179
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "copy_within_back",
+      "start_line": 191
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "get_back",
+      "start_line": 202
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/sink.rs",
+      "name": "written_since",
+      "start_line": 210
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+      "name": "merge",
+      "start_line": 94
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+      "name": "add",
+      "start_line": 95
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 8.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+      "name": "len_bucket",
+      "start_line": 143
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 10.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+      "name": "dist_bucket",
+      "start_line": 157
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 7.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+      "name": "count_decode",
+      "start_line": 174
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stats.rs",
+      "name": "record_match",
+      "start_line": 189
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "step_into",
+      "start_line": 28
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "reset",
+      "start_line": 42
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "is_done",
+      "start_line": 55
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "total_out",
+      "start_line": 63
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "owns_trailing_data",
+      "start_line": 75
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 6.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "finish",
+      "start_line": 81
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "stats",
+      "start_line": 102
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "trailing_start",
+      "start_line": 110
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "gzip_headers",
+      "start_line": 117
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "gzip_member_count",
+      "start_line": 126
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "new",
+      "start_line": 182
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 6.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "new_with_path",
+      "start_line": 187
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "reset",
+      "start_line": 243
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "inflater_path",
+      "start_line": 252
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress",
+      "start_line": 266
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_vec",
+      "start_line": 287
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "allowance",
+      "start_line": 317
+     },
+     {
+      "cognitive": 15.0,
+      "cyclomatic": 12.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_into",
+      "start_line": 327
+     },
+     {
+      "cognitive": 6.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "handle_post_done_input",
+      "start_line": 394
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "finish",
+      "start_line": 420
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "gzip_headers",
+      "start_line": 437
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "gzip_member_count",
+      "start_line": 445
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "stats",
+      "start_line": 452
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "total_in",
+      "start_line": 457
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "total_out",
+      "start_line": 462
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "trailing_start",
+      "start_line": 468
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "next_len",
+      "start_line": 475
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 8.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "initial_len",
+      "start_line": 491
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_with",
+      "start_line": 509
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_with_path",
+      "start_line": 514
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_with_stats",
+      "start_line": 526
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 10.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_core",
+      "start_line": 542
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "grow_output",
+      "start_line": 626
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 10.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "decompress_core_vec",
+      "start_line": 640
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "finish_core",
+      "start_line": 702
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "inflate",
+      "start_line": 740
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "zlib_decompress",
+      "start_line": 748
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/stream.rs",
+      "name": "gzip_decompress",
+      "start_line": 754
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 7.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/tables.rs",
+      "name": "fixed_litlen_lengths",
+      "start_line": 57
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/tables.rs",
+      "name": "fixed_dist_lengths",
+      "start_line": 74
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "new",
+      "start_line": 33
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "reset",
+      "start_line": 45
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "append",
+      "start_line": 55
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "available",
+      "start_line": 79
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "history_available",
+      "start_line": 86
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "get_back",
+      "start_line": 93
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 7.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "read_back",
+      "start_line": 106
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "prefill",
+      "start_line": 130
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "back_parts",
+      "start_line": 142
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 6.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "copy_match_sink",
+      "start_line": 166
+     },
+     {
+      "cognitive": 11.0,
+      "cyclomatic": 5.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "copy_match_slices",
+      "start_line": 186
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 4.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/window.rs",
+      "name": "copy_match_bytewise",
+      "start_line": 220
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "new",
+      "start_line": 45
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "reset",
+      "start_line": 60
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "inflater_path",
+      "start_line": 70
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "stats",
+      "start_line": 76
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "total_out",
+      "start_line": 80
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "is_done",
+      "start_line": 84
+     },
+     {
+      "cognitive": 49.0,
+      "cyclomatic": 37.0,
+      "file": "third_party/cleanflate/crates/cleanflate/src/zlib.rs",
+      "name": "step_into",
+      "start_line": 88
+     }
+    ]
+   },
+   "mox": {
+    "distributions": {
+     "cognitive": {
+      "max": 40.0,
+      "median": 0.0,
+      "n": 93,
+      "p90": 5.0
+     },
+     "cyclomatic": {
+      "max": 86.0,
+      "median": 1.0,
+      "n": 93,
+      "p90": 9.0
+     }
+    },
+    "files": [
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/shared.rs"
+    ],
+    "functions": [
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "new",
+      "start_line": 62
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "fast_lookup",
+      "start_line": 74
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "tree_lookup",
+      "start_line": 80
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "lookup",
+      "start_line": 113
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "default",
+      "start_line": 246
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "new",
+      "start_line": 308
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "init",
+      "start_line": 314
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "adler32",
+      "start_line": 323
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "adler32_header",
+      "start_line": 334
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "zlib_header",
+      "start_line": 345
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "block_boundary_state",
+      "start_line": 361
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "from_block_boundary_state",
+      "start_line": 386
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "default",
+      "start_line": 403
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "is_failure",
+      "start_line": 479
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "begin",
+      "start_line": 496
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "num_extra_bits_for_distance_code",
+      "start_line": 537
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "read_u16_le",
+      "start_line": 552
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "fill_bit_buffer",
+      "start_line": 568
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "fill_bit_buffer",
+      "start_line": 580
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "validate_zlib_header",
+      "start_line": 593
+     },
+     {
+      "cognitive": 30.0,
+      "cyclomatic": 16.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "decode_huffman_code",
+      "start_line": 631
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "read_byte",
+      "start_line": 740
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "read_bits",
+      "start_line": 756
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "pad_to_bytes",
+      "start_line": 788
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "end_of_input",
+      "start_line": 797
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "undo_bytes",
+      "start_line": 806
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "start_static_table",
+      "start_line": 812
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "reverse_bits",
+      "start_line": 830
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "reverse_bits",
+      "start_line": 854
+     },
+     {
+      "cognitive": 40.0,
+      "cyclomatic": 28.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "init_tree",
+      "start_line": 870
+     },
+     {
+      "cognitive": 12.0,
+      "cyclomatic": 16.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "transfer",
+      "start_line": 1074
+     },
+     {
+      "cognitive": 14.0,
+      "cyclomatic": 10.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "apply_match",
+      "start_line": 1154
+     },
+     {
+      "cognitive": 28.0,
+      "cyclomatic": 17.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "decompress_fast",
+      "start_line": 1221
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "decompress",
+      "start_line": 1400
+     },
+     {
+      "cognitive": 21.0,
+      "cyclomatic": 86.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "decompress_with_limit",
+      "start_line": 1420
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "tinfl_decompress_oxide",
+      "start_line": 2100
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "decompress_zlib",
+      "start_line": 2111
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "raw_block",
+      "start_line": 2139
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "masked_lookup",
+      "start_line": 2169
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "fixed_table_lookup",
+      "start_line": 2175
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "check_result",
+      "start_line": 2206
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "bogus_input",
+      "start_line": 2223
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "empty_output_buffer_non_wrapping",
+      "start_line": 2300
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "empty_output_buffer_wrapping",
+      "start_line": 2316
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "dist_extra_bits",
+      "start_line": 2330
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "check_tree",
+      "start_line": 2344
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/core.rs",
+      "name": "reverse_bits_lookup",
+      "start_line": 2375
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 10.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "from_i32",
+      "start_line": 83
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 9.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "fmt",
+      "start_line": 113
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_error",
+      "start_line": 133
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_to_vec",
+      "start_line": 146
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_to_vec_zlib",
+      "start_line": 159
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_to_vec_with_limit",
+      "start_line": 178
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_to_vec_zlib_with_limit",
+      "start_line": 195
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 7.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_to_vec_inner",
+      "start_line": 206
+     },
+     {
+      "cognitive": 9.0,
+      "cyclomatic": 8.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_slice_iter_to_slice",
+      "start_line": 292
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_vec",
+      "start_line": 342
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "decompress_vec_with_high_limit",
+      "start_line": 348
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "fail_to_decompress_with_limit",
+      "start_line": 354
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/mod.rs",
+      "name": "test_decompress_slice_iter_to_slice",
+      "start_line": 366
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "from_slice_pos_and_max",
+      "start_line": 14
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "position",
+      "start_line": 31
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "set_position",
+      "start_line": 36
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "write_byte",
+      "start_line": 44
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "write_slice",
+      "start_line": 53
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "bytes_left",
+      "start_line": 60
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "get_ref",
+      "start_line": 65
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "get_mut",
+      "start_line": 70
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "as_slice",
+      "start_line": 87
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "from_slice",
+      "start_line": 92
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "advance",
+      "start_line": 97
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "read_byte",
+      "start_line": 102
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "read_u32_le",
+      "start_line": 111
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/output_buffer.rs",
+      "name": "bytes_left",
+      "start_line": 121
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "reset",
+      "start_line": 24
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "reset",
+      "start_line": 39
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "reset",
+      "start_line": 52
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "default",
+      "start_line": 86
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "new",
+      "start_line": 108
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "new_boxed",
+      "start_line": 121
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "decompressor",
+      "start_line": 128
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "last_status",
+      "start_line": 133
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "new_boxed_with_window_bits",
+      "start_line": 143
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "reset",
+      "start_line": 152
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "reset_as",
+      "start_line": 158
+     },
+     {
+      "cognitive": 21.0,
+      "cyclomatic": 17.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "inflate",
+      "start_line": 186
+     },
+     {
+      "cognitive": 22.0,
+      "cyclomatic": 16.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "inflate_loop",
+      "start_line": 297
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "push_dict_out",
+      "start_line": 372
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "test_state",
+      "start_line": 388
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "test_partial_continue",
+      "start_line": 436
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/inflate/stream.rs",
+      "name": "test_rewind_and_resume",
+      "start_line": 472
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/shared.rs",
+      "name": "update_adler32",
+      "start_line": 13
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/miniz_oxide-0.9.1/src/shared.rs",
+      "name": "update_adler32",
+      "start_line": 21
+     }
+    ]
+   },
+   "zrs": {
+    "distributions": {
+     "cognitive": {
+      "max": 332.0,
+      "median": 0.0,
+      "n": 326,
+      "p90": 5.0
+     },
+     "cyclomatic": {
+      "max": 161.0,
+      "median": 1.0,
+      "n": 326,
+      "p90": 6.0
+     }
+    },
+    "files": [
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/generic.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/vpclmulqdq.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/infback.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inffixed_tbl.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+     "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs"
+    ],
+    "functions": [
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "__m256i_literal",
+      "start_line": 16
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "hsum256",
+      "start_line": 34
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "partial_hsum256",
+      "start_line": 45
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "adler32_avx2",
+      "start_line": 67
+     },
+     {
+      "cognitive": 10.0,
+      "cyclomatic": 8.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "adler32_avx2_help",
+      "start_line": 76
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "helper_32_bytes",
+      "start_line": 117
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "empty_input",
+      "start_line": 153
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "start_alignment",
+      "start_line": 181
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx2.rs",
+      "name": "large_input",
+      "start_line": 195
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "__m512i_literal",
+      "start_line": 11
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "adler32_avx512",
+      "start_line": 29
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "_mm512_dpbusd_epi32_emulated",
+      "start_line": 42
+     },
+     {
+      "cognitive": 10.0,
+      "cyclomatic": 9.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "adler32_avx512_help",
+      "start_line": 54
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "_mm512_reduce_add_epu32",
+      "start_line": 152
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "partial_hsum",
+      "start_line": 172
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "empty_input",
+      "start_line": 204
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "zero_chunks",
+      "start_line": 212
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "one_chunk",
+      "start_line": 223
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "start_alignment",
+      "start_line": 252
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512.rs",
+      "name": "large_input",
+      "start_line": 266
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "__m512i_literal",
+      "start_line": 9
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "adler32_avx512",
+      "start_line": 27
+     },
+     {
+      "cognitive": 10.0,
+      "cyclomatic": 9.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "adler32_avx512_vnni",
+      "start_line": 36
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "empty_input",
+      "start_line": 141
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "zero_chunks",
+      "start_line": 149
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "one_chunk",
+      "start_line": 160
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "foobar",
+      "start_line": 169
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "start_alignment",
+      "start_line": 203
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/avx512_vnni.rs",
+      "name": "large_input",
+      "start_line": 217
+     },
+     {
+      "cognitive": 13.0,
+      "cyclomatic": 8.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/generic.rs",
+      "name": "adler32_rust",
+      "start_line": 43
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/generic.rs",
+      "name": "adler32_len_1",
+      "start_line": 83
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/generic.rs",
+      "name": "adler32_len_16",
+      "start_line": 91
+     },
+     {
+      "cognitive": 6.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/generic.rs",
+      "name": "adler32_len_64",
+      "start_line": 103
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "adler32_lsx",
+      "start_line": 24
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "adler32_lsx_internal",
+      "start_line": 31
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "handle_tail",
+      "start_line": 81
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "accum32",
+      "start_line": 91
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "start_alignment",
+      "start_line": 246
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "large_input",
+      "start_line": 259
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/lsx.rs",
+      "name": "carry_in_with_unaligned_before_no_overflow",
+      "start_line": 271
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "adler32_neon",
+      "start_line": 25
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "adler32_neon_internal",
+      "start_line": 33
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "handle_tail",
+      "start_line": 87
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "accum32",
+      "start_line": 97
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "swap_64bit_lanes_when_be",
+      "start_line": 123
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "start_alignment",
+      "start_line": 257
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "large_input",
+      "start_line": 270
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/neon.rs",
+      "name": "carry_in_with_unaligned_before_no_overflow",
+      "start_line": 282
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "adler32_wasm",
+      "start_line": 13
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "update",
+      "start_line": 22
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "update_imp",
+      "start_line": 28
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "update_chunk_block",
+      "start_line": 43
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "update_block",
+      "start_line": 58
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "reduce_add_blocks",
+      "start_line": 76
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "i32x4_dot_i8x16",
+      "start_line": 120
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "u32x4_extadd_quarters_u8x16",
+      "start_line": 134
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "reduce_add",
+      "start_line": 139
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "get_weight_lo",
+      "start_line": 149
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32/wasm.rs",
+      "name": "get_weight_hi",
+      "start_line": 156
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "adler32",
+      "start_line": 19
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "adler32_fold_copy",
+      "start_line": 49
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "adler32_combine",
+      "start_line": 58
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "naive_adler32",
+      "start_line": 91
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "naive_is_fancy_small_inputs",
+      "start_line": 113
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "test_adler32_combine",
+      "start_line": 121
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/adler32.rs",
+      "name": "test",
+      "start_line": 124
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zalloc_c",
+      "start_line": 25
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zalloc_c",
+      "start_line": 50
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zalloc_c_calloc",
+      "start_line": 71
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zfree_c",
+      "start_line": 96
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zalloc_rust",
+      "start_line": 112
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zalloc_rust_calloc",
+      "start_line": 132
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zfree_rust",
+      "start_line": 157
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zalloc_fail",
+      "start_line": 189
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "zfree_fail",
+      "start_line": 194
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_layout",
+      "start_line": 234
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_layout_zeroed",
+      "start_line": 323
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_raw",
+      "start_line": 358
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_slice_raw",
+      "start_line": 362
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_zeroed_raw",
+      "start_line": 366
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_zeroed_buffer",
+      "start_line": 370
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "deallocate",
+      "start_line": 384
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_alloc",
+      "start_line": 422
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_free",
+      "start_line": 430
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_help",
+      "start_line": 435
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_0",
+      "start_line": 463
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_1",
+      "start_line": 468
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_2",
+      "start_line": 473
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_4",
+      "start_line": 477
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_8",
+      "start_line": 481
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_16",
+      "start_line": 485
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_32",
+      "start_line": 490
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "unaligned_allocator_64",
+      "start_line": 498
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "test_allocate_zeroed_help",
+      "start_line": 505
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "test_allocate_zeroed",
+      "start_line": 515
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "test_allocate_zeroed_buffer_help",
+      "start_line": 525
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "test_allocate_buffer_zeroed",
+      "start_line": 539
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "test_deallocate_null",
+      "start_line": 550
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "test_allocate_zero_size",
+      "start_line": 563
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "allocate_more_than_c_uint_max",
+      "start_line": 582
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "small_alloc",
+      "start_line": 583
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/allocate.rs",
+      "name": "small_free",
+      "start_line": 591
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+      "name": "default",
+      "start_line": 75
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+      "name": "configure_allocator",
+      "start_line": 108
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+      "name": "configure_default_rust_allocator",
+      "start_line": 115
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+      "name": "configure_default_c_allocator",
+      "start_line": 120
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+      "name": "default",
+      "start_line": 204
+     },
+     {
+      "cognitive": 10.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/c_api.rs",
+      "name": "flags",
+      "start_line": 254
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_sse",
+      "start_line": 12
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_sse42",
+      "start_line": 21
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_avx2_and_bmi2",
+      "start_line": 30
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_avx512",
+      "start_line": 64
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_pclmulqdq",
+      "start_line": 73
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_neon",
+      "start_line": 82
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_crc",
+      "start_line": 96
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_lsx",
+      "start_line": 106
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/cpu_features.rs",
+      "name": "is_enabled_simd128",
+      "start_line": 115
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "crc32_acle_aarch64",
+      "start_line": 21
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "remainder",
+      "start_line": 79
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "__crc32b",
+      "start_line": 118
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "__crc32h",
+      "start_line": 135
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "__crc32w",
+      "start_line": 152
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "__crc32d",
+      "start_line": 169
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "test_crc32b",
+      "start_line": 200
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "test_crc32h",
+      "start_line": 212
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "test_crc32w",
+      "start_line": 224
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/acle.rs",
+      "name": "test_crc32d",
+      "start_line": 237
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "get_crc_table",
+      "start_line": 27
+     },
+     {
+      "cognitive": 11.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "build_crc32_table",
+      "start_line": 44
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "crc32_naive_inner",
+      "start_line": 68
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "crc32_words_inner",
+      "start_line": 75
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "crc32_braid",
+      "start_line": 86
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "braid_core",
+      "start_line": 132
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "crc32_naive",
+      "start_line": 143
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "crc32_words",
+      "start_line": 149
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "empty_is_identity",
+      "start_line": 160
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "words_endianness",
+      "start_line": 165
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/braid.rs",
+      "name": "crc32_naive_inner_endianness_and_alignment",
+      "start_line": 175
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "crc32_combine",
+      "start_line": 3
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "crc32_combine_gen",
+      "start_line": 8
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "crc32_combine_op",
+      "start_line": 13
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "multmodp",
+      "start_line": 26
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "x2nmodp",
+      "start_line": 49
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "test_crc32_combine",
+      "start_line": 70
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/combine.rs",
+      "name": "test",
+      "start_line": 73
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+      "name": "crc32_loongarch64",
+      "start_line": 18
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+      "name": "remainder",
+      "start_line": 60
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+      "name": "crc_w_b_w",
+      "start_line": 99
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+      "name": "crc_w_h_w",
+      "start_line": 114
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+      "name": "crc_w_w_w",
+      "start_line": 129
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/loongarch.rs",
+      "name": "crc_w_d_w",
+      "start_line": 144
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "reg",
+      "start_line": 14
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "new",
+      "start_line": 33
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "fold",
+      "start_line": 42
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "fold_copy",
+      "start_line": 46
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "finish",
+      "start_line": 51
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "fold_step",
+      "start_line": 133
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "step",
+      "start_line": 141
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "partial_fold",
+      "start_line": 150
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 7.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "progress",
+      "start_line": 200
+     },
+     {
+      "cognitive": 37.0,
+      "cyclomatic": 18.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/pclmulqdq.rs",
+      "name": "fold_help",
+      "start_line": 237
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/vpclmulqdq.rs",
+      "name": "fold_16_vpclmulqdq",
+      "start_line": 10
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/vpclmulqdq.rs",
+      "name": "fold_16_vpclmulqdq_copy",
+      "start_line": 20
+     },
+     {
+      "cognitive": 6.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32/vpclmulqdq.rs",
+      "name": "fold_help_vpclmulqdq",
+      "start_line": 30
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "crc32",
+      "start_line": 19
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "crc32_braid",
+      "start_line": 31
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "get_crc_table",
+      "start_line": 35
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "default",
+      "start_line": 56
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "new",
+      "start_line": 62
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "new_with_initial",
+      "start_line": 66
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "fold",
+      "start_line": 74
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "fold_copy",
+      "start_line": 102
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "finish",
+      "start_line": 112
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "test_crc32_fold",
+      "start_line": 140
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "test_crc32_fold_align",
+      "start_line": 148
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "chunked",
+      "start_line": 176
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "nasty_alignment",
+      "start_line": 207
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/crc32.rs",
+      "name": "crc32_fold_oob",
+      "start_line": 238
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "new",
+      "start_line": 15
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "update_slice",
+      "start_line": 31
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "advance",
+      "start_line": 44
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "as_ptr",
+      "start_line": 49
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "as_mut_ptr",
+      "start_line": 54
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "as_slice",
+      "start_line": 59
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "bits_in_buffer",
+      "start_line": 66
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "hold",
+      "start_line": 71
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "bytes_remaining",
+      "start_line": 76
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "bytes_remaining_including_buffer",
+      "start_line": 81
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "need_bits",
+      "start_line": 86
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "next_byte_boundary",
+      "start_line": 96
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "pull_byte",
+      "start_line": 102
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "refill",
+      "start_line": 123
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "bits",
+      "start_line": 137
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "drop_bits",
+      "start_line": 145
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "start_sync_search",
+      "start_line": 151
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "init_bits",
+      "start_line": 169
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "prime",
+      "start_line": 175
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "return_unused_bytes",
+      "start_line": 182
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/bitreader.rs",
+      "name": "read",
+      "start_line": 196
+     },
+     {
+      "cognitive": 9.0,
+      "cyclomatic": 8.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/infback.rs",
+      "name": "back_init",
+      "start_line": 17
+     },
+     {
+      "cognitive": 116.0,
+      "cyclomatic": 75.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/infback.rs",
+      "name": "back",
+      "start_line": 85
+     },
+     {
+      "cognitive": 63.0,
+      "cyclomatic": 28.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/infback.rs",
+      "name": "inflate_fast_back",
+      "start_line": 726
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/infback.rs",
+      "name": "back_end",
+      "start_line": 959
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inffixed_tbl.rs",
+      "name": "code",
+      "start_line": 3
+     },
+     {
+      "cognitive": 43.0,
+      "cyclomatic": 37.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+      "name": "inflate_table",
+      "start_line": 42
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+      "name": "not_enough_errors",
+      "start_line": 252
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 7.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+      "name": "build_fixed_length_table",
+      "start_line": 273
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+      "name": "generate_fixed_length_table",
+      "start_line": 309
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+      "name": "build_fixed_distance_table",
+      "start_line": 316
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/inftrees.rs",
+      "name": "generate_fixed_distance_table",
+      "start_line": 333
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "into_raw_parts",
+      "start_line": 22
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "from_raw_parts",
+      "start_line": 26
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "is_empty",
+      "start_line": 34
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "buffer_size",
+      "start_line": 40
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "size",
+      "start_line": 45
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "have",
+      "start_line": 52
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "set_have",
+      "start_line": 56
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "next",
+      "start_line": 61
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "empty",
+      "start_line": 65
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "clear",
+      "start_line": 73
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "as_slice",
+      "start_line": 78
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "as_ptr",
+      "start_line": 82
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "as_mut_ptr",
+      "start_line": 86
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "extend_adler32",
+      "start_line": 91
+     },
+     {
+      "cognitive": 34.0,
+      "cyclomatic": 11.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "extend",
+      "start_line": 95
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "new_in",
+      "start_line": 171
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "clone_to",
+      "start_line": 182
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "padding",
+      "start_line": 195
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "alloc_window",
+      "start_line": 204
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "window_init",
+      "start_line": 212
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "extend_in_bounds",
+      "start_line": 227
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "extend_crosses_bounds",
+      "start_line": 257
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/window.rs",
+      "name": "extend_out_of_bounds",
+      "start_line": 287
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "new",
+      "start_line": 16
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "new_uninit",
+      "start_line": 38
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "new_uninit_raw",
+      "start_line": 47
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "next_out",
+      "start_line": 55
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "capacity",
+      "start_line": 61
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "len",
+      "start_line": 67
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "filled",
+      "start_line": 73
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "remaining",
+      "start_line": 81
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "is_full",
+      "start_line": 86
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "push",
+      "start_line": 90
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "extend",
+      "start_line": 98
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "extend_from_window",
+      "start_line": 106
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "extend_from_window_with_features",
+      "start_line": 110
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "extend_from_window_runtime_dispatch",
+      "start_line": 122
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "extend_from_window_help",
+      "start_line": 163
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "extend_from_window_back",
+      "start_line": 197
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match",
+      "start_line": 212
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match_with_features",
+      "start_line": 217
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match_runtime_dispatch",
+      "start_line": 229
+     },
+     {
+      "cognitive": 7.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match_help",
+      "start_line": 266
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match_back",
+      "start_line": 303
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_chunked_within",
+      "start_line": 331
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_chunk_unchecked",
+      "start_line": 355
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "load_chunk",
+      "start_line": 401
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "store_chunk",
+      "start_line": 410
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "fmt",
+      "start_line": 416
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "slice_to_uninit",
+      "start_line": 425
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "test_array",
+      "start_line": 436
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "test_copy_match",
+      "start_line": 440
+     },
+     {
+      "cognitive": 6.0,
+      "cyclomatic": 7.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_chunk_unchecked",
+      "start_line": 464
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match",
+      "start_line": 515
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate/writer.rs",
+      "name": "copy_match_insufficient_space_for_simd",
+      "start_line": 524
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "set_mode_dict",
+      "start_line": 64
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "set_mode_sync",
+      "start_line": 72
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "from_stream_ref",
+      "start_line": 93
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "from_stream_mut",
+      "start_line": 120
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "as_z_stream_mut",
+      "start_line": 138
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "new",
+      "start_line": 143
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "decompress_slice",
+      "start_line": 172
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "uncompress",
+      "start_line": 186
+     },
+     {
+      "cognitive": 11.0,
+      "cyclomatic": 15.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "uncompress2",
+      "start_line": 195
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "default",
+      "start_line": 342
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "contains",
+      "start_line": 357
+     },
+     {
+      "cognitive": 2.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "update",
+      "start_line": 364
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "new",
+      "start_line": 464
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "len_table_ref",
+      "start_line": 522
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "dist_table_ref",
+      "start_line": 531
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "len_table_get",
+      "start_line": 540
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "dist_table_get",
+      "start_line": 544
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "zswap32",
+      "start_line": 550
+     },
+     {
+      "cognitive": 84.0,
+      "cyclomatic": 57.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "len_and_friends",
+      "start_line": 567
+     },
+     {
+      "cognitive": 332.0,
+      "cyclomatic": 161.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "dispatch",
+      "start_line": 896
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "bad",
+      "start_line": 1841
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "inflate_leave",
+      "start_line": 1850
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "decoding_state",
+      "start_line": 1856
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "inflate_fast_help",
+      "start_line": 1880
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "inflate_fast_help_avx2",
+      "start_line": 1899
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "inflate_fast_help_vanilla",
+      "start_line": 1908
+     },
+     {
+      "cognitive": 63.0,
+      "cyclomatic": 28.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "inflate_fast_help_impl",
+      "start_line": 1918
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "prime",
+      "start_line": 2160
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "new",
+      "start_line": 2181
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "default",
+      "start_line": 2225
+     },
+     {
+      "cognitive": 11.0,
+      "cyclomatic": 9.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "init",
+      "start_line": 2233
+     },
+     {
+      "cognitive": 8.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "reset_with_config",
+      "start_line": 2298
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "reset",
+      "start_line": 2329
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "reset_keep",
+      "start_line": 2338
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "codes_used",
+      "start_line": 2372
+     },
+     {
+      "cognitive": 13.0,
+      "cyclomatic": 17.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "inflate",
+      "start_line": 2376
+     },
+     {
+      "cognitive": 10.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "syncsearch",
+      "start_line": 2459
+     },
+     {
+      "cognitive": 6.0,
+      "cyclomatic": 6.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "sync",
+      "start_line": 2477
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "sync_point",
+      "start_line": 2537
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 4.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "copy",
+      "start_line": 2541
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "undermine",
+      "start_line": 2588
+     },
+     {
+      "cognitive": 3.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "validate",
+      "start_line": 2595
+     },
+     {
+      "cognitive": 4.0,
+      "cyclomatic": 7.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "mark",
+      "start_line": 2605
+     },
+     {
+      "cognitive": 5.0,
+      "cyclomatic": 5.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "set_dictionary",
+      "start_line": 2621
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "end",
+      "start_line": 2648
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 3.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "get_header",
+      "start_line": 2672
+     },
+     {
+      "cognitive": 1.0,
+      "cyclomatic": 2.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "get_dictionary",
+      "start_line": 2690
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/inflate.rs",
+      "name": "uncompress_buffer_overflow",
+      "start_line": 2718
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "from_raw_parts_mut",
+      "start_line": 21
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "into_raw_parts",
+      "start_line": 29
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_slice",
+      "start_line": 33
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_mut_slice",
+      "start_line": 37
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_ptr",
+      "start_line": 41
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_mut_ptr",
+      "start_line": 45
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "len",
+      "start_line": 49
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "is_empty",
+      "start_line": 53
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "empty",
+      "start_line": 57
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "from_ptr",
+      "start_line": 77
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_slice",
+      "start_line": 84
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_mut_slice",
+      "start_line": 88
+     },
+     {
+      "cognitive": 0.0,
+      "cyclomatic": 1.0,
+      "file": "/home/ericmann/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/zlib-rs-0.6.8/src/weak_slice.rs",
+      "name": "as_ptr",
+      "start_line": 92
+     }
+    ]
+   }
+  },
+  "tool": {
+   "name": "rust-code-analysis-cli",
+   "version": "0.0.25"
+  },
+  "tool_gap": null
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.complexity",
+ "session": null,
+ "timestamp": "20261001T065344Z"
+}
