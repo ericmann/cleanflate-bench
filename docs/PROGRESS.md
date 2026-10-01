@@ -48,7 +48,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P5-02 Claims engine with evidence links
 - [x] P5-03 Paper table and figure
 - [x] P5-04 PAPER_KIT renderer and make paper
-- [ ] P5-05 Clean-clone regeneration check
+- [x] P5-05 Clean-clone regeneration check
 - [ ] P5-06 Phase 5 hand-off
 - [ ] P6-01 Checksum microbenchmarks
 - [ ] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
@@ -244,3 +244,6 @@ Tests: test_paper_assets x5. API: paper_assets.build_table(results_dir,cfg)->Pap
 ### P5-04 — 3edde63
 Tests: test_paper_kit x6. API: kits.paper.render(results_dir,cfg,out_dir)/rederive/main/source_line/environments; make paper = rederive tables from committed raw then write results/PAPER_KIT.md (byte-identical on rerun, verified). Current kit: 3 supported (conformance 2962/2962 on M-B, safety zero unsafe/zero deps, effort 28.5 h cost not priced), rejected: similarity + 3 overreach (no perf data), pending: perf_range, trajectory, gzip_gap_is_hw_crc; table perf rows pending; figure pending (no figure file committed). Environments section lists M-B CPU/OS from raw env.
 Manual check: NOT VERIFIED (human): rerun make paper after full perf/trajectory runs.
+
+### P5-05 — 467e871
+Tests: test_clean_clone x4 (fake repos: dirty refused, difference exits nonzero with diff, identical exits zero, missing-file semantics). API: clean_clone.run_check(target, compare, repo, ignore_dirty, sync, keep, out), dirty_paths, committed_bytes; CLI python -m cfbench.clean_clone <target> --compare ... [--ignore-dirty ...]. make paper-check. Real check ran on HEAD: fresh git clone --local --no-hardlinks (hardlinks fail across devices), uv sync --frozen, make paper in ~4 s without third_party/build/toolchain -> results/PAPER_KIT.md IDENTICAL; the paper figure svg is absent in both HEAD and the clone (pending perf data), reported as such. Foundry keeps docs/PROGRESS.md dirty, so my verification used --ignore-dirty docs/PROGRESS.md.
