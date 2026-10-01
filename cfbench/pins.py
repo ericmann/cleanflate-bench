@@ -236,6 +236,9 @@ def _zrs_source_dispatch(root: Path) -> bool | None:
 
 
 def _unsafe_status(subject: str, metadata: dict) -> dict:
+    latest = unsafe_scan.status_from_latest_raw(subject)
+    if latest is not None:
+        return latest
     roots = [sources.source_root(subject, metadata), *sources.extra_roots(subject, metadata)]
     scans = [unsafe_scan.scan_crate(r) for r in roots]
     totals = {k: sum(s["totals"][k] for s in scans) for k in unsafe_scan.COUNT_KEYS}

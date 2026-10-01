@@ -90,7 +90,7 @@
       "deny_unsafe_code": false,
       "forbid_unsafe_code": true,
       "roots": [
-       "miniz_oxide-0.9.1"
+       "miniz_oxide"
       ],
       "target_feature": 0,
       "unsafe_blocks": 0,
@@ -123,7 +123,7 @@
       "deny_unsafe_code": false,
       "forbid_unsafe_code": true,
       "roots": [
-       "miniz_oxide-0.9.1"
+       "miniz_oxide"
       ],
       "target_feature": 0,
       "unsafe_blocks": 0,
@@ -246,8 +246,8 @@
       "deny_unsafe_code": false,
       "forbid_unsafe_code": false,
       "roots": [
-       "zlib-rs-0.6.8",
-       "libz-rs-sys-0.6.8"
+       "zlib-rs",
+       "libz-rs-sys"
       ],
       "target_feature": 46,
       "unsafe_blocks": 674,
@@ -282,8 +282,8 @@
       "deny_unsafe_code": false,
       "forbid_unsafe_code": false,
       "roots": [
-       "zlib-rs-0.6.8",
-       "libz-rs-sys-0.6.8"
+       "zlib-rs",
+       "libz-rs-sys"
       ],
       "target_feature": 46,
       "unsafe_blocks": 674,
@@ -317,7 +317,7 @@
      "target_cpu": "generic"
     }
    },
-   "recorded_at": "20261001T045459Z"
+   "recorded_at": "20261001T051312Z"
   }
  },
  "rust_profile": {

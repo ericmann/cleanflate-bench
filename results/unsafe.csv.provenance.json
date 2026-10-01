@@ -1,0 +1,28 @@
+{
+ "columns": [
+  "subject",
+  "crate",
+  "version",
+  "role",
+  "forbid_unsafe_code",
+  "unsafe_blocks",
+  "unsafe_fns",
+  "unsafe_impls",
+  "unsafe_traits",
+  "target_feature_attrs",
+  "geiger_used",
+  "geiger_unused",
+  "note"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/size/any/20261001T051308Z.json",
+   "sha256": "88dd67984a67d4ecd2fa0d28bd5296d2a939f636fa52a564751aadbcb71f3d45",
+   "timestamp": "20261001T051308Z"
+  }
+ ],
+ "script": "cfbench.unsafe_scan",
+ "table": "unsafe.csv"
+}
