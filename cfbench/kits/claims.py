@@ -241,7 +241,7 @@ def _similarity(d: Path, cfg) -> ClaimResult:
         (ln for ln in text.splitlines() if "T1 claim" in ln),
         "the generated statement does not allow the claim",
     )
-    return ClaimResult("similarity", REJECTED, "", evid, why.strip("* "))
+    return ClaimResult("similarity", REJECTED, "", evid, why.replace("**", "").strip())
 
 
 def _effort(d, cfg) -> ClaimResult:

@@ -1,7 +1,7 @@
 PY := uv run --frozen python
-STUBS := framing content paper pitch blog
+STUBS := framing content pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance correctness perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds trajectory effort conformance correctness paper perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -60,6 +60,9 @@ conformance: subjects workloads
 
 correctness: conformance
 
+paper:
+	$(PY) -m cfbench.kits.paper
+
 perf-report:
 	$(PY) -m cfbench.perf_report
 	$(PY) -m cfbench.agreement
@@ -112,4 +115,4 @@ test: c-subjects
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: env pins perf size similarity trajectory effort correctness $(STUBS)
+all: env pins perf size similarity trajectory effort correctness paper $(STUBS)
