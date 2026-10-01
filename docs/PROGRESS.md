@@ -50,7 +50,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P5-04 PAPER_KIT renderer and make paper
 - [x] P5-05 Clean-clone regeneration check
 - [x] P5-06 Phase 5 hand-off
-- [ ] P6-01 Checksum microbenchmarks
+- [x] P6-01 Checksum microbenchmarks
 - [ ] P6-02 Framing overhead, the hardware-CRC hypothesis and figure
 - [ ] P6-03 Phase 6 hand-off
 - [ ] P7-01 infgen build and parser
@@ -257,3 +257,7 @@ Checklist (verbatim):
 4. Check the figure renders legibly at a 3.3-inch column width.
 Manual check: NOT VERIFIED (human)
 Note: the current kit has 3 supported claims (target 5-7); the similarity claim is rejected by the generated statement, and the perf/trajectory claims wait for the human data runs.
+
+### P6-01 — 6d3e83b
+Tests: test_checksums x5. API: checksums.gib_per_s/build_cells/checksum_argv/value_mismatches/run(cfg,runner,profile,session)/derive(cfg)/main(run|derive). Config [framing] checksum_subjects (7 incl zlib-nohw) and checksum_sizes [64,4096,65536,1048576]. Raw framing/<machine> kind checksums (one file per perf.runs run, shared session); table checksums (pending committed). Quick smoke ok: values agree across subjects; mox crc32 unsupported; quick-run numbers (M-B): crc32 zlib ~3.8 GiB/s, zng/zrs ~12-15 (pclmul), cf ~2.4.
+Manual check: NOT VERIFIED (human): full make checksums on M-A and M-B.
