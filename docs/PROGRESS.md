@@ -31,7 +31,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P2-06 Phase 2 hand-off
 - [x] P3-01 Decompression-path source manifest
 - [x] P3-02 Token n-gram similarity for all pairs
-- [ ] P3-03 Identifier and comment overlap
+- [x] P3-03 Identifier and comment overlap
 - [ ] P3-04 JPlag for same-language pairs
 - [ ] P3-05 Top-20 fragment pairs with persistent verdicts
 - [ ] P3-06 Positioning against controls, statement and figure
@@ -176,3 +176,6 @@ Tests: test_decomp_paths x5. API: decomp_paths.files(subject, metadata)->sorted 
 
 ### P3-02 — 04ec5d4
 Tests: test_similarity_pairs x5, tokens deep-nesting test. API: pairs.load_pairs(cfg)->[{left,right,role,cross_language}], file_token_lists(files), shingle_union(lists,n), compare_pair(left,right,cfg)->rows n=ngram_min..max {n,jaccard,containment,size_left,size_right}; run.ngram_payload/cmd_ngram, run.COMMANDS registry (extend per subcommand). Config [similarity].pairs. tokens._walk made iterative (recursion overflow bug). Data run: raw similarity/any 20261001T051802Z. n=5 Jaccard: zrs-mox 0.215 (negative), zrs-zng 0.056 (positive), cf-zrs 0.223, cf-mox 0.215, cf-zlib 0.035, cf-zng 0.035. Note the positive control (zrs-zng) scores LOWER than the negative control under this method (cross-language), a point for the P3-06 positioning write-up.
+
+### P3-03 — a844869
+Tests: test_similarity_identifiers x5, test_similarity_comments x3. API: identifiers.normalize/load_exclusions/parse_exclusions/collect(files,min_len,excluded)/compare; comments.words/comment_shingles(files,n)->(set,count)/compare; run.py identifiers + comments subcommands. Config [similarity] min_ident_len=6, comment_ngram=5. Token gained node field. config/rfc_identifiers.txt (rfc + '# language' sections) copied to results/similarity_identifier_exclusions.txt. Data: identifier Jaccard negative zrs-mox 0.044, positive zrs-zng 0.144, cf-zrs 0.053, cf-mox 0.075, cf-zlib 0.021, cf-zng 0.011; comment 5-gram Jaccard negative 0.0010, positive 0.0395, cf pairs <=0.0005. Raw: similarity/any 20261001T052006Z (identifiers), 20261001T052008Z (comments).
