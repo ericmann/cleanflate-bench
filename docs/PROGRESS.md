@@ -21,7 +21,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P1-03 Ratios, per-corpus aggregates and tiny-input table
 - [x] P1-04 Run-to-run agreement check
 - [x] P1-05 target-cpu=native Rust variant
-- [ ] P1-06 Chart helpers and throughput figure
+- [x] P1-06 Chart helpers and throughput figure
 - [ ] P1-07 Phase 1 hand-off
 - [ ] P2-01 Pinned third-party tools
 - [ ] P2-02 Minimal stdin→stdout decompressors
@@ -136,3 +136,6 @@ Tests: test_agreement x5. API: agreement.compare_session(docs,tol)->(flagged row
 
 ### P1-05 — 494140e
 Tests: test_perf native labels + native run, test_subjects native path/labels. API: perf.session_labels(cfg,variant); subjects.native_label/split_label; native run payload variant native, build native, subjects cf@native/zrs@native/mox@native + zlib baseline. make subjects-native (target/native), make perf-native (depends subjects+subjects-native, then perf-report). pins records cf@native etc. (target_cpu native, rustflags) - M-B pins rerun committed. Native smoke ran ok.
+
+### P1-06 — 713892d
+Tests: test_charts x7. API: parity.PARITY_NOTE/with_context(machine,variant); charts.save_figure(fig,name,*,parity_note,size,out_dir)->[svg,png] (2x base_dpi PNG, deterministic svg/png metadata), charts.new_figure(size)/size_inches; perf_charts.throughput_data/draw_throughput/throughput_figure(machine,variant). New [charts] config keys: paper_height_in, default_width_in, default_height_in, footnote_pt, font_family. Figure: perf_throughput_<machine>[_native]. Pending (no figure) without perf data. PNG visually inspected.
