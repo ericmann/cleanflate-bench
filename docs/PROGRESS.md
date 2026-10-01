@@ -17,7 +17,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-12 Similarity tokenizer and smoke similarity run
 - [x] P0-13 Phase 0 hand-off
 - [x] P1-01 Statistics core
-- [ ] P1-02 Provenance-tracked tables and per-cell perf table
+- [x] P1-02 Provenance-tracked tables and per-cell perf table
 - [ ] P1-03 Ratios, per-corpus aggregates and tiny-input table
 - [ ] P1-04 Run-to-run agreement check
 - [ ] P1-05 target-cpu=native Rust variant
@@ -124,3 +124,6 @@ Manual check: NOT VERIFIED (human)
 
 ### P1-01 — 8cfd4b9
 Tests: test_stats x8. API: stats.median/best/bootstrap_ci(xs,level,resamples,rng:random.Random)/mib_per_s(bytes,ns)/ns_per_byte/cell_stats(samples,out_bytes,cfg,rng)->CellStats/like_for_like_key(cell dict: machine,session,workload,level,framing,mode)/ratio_vs_baseline/ratios_vs_baseline(cells,baseline='zlib') (cells need subject, median_mib_s + key fields). Bootstrap via numpy default_rng(rng.getrandbits(64)). Missing baseline => None.
+
+### P1-02 — 4569819
+Tests: test_provenance x4, test_perf_report x5 (fixtures tests/fixtures/raw/perf/M-T: old/new sessions + native). API: provenance.write_table(name,columns,rows(list of dict),script=,raw_files=,pending=)/read_table(name)->(rows of str dicts, sidecar)/fmt/to_float/table_path; perf_report.load_sessions()->{(machine,variant):[doc+path]}, pooled_cells(docs), derive_cells(cfg), CELL_COLUMNS. perf_cells.csv columns per task. Rng random.Random(seed) iterated over sorted cells. No-data case writes header + pending 'no full perf runs; run make perf on M-A and M-B'.
