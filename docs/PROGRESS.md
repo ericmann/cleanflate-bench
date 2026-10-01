@@ -7,7 +7,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-02 Machine detection, environment capture and raw-data I/O
 - [x] P0-03 Pinned cleanflate clone, corpora and pristine check
 - [x] P0-04 Pinned C subject builds (zlib, zlib-nohw, zlib-ng)
-- [ ] P0-05 Rust timing harness core
+- [x] P0-05 Rust timing harness core
 - [ ] P0-06 Rust subject binaries cf, zrs, mox
 - [ ] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
 - [ ] P0-08 zlib-ng native-API subject binary
@@ -89,3 +89,6 @@ Tests: test_cleanflate_src x5 (throwaway repos). API: cleanflate_src.clone_path/
 
 ### P0-04 — f5df6e8
 Tests: test_download x3, test_cbuild x4. Pins recorded in config/subjects.toml (zlib 1.3.2, zng 2.3.3 hashes pinned at task time). Libs: build/c/zlib/lib/libcfbz_default.a, build/c/zlib-nohw/lib/libcfbz_nohw.a, build/c/zng/lib/libz-ng.a; headers in include/. build-info.json has recipe, cflags, compiler, cmake_options (zng). x86_64: zlib-nohw control_identical_to_default true. API: download.fetch/extract, cbuild.build(id,force), cbuild.IDS.
+
+### P0-05 — 2b50945
+Tests: harness tests/timing.rs x3, alloc.rs x2, cli.rs x8. Subject API in harness::subject (Caps, OutputLimit, StreamOutcome, DecodeError, ERR_OUTPUT_FULL="output_full", ERR_UNSUPPORTED). Subjects must return kind "output_full" when oneshot buffer is too small. cli::run_main::<S>() / cli::run::<S>(args,out). c_zalloc/c_zfree are `unsafe extern "C" fn(*mut c_void,u32,u32)`. Caller output limit via unwind marker. Decode oneshot reports consumed=input.len, trailing=0. Heap pass includes oneshot out buffer. bench cell input/expected are file paths. Compress output JSON {ok,error,output_bytes}. Deps: serde, serde_json, sha2.
