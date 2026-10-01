@@ -14,7 +14,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
 - [x] P0-10 Workload generation and manifest
 - [x] P0-11 Perf orchestrator and smoke bench
-- [ ] P0-12 Similarity tokenizer and smoke similarity run
+- [x] P0-12 Similarity tokenizer and smoke similarity run
 - [ ] P0-13 Phase 0 hand-off
 - [ ] P1-01 Statistics core
 - [ ] P1-02 Provenance-tracked tables and per-cell perf table
@@ -110,3 +110,6 @@ Tests: test_workloads x7 (fake compressor, tmp DATA). API: workloads.list_worklo
 
 ### P0-11 — 1dea1f0
 Tests: test_perf x10, test_subjects x3, fixtures/fake_subject.py (flags --framings, --fail). API: subjects.SUBJECTS/SubjectSpec/binary_path(id,build)/command(id,build) (CFB_SUBJECT_CMD override); perf.build_cells/shuffled/check_preconditions/run(cfg,ids,variant,session,profile,strict,build,runner). Raw perf payload {kind,variant,build,seed,subjects,cells[{subject,workload,corpus,level,framing,mode,in_chunk,out_chunk,order_index,result|status:unsupported}],preconditions,environment_end}; one file per run with shared session. Native binaries assumed at target/native/release, cf rounds at build/rounds/rN/cfb-cf. Smoke bench ran: 2 files x 270 cells, all ok (mox gzip unsupported); smoke not committed. make perf/smoke-bench real.
+
+### P0-12 — b5d6e86
+Tests: test_similarity_tokens x7, test_similarity_ngram x5. API: tokens.tokenize(path,language)->[Token(kind,text,line).norm], tokens.comments(path)->[(line,text)], tokens.language_for; ngram.shingles/jaccard/containment/file_shingles/compare(files_a,files_b,n). Config [similarity] ngram_min=5 ngram_max=10. docs/methods/similarity.md has vocabulary table. Smoke cf~mox n=5 Jaccard 0.214 (smoke only). make smoke-similarity, make smoke real. Deps added: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2.
