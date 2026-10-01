@@ -8,7 +8,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P0-03 Pinned cleanflate clone, corpora and pristine check
 - [x] P0-04 Pinned C subject builds (zlib, zlib-nohw, zlib-ng)
 - [x] P0-05 Rust timing harness core
-- [ ] P0-06 Rust subject binaries cf, zrs, mox
+- [x] P0-06 Rust subject binaries cf, zrs, mox
 - [ ] P0-07 zlib-API subject binaries zlib, zlib-nohw, zsys
 - [ ] P0-08 zlib-ng native-API subject binary
 - [ ] P0-09 Hardware-CRC determination, unsafe status and subjects.lock.json
@@ -92,3 +92,6 @@ Tests: test_download x3, test_cbuild x4. Pins recorded in config/subjects.toml (
 
 ### P0-05 — 2b50945
 Tests: harness tests/timing.rs x3, alloc.rs x2, cli.rs x8. Subject API in harness::subject (Caps, OutputLimit, StreamOutcome, DecodeError, ERR_OUTPUT_FULL="output_full", ERR_UNSUPPORTED). Subjects must return kind "output_full" when oneshot buffer is too small. cli::run_main::<S>() / cli::run::<S>(args,out). c_zalloc/c_zfree are `unsafe extern "C" fn(*mut c_void,u32,u32)`. Caller output limit via unwind marker. Decode oneshot reports consumed=input.len, trailing=0. Heap pass includes oneshot out buffer. bench cell input/expected are file paths. Compress output JSON {ok,error,output_bytes}. Deps: serde, serde_json, sha2.
+
+### P0-06 — c643c31
+Tests: test_rust_subjects.py 13 cases (session fixture runs cargo build). Binaries cfb-cf/zrs/mox in target/{debug,release}. cf: max_output=u64::MAX unless given, default TrailingData::Reject (trailing -> error TrailingData), oneshot = single Decompressor call into caller buffer. zrs: z_stream via libz-rs-sys, windowBits -15/15/31, Caller limit. mox: raw/zlib only, adler32 via mz_adler32_oxide, no crc32, trailing_bytes reported. Rust subjects have no compress. Error kinds: cf ErrorKind names, zrs Z_* names, mox Debug names; oneshot buffer too small = "output_full". make subjects = cargo build --release --workspace --bins.
