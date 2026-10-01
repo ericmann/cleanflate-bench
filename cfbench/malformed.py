@@ -170,24 +170,30 @@ def highlights(payload: dict, dis: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def update_findings(payload: dict, path: Path | None = None) -> bool:
-    """Keep a marked block in findings.md listing cf outcomes that differ from EXPECTED.tsv."""
+def set_findings_block(block: list[str], begin: str, end: str, path: Path | None = None) -> None:
+    """Replace the marked block in findings.md; an empty `block` removes it."""
     path = path or paths.RESULTS / "findings.md"
     text = path.read_text(encoding="utf-8") if path.exists() else "# Findings\n"
-    if FINDINGS_BEGIN in text:
-        head, rest = text.split(FINDINGS_BEGIN, 1)
-        tail = rest.split(FINDINGS_END, 1)[1] if FINDINGS_END in rest else ""
+    if begin in text:
+        head, rest = text.split(begin, 1)
+        tail = rest.split(end, 1)[1] if end in rest else ""
         text = head.rstrip("\n") + "\n" + tail.lstrip("\n")
+    if block:
+        text = text.rstrip("\n") + "\n\n" + "\n".join([begin, "", *block, "", end, ""])
+    path.write_text(text if text.endswith("\n") else text + "\n", encoding="utf-8")
+
+
+def update_findings(payload: dict, path: Path | None = None) -> bool:
+    """Keep a marked block in findings.md listing cf outcomes that differ from EXPECTED.tsv."""
     mism = cf_mismatches(payload)
+    block = []
     if mism:
-        block = [FINDINGS_BEGIN, "", "## Malformed-input outcome differs from EXPECTED.tsv", ""]
+        block = ["## Malformed-input outcome differs from EXPECTED.tsv", ""]
         for f in mism:
             block.append(
                 f"- `{f['file']}`: expected {f['cf_expected']}, cf gave {f['results']['cf']['outcome']}"
             )
-        block += ["", FINDINGS_END, ""]
-        text = text.rstrip("\n") + "\n\n" + "\n".join(block)
-    path.write_text(text if text.endswith("\n") else text + "\n", encoding="utf-8")
+    set_findings_block(block, FINDINGS_BEGIN, FINDINGS_END, path)
     return bool(mism)
 
 

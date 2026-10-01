@@ -37,3 +37,6 @@ artifact.
 4. **Error kinds** are not compared.
 5. **Dictionaries.** None is supplied, so FDICT streams are rejected by every side.
 6. **miniz_oxide** ignores bytes after the stream, has no gzip support and is only run raw or zlib.
+   miniz_oxide disables its own Adler-32 check when compiled with `--cfg fuzzing` (which cargo-fuzz
+   sets, so the first 60 s smoke run diverged six times on it). The harness therefore uses the
+   low-level decompressor and compares the computed and header Adler-32 itself.

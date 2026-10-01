@@ -85,17 +85,37 @@ pub fn decode_cf(framing: Framing, input: &[u8]) -> Outcome {
     }
 }
 
-/// miniz_oxide (raw or zlib only; trailing bytes are ignored by the library).
+/// miniz_oxide (raw or zlib only; trailing bytes are ignored by the library). The low-level
+/// decompressor is used so the zlib Adler-32 trailer can be verified explicitly.
 pub fn decode_mox(framing: Framing, input: &[u8]) -> Outcome {
-    let r = match framing {
-        Framing::Raw => miniz_oxide::inflate::decompress_to_vec_with_limit(input, CAP),
-        Framing::Zlib => miniz_oxide::inflate::decompress_to_vec_zlib_with_limit(input, CAP),
-        Framing::Gzip => return Outcome::Rejected,
+    use miniz_oxide::inflate::core::inflate_flags::{
+        TINFL_FLAG_COMPUTE_ADLER32, TINFL_FLAG_PARSE_ZLIB_HEADER,
+        TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF,
     };
-    match r {
-        Ok(v) => Outcome::Ok(v),
-        Err(e) if e.status == miniz_oxide::inflate::TINFLStatus::HasMoreOutput => Outcome::Capped,
-        Err(_) => Outcome::Rejected,
+    use miniz_oxide::inflate::core::{decompress, DecompressorOxide};
+    use miniz_oxide::inflate::TINFLStatus;
+
+    let mut flags = TINFL_FLAG_USING_NON_WRAPPING_OUTPUT_BUF;
+    match framing {
+        Framing::Raw => {}
+        Framing::Zlib => flags |= TINFL_FLAG_PARSE_ZLIB_HEADER | TINFL_FLAG_COMPUTE_ADLER32,
+        Framing::Gzip => return Outcome::Rejected,
+    }
+    let mut out = vec![0u8; CAP];
+    let mut state = Box::<DecompressorOxide>::default();
+    let (status, _read, written) = decompress(&mut state, input, &mut out, 0, flags);
+    match status {
+        TINFLStatus::Done => {
+            // miniz_oxide skips its own Adler-32 check when built with `--cfg fuzzing`, which
+            // cargo-fuzz sets, so the trailer is compared here for every build.
+            if framing == Framing::Zlib && state.adler32() != state.adler32_header() {
+                return Outcome::Rejected;
+            }
+            out.truncate(written);
+            Outcome::Ok(out)
+        }
+        TINFLStatus::HasMoreOutput => Outcome::Capped,
+        _ => Outcome::Rejected,
     }
 }
 
