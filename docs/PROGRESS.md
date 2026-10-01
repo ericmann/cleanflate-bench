@@ -42,7 +42,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P4-03 Effort from git history, tool log and Foundry state
 - [x] P4-04 Token usage export and cost
 - [x] P4-05 zlib-rs status-quo context
-- [ ] P4-06 Effort tables, gaps and trajectory join
+- [x] P4-06 Effort tables, gaps and trajectory join
 - [ ] P4-07 Phase 4 hand-off
 - [ ] P5-01 Conformance runner
 - [ ] P5-02 Claims engine with evidence links
@@ -219,3 +219,6 @@ Manual check: NOT VERIFIED (human): supply sourced prices in config/pricing.toml
 
 ### P4-05 — 0c1a127
 Tests: test_effort_context x5 (recorded responses, no network). API: context.last_page/count_via_last_page/releases/crate_versions/collect(fetch)/table_rows(payload,fetched_at)/derive/main; open_url is the single network call. Raw effort/any 20261001T055248Z; results/zlibrs_context.csv with scope_note row. Facts: zlib-rs first commit 2023-12-05, 1083 commits, 37 contributors incl. anonymous, first GitHub release v0.2.0 2024-06-12, first crate version 0.0.1 2024-02-23, latest 0.6.8 2026-09-15, no 1.0 published. GITHUB_TOKEN used if set, never stored. Note: a failed attempt of my own test sent a fake token to the live API once (401), no real token involved.
+
+### P4-06 — 186924a
+Tests: test_effort_derive x4. API: derive.build_tables(history, usage, trajectory)/gaps_markdown/derive; TABLES dict of columns. Tables: effort_stage_round, effort_totals (+idle_s, total row), effort_milestones, effort_review_rounds, effort_defects, effort_interventions, effort_denied, trajectory_with_effort (pending until trajectory.csv has rows); results/EFFORT_GAPS.md generated. Costs all null (prices unset) and listed as gaps. Wall-clock attributed s r1/r2/r3 = 30485/26218/45863 (+28931 idle in r2); output tokens 850772/168462/143298. make effort = history+usage+context+derive.
