@@ -1,0 +1,11 @@
+{
+ "round": 2,
+ "verdict": "APPROVED",
+ "rounds": [
+  {
+   "round": 1,
+   "fixTasks": 0,
+   "verdict": "APPROVED"
+  }
+ ]
+}

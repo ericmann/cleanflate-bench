@@ -49,6 +49,24 @@ runs = 1
 [profiles.quick.trajectory]
 levels = [6]
 
+[effort]
+# Gaps between consecutive commits longer than this are treated as idle time, not stage work.
+idle_gap_hours = 3
+# Defect source keywords (matched case-insensitively in `Defects-caught:` trailers); a stage of
+# `review` or `fix` breaks ties in favour of review and is the default source when nothing matches.
+defect_keywords = { fuzzing = ["fuzz"], conformance = ["conformance", "oracle", "corpus", "compare"], unit_tests = ["test", "mutant", "mutation"], review = ["review"] }
+# Denial reason prefixes, first match wins (documented in docs/methods/effort.md).
+denial_categories = [
+    { prefix = "forbidden word", category = "clean-room forbidden word" },
+    { prefix = "recursive grep", category = "recursive grep" },
+    { prefix = "fetch script denied", category = "network lockdown" },
+    { prefix = "curl", category = "network lockdown" },
+    { prefix = "unparseable command", category = "unparseable command" },
+    { prefix = "SPEC phase", category = "profiling rule" },
+    { prefix = "gh is forbidden", category = "forbidden tool" },
+    { prefix = "git clone is forbidden", category = "forbidden tool" },
+]
+
 [charts]
 base_dpi = 100
 paper_width_in = 3.3

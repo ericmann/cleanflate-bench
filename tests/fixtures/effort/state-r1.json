@@ -1,0 +1,16 @@
+{
+ "round": 1,
+ "verdict": "APPROVED",
+ "rounds": [
+  {
+   "round": 1,
+   "fixTasks": 2,
+   "verdict": "CHANGES REQUESTED"
+  },
+  {
+   "round": 2,
+   "fixTasks": 0,
+   "verdict": "APPROVED"
+  }
+ ]
+}
