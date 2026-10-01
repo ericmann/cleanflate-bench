@@ -2,10 +2,12 @@
 
 import json
 import os
+import re
 from dataclasses import dataclass
 
 from cfbench import paths
 
+ROUND_SUBJECT = re.compile(r"^cf-r([123])$")
 BUILDS = ("release", "debug", "native", "round1", "round2", "round3")
 
 
@@ -28,6 +30,9 @@ SUBJECTS: dict[str, SubjectSpec] = {
         SubjectSpec("zrs", "cfb-zrs", "zlib-rs", "rust", "primary"),
         SubjectSpec("mox", "cfb-mox", "miniz_oxide", "rust", "primary"),
         SubjectSpec("zsys", "cfb-zsys", "system zlib", "c", "secondary"),
+        SubjectSpec("cf-r1", "cfb-cf", "cleanflate round 1", "rust", "round"),
+        SubjectSpec("cf-r2", "cfb-cf", "cleanflate round 2", "rust", "round"),
+        SubjectSpec("cf-r3", "cfb-cf", "cleanflate round 3", "rust", "round"),
     ]
 }
 
@@ -35,9 +40,13 @@ SUBJECTS: dict[str, SubjectSpec] = {
 def binary_path(subject: str, build: str = "release"):
     """Path of a subject binary for a build variant.
 
-    `native` is the `-C target-cpu=native` variant; `roundN` is a cleanflate round build.
+    `native` is the `-C target-cpu=native` variant. Cleanflate round builds (`cf-r1`..`cf-r3`, or
+    `cf` with build `round1`..`round3`) live in `target/round<N>/release/` (`make subjects-rounds`).
     """
     spec = SUBJECTS[subject]
+    m = ROUND_SUBJECT.match(subject)
+    if m:
+        return paths.ROOT / "target" / f"round{m.group(1)}" / "release" / spec.binary
     if build == "release":
         return paths.ROOT / "target" / "release" / spec.binary
     if build == "debug":
@@ -47,7 +56,7 @@ def binary_path(subject: str, build: str = "release"):
     if build in ("round1", "round2", "round3"):
         if subject != "cf":
             raise ValueError("round builds exist only for cf")
-        return paths.ROOT / "build" / "rounds" / build / spec.binary
+        return paths.ROOT / "target" / build / "release" / spec.binary
     raise ValueError(f"unknown build {build!r}")
 
 

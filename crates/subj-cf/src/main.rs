@@ -1,4 +1,29 @@
 //! `cfb-cf`: cleanflate (pinned by SHA) behind the harness `Subject` trait.
+//!
+//! Exactly one of the features `round1`, `round2` and `round3` (default) selects which cleanflate
+//! release round is linked; the three revisions come from `config/rounds.json`.
+
+#[cfg(any(
+    all(feature = "round1", feature = "round2"),
+    all(feature = "round1", feature = "round3"),
+    all(feature = "round2", feature = "round3"),
+    not(any(feature = "round1", feature = "round2", feature = "round3"))
+))]
+compile_error!("enable exactly one of the features round1, round2 and round3");
+
+#[cfg(feature = "round1")]
+use cleanflate_r1 as cleanflate;
+#[cfg(feature = "round2")]
+use cleanflate_r2 as cleanflate;
+#[cfg(feature = "round3")]
+use cleanflate_r3 as cleanflate;
+
+#[cfg(feature = "round1")]
+const ROUND: &str = "round 1 @e94efcf";
+#[cfg(feature = "round2")]
+const ROUND: &str = "round 2 @d3e911b";
+#[cfg(feature = "round3")]
+const ROUND: &str = "round 3 @85f2100";
 
 use cleanflate::{Decompressor, Error, Format, Options, Status};
 use harness::subject::ERR_OUTPUT_FULL;
@@ -34,7 +59,7 @@ impl Subject for Cf {
     }
 
     fn impl_version() -> String {
-        "cleanflate 0.1.0 @85f2100".to_string()
+        format!("cleanflate 0.1.0 {ROUND}")
     }
 
     fn caps() -> Caps {

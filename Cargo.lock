@@ -29,6 +29,16 @@ version = "0.1.0"
 source = "git+ssh://git@github.com/ericmann/cleanflate.git?rev=85f210084a367dcc706c732f5776bf0563cdc0cd#85f210084a367dcc706c732f5776bf0563cdc0cd"
 
 [[package]]
+name = "cleanflate"
+version = "0.1.0"
+source = "git+ssh://git@github.com/ericmann/cleanflate.git?rev=d3e911b463c8aed50c3fcc7c17e0a26e8af1d298#d3e911b463c8aed50c3fcc7c17e0a26e8af1d298"
+
+[[package]]
+name = "cleanflate"
+version = "0.1.0"
+source = "git+ssh://git@github.com/ericmann/cleanflate.git?rev=e94efcfa92de1f2d301d3a0208f67dcc303a9ba9#e94efcfa92de1f2d301d3a0208f67dcc303a9ba9"
+
+[[package]]
 name = "cpufeatures"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -107,7 +117,7 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 name = "min-cf"
 version = "0.1.0"
 dependencies = [
- "cleanflate",
+ "cleanflate 0.1.0 (git+ssh://git@github.com/ericmann/cleanflate.git?rev=85f210084a367dcc706c732f5776bf0563cdc0cd)",
 ]
 
 [[package]]
@@ -209,7 +219,9 @@ dependencies = [
 name = "subj-cf"
 version = "0.1.0"
 dependencies = [
- "cleanflate",
+ "cleanflate 0.1.0 (git+ssh://git@github.com/ericmann/cleanflate.git?rev=85f210084a367dcc706c732f5776bf0563cdc0cd)",
+ "cleanflate 0.1.0 (git+ssh://git@github.com/ericmann/cleanflate.git?rev=d3e911b463c8aed50c3fcc7c17e0a26e8af1d298)",
+ "cleanflate 0.1.0 (git+ssh://git@github.com/ericmann/cleanflate.git?rev=e94efcfa92de1f2d301d3a0208f67dcc303a9ba9)",
  "harness",
 ]
 

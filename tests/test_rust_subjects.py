@@ -1,4 +1,6 @@
 import hashlib
+import json
+import subprocess
 import zlib
 
 import pytest
@@ -88,3 +90,41 @@ def test_mox_checksums_adler_only():
     assert a["value"] == zlib.adler32(_xorshift(7, 1024))
     c = run("mox", "checksum", "--algo", "crc32", "--size", 1024, *flags)
     assert c["ok"] is False and c["error"] == "unsupported"
+
+
+ROUND_SHAS = {1: "e94efcf", 2: "d3e911b", 3: "85f2100"}
+
+
+@pytest.fixture(scope="session")
+def round_binaries():
+    """Debug builds of each round, built on demand (cached after the first run)."""
+    from cfbench import paths
+
+    out = {}
+    for n in ROUND_SHAS:
+        target = paths.ROOT / "target" / f"round{n}"
+        subprocess.run(
+            ["cargo", "build", "-p", "subj-cf", "--no-default-features", "--features", f"round{n}",
+             "--target-dir", str(target)],
+            cwd=paths.ROOT, check=True, capture_output=True,
+        )  # fmt: skip
+        out[n] = target / "debug" / "cfb-cf"
+    return out
+
+
+@pytest.mark.parametrize("n", [1, 2, 3])
+def test_round_binaries_decode_fixture(n, round_binaries):
+    want = hashlib.sha256(PLAIN).hexdigest()
+    exe = str(round_binaries[n])
+    info = json.loads(
+        subprocess.run([exe, "info"], capture_output=True, text=True, check=True).stdout
+    )
+    assert f"round {n}" in info["impl_version"] and ROUND_SHAS[n] in info["impl_version"]
+    for framing in ("raw", "zlib", "gzip"):
+        out = subprocess.run(
+            [exe, "decode", "--framing", framing, "--mode", "stream", "--input",
+             str(FIX / FILES[framing]), "--in-chunk", "5", "--out-chunk", "7"],
+            capture_output=True, text=True, check=True,
+        )  # fmt: skip
+        r = json.loads(out.stdout)
+        assert r["ok"] and r["sha256"] == want, (n, framing, r)

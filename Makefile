@@ -1,7 +1,7 @@
 PY := uv run --frozen python
 STUBS := framing content trajectory correctness effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins workloads tools size perf perf-native subjects-native subjects-rounds perf-report smoke-bench smoke-similarity similarity-ngram similarity-jplag similarity-fragments similarity-summary similarity smoke $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -39,6 +39,11 @@ perf-native: subjects subjects-native
 
 subjects-native: c-subjects
 	RUSTFLAGS="-C target-cpu=native" cargo build --release -p subj-cf -p subj-zrs -p subj-mox --target-dir target/native
+
+subjects-rounds:
+	for n in 1 2 3; do \
+	  cargo build --release -p subj-cf --no-default-features --features round$$n --target-dir target/round$$n || exit 1; \
+	done
 
 perf-report:
 	$(PY) -m cfbench.perf_report
