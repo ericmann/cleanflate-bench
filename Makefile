@@ -1,7 +1,7 @@
 PY := uv run --frozen python
-STUBS := pins perf framing content trajectory correctness size similarity effort paper pitch blog
+STUBS := perf framing content trajectory correctness size similarity effort paper pitch blog
 
-.PHONY: help lint test all env fetch c-subjects subjects $(STUBS)
+.PHONY: help lint test all env fetch c-subjects subjects pins $(STUBS)
 
 help:
 	@echo "lint   cargo fmt/clippy and ruff"
@@ -22,6 +22,9 @@ c-subjects:
 subjects: c-subjects
 	cargo build --release --workspace --bins
 
+pins: c-subjects subjects
+	$(PY) -m cfbench.pins
+
 lint: c-subjects
 	cargo fmt --all -- --check
 	cargo clippy --workspace --all-targets -- -D warnings
@@ -36,4 +39,4 @@ test: c-subjects
 $(STUBS):
 	@echo "not implemented yet"; exit 2
 
-all: env $(STUBS)
+all: env pins $(STUBS)

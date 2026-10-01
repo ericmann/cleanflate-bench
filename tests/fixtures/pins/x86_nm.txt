@@ -1,0 +1,9 @@
+crc32_braid_c.c.o:
+00000000000003f0 T crc32_braid
+0000000000000000 T crc32_braid_internal
+--
+crc32_pclmulqdq.c.o:
+00000000000014e0 T crc32_pclmulqdq
+--
+crc32_vpclmulqdq.c.o:
+00000000000011b0 T crc32_vpclmulqdq

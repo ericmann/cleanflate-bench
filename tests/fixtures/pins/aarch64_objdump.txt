@@ -1,0 +1,16 @@
+
+crc32.o:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <crc32_z>:
+   0:	sub	sp, sp, #0x10
+   4:	crc32w	w0, w0, w2
+   8:	crc32x	w1, w1, x3
+   c:	crc32cw	w0, w0, w0
+  10:	crc32b	w0, w0, w2
+  14:	ret
+
+0000000000000018 <crc32_helper_crc32w>:
+  18:	ret

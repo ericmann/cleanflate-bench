@@ -1,0 +1,64 @@
+crc32_pclmulqdq.c.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <partial_fold>:
+       0:	mov    %rsi,%rax
+       3:	shl    $0x4,%rdi
+       7:	lea    0x0(%rip),%rsi        # e <partial_fold+0xe>
+       e:	movdqa 0x0(%rip),%xmm3        # 16 <partial_fold+0x16>
+      16:	movdqa -0x10(%rdi,%rsi,1),%xmm1
+      1c:	movdqa (%rax),%xmm0
+      20:	pxor   %xmm1,%xmm3
+      24:	movdqa %xmm0,%xmm2
+      28:	pshufb %xmm3,%xmm0
+      2d:	pshufb %xmm1,%xmm2
+      32:	movaps %xmm0,(%rax)
+      35:	movdqa (%rdx),%xmm4
+      39:	pshufb %xmm1,%xmm4
+      3e:	por    %xmm4,%xmm0
+      42:	movaps %xmm0,(%rax)
+      45:	movdqa (%rdx),%xmm0
+      49:	pshufb %xmm3,%xmm0
+      4e:	movaps %xmm0,(%rdx)
+      51:	movdqa (%rcx),%xmm4
+      55:	pshufb %xmm1,%xmm4
+      5a:	por    %xmm4,%xmm0
+      5e:	movaps %xmm0,(%rdx)
+      61:	movdqa (%rcx),%xmm4
+      65:	pshufb %xmm3,%xmm4
+      6a:	movaps %xmm4,(%rcx)
+      6d:	movdqa (%r8),%xmm0
+      72:	pshufb %xmm1,%xmm0
+      77:	por    %xmm4,%xmm0
+      7b:	movaps %xmm0,(%rcx)
+      7e:	movdqa (%r8),%xmm0
+      83:	pshufb %xmm3,%xmm0
+      88:	movdqa %xmm2,%xmm3
+      8c:	movaps %xmm0,(%r8)
+      90:	movdqa (%r9),%xmm0
+      95:	pshufb %xmm1,%xmm0
+      9a:	movdqa 0x0(%rip),%xmm1        # a2 <partial_fold+0xa2>
+      a2:	movaps %xmm0,(%r9)
+      a6:	por    (%r8),%xmm0
+      ab:	pclmulhqlqdq %xmm1,%xmm2
+      b1:	pclmullqhqdq %xmm1,%xmm3
+      b7:	xorps  %xmm2,%xmm0
+      ba:	xorps  %xmm3,%xmm0
+      bd:	movaps %xmm0,(%r8)
+      c1:	ret
+      c2:	data16 cs nopw 0x0(%rax,%rax,1)
+      cd:	nopl   (%rax)
+
+00000000000000d0 <crc32_fold_pclmulqdq_reset>:
+      d0:	endbr64
+      d4:	movdqa 0x0(%rip),%xmm0        # dc <crc32_fold_pclmulqdq_reset+0xc>
+      dc:	xor    %eax,%eax
+      de:	movups %xmm0,(%rdi)
+      e1:	pxor   %xmm0,%xmm0
+      e5:	movups %xmm0,0x10(%rdi)
+      e9:	movups %xmm0,0x20(%rdi)
+  f0:	crc32q %rax,%rcx
+  f8:	crc32b %al,%ecx
+  100:	vpclmulqdq $0x11,%ymm1,%ymm2,%ymm3
