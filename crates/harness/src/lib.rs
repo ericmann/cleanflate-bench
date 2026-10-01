@@ -1,5 +1,10 @@
 //! Benchmark harness shared by every subject binary.
 
+pub mod alloc;
+pub mod cli;
+pub mod subject;
+pub mod timing;
+
 /// Stream framing around a deflate payload.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Framing {
@@ -26,6 +31,8 @@ impl Framing {
         }
     }
 }
+
+pub use subject::{Caps, DecodeError, OutputLimit, StreamOutcome, Subject};
 
 #[cfg(test)]
 mod tests {
