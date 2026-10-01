@@ -76,7 +76,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P10-07 Phase 10 hand-off
 - [x] R1-01 Hermetic git in throwaway-repo tests
 - [x] R1-02 Truthful consumed/trailing bytes in oneshot decode and a re-run malformed matrix
-- [ ] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
+- [x] R1-03 RESULTS.md parity footnotes on tables and accurate methodology
 - [ ] R1-04 Token-exact evidence checks for kit numbers
 - [ ] R1-05 Boundary tests for the hypothesis thresholds
 - [ ] R1-06 Binary-size figure renders a missing value as n/a, never a zero bar
@@ -368,3 +368,6 @@ Added tests/conftest.py with HERMETIC_GIT_ARGS and hermetic_git_env (GIT_CONFIG_
 
 ### R1-02 — bef03e6
 Subject::oneshot now returns OneshotOutcome{produced,consumed} (exported from harness); cli decode oneshot sets consumed and trailing_bytes=len-consumed. Bench path uses o.produced only. Tests: test_trailing_byte_reported in rust and C subject test files (cf rejects TrailingData in both modes), harness cli test (IdentitySubject treats NUL as terminator to create trailing), run_all accept+trailing test. Ran make malformed (new M-B raw 20261001T073606Z), matrix now shows accept+trailing for zlib family/zrs/mox on trailing_byte.bin; make kits committed (second commit R1-02: regenerate kits); kits-check identical (run with PROGRESS.md stashed since it refuses a dirty tree). lint/test green.
+
+### R1-03 — 39af172
+md_table in cfbench/kits/results_md.py now appends the italic PARITY_NOTE after every table (before the source line). Methodology/threats text now says load is a recorded warning, refused only with --strict; streaming line lists all four chunk sizes from config. Tests: test_every_table_carries_parity_note, test_methodology_matches_precondition_behaviour. RESULTS.md regenerated; kits-check identical (with PROGRESS.md stashed).
