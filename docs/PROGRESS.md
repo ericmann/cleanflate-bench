@@ -29,7 +29,7 @@ Started: 2026-10-01T04:25:03.345Z
 - [x] P2-04 Unsafe surface
 - [x] P2-05 Dependencies and audit
 - [x] P2-06 Phase 2 hand-off
-- [ ] P3-01 Decompression-path source manifest
+- [x] P3-01 Decompression-path source manifest
 - [ ] P3-02 Token n-gram similarity for all pairs
 - [ ] P3-03 Identifier and comment overlap
 - [ ] P3-04 JPlag for same-language pairs
@@ -170,3 +170,6 @@ Checklist (verbatim):
 2. Review `results/unsafe.csv` and `results/deps.csv` against a manual skim of the crates.
 3. Note any tool gaps recorded in the raw files.
 Manual check: NOT VERIFIED (human)
+
+### P3-01 — bdaf520
+Tests: test_decomp_paths x5. API: decomp_paths.files(subject, metadata)->sorted Paths, resolve(subject, roots, spec), spec(subject), StaleManifest, SUBJECTS. File counts: cf 17, zlib 13, zng 93, zrs 26, mox 5; none contain deflate. Interpretation: trailing '/**' globs expanded to '/**/*' (pathlib 3.12 quirk); zng arch files for all ISAs; zrs c_api.rs included whole, libz-rs-sys excluded; mox lib.rs excluded. docs/methods/decomp-paths.md documents the rule.
