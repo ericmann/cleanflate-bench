@@ -1,1 +1,4 @@
 machine,target,budget_cpu_hours,executions,exec_per_s,cov_lines_pct,cov_regions_pct,divergences,archive
+M-B,diff_cf_mox,4,340702,26,54.473,52.047,0,data/raw/correctness/M-B/20261002T180555Z-fuzz-diff_cf_mox.tar.gz
+M-B,diff_cf_zlib,4,583504,46,73.1178,70.4268,0,data/raw/correctness/M-B/20261002T160348Z-fuzz-diff_cf_zlib.tar.gz
+M-B,diff_cf_zrs,4,313085,11,72.9407,70.2091,0,data/raw/correctness/M-B/20261002T170504Z-fuzz-diff_cf_zrs.tar.gz

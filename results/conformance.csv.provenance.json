@@ -12,9 +12,9 @@
  "raw_files": [
   {
    "machine": "M-B",
-   "path": "data/raw/correctness/M-B/20261001T060238Z.json",
-   "sha256": "b1f3ad32a41c380464fc55ba484ee2af56693179235641cbfb924824e0484ce6",
-   "timestamp": "20261001T060238Z"
+   "path": "data/raw/correctness/M-B/20261002T150252Z.json",
+   "sha256": "40a61421032bc99334ee597c3e230df2beebb7dd3a8b853fba0efab1be949754",
+   "timestamp": "20261002T150252Z"
   }
  ],
  "script": "cfbench.conformance",

@@ -9,8 +9,21 @@
   "ci_hi_gib_s",
   "status"
  ],
- "pending": "no checksum run; run make checksums on M-A and M-B",
- "raw_files": [],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/framing/M-B/20261002T115145Z.json",
+   "sha256": "c205f59ca6d6a4bb6cc4cd9d33587c3bdb20b821fa6fb856af53a8794434773d",
+   "timestamp": "20261002T115145Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/framing/M-B/20261002T115235Z.json",
+   "sha256": "a5734208c7ba67724327c080a0855f04a6cd138aa95ca8a5b9b3e8abe780d014",
+   "timestamp": "20261002T115235Z"
+  }
+ ],
  "script": "cfbench.checksums",
  "table": "checksums.csv"
 }

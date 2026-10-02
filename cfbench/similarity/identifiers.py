@@ -42,6 +42,15 @@ def load_exclusions() -> dict[str, set[str]]:
     return parse_exclusions(exclusions_path().read_text(encoding="utf-8"))
 
 
+def posthoc_path() -> Path:
+    """Extended exclusions for the post-hoc sensitivity analysis; never used by the T1 claim."""
+    return paths.CONFIG / "identifier_exclusions_posthoc.txt"
+
+
+def load_posthoc() -> dict[str, set[str]]:
+    return parse_exclusions(posthoc_path().read_text(encoding="utf-8"))
+
+
 def collect(files: list[Path], min_len: int, excluded: set[str]) -> set[str]:
     """Normalised identifiers of length >= min_len, minus the excluded names."""
     found: set[str] = set()
@@ -54,10 +63,11 @@ def collect(files: list[Path], min_len: int, excluded: set[str]) -> set[str]:
     return found
 
 
-def compare(left: set[str], right: set[str]) -> dict:
+def compare(left: set[str], right: set[str], suffix: str = "") -> dict:
+    """Overlap metrics; `suffix` is appended to every key (e.g. "_filtered")."""
     shared = left & right
     union = left | right
-    return {
+    out = {
         "ident_jaccard": len(shared) / len(union) if union else 0.0,
         "ident_match_rate_left": len(shared) / len(left) if left else 0.0,
         "ident_match_rate_right": len(shared) / len(right) if right else 0.0,
@@ -65,6 +75,7 @@ def compare(left: set[str], right: set[str]) -> dict:
         "size_right": len(right),
         "shared": sorted(shared),
     }
+    return {k + suffix: v for k, v in out.items()}
 
 
 def min_ident_len(cfg: dict | None = None) -> int:

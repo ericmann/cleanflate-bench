@@ -9,8 +9,21 @@
   "rel_diff",
   "verdict"
  ],
- "pending": "no framing run; run make framing on M-A and M-B",
- "raw_files": [],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/framing/M-B/20261002T123656Z.json",
+   "sha256": "0591ce55fa5431836376be8edc9fd4811172a7529cacd97d9f4ec2395080f941",
+   "timestamp": "20261002T123656Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/framing/M-B/20261002T132114Z.json",
+   "sha256": "71d0de9220bca5d76608ca5126239b6d64d9a6fdecbbf735fe993a0629fee29e",
+   "timestamp": "20261002T132114Z"
+  }
+ ],
  "script": "cfbench.framing",
  "table": "framing_hypothesis.csv"
 }

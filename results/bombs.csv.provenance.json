@@ -12,8 +12,15 @@
   "seconds",
   "limit_enforcement"
  ],
- "pending": "no bomb sweep; run make bombs (a human step: 4 GiB cases)",
- "raw_files": [],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/correctness/M-B/20261002T180727Z.json",
+   "sha256": "91a10a58fe91c1b475cded9b1287608935fe509246f49ec38dd511c0e813052b",
+   "timestamp": "20261002T180727Z"
+  }
+ ],
  "script": "cfbench.bombs",
  "table": "bombs.csv"
 }

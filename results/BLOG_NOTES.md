@@ -26,22 +26,28 @@ Notes for a human author, not a finished post. Every number below has an evidenc
 - rfc1950/trailing_byte.bin: cleanflate rejects it (TrailingData) while other subjects accept it, by design of its strict defaults.
 - rfc1951/valid_stored_trailing_byte.bin: cleanflate rejects it (TrailingData) while other subjects accept it, by design of its strict defaults.
 - Every disagreement is cleanflate being stricter than the comparators; none is a comparator rejecting what cleanflate accepts.
+- diff_cf_mox on M-B: 340,702 executions, 0 divergences.
+- diff_cf_zlib on M-B: 583,504 executions, 0 divergences.
+- diff_cf_zrs on M-B: 313,085 executions, 0 divergences.
 
 ## Performance against the status quo
 
-- Not claimed (parity_with_zlib): no data supports it (table perf_agreement_summary is pending: no full perf runs; run make perf on M-A and M-B).
-- Not claimed (faster_than_zrs): no data supports it (table perf_agreement_summary is pending: no full perf runs; run make perf on M-A and M-B).
-- Not claimed (faster_than_mox): no data supports it (table perf_agreement_summary is pending: no full perf runs; run make perf on M-A and M-B).
+- Not claimed (parity_with_zlib): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
+- Not claimed (faster_than_zrs): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
+- Not claimed (faster_than_mox): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
 - At opt-level 3 the stripped cleanflate decoder is 385 KiB against 42 KiB for zlib, so cleanflate's binary is larger than the C library's.
 - Among the Rust decoders: cleanflate 385 KiB, zrs 397 KiB, mox 353 KiB.
 
 ## The gzip and hardware-CRC story
 
-- Pending: no data yet (no measurement in this study).
+- Not claimed (gzip_gap_is_hw_crc): the framing hypothesis verdict is inconclusive.
+- crc32 at the largest input on M-B: cleanflate 2.39 GiB/s, zlib 4.22 GiB/s.
+- adler32 at the largest input on M-B: cleanflate 3.22 GiB/s, zlib 2.97 GiB/s.
 
 ## Content effects
 
-- Pending: no data yet (no measurement in this study).
+- Hypothesis h1 verdict: inconclusive.
+- Hypothesis h2 verdict: refuted.
 
 ## Is it a copy?
 
@@ -69,28 +75,24 @@ Notes for a human author, not a finished post. Every number below has an evidenc
 ## Most surprising findings (ranked)
 
 1. Mature libraries disagree on accept versus reject for 4 malformed files (row count of malformed_disagreements.csv); examples: rfc1950/trailing_byte.bin, rfc1951/valid_stored_trailing_byte.bin, rfc1952/second_member_bad_cm.bin.
+2. Hypothesis h1 did not come out confirmed: inconclusive.
+3. Hypothesis h2 did not come out confirmed: refuted.
+4. Per-file worst case on M-B: tiny/silesia-xml-64 at 0.04x of zlib's throughput (raw, level 6, one-shot).
+5. Per-file worst case on M-B: tiny/canterbury-alice29.txt-64 at 0.05x of zlib's throughput (raw, level 6, one-shot).
+6. Per-file worst case on M-B: tiny/canterbury-kennedy.xls-64 at 0.06x of zlib's throughput (raw, level 6, one-shot).
+7. Per-file best case on M-B: silesia/nci at 0.92x of zlib's throughput (raw, level 6, one-shot).
+8. Per-file best case on M-B: silesia/osdb at 0.86x of zlib's throughput (raw, level 6, one-shot).
+9. Per-file best case on M-B: silesia/xml at 0.86x of zlib's throughput (raw, level 6, one-shot).
+10. Run-to-run agreement flagged 787 cells on M-B (generic).
+11. Run-to-run agreement flagged 447 cells on M-B (native).
 
 ## Open questions
 
-- Claim `perf_range` is pending: table perf_agreement_summary is pending: no full perf runs; run make perf on M-A and M-B
-- Claim `trajectory` is pending: table trajectory is pending: no trajectory run; run make trajectory on M-A and M-B
+- Claim `perf_range` is pending: no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`
+- Claim `trajectory` is pending: no row {'machine': 'M-A', 'round': 1, 'corpus': 'silesia', 'framing': 'raw', 'mode': 'oneshot', 'level': 6} in trajectory: run `make trajectory`
 - Claim `similarity` is rejected: T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
-- Claim `gzip_gap_is_hw_crc` is pending: table framing_hypothesis is pending: no framing run; run make framing on M-A and M-B
-- Hypotheses H1 and H2 are pending (they need perf data on both machines).
-- Pending table `bombs`: no bomb sweep; run make bombs (a human step: 4 GiB cases)
-- Pending table `checksums`: no checksum run; run make checksums on M-A and M-B
-- Pending table `content_hypotheses`: no perf data; run make perf then make content
-- Pending table `framing_hypothesis`: no framing run; run make framing on M-A and M-B
-- Pending table `framing_overhead`: no framing run; run make framing on M-A and M-B
-- Pending table `fuzz_divergences`: no full fuzz run; run make fuzz on a quiet machine
-- Pending table `fuzz_stats`: no full fuzz run; run make fuzz on a quiet machine
-- Pending table `perf_aggregates`: no full perf runs; run make perf on M-A and M-B
-- Pending table `perf_agreement`: no full perf runs; run make perf on M-A and M-B
-- Pending table `perf_agreement_summary`: no full perf runs; run make perf on M-A and M-B
-- Pending table `perf_cells`: no full perf runs; run make perf on M-A and M-B
-- Pending table `perf_tiny`: no full perf runs; run make perf on M-A and M-B
-- Pending table `trajectory`: no trajectory run; run make trajectory on M-A and M-B
-- Pending table `trajectory_with_effort`: no trajectory run; run make trajectory on M-A and M-B
+- Claim `gzip_gap_is_hw_crc` is rejected: the framing hypothesis verdict is inconclusive
+- Hypothesis H1 is inconclusive across machines.
 - Threat to validity: Training-data contamination
 - Threat to validity: Machine variance and thermal effects
 - Threat to validity: Feature-scope mismatch

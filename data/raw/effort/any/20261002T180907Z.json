@@ -1,0 +1,582 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/effort/history.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "c753e3a6697c5998a71d9d01c39da122cd687ee8"
+ },
+ "category": "effort",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   3.94775390625,
+   5.43359375,
+   6.5830078125
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "c753e3a6697c5998a71d9d01c39da122cd687ee8",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 70.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 70.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 75.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 69.375\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 1080.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 720.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "gaps": [
+   "human-interventions.md records when and what but not how long; durations are unavailable"
+  ],
+  "kind": "history",
+  "method": {
+   "defects": "Defects-caught trailers mapped by effort.defect_keywords; stage breaks ties",
+   "idle_gap_hours": 3,
+   "round_windows": "committer time; round 1 from the first commit, round N after the r(N-1) tag commit",
+   "stage_wall_clock": "each commit's gap since the previous commit goes to its [stage:] tag",
+   "tool_log": "provenance/tool-log.snapshot.jsonl at the last round, entries assigned to rounds by timestamp"
+  },
+  "rounds": [
+   {
+    "defects": {
+     "by_source": {
+      "conformance": 1,
+      "fuzzing": 1,
+      "other": 3,
+      "review": 2,
+      "unit_tests": 3
+     },
+     "found": 10,
+     "none": 47
+    },
+    "foundry": {
+     "flight_round": 3,
+     "review_rounds": 4,
+     "reviews": [
+      {
+       "at": "2026-09-29T18:44:07.687Z",
+       "fix_tasks": 8,
+       "round": 1,
+       "verdict": "CHANGES REQUESTED"
+      },
+      {
+       "at": "2026-09-29T21:15:18.351Z",
+       "fix_tasks": 5,
+       "round": 2,
+       "verdict": "CHANGES REQUESTED"
+      },
+      {
+       "at": "2026-09-29T21:36:03.256Z",
+       "fix_tasks": 1,
+       "round": 3,
+       "verdict": "CHANGES REQUESTED"
+      },
+      {
+       "at": "2026-09-29T21:44:20.354Z",
+       "fix_tasks": 0,
+       "round": 4,
+       "verdict": "APPROVED"
+      }
+     ],
+     "verdict": "APPROVED"
+    },
+    "interventions": {
+     "count": 2,
+     "items": [
+      {
+       "stage_task": "implement/P0-08",
+       "what": "Downloaded the Canterbury corpus archive (`cantrbry.tar.gz`, sha256 `f140e8a5b73d3f53198555a63bfb827889394a42f20825df33c810c3d5e3f8fb`) from the allowlisted URL in a browser and supplied it to `fetch-corpora.sh --from-file`, which verified it against that known-good SHA-256 before use.",
+       "when": "2026-09-29T15:33Z",
+       "who": "operator",
+       "why": "`corpus.canterbury.ac.nz` returned HTTP 403 (Cloudflare bot protection) on every automated `curl` attempt from the build sandbox, including with browser-like headers (retried with a browser `User-Agent` header specifically, still blocked); Silesia downloaded automatically without issue."
+      },
+      {
+       "stage_task": "review\u2192implement, round 1",
+       "what": "Re-opened the 17 tasks auto-skipped behind P0-08 (P0-09..P0-11, P1-03, P1-11, P1-12, P2-05, P2-06, P3-04, P3-06, P4-07..P4-10, P6-01..P6-03) by flipping `[-]` to `[ ]` in `docs/PROGRESS.md` (commit `b992fec`, tagged `[stage:review] [task:reopen]`). The operator authorized it; the go-flight controller session made the edit.",
+       "when": "2026-09-29T18:50Z",
+       "who": "operator (via controller session)",
+       "why": "P0-08 was resolved with the operator-supplied archive, but Foundry has no tool to re-open skipped dependents, so they would never have run."
+      }
+     ]
+    },
+    "round": 1,
+    "sha": "e94efcfa92de1f2d301d3a0208f67dcc303a9ba9",
+    "tag": "v0.1.0-cleanroom",
+    "tool_log": {
+     "calls": 2043,
+     "denied": {
+      "categories": {
+       "clean-room forbidden word": 4,
+       "forbidden tool": 2,
+       "network lockdown": 6,
+       "recursive grep": 1,
+       "unparseable command": 2
+      },
+      "count": 15
+     },
+     "models_by_stage": {
+      "fix": {
+       "claude-opus-5-5": 860
+      },
+      "implement": {
+       "claude-opus-5-5": 925
+      },
+      "review": {
+       "claude-opus-5-5": 197
+      },
+      "summarize": {
+       "claude-opus-5-5": 17
+      },
+      "unknown": {
+       "claude-opus-5-5": 40
+      }
+     }
+    },
+    "wall_clock": {
+     "attributed_seconds": 30485,
+     "by_milestone": {
+      "P0": 1530,
+      "P1": 2944,
+      "P2": 1871,
+      "P3": 1747,
+      "P4": 5526,
+      "P6": 529,
+      "R1": 2353,
+      "R2": 822,
+      "R3": 198,
+      "other": 12965
+     },
+     "by_milestone_stage": {
+      "P0": {
+       "fix": 316,
+       "implement": 1214
+      },
+      "P1": {
+       "fix": 945,
+       "implement": 1999
+      },
+      "P2": {
+       "fix": 296,
+       "implement": 1575
+      },
+      "P3": {
+       "fix": 413,
+       "implement": 1334
+      },
+      "P4": {
+       "fix": 3051,
+       "implement": 2475
+      },
+      "P6": {
+       "fix": 529
+      },
+      "R1": {
+       "fix": 2353
+      },
+      "R2": {
+       "fix": 822
+      },
+      "R3": {
+       "fix": 198
+      },
+      "other": {
+       "fix": 3536,
+       "implement": 4179,
+       "plan": 1800,
+       "review": 2876,
+       "summarize": 186,
+       "untagged": 388
+      }
+     },
+     "by_stage": {
+      "fix": 12459,
+      "implement": 12776,
+      "plan": 1800,
+      "review": 2876,
+      "summarize": 186,
+      "untagged": 388
+     },
+     "commits": 160,
+     "commits_by_stage": {
+      "fix": 78,
+      "implement": 64,
+      "plan": 2,
+      "review": 5,
+      "summarize": 1,
+      "untagged": 10
+     },
+     "end_ts": 1790721040,
+     "idle_seconds": 0,
+     "start_ts": 1790690555
+    }
+   },
+   {
+    "defects": {
+     "by_source": {
+      "conformance": 2,
+      "unit_tests": 2
+     },
+     "found": 4,
+     "none": 33
+    },
+    "foundry": {
+     "flight_round": 2,
+     "review_rounds": 3,
+     "reviews": [
+      {
+       "at": "2026-09-30T04:49:58.653Z",
+       "fix_tasks": 2,
+       "round": 1,
+       "verdict": "CHANGES REQUESTED"
+      },
+      {
+       "at": "2026-09-30T05:37:51.282Z",
+       "fix_tasks": 1,
+       "round": 2,
+       "verdict": "CHANGES REQUESTED"
+      },
+      {
+       "at": "2026-09-30T05:45:11.622Z",
+       "fix_tasks": 0,
+       "round": 3,
+       "verdict": "APPROVED"
+      }
+     ],
+     "verdict": "APPROVED"
+    },
+    "interventions": {
+     "count": 7,
+     "items": [
+      {
+       "stage_task": "post-approval CI",
+       "what": "Two CI fixes after the round-4 APPROVED review, never reviewed by the pipeline: `ea3809a` commits `testdata/corpora/archives/cantrbry.tar.gz` (un-ignoring only that file) so CI skips the download; `f2b547b` makes the corpus verify step check only the requested corpus.",
+       "when": "2026-09-30T00:00Z",
+       "who": "operator (via controller session)",
+       "why": "GitHub Actions runners also got HTTP 403 from the Canterbury host, and once past it, verify failed on Silesia files CI never fetches."
+      },
+      {
+       "stage_task": "phase-2 pre-flight",
+       "what": "Installed `perf` 7.1.5 (Pop!_OS `linux-tools-common`, `linux-tools-generic`, `linux-tools-$(uname -r)`) and `cargo flamegraph` 0.6.14 (`cargo install flamegraph --locked`). `kernel.perf_event_paranoid` left at 2.",
+       "when": "2026-09-30",
+       "who": "operator",
+       "why": "Phase-2 SPEC \u00a74.3/\u00a78: profiling cleanflate's own code; agents cannot install tools after the network lockdown."
+      },
+      {
+       "stage_task": "phase-2 post-merge",
+       "what": "Merged PR #2 (phase 2) into `main` after green CI, and re-ran the full `make bench` on the merged code (`docs/perf/phase2-final-operator.json`, recorded in `docs/PERF.md`).",
+       "when": "2026-09-30",
+       "who": "operator",
+       "why": "SPEC \u00a78 quiet-machine benchmark; the in-flight run had ~6% noise."
+      },
+      {
+       "stage_task": "phase-2 post-merge",
+       "what": "Created and pushed signed tags `v0.1.0-cleanroom` (`e94efcf`) and `v0.2.0-cleanroom` (`d3e911b`); phase 1's tag had never been created.",
+       "when": "2026-09-30",
+       "who": "operator (via controller session)",
+       "why": "Phase hand-off (phase-1 SPEC M6, phase-2 SPEC M5)."
+      },
+      {
+       "stage_task": "phase-2 post-merge fix",
+       "what": "Bounded one-shot size hints by DEFLATE's maximum expansion (`MAX_DEFLATE_EXPANSION` = 1032, DESIGN.md D-33), so an 18-byte gzip input claiming a 4 GiB ISIZE preallocates at most 18,576 bytes instead of 64 MiB. Written and verified in the controller session, outside a Foundry flight, so it had no pipeline review.",
+       "when": "2026-09-30",
+       "who": "operator (via controller session)",
+       "why": "Spec issue raised by phase-2 reviews rounds 1-3; the operator chose to close it before phase 3."
+      },
+      {
+       "stage_task": "phase-2 post-merge",
+       "what": "Hour-long fuzz runs, `make bomb` peak-memory comparison and DESIGN D-27..D-32 read-through deferred (not done yet).",
+       "when": "2026-09-30",
+       "who": "operator",
+       "why": "The hour-long fuzz runs are not practical on the operator's daily-driver machine."
+      },
+      {
+       "stage_task": "phase-2 SPEC",
+       "what": "Directed a performance pass after phase 1 missed its 70% throughput target; the controller session drafted `docs/SPEC.md` (now `docs/phase-2/SPEC.md`) from that direction, using only phase-1 docs, cleanflate's own code and general techniques.",
+       "when": "2026-09-29",
+       "who": "operator (via controller session)",
+       "why": "Operator scope decision: performance as a new phase."
+      }
+     ]
+    },
+    "round": 2,
+    "sha": "d3e911b463c8aed50c3fcc7c17e0a26e8af1d298",
+    "tag": "v0.2.0-cleanroom",
+    "tool_log": {
+     "calls": 609,
+     "denied": {
+      "categories": {
+       "clean-room forbidden word": 1,
+       "recursive grep": 4
+      },
+      "count": 5
+     },
+     "models_by_stage": {
+      "fix": {
+       "claude-opus-5-5": 44
+      },
+      "implement": {
+       "claude-opus-5-5": 359
+      },
+      "plan": {
+       "claude-sonnet-5-5": 40
+      },
+      "review": {
+       "claude-opus-5-5": 115
+      },
+      "summarize": {
+       "claude-opus-5-5": 9
+      },
+      "unknown": {
+       "claude-opus-5-5": 38,
+       "claude-sonnet-5-5": 4
+      }
+     }
+    },
+    "wall_clock": {
+     "attributed_seconds": 26218,
+     "by_milestone": {
+      "P0": 6490,
+      "P1": 2762,
+      "P2": 2507,
+      "P3": 2931,
+      "P4": 2481,
+      "P5": 1214,
+      "R1": 419,
+      "R2": 193,
+      "other": 7221
+     },
+     "by_milestone_stage": {
+      "P0": {
+       "implement": 6490
+      },
+      "P1": {
+       "implement": 2762
+      },
+      "P2": {
+       "implement": 2507
+      },
+      "P3": {
+       "implement": 2931
+      },
+      "P4": {
+       "implement": 2481
+      },
+      "P5": {
+       "implement": 1214
+      },
+      "R1": {
+       "fix": 419
+      },
+      "R2": {
+       "fix": 193
+      },
+      "other": {
+       "fix": 1837,
+       "implement": 1006,
+       "plan": 2703,
+       "review": 1288,
+       "summarize": 387
+      }
+     },
+     "by_stage": {
+      "fix": 2449,
+      "implement": 19391,
+      "plan": 2703,
+      "review": 1288,
+      "summarize": 387
+     },
+     "commits": 95,
+     "commits_by_stage": {
+      "fix": 13,
+      "implement": 73,
+      "plan": 3,
+      "review": 3,
+      "summarize": 2,
+      "untagged": 1
+     },
+     "end_ts": 1790776189,
+     "idle_seconds": 28931,
+     "start_ts": 1790721280
+    }
+   },
+   {
+    "defects": {
+     "by_source": {
+      "other": 2
+     },
+     "found": 2,
+     "none": 36
+    },
+    "foundry": {
+     "flight_round": 1,
+     "review_rounds": 2,
+     "reviews": [
+      {
+       "at": "2026-09-30T23:13:54.180Z",
+       "fix_tasks": 1,
+       "round": 1,
+       "verdict": "CHANGES REQUESTED"
+      },
+      {
+       "at": "2026-09-30T23:40:13.343Z",
+       "fix_tasks": 0,
+       "round": 2,
+       "verdict": "APPROVED"
+      }
+     ],
+     "verdict": "APPROVED"
+    },
+    "interventions": {
+     "count": 2,
+     "items": [
+      {
+       "stage_task": "phase-3 SPEC",
+       "what": "Supplied a \"round 3\" performance brief (drafted with Claude Desktop from the phase-2 bench numbers); the controller session reconciled it with the repo into `docs/SPEC.md`. No implementation source was consulted.",
+       "when": "2026-09-30",
+       "who": "operator (via controller session)",
+       "why": "Operator scope decision: a third performance round."
+      },
+      {
+       "stage_task": "phase-3 post-merge",
+       "what": "Merged PR #3 (phase 3) into `main`; controller session created and pushed the signed tag `v0.3.0-cleanroom`. Quiet-machine bench re-run, peak-memory comparison, hour-long fuzz runs and hand review of D-34..D-36 deferred (not done yet).",
+       "when": "2026-09-30",
+       "who": "operator",
+       "why": "Phase hand-off (phase-3 SPEC \u00a76 M5)."
+      }
+     ]
+    },
+    "round": 3,
+    "sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+    "tag": "v0.3.0-cleanroom",
+    "tool_log": {
+     "calls": 662,
+     "denied": {
+      "categories": {
+       "clean-room forbidden word": 6,
+       "profiling rule": 3,
+       "recursive grep": 3
+      },
+      "count": 12
+     },
+     "models_by_stage": {
+      "fix": {
+       "claude-opus-5-5": 22
+      },
+      "implement": {
+       "claude-opus-5-5": 452
+      },
+      "plan": {
+       "claude-sonnet-5-5": 55
+      },
+      "review": {
+       "claude-opus-5-5": 80
+      },
+      "summarize": {
+       "claude-sonnet-5-5": 9
+      },
+      "unknown": {
+       "claude-opus-5-5": 36,
+       "claude-sonnet-5-5": 8
+      }
+     }
+    },
+    "wall_clock": {
+     "attributed_seconds": 45863,
+     "by_milestone": {
+      "P0": 5535,
+      "P1": 3272,
+      "P2": 7799,
+      "P3": 5102,
+      "P4": 6570,
+      "P5": 1429,
+      "R1": 597,
+      "other": 15559
+     },
+     "by_milestone_stage": {
+      "P0": {
+       "implement": 5535
+      },
+      "P1": {
+       "implement": 3272
+      },
+      "P2": {
+       "implement": 7799
+      },
+      "P3": {
+       "implement": 5102
+      },
+      "P4": {
+       "implement": 6570
+      },
+      "P5": {
+       "implement": 1429
+      },
+      "R1": {
+       "fix": 597
+      },
+      "other": {
+       "fix": 1715,
+       "implement": 1136,
+       "plan": 1727,
+       "review": 527,
+       "summarize": 6410,
+       "untagged": 4044
+      }
+     },
+     "by_stage": {
+      "fix": 2312,
+      "implement": 30843,
+      "plan": 1727,
+      "review": 527,
+      "summarize": 6410,
+      "untagged": 4044
+     },
+     "commits": 94,
+     "commits_by_stage": {
+      "fix": 7,
+      "implement": 78,
+      "plan": 2,
+      "review": 2,
+      "summarize": 4,
+      "untagged": 1
+     },
+     "end_ts": 1790822052,
+     "idle_seconds": 0,
+     "start_ts": 1790776968
+    }
+   }
+  ]
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.effort.history",
+ "session": null,
+ "timestamp": "20261002T180907Z"
+}

@@ -13,7 +13,11 @@
 - `ident_match_rate_left`: negative control zrs-mox 0.06013, positive control zrs-zng 0.3386. cf-zrs 0.1491 is between (position 0.32); cf-mox 0.1285 is at or near negative (position 0.25); cf-zlib 0.03342 is below negative (position -0.10); cf-zng 0.04627 is below negative (position -0.05).
 - `comment_jaccard`: negative control zrs-mox 0.00102, positive control zrs-zng 0.03947. cf-zrs 0.0005114 is below negative (position -0.01); cf-mox 0.0003065 is below negative (position -0.02); cf-zlib 0.0002569 is below negative (position -0.02); cf-zng 0.0002692 is below negative (position -0.02).
 - `jplag_avg`: negative control zrs-mox 0.1311, no positive control. cf-zrs 0.1812 cannot be positioned (positive control unavailable, 1.38x the negative control); cf-mox 0.1795 cannot be positioned (positive control unavailable, 1.37x the negative control).
+- `ident_jaccard_filtered`: negative control zrs-mox 0.01638, positive control zrs-zng 0.1421. cf-zrs 0.02165 is at or near negative (position 0.04); cf-mox 0.02517 is at or near negative (position 0.07); cf-zlib 0.01064 is below negative (position -0.05); cf-zng 0.004991 is below negative (position -0.09).
+- `ident_match_rate_left_filtered`: negative control zrs-mox 0.02254, positive control zrs-zng 0.3493. cf-zrs 0.06707 is at or near negative (position 0.14); cf-mox 0.04573 is at or near negative (position 0.07); cf-zlib 0.01829 is below negative (position -0.01); cf-zng 0.02439 is at or near negative (position 0.01).
 
 **T1 claim NOT allowed**: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
 
 Metrics that do not separate the controls (excluded from the claim test): `jplag_avg`, `ngram_containment@5`, `ngram_jaccard@10`, `ngram_jaccard@5`, `ngram_jaccard@6`, `ngram_jaccard@7`, `ngram_jaccard@8`, `ngram_jaccard@9`.
+
+**Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed**: on every separable metric each cf pair sits at or near the negative control or below it.

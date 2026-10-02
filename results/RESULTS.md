@@ -10,7 +10,7 @@
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: raw env captures `data/raw/env/M-B/20261001T042705Z.json`.*
+*Source: raw env captures `data/raw/env/M-B/20261002T052545Z.json`.*
 
 Pending: run `make env` on M-A.
 
@@ -49,37 +49,870 @@ Hardware-CRC determinations come from disassembly and symbol inspection of each 
 
 ## Performance results
 
-Pending: run `make perf` on M-A and M-B.
+**M-B, generic build, one-shot, level 6**
 
-Pending: run `make perf` on M-A and M-B.
+| Subject | Corpus | Framing | Aggregate MiB/s | Ratio vs zlib | Complete |
+|---|---|---|---|---|---|
+| cf | canterbury | gzip | 252.6 | 0.64 | true |
+| cf | canterbury | raw | 295.5 | 0.68 | true |
+| cf | canterbury | zlib | 270.0 | 0.71 | true |
+| cf | silesia | gzip | 248.9 | 0.73 | true |
+| cf | silesia | raw | 282.8 | 0.76 | true |
+| cf | silesia | zlib | 261.9 | 0.79 | true |
+| mox | canterbury | raw | 506.0 | 1.17 | true |
+| mox | canterbury | zlib | 480.5 | 1.27 | true |
+| mox | silesia | raw | 452.1 | 1.21 | true |
+| mox | silesia | zlib | 429.4 | 1.30 | true |
+| zlib | canterbury | gzip | 392.3 | 1 | true |
+| zlib | canterbury | raw | 432.4 | 1 | true |
+| zlib | canterbury | zlib | 379.6 | 1 | true |
+| zlib | silesia | gzip | 341.8 | 1 | true |
+| zlib | silesia | raw | 372.7 | 1 | true |
+| zlib | silesia | zlib | 330.3 | 1 | true |
+| zng | canterbury | gzip | 774.1 | 1.97 | true |
+| zng | canterbury | raw | 797.3 | 1.84 | true |
+| zng | canterbury | zlib | 774.9 | 2.04 | true |
+| zng | silesia | gzip | 634.3 | 1.86 | true |
+| zng | silesia | raw | 674.9 | 1.81 | true |
+| zng | silesia | zlib | 639.5 | 1.94 | true |
+| zrs | canterbury | gzip | 775.5 | 1.98 | true |
+| zrs | canterbury | raw | 843.5 | 1.95 | true |
+| zrs | canterbury | zlib | 808.2 | 2.13 | true |
+| zrs | silesia | gzip | 633.0 | 1.85 | true |
+| zrs | silesia | raw | 686.5 | 1.84 | true |
+| zrs | silesia | zlib | 658.1 | 1.99 | true |
+| zsys | canterbury | gzip | 373.1 | 0.95 | true |
+| zsys | canterbury | raw | 405.9 | 0.94 | true |
+| zsys | canterbury | zlib | 364.8 | 0.96 | true |
+| zsys | silesia | gzip | 335.0 | 0.98 | true |
+| zsys | silesia | raw | 361.6 | 0.97 | true |
+| zsys | silesia | zlib | 324.3 | 0.98 | true |
 
-Pending: run `make perf` on M-A and M-B.
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-Pending: run `make perf` on M-A and M-B.
+![Aggregate throughput on M-B (generic).](figures/perf_throughput_M-B.png)
+
+*Aggregate throughput on M-B (generic).* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
+
+**M-B, native build, one-shot, level 6**
+
+| Subject | Corpus | Framing | Aggregate MiB/s | Ratio vs zlib | Complete |
+|---|---|---|---|---|---|
+| cf@native | canterbury | gzip | 251.5 | 0.64 | true |
+| cf@native | canterbury | raw | 300.8 | 0.70 | true |
+| cf@native | canterbury | zlib | 268.2 | 0.73 | true |
+| cf@native | silesia | gzip | 253.3 | 0.74 | true |
+| cf@native | silesia | raw | 286.6 | 0.77 | true |
+| cf@native | silesia | zlib | 258.4 | 0.78 | true |
+| mox@native | canterbury | raw | 477.8 | 1.12 | true |
+| mox@native | canterbury | zlib | 439.6 | 1.19 | true |
+| mox@native | silesia | raw | 431.9 | 1.16 | true |
+| mox@native | silesia | zlib | 412.7 | 1.24 | true |
+| zlib | canterbury | gzip | 393.9 | 1 | true |
+| zlib | canterbury | raw | 427.3 | 1 | true |
+| zlib | canterbury | zlib | 368.3 | 1 | true |
+| zlib | silesia | gzip | 340.5 | 1 | true |
+| zlib | silesia | raw | 372.2 | 1 | true |
+| zlib | silesia | zlib | 332.0 | 1 | true |
+| zrs@native | canterbury | gzip | 790.1 | 2.01 | true |
+| zrs@native | canterbury | raw | 811.4 | 1.90 | true |
+| zrs@native | canterbury | zlib | 781.4 | 2.12 | true |
+| zrs@native | silesia | gzip | 650.1 | 1.91 | true |
+| zrs@native | silesia | raw | 691.0 | 1.86 | true |
+| zrs@native | silesia | zlib | 652.8 | 1.97 | true |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+![Aggregate throughput on M-B (native).](figures/perf_throughput_M-B_native.png)
+
+*Aggregate throughput on M-B (native).* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
+
+*Source: `results/perf_aggregates.csv` <- `data/raw/perf/M-B/20261002T072144Z.json`, `data/raw/perf/M-B/20261002T091719Z.json`, `data/raw/perf/M-B/20261002T103403Z.json`, `data/raw/perf/M-B/20261002T115027Z.json` via `cfbench.perf_report`.*
+
+<details><summary>M-B, silesia, raw framing, level 1: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 175.8 | 302.3 | 549.8 | 573.0 | 295.1 | 293.2 |
+| silesia/mozilla | 220.1 | 307.5 | 495.8 | 510.8 | 339.7 | 300.6 |
+| silesia/mr | 199.6 | 362.1 | 540.6 | 537.0 | 382.9 | 363.5 |
+| silesia/nci | 547.3 | 732.1 | 1582.3 | 1655.7 | 847.9 | 739.6 |
+| silesia/ooffice | 152.2 | 208.4 | 332.2 | 341.9 | 235.2 | 209.0 |
+| silesia/osdb | 250.4 | 324.9 | 577.3 | 582.2 | 399.7 | 325.6 |
+| silesia/reymont | 219.9 | 337.7 | 644.7 | 710.9 | 364.7 | 323.7 |
+| silesia/samba | 306.2 | 430.3 | 820.5 | 848.7 | 482.3 | 425.0 |
+| silesia/sao | 146.0 | 246.4 | 334.1 | 343.6 | 254.6 | 241.0 |
+| silesia/webster | 217.4 | 333.4 | 671.0 | 682.6 | 350.2 | 324.2 |
+| silesia/x-ray | 137.0 | 225.8 | 328.1 | 351.0 | 244.3 | 225.9 |
+| silesia/xml | 425.1 | 584.8 | 1260.8 | 1282.5 | 669.6 | 575.8 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+**M-B, silesia, raw framing, level 6: median MiB/s per file**
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 226.5 | 309.6 | 589.2 | 606.6 | 353.5 | 294.3 |
+| silesia/mozilla | 251.5 | 325.9 | 571.3 | 587.7 | 402.8 | 318.3 |
+| silesia/mr | 200.5 | 338.7 | 597.0 | 604.2 | 408.6 | 328.8 |
+| silesia/nci | 865.1 | 935.7 | 1944.6 | 1884.7 | 1239.1 | 896.6 |
+| silesia/ooffice | 184.8 | 221.6 | 386.3 | 392.6 | 282.8 | 220.8 |
+| silesia/osdb | 303.6 | 352.0 | 677.1 | 673.0 | 489.8 | 351.7 |
+| silesia/reymont | 284.0 | 367.4 | 771.7 | 805.6 | 440.1 | 356.3 |
+| silesia/samba | 365.9 | 478.6 | 911.9 | 947.8 | 572.8 | 460.2 |
+| silesia/sao | 169.2 | 263.2 | 364.0 | 370.6 | 282.6 | 260.1 |
+| silesia/webster | 273.9 | 347.9 | 705.5 | 701.3 | 416.6 | 329.5 |
+| silesia/x-ray | 139.9 | 213.0 | 303.4 | 318.9 | 238.2 | 213.7 |
+| silesia/xml | 637.0 | 738.7 | 1572.9 | 1522.5 | 979.3 | 726.1 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+<details><summary>M-B, silesia, raw framing, level 9: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 226.3 | 302.1 | 605.2 | 605.6 | 364.0 | 294.1 |
+| silesia/mozilla | 252.5 | 321.0 | 576.0 | 602.9 | 406.9 | 323.7 |
+| silesia/mr | 232.1 | 340.0 | 625.9 | 526.3 | 426.4 | 335.9 |
+| silesia/nci | 915.9 | 999.4 | 2000.2 | 1963.6 | 1299.3 | 985.1 |
+| silesia/ooffice | 179.7 | 224.0 | 391.6 | 391.3 | 236.1 | 221.0 |
+| silesia/osdb | 310.3 | 352.5 | 681.6 | 676.4 | 508.5 | 359.9 |
+| silesia/reymont | 294.9 | 368.2 | 670.0 | 695.2 | 438.9 | 352.9 |
+| silesia/samba | 377.2 | 478.7 | 904.6 | 929.8 | 580.0 | 473.5 |
+| silesia/sao | 170.4 | 262.4 | 362.9 | 369.6 | 287.0 | 260.7 |
+| silesia/webster | 279.6 | 350.3 | 712.0 | 707.4 | 418.7 | 338.0 |
+| silesia/x-ray | 138.3 | 216.8 | 301.9 | 314.0 | 234.0 | 212.5 |
+| silesia/xml | 666.8 | 780.2 | 1571.0 | 1351.3 | 1000.1 | 739.5 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+<details><summary>M-B, silesia, zlib framing, level 1: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 162.5 | 273.5 | 524.0 | 539.5 | 287.0 | 263.8 |
+| silesia/mozilla | 203.6 | 276.0 | 480.5 | 495.6 | 327.7 | 274.5 |
+| silesia/mr | 190.5 | 325.9 | 532.4 | 545.2 | 355.7 | 323.9 |
+| silesia/nci | 476.8 | 590.2 | 1397.7 | 1469.6 | 768.2 | 590.1 |
+| silesia/ooffice | 145.8 | 194.6 | 324.2 | 335.5 | 227.3 | 196.6 |
+| silesia/osdb | 232.4 | 287.5 | 563.1 | 554.8 | 381.6 | 296.0 |
+| silesia/reymont | 203.1 | 303.9 | 623.9 | 654.2 | 345.9 | 295.5 |
+| silesia/samba | 280.6 | 381.4 | 767.5 | 738.5 | 450.7 | 366.6 |
+| silesia/sao | 138.2 | 227.3 | 329.9 | 314.0 | 244.4 | 224.4 |
+| silesia/webster | 203.7 | 297.3 | 620.1 | 652.3 | 336.7 | 289.7 |
+| silesia/x-ray | 133.1 | 208.5 | 316.1 | 341.4 | 238.6 | 209.8 |
+| silesia/xml | 377.2 | 487.4 | 1126.7 | 1160.3 | 608.3 | 478.6 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+**M-B, silesia, zlib framing, level 6: median MiB/s per file**
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 214.8 | 275.7 | 560.2 | 581.6 | 345.7 | 270.3 |
+| silesia/mozilla | 236.2 | 294.0 | 543.6 | 561.3 | 387.1 | 291.3 |
+| silesia/mr | 203.7 | 299.2 | 565.9 | 588.9 | 383.8 | 293.7 |
+| silesia/nci | 671.3 | 710.0 | 1728.8 | 1709.7 | 1076.7 | 695.6 |
+| silesia/ooffice | 171.3 | 208.8 | 372.6 | 374.6 | 276.3 | 208.5 |
+| silesia/osdb | 280.1 | 315.1 | 633.7 | 667.6 | 467.9 | 316.1 |
+| silesia/reymont | 265.2 | 326.7 | 727.0 | 758.1 | 394.4 | 317.1 |
+| silesia/samba | 332.0 | 411.9 | 858.3 | 863.7 | 535.4 | 399.0 |
+| silesia/sao | 160.5 | 243.3 | 354.8 | 365.2 | 277.5 | 241.0 |
+| silesia/webster | 251.4 | 309.5 | 668.8 | 685.0 | 398.5 | 297.0 |
+| silesia/x-ray | 132.3 | 197.9 | 293.4 | 312.9 | 229.2 | 198.8 |
+| silesia/xml | 535.3 | 588.9 | 1359 | 1359.1 | 827.4 | 591.4 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+<details><summary>M-B, silesia, zlib framing, level 9: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 212.4 | 275.2 | 576.1 | 574.8 | 353.7 | 268.5 |
+| silesia/mozilla | 239.1 | 297.5 | 548.6 | 573.4 | 384.0 | 291.2 |
+| silesia/mr | 212.2 | 305.9 | 594.5 | 575.2 | 408.9 | 305.8 |
+| silesia/nci | 697.5 | 741.8 | 1585.0 | 1679.8 | 1130.8 | 745.6 |
+| silesia/ooffice | 176.7 | 211.3 | 381.1 | 379.1 | 276.8 | 211.5 |
+| silesia/osdb | 281.3 | 319.0 | 526.5 | 659.0 | 475.4 | 322.8 |
+| silesia/reymont | 271.5 | 327.0 | 734.0 | 764.4 | 411.5 | 317.5 |
+| silesia/samba | 338.5 | 418.4 | 856.3 | 882.3 | 548.8 | 411.8 |
+| silesia/sao | 162.5 | 244.1 | 351.6 | 361.4 | 275.9 | 240.5 |
+| silesia/webster | 255.7 | 312.9 | 668.4 | 669.4 | 396.9 | 302.5 |
+| silesia/x-ray | 132.5 | 201.3 | 292.2 | 260.4 | 227.4 | 201.1 |
+| silesia/xml | 543.5 | 625 | 1388.2 | 1390.4 | 900.1 | 613.6 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+<details><summary>M-B, silesia, gzip framing, level 1: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 159.9 | 276.4 | 516.7 | 515.0 | n/a | 274.1 |
+| silesia/mozilla | 200.0 | 286.2 | 479.8 | 494.7 | n/a | 280.8 |
+| silesia/mr | 180.9 | 323.3 | 514.6 | 549.8 | n/a | 329.9 |
+| silesia/nci | 446.1 | 624.3 | 1404.1 | 1410.2 | n/a | 610.9 |
+| silesia/ooffice | 139.9 | 198.1 | 318.0 | 325.7 | n/a | 198.0 |
+| silesia/osdb | 219.4 | 301.2 | 543.8 | 549.3 | n/a | 298.3 |
+| silesia/reymont | 197.2 | 309.0 | 613.9 | 650.2 | n/a | 300.7 |
+| silesia/samba | 265.9 | 389.9 | 759.8 | 739.6 | n/a | 387.6 |
+| silesia/sao | 137.1 | 232.3 | 319.1 | 326.8 | n/a | 225.3 |
+| silesia/webster | 195.7 | 304.3 | 629.3 | 626.0 | n/a | 302.4 |
+| silesia/x-ray | 128.7 | 216.6 | 318.9 | 343.2 | n/a | 215.3 |
+| silesia/xml | 352.1 | 504.4 | 1106.3 | 1136.4 | n/a | 511.8 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+**M-B, silesia, gzip framing, level 6: median MiB/s per file**
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 204.0 | 286.8 | 557.6 | 527.0 | n/a | 270.2 |
+| silesia/mozilla | 224.4 | 302.0 | 543.0 | 557.3 | n/a | 297.1 |
+| silesia/mr | 192.8 | 301.4 | 557.9 | 593.4 | n/a | 296.4 |
+| silesia/nci | 611.8 | 778.5 | 1711.9 | 1683.8 | n/a | 767.6 |
+| silesia/ooffice | 168.7 | 212.3 | 375.1 | 368.4 | n/a | 214.5 |
+| silesia/osdb | 264.4 | 324.3 | 619.9 | 547.8 | n/a | 319.9 |
+| silesia/reymont | 254.3 | 338.3 | 720.5 | 729.6 | n/a | 326.6 |
+| silesia/samba | 308.7 | 426.0 | 808.0 | 871.8 | n/a | 420.7 |
+| silesia/sao | 156.4 | 244.2 | 351.3 | 362.0 | n/a | 242.1 |
+| silesia/webster | 241.3 | 321.8 | 668.1 | 621.4 | n/a | 311.2 |
+| silesia/x-ray | 126.4 | 204.9 | 294.3 | 311.1 | n/a | 203.7 |
+| silesia/xml | 490.6 | 628.1 | 1354.7 | 1386.3 | n/a | 620.2 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+<details><summary>M-B, silesia, gzip framing, level 9: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| silesia/dickens | 202.8 | 284.2 | 565.1 | 565.5 | n/a | 271.4 |
+| silesia/mozilla | 225.7 | 305.9 | 551.4 | 560.3 | n/a | 303.2 |
+| silesia/mr | 204.1 | 312.9 | 587.7 | 579.9 | n/a | 307.7 |
+| silesia/nci | 629.5 | 801.9 | 1696.8 | 1625.5 | n/a | 804.2 |
+| silesia/ooffice | 172.3 | 214.4 | 375.4 | 380.7 | n/a | 214.6 |
+| silesia/osdb | 267.3 | 327.6 | 632.2 | 651.1 | n/a | 327.4 |
+| silesia/reymont | 254.7 | 332.4 | 726.5 | 754.0 | n/a | 321.9 |
+| silesia/samba | 318.4 | 433.3 | 838.7 | 866.6 | n/a | 426.5 |
+| silesia/sao | 155.1 | 243.1 | 349.6 | 362.6 | n/a | 241.6 |
+| silesia/webster | 244.5 | 323.2 | 667.9 | 661.7 | n/a | 310.4 |
+| silesia/x-ray | 130.8 | 202.6 | 290.5 | 306.4 | n/a | 203 |
+| silesia/xml | 493.9 | 657.9 | 1350.9 | 1402.3 | n/a | 645.9 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+<details><summary>M-B, canterbury, raw framing, level 1: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 157.2 | 297.8 | 581.8 | 597.1 | 312.1 | 291.8 |
+| canterbury/asyoulik.txt | 168.7 | 295.7 | 545.0 | 535.7 | 262.0 | 288.1 |
+| canterbury/cp.html | 183.4 | 328.1 | 479.7 | 539.6 | 359.9 | 325.1 |
+| canterbury/fields.c | 173.4 | 331.1 | 546.3 | 538.0 | 368.9 | 376.5 |
+| canterbury/grammar.lsp | 100.8 | 329.6 | 387.5 | 330.4 | 293.3 | 319.7 |
+| canterbury/kennedy.xls | 349.2 | 478.8 | 844.6 | 886.9 | 548.6 | 495.4 |
+| canterbury/lcet10.txt | 189.9 | 315.3 | 587.5 | 595.6 | 322.8 | 270.7 |
+| canterbury/plrabn12.txt | 145.1 | 294.8 | 515.9 | 546.0 | 282.3 | 279.3 |
+| canterbury/ptt5 | 484.9 | 694.1 | 1223.8 | 1256.6 | 797.9 | 686.6 |
+| canterbury/sum | 185.4 | 300.0 | 482.9 | 481.8 | 330.4 | 300.2 |
+| canterbury/xargs.1 | 100.4 | 300.4 | 355.9 | 329.7 | 269.3 | 296.5 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+**M-B, canterbury, raw framing, level 6: median MiB/s per file**
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 237.5 | 322.2 | 653.0 | 669.5 | 374.6 | 310.5 |
+| canterbury/asyoulik.txt | 215.9 | 300.2 | 562.5 | 525.9 | 352.7 | 243.9 |
+| canterbury/cp.html | 214.9 | 359.3 | 617.1 | 529.4 | 409.8 | 350.4 |
+| canterbury/fields.c | 189.2 | 441.3 | 651.7 | 596.7 | 437.1 | 434.3 |
+| canterbury/grammar.lsp | 89.3 | 351.7 | 412.6 | 353.7 | 308.2 | 352.8 |
+| canterbury/kennedy.xls | 409.2 | 647.2 | 1033.4 | 1120.5 | 647.0 | 593.7 |
+| canterbury/lcet10.txt | 247.8 | 329.7 | 597.4 | 672.7 | 394.0 | 318.5 |
+| canterbury/plrabn12.txt | 212.3 | 289.1 | 546.5 | 583.1 | 345.0 | 272.0 |
+| canterbury/ptt5 | 378.4 | 621.3 | 1537.0 | 1558.9 | 1006.0 | 621.8 |
+| canterbury/sum | 222.7 | 334.2 | 574.0 | 544.6 | 383.6 | 296.5 |
+| canterbury/xargs.1 | 104.7 | 308.4 | 383.4 | 342.7 | 284.0 | 268.6 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+<details><summary>M-B, canterbury, raw framing, level 9: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 232.2 | 321.1 | 659.2 | 643.9 | 376.1 | 306.6 |
+| canterbury/asyoulik.txt | 213.8 | 299.9 | 562.4 | 544.9 | 348.4 | 283.2 |
+| canterbury/cp.html | 213.8 | 364.8 | 617.7 | 569.0 | 415.7 | 351.9 |
+| canterbury/fields.c | 189.6 | 437.1 | 640.9 | 601.0 | 448.9 | 438.6 |
+| canterbury/grammar.lsp | 105.5 | 361.2 | 410.2 | 355.6 | 315.3 | 357.1 |
+| canterbury/kennedy.xls | 418.8 | 630.3 | 1045.5 | 1194.3 | 678.3 | 604.2 |
+| canterbury/lcet10.txt | 252.8 | 332.9 | 673.3 | 709.4 | 396.3 | 318.8 |
+| canterbury/plrabn12.txt | 215.6 | 291.5 | 546.6 | 583.0 | 345.5 | 280.5 |
+| canterbury/ptt5 | 473.1 | 728.6 | 1671.0 | 1722.0 | 1122.4 | 617.1 |
+| canterbury/sum | 226.8 | 349.9 | 592.9 | 586.5 | 403.7 | 307.5 |
+| canterbury/xargs.1 | 105.6 | 311.8 | 351.5 | 333.9 | 288.7 | 314.1 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+<details><summary>M-B, canterbury, zlib framing, level 1: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 171.2 | 278.9 | 548.0 | 557.6 | 300.1 | 262.5 |
+| canterbury/asyoulik.txt | 161.2 | 271.1 | 505.4 | 536.4 | 278.6 | 262.4 |
+| canterbury/cp.html | 174.7 | 296.3 | 544.7 | 474.5 | 344.1 | 289.2 |
+| canterbury/fields.c | 163.4 | 342.2 | 538.2 | 534.9 | 339.0 | 335.5 |
+| canterbury/grammar.lsp | 100.1 | 301.4 | 379.1 | 334.0 | 268.7 | 295.1 |
+| canterbury/kennedy.xls | 309.1 | 454.0 | 802.7 | 761.2 | 522.0 | 419.6 |
+| canterbury/lcet10.txt | 183.0 | 284.7 | 583.3 | 601.5 | 305.5 | 270.5 |
+| canterbury/plrabn12.txt | 155.2 | 273.4 | 500.5 | 517.4 | 275.0 | 243.5 |
+| canterbury/ptt5 | 414.1 | 568.6 | 1154.7 | 1164.7 | 654.5 | 561.0 |
+| canterbury/sum | 175.0 | 271.8 | 469.9 | 477.7 | 316.4 | 274.9 |
+| canterbury/xargs.1 | 95.9 | 269.1 | 342.7 | 320.4 | 254.8 | 267.1 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+**M-B, canterbury, zlib framing, level 6: median MiB/s per file**
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 218.2 | 284.8 | 628.8 | 656.2 | 362.9 | 280.4 |
+| canterbury/asyoulik.txt | 201.6 | 272.4 | 531.8 | 568.0 | 336.3 | 263.3 |
+| canterbury/cp.html | 199.2 | 324.4 | 593.3 | 545.2 | 392.6 | 314.6 |
+| canterbury/fields.c | 185.7 | 387.8 | 521.2 | 590.5 | 397.0 | 358.1 |
+| canterbury/grammar.lsp | 103.6 | 322.0 | 401.8 | 368.1 | 243.0 | 318.2 |
+| canterbury/kennedy.xls | 353.9 | 530.7 | 970.7 | 1070.7 | 613.0 | 502.9 |
+| canterbury/lcet10.txt | 233.3 | 297.7 | 668.5 | 650.1 | 376.0 | 292.8 |
+| canterbury/plrabn12.txt | 199.2 | 269 | 522.5 | 544.2 | 331.4 | 251.0 |
+| canterbury/ptt5 | 345.2 | 519.6 | 1361.9 | 1438.3 | 911.1 | 513.1 |
+| canterbury/sum | 205.9 | 302.3 | 558.8 | 486.5 | 366.0 | 301.4 |
+| canterbury/xargs.1 | 101.0 | 279.8 | 375.4 | 332.5 | 270.0 | 289.2 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+<details><summary>M-B, canterbury, zlib framing, level 9: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 214.4 | 292.5 | 631.6 | 636.0 | 360.4 | 279.4 |
+| canterbury/asyoulik.txt | 199.9 | 273.5 | 542.0 | 556.5 | 333.3 | 258.8 |
+| canterbury/cp.html | 199.9 | 318.0 | 592.4 | 557.5 | 392.8 | 316.6 |
+| canterbury/fields.c | 175.8 | 364.1 | 625.1 | 592.5 | 407.0 | 380.9 |
+| canterbury/grammar.lsp | 104.8 | 318.3 | 377.2 | 345.3 | 290.9 | 326.4 |
+| canterbury/kennedy.xls | 359.5 | 524.3 | 1003.9 | 1099.2 | 635.1 | 505.7 |
+| canterbury/lcet10.txt | 235.5 | 292.7 | 658.3 | 668.9 | 378.2 | 282.0 |
+| canterbury/plrabn12.txt | 198.9 | 269.2 | 536.5 | 568.7 | 337.4 | 253.6 |
+| canterbury/ptt5 | 401.9 | 590.3 | 1562.2 | 1569.6 | 1013.5 | 583.5 |
+| canterbury/sum | 196.7 | 308.5 | 565.8 | 557.1 | 374.9 | 309.2 |
+| canterbury/xargs.1 | 103.0 | 281.0 | 361.2 | 326.2 | 261.8 | 283.9 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+<details><summary>M-B, canterbury, gzip framing, level 1: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 163.7 | 283.2 | 532.8 | 573.9 | n/a | 275.2 |
+| canterbury/asyoulik.txt | 152.2 | 273.2 | 452.0 | 519.0 | n/a | 267.9 |
+| canterbury/cp.html | 164.8 | 308.4 | 506.4 | 505.8 | n/a | 303.0 |
+| canterbury/fields.c | 142.7 | 347.3 | 527.3 | 520.0 | n/a | 346.3 |
+| canterbury/grammar.lsp | 63.5 | 307.6 | 372.4 | 337.0 | n/a | 307.2 |
+| canterbury/kennedy.xls | 283.8 | 480.0 | 788.3 | 858.5 | n/a | 442.6 |
+| canterbury/lcet10.txt | 172.2 | 285.1 | 562.4 | 602.0 | n/a | 287.1 |
+| canterbury/plrabn12.txt | 149.5 | 281.9 | 507.0 | 511.1 | n/a | 263.4 |
+| canterbury/ptt5 | 390.0 | 564.9 | 1126.5 | 1153.5 | n/a | 594.4 |
+| canterbury/sum | 162.8 | 283.2 | 469.5 | 463.8 | n/a | 274.4 |
+| canterbury/xargs.1 | 81.8 | 271.8 | 335.2 | 313.0 | n/a | 277.8 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+**M-B, canterbury, gzip framing, level 6: median MiB/s per file**
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 208.8 | 298.4 | 620.4 | 624.7 | n/a | 289.6 |
+| canterbury/asyoulik.txt | 193.1 | 277.5 | 549.3 | 554.3 | n/a | 262.5 |
+| canterbury/cp.html | 180.7 | 295.9 | 590.4 | 543.4 | n/a | 301.4 |
+| canterbury/fields.c | 158.3 | 401.7 | 618.0 | 582.8 | n/a | 386.4 |
+| canterbury/grammar.lsp | 69.8 | 309.5 | 394.1 | 364.4 | n/a | 329.0 |
+| canterbury/kennedy.xls | 337.2 | 566.5 | 966.4 | 997.4 | n/a | 526.7 |
+| canterbury/lcet10.txt | 214.9 | 308.7 | 654.8 | 684.1 | n/a | 286.9 |
+| canterbury/plrabn12.txt | 193.9 | 271.1 | 525.6 | 503.3 | n/a | 257.0 |
+| canterbury/ptt5 | 299.4 | 530.3 | 1376.3 | 1335.2 | n/a | 538.1 |
+| canterbury/sum | 188.3 | 317.6 | 546.5 | 551.6 | n/a | 309.5 |
+| canterbury/xargs.1 | 83.9 | 290.7 | 355.6 | 323.2 | n/a | 296.0 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+<details><summary>M-B, canterbury, gzip framing, level 9: median MiB/s per file</summary>
+
+| Workload | cf | zlib | zng | zrs | mox | zsys |
+|---|---|---|---|---|---|---|
+| canterbury/alice29.txt | 210.4 | 296.9 | 635.9 | 625.8 | n/a | 291.5 |
+| canterbury/asyoulik.txt | 188.4 | 277.5 | 544.8 | 546.1 | n/a | 269.9 |
+| canterbury/cp.html | 178.4 | 325.0 | 595.1 | 552.3 | n/a | 326.1 |
+| canterbury/fields.c | 157.0 | 399.1 | 619.3 | 591.1 | n/a | 382.3 |
+| canterbury/grammar.lsp | 84.4 | 322.9 | 397.2 | 361.2 | n/a | 332.8 |
+| canterbury/kennedy.xls | 344.5 | 554.4 | 812.2 | 1085.6 | n/a | 526.0 |
+| canterbury/lcet10.txt | 221.5 | 306.2 | 597.9 | 653.1 | n/a | 296.6 |
+| canterbury/plrabn12.txt | 194.3 | 265.8 | 523.5 | 532.2 | n/a | 257.8 |
+| canterbury/ptt5 | 362.5 | 614.2 | 1502.2 | 1538.2 | n/a | 597.4 |
+| canterbury/sum | 198.1 | 317.7 | 572.9 | 543.1 | n/a | 324.7 |
+| canterbury/xargs.1 | 86.6 | 287.4 | 370.5 | 338.9 | n/a | 288.4 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+</details>
+
+*Source: `results/perf_cells.csv` <- `data/raw/perf/M-B/20261002T072144Z.json`, `data/raw/perf/M-B/20261002T091719Z.json`, `data/raw/perf/M-B/20261002T103403Z.json`, `data/raw/perf/M-B/20261002T115027Z.json` via `cfbench.perf_report`.*
+
+**Tiny inputs (setup cost), raw framing, level 6**
+
+| Machine | Workload | Prefix bytes | Subject | ns/op | Time ratio vs zlib |
+|---|---|---|---|---|---|
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | cf | 24343 | 4.65 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | cf | 21784 | 4.38 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | cf | 22003 | 4.30 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | cf | 19067 | 7.12 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | cf | 19699 | 7.30 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | cf | 16638 | 7.15 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | cf | 10145 | 21.22 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | cf | 9070 | 18.93 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | cf | 9108 | 18.79 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | cf | 22497 | 4.79 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | cf | 21104 | 4.90 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | cf | 20171 | 4.66 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | cf | 18680 | 7.03 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | cf | 16958 | 7.30 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | cf | 18969 | 7.18 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | cf | 9630 | 15.44 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | cf | 9169 | 17.67 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | cf | 9283 | 17.81 |
+| M-B | tiny/silesia-xml-1024 | 1024 | cf | 27041 | 5.90 |
+| M-B | tiny/silesia-xml-1024 | 1024 | cf | 20020 | 4.66 |
+| M-B | tiny/silesia-xml-1024 | 1024 | cf | 20278 | 4.57 |
+| M-B | tiny/silesia-xml-256 | 256 | cf | 10246 | 13.86 |
+| M-B | tiny/silesia-xml-256 | 256 | cf | 9727 | 13.59 |
+| M-B | tiny/silesia-xml-256 | 256 | cf | 9554 | 13.69 |
+| M-B | tiny/silesia-xml-64 | 64 | cf | 8854 | 22.48 |
+| M-B | tiny/silesia-xml-64 | 64 | cf | 9075 | 18.82 |
+| M-B | tiny/silesia-xml-64 | 64 | cf | 8705 | 19.27 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | mox | 6927 | 1.32 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | mox | 8295 | 1.67 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | mox | 8387 | 1.64 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | mox | 4251 | 1.59 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | mox | 6143 | 2.28 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | mox | 6181 | 2.66 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | mox | 3161 | 6.61 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | mox | 5152 | 10.75 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | mox | 5273 | 10.88 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | mox | 6661 | 1.42 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | mox | 8165 | 1.90 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | mox | 8053 | 1.86 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | mox | 4672 | 1.76 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | mox | 6074 | 2.61 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | mox | 5821 | 2.20 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | mox | 3222 | 5.16 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | mox | 5656 | 10.90 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | mox | 5217 | 10.01 |
+| M-B | tiny/silesia-xml-1024 | 1024 | mox | 5796 | 1.26 |
+| M-B | tiny/silesia-xml-1024 | 1024 | mox | 8063 | 1.88 |
+| M-B | tiny/silesia-xml-1024 | 1024 | mox | 7352 | 1.66 |
+| M-B | tiny/silesia-xml-256 | 256 | mox | 3477 | 4.70 |
+| M-B | tiny/silesia-xml-256 | 256 | mox | 5340 | 7.46 |
+| M-B | tiny/silesia-xml-256 | 256 | mox | 5326 | 7.63 |
+| M-B | tiny/silesia-xml-64 | 64 | mox | 3012 | 7.65 |
+| M-B | tiny/silesia-xml-64 | 64 | mox | 5267 | 10.92 |
+| M-B | tiny/silesia-xml-64 | 64 | mox | 5133 | 11.36 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zlib | 5240 | 1 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zlib | 4973 | 1 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zlib | 5118 | 1 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zlib | 2677 | 1 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zlib | 2698 | 1 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zlib | 2328 | 1 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zlib | 478 | 1 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zlib | 479 | 1 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zlib | 485 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zlib | 4701 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zlib | 4308 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zlib | 4329 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zlib | 2656 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zlib | 2324 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zlib | 2642 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zlib | 624 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zlib | 519 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zlib | 521 | 1 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zlib | 4586 | 1 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zlib | 4295 | 1 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zlib | 4439 | 1 |
+| M-B | tiny/silesia-xml-256 | 256 | zlib | 739 | 1 |
+| M-B | tiny/silesia-xml-256 | 256 | zlib | 716 | 1 |
+| M-B | tiny/silesia-xml-256 | 256 | zlib | 698 | 1 |
+| M-B | tiny/silesia-xml-64 | 64 | zlib | 394 | 1 |
+| M-B | tiny/silesia-xml-64 | 64 | zlib | 482 | 1 |
+| M-B | tiny/silesia-xml-64 | 64 | zlib | 452 | 1 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zng | 5154 | 0.98 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zng | 4612 | 0.93 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zng | 4715 | 0.92 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zng | 2509 | 0.94 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zng | 2248 | 0.83 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zng | 2264 | 0.97 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zng | 352 | 0.74 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zng | 304 | 0.64 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zng | 291 | 0.60 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zng | 4526 | 0.96 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zng | 4022 | 0.93 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zng | 4054 | 0.94 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zng | 2606 | 0.98 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zng | 2208 | 0.95 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zng | 2219 | 0.84 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zng | 412 | 0.66 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zng | 346 | 0.67 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zng | 337 | 0.65 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zng | 3834 | 0.84 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zng | 3378 | 0.79 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zng | 3508 | 0.79 |
+| M-B | tiny/silesia-xml-256 | 256 | zng | 469 | 0.63 |
+| M-B | tiny/silesia-xml-256 | 256 | zng | 349 | 0.49 |
+| M-B | tiny/silesia-xml-256 | 256 | zng | 345 | 0.49 |
+| M-B | tiny/silesia-xml-64 | 64 | zng | 183 | 0.47 |
+| M-B | tiny/silesia-xml-64 | 64 | zng | 201 | 0.42 |
+| M-B | tiny/silesia-xml-64 | 64 | zng | 213 | 0.47 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zrs | 6022 | 1.15 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zrs | 4832 | 0.97 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zrs | 5021 | 0.98 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zrs | 3002 | 1.12 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zrs | 2483 | 0.92 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zrs | 2440 | 1.05 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zrs | 801 | 1.68 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zrs | 703 | 1.47 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zrs | 728 | 1.50 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zrs | 4919 | 1.05 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zrs | 4329 | 1.00 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zrs | 4323 | 1.00 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zrs | 2912 | 1.10 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zrs | 2452 | 1.06 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zrs | 2397 | 0.91 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zrs | 948 | 1.52 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zrs | 774 | 1.49 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zrs | 788 | 1.51 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zrs | 4976 | 1.09 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zrs | 4488 | 1.04 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zrs | 3753 | 0.85 |
+| M-B | tiny/silesia-xml-256 | 256 | zrs | 1007 | 1.36 |
+| M-B | tiny/silesia-xml-256 | 256 | zrs | 770 | 1.08 |
+| M-B | tiny/silesia-xml-256 | 256 | zrs | 778 | 1.11 |
+| M-B | tiny/silesia-xml-64 | 64 | zrs | 646 | 1.64 |
+| M-B | tiny/silesia-xml-64 | 64 | zrs | 647 | 1.34 |
+| M-B | tiny/silesia-xml-64 | 64 | zrs | 675 | 1.49 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zsys | 5816 | 1.11 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zsys | 5073 | 1.02 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zsys | 5157 | 1.01 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zsys | 2424 | 0.91 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zsys | 2337 | 0.87 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zsys | 2344 | 1.01 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zsys | 313 | 0.65 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zsys | 338 | 0.70 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zsys | 383 | 0.79 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zsys | 4462 | 0.95 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zsys | 4365 | 1.01 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zsys | 4398 | 1.02 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zsys | 2521 | 0.95 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zsys | 2269 | 0.98 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zsys | 2313 | 0.88 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zsys | 407 | 0.65 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zsys | 387 | 0.75 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zsys | 371 | 0.71 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zsys | 4253 | 0.93 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zsys | 4115 | 0.96 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zsys | 4114 | 0.93 |
+| M-B | tiny/silesia-xml-256 | 256 | zsys | 589 | 0.80 |
+| M-B | tiny/silesia-xml-256 | 256 | zsys | 563 | 0.79 |
+| M-B | tiny/silesia-xml-256 | 256 | zsys | 558 | 0.80 |
+| M-B | tiny/silesia-xml-64 | 64 | zsys | 262 | 0.67 |
+| M-B | tiny/silesia-xml-64 | 64 | zsys | 309 | 0.64 |
+| M-B | tiny/silesia-xml-64 | 64 | zsys | 314 | 0.70 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | cf@native | 32555 | 5.54 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | cf@native | 26532 | 5.30 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | cf@native | 25796 | 5.05 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | cf@native | 22873 | 8.81 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | cf@native | 20594 | 8.85 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | cf@native | 20823 | 8.01 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | cf@native | 11384 | 24.63 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | cf@native | 11370 | 23.87 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | cf@native | 11244 | 24.07 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | cf@native | 26433 | 5.84 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | cf@native | 24917 | 5.81 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | cf@native | 24722 | 5.67 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | cf@native | 22217 | 8.22 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | cf@native | 20884 | 8.89 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | cf@native | 21547 | 9.12 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | cf@native | 14407 | 25.29 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | cf@native | 11348 | 22.25 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | cf@native | 11367 | 22.56 |
+| M-B | tiny/silesia-xml-1024 | 1024 | cf@native | 25893 | 5.41 |
+| M-B | tiny/silesia-xml-1024 | 1024 | cf@native | 25045 | 5.81 |
+| M-B | tiny/silesia-xml-1024 | 1024 | cf@native | 25740 | 6.06 |
+| M-B | tiny/silesia-xml-256 | 256 | cf@native | 11765 | 15.81 |
+| M-B | tiny/silesia-xml-256 | 256 | cf@native | 11714 | 16.45 |
+| M-B | tiny/silesia-xml-256 | 256 | cf@native | 11529 | 15.92 |
+| M-B | tiny/silesia-xml-64 | 64 | cf@native | 10939 | 27.46 |
+| M-B | tiny/silesia-xml-64 | 64 | cf@native | 10934 | 23.62 |
+| M-B | tiny/silesia-xml-64 | 64 | cf@native | 11173 | 23.76 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | mox@native | 6986 | 1.19 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | mox@native | 8333 | 1.66 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | mox@native | 8253 | 1.62 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | mox@native | 4244 | 1.63 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | mox@native | 6266 | 2.69 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | mox@native | 6052 | 2.33 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | mox@native | 3128 | 6.77 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | mox@native | 5222 | 10.96 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | mox@native | 5303 | 11.35 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | mox@native | 6420 | 1.42 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | mox@native | 8124 | 1.90 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | mox@native | 8392 | 1.92 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | mox@native | 3980 | 1.47 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | mox@native | 6033 | 2.57 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | mox@native | 5964 | 2.53 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | mox@native | 3176 | 5.57 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | mox@native | 5249 | 10.29 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | mox@native | 5205 | 10.33 |
+| M-B | tiny/silesia-xml-1024 | 1024 | mox@native | 5572 | 1.16 |
+| M-B | tiny/silesia-xml-1024 | 1024 | mox@native | 7356 | 1.71 |
+| M-B | tiny/silesia-xml-1024 | 1024 | mox@native | 7237 | 1.70 |
+| M-B | tiny/silesia-xml-256 | 256 | mox@native | 3160 | 4.25 |
+| M-B | tiny/silesia-xml-256 | 256 | mox@native | 5188 | 7.28 |
+| M-B | tiny/silesia-xml-256 | 256 | mox@native | 5305 | 7.32 |
+| M-B | tiny/silesia-xml-64 | 64 | mox@native | 2919 | 7.33 |
+| M-B | tiny/silesia-xml-64 | 64 | mox@native | 5297 | 11.44 |
+| M-B | tiny/silesia-xml-64 | 64 | mox@native | 5109 | 10.86 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zlib | 5876 | 1 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zlib | 5006 | 1 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zlib | 5106 | 1 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zlib | 2596 | 1 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zlib | 2326 | 1 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zlib | 2599 | 1 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zlib | 462 | 1 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zlib | 476 | 1 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zlib | 467 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zlib | 4524 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zlib | 4287 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zlib | 4361 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zlib | 2704 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zlib | 2348 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zlib | 2362 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zlib | 570 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zlib | 510 | 1 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zlib | 504 | 1 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zlib | 4785 | 1 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zlib | 4311 | 1 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zlib | 4251 | 1 |
+| M-B | tiny/silesia-xml-256 | 256 | zlib | 744 | 1 |
+| M-B | tiny/silesia-xml-256 | 256 | zlib | 712 | 1 |
+| M-B | tiny/silesia-xml-256 | 256 | zlib | 724 | 1 |
+| M-B | tiny/silesia-xml-64 | 64 | zlib | 398 | 1 |
+| M-B | tiny/silesia-xml-64 | 64 | zlib | 463 | 1 |
+| M-B | tiny/silesia-xml-64 | 64 | zlib | 470 | 1 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zrs@native | 5820 | 0.99 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zrs@native | 5212 | 1.04 |
+| M-B | tiny/canterbury-alice29.txt-1024 | 1024 | zrs@native | 5153 | 1.01 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zrs@native | 3047 | 1.17 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zrs@native | 2596 | 1.12 |
+| M-B | tiny/canterbury-alice29.txt-256 | 256 | zrs@native | 2567 | 0.99 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zrs@native | 886 | 1.92 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zrs@native | 767 | 1.61 |
+| M-B | tiny/canterbury-alice29.txt-64 | 64 | zrs@native | 755 | 1.62 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zrs@native | 4916 | 1.09 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zrs@native | 4405 | 1.03 |
+| M-B | tiny/canterbury-kennedy.xls-1024 | 1024 | zrs@native | 4353 | 1.00 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zrs@native | 3149 | 1.16 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zrs@native | 2396 | 1.02 |
+| M-B | tiny/canterbury-kennedy.xls-256 | 256 | zrs@native | 2465 | 1.04 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zrs@native | 992 | 1.74 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zrs@native | 827 | 1.62 |
+| M-B | tiny/canterbury-kennedy.xls-64 | 64 | zrs@native | 771 | 1.53 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zrs@native | 4495 | 0.94 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zrs@native | 3858 | 0.89 |
+| M-B | tiny/silesia-xml-1024 | 1024 | zrs@native | 3848 | 0.91 |
+| M-B | tiny/silesia-xml-256 | 256 | zrs@native | 1036 | 1.39 |
+| M-B | tiny/silesia-xml-256 | 256 | zrs@native | 861 | 1.21 |
+| M-B | tiny/silesia-xml-256 | 256 | zrs@native | 802 | 1.11 |
+| M-B | tiny/silesia-xml-64 | 64 | zrs@native | 667 | 1.67 |
+| M-B | tiny/silesia-xml-64 | 64 | zrs@native | 659 | 1.42 |
+| M-B | tiny/silesia-xml-64 | 64 | zrs@native | 752 | 1.60 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/perf_tiny.csv` <- `data/raw/perf/M-B/20261002T072144Z.json`, `data/raw/perf/M-B/20261002T091719Z.json`, `data/raw/perf/M-B/20261002T103403Z.json`, `data/raw/perf/M-B/20261002T115027Z.json` via `cfbench.perf_report`.*
+
+**Run-to-run agreement**
+
+| Machine | Variant | Runs | Cells | Flagged cells | Max |rel. diff| | Aggregates | Flagged aggregates | Verdict |
+|---|---|---|---|---|---|---|---|---|
+| M-B | generic | 2 | 4896 | 787 | 0.4108 | 306 | 24 | flagged |
+| M-B | native | 2 | 3168 | 447 | 0.5839 | 198 | 14 | flagged |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/perf_agreement_summary.csv` <- `data/raw/perf/M-B/20261002T072144Z.json`, `data/raw/perf/M-B/20261002T091719Z.json`, `data/raw/perf/M-B/20261002T103403Z.json`, `data/raw/perf/M-B/20261002T115027Z.json` via `cfbench.agreement`.*
 
 ## Framing decomposition
 
-Pending: run `make framing` on M-A and M-B.
+| Machine | Subject | Corpus | Level | Mode | zlib framing overhead | gzip framing overhead |
+|---|---|---|---|---|---|---|
+| M-B | cf | canterbury | 1 | oneshot | 7.5% | 14.9% |
+| M-B | cf | canterbury | 6 | oneshot | 8.6% | 17.5% |
+| M-B | cf | canterbury | 9 | oneshot | 12.4% | 15.5% |
+| M-B | cf | silesia | 1 | oneshot | 5.3% | 9.1% |
+| M-B | cf | silesia | 6 | oneshot | 8.7% | 13.8% |
+| M-B | cf | silesia | 9 | oneshot | 8.4% | 13.8% |
+| M-B | mox | canterbury | 1 | oneshot | 6.9% | n/a |
+| M-B | mox | canterbury | 6 | oneshot | 8.1% | n/a |
+| M-B | mox | canterbury | 9 | oneshot | 3.6% | n/a |
+| M-B | mox | silesia | 1 | oneshot | 5.1% | n/a |
+| M-B | mox | silesia | 6 | oneshot | 6.0% | n/a |
+| M-B | mox | silesia | 9 | oneshot | 5.2% | n/a |
+| M-B | zlib | canterbury | 1 | oneshot | 13.5% | 6.0% |
+| M-B | zlib | canterbury | 6 | oneshot | 15.0% | 9.5% |
+| M-B | zlib | canterbury | 9 | oneshot | 11.8% | 7.8% |
+| M-B | zlib | silesia | 1 | oneshot | 11.7% | 9.4% |
+| M-B | zlib | silesia | 6 | oneshot | 12.0% | 8.9% |
+| M-B | zlib | silesia | 9 | oneshot | 13.0% | 9.5% |
+| M-B | zlib-nohw | canterbury | 1 | oneshot | 13.6% | 9.9% |
+| M-B | zlib-nohw | canterbury | 6 | oneshot | 12.9% | 9.4% |
+| M-B | zlib-nohw | canterbury | 9 | oneshot | 13.2% | 8.7% |
+| M-B | zlib-nohw | silesia | 1 | oneshot | 11.8% | 8.8% |
+| M-B | zlib-nohw | silesia | 6 | oneshot | 12.7% | 8.6% |
+| M-B | zlib-nohw | silesia | 9 | oneshot | 12.3% | 9.1% |
+| M-B | zng | canterbury | 1 | oneshot | 5.7% | 5.0% |
+| M-B | zng | canterbury | 6 | oneshot | 6.2% | 4.2% |
+| M-B | zng | canterbury | 9 | oneshot | 5.3% | 5.7% |
+| M-B | zng | silesia | 1 | oneshot | 4.9% | 5.1% |
+| M-B | zng | silesia | 6 | oneshot | 4.6% | 5.5% |
+| M-B | zng | silesia | 9 | oneshot | 5.7% | 5.5% |
+| M-B | zrs | canterbury | 1 | oneshot | 3.0% | 3.6% |
+| M-B | zrs | canterbury | 6 | oneshot | 9.3% | 6.5% |
+| M-B | zrs | canterbury | 9 | oneshot | 2.4% | 8.9% |
+| M-B | zrs | silesia | 1 | oneshot | 4.1% | 6.4% |
+| M-B | zrs | silesia | 6 | oneshot | 5.5% | 6.1% |
+| M-B | zrs | silesia | 9 | oneshot | 5.8% | 7.3% |
+| M-B | zsys | canterbury | 1 | oneshot | 19.2% | 12.2% |
+| M-B | zsys | canterbury | 6 | oneshot | 9.2% | 6.9% |
+| M-B | zsys | canterbury | 9 | oneshot | 14.9% | 9.8% |
+| M-B | zsys | silesia | 1 | oneshot | 12.0% | 8.3% |
+| M-B | zsys | silesia | 6 | oneshot | 11.3% | 8.1% |
+| M-B | zsys | silesia | 9 | oneshot | 12.2% | 9.3% |
 
-Pending: run `make framing` on M-A and M-B.
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/framing_overhead.csv` <- `data/raw/framing/M-B/20261002T123656Z.json`, `data/raw/framing/M-B/20261002T132114Z.json` via `cfbench.framing`.*
+
+| Machine | cf gzip overhead | zlib-nohw gzip overhead | zlib gzip overhead | Relative difference | Verdict |
+|---|---|---|---|---|---|
+| ALL | n/a | n/a | n/a | n/a | inconclusive |
+| M-B | 14.9% | 9.9% | 6.0% | 50.4% | outside band (control identical to default on x86_64) |
+| M-B | 17.5% | 9.4% | 9.5% | 86.0% | outside band (control identical to default on x86_64) |
+| M-B | 15.5% | 8.7% | 7.8% | 79.2% | outside band (control identical to default on x86_64) |
+| M-B | 9.1% | 8.8% | 9.4% | 3.6% | within band (control identical to default on x86_64) |
+| M-B | 13.8% | 8.6% | 8.9% | 60.5% | outside band (control identical to default on x86_64) |
+| M-B | 13.8% | 9.1% | 9.5% | 52.4% | outside band (control identical to default on x86_64) |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/framing_hypothesis.csv` <- `data/raw/framing/M-B/20261002T123656Z.json`, `data/raw/framing/M-B/20261002T132114Z.json` via `cfbench.framing`.*
 
 Overhead is `(1/T_framed - 1/T_raw) / (1/T_raw)`. The headline test asks whether cleanflate's gzip penalty roughly matches stock zlib's with hardware CRC disabled; the verdict is reported either way, and on x86_64 the control build is identical to the default build.
 
-Pending: figure `framing_decomposition` is not rendered yet (run `make figures` once its table has data).
+![Framing cost per subject.](figures/framing_decomposition.png)
+
+*Framing cost per subject.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
 
 ## Content analysis
 
-Pending: run `make content` on M-A and M-B.
+| Hypothesis | Machine | Feature | n | rho | p | Expected sign | Verdict |
+|---|---|---|---|---|---|---|---|
+| H1 | ALL | (combined) | n/a | n/a | n/a | negative | inconclusive |
+| H1 | M-B | (combined) | n/a | n/a | n/a | negative | inconclusive |
+| H1 | M-B | overlap_fraction | 33 | 0.298 | 0.0906 | negative | inconclusive |
+| H1 | M-B | short_dist_fraction | 33 | -0.384 | 0.0264 | negative | inconclusive |
+| H2 | ALL | (combined) | n/a | n/a | n/a | negative | refuted |
+| H2 | M-B | (combined) | n/a | n/a | n/a | negative | refuted |
+| H2 | M-B | literal_fraction | 23 | -0.048 | 0.8289 | negative | refuted |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/content_hypotheses.csv` <- `data/raw/content/any/20261002T132255Z.json`, `data/raw/perf/M-B/20261002T072144Z.json`, `data/raw/perf/M-B/20261002T091719Z.json`, `data/raw/perf/M-B/20261002T103403Z.json`, `data/raw/perf/M-B/20261002T115027Z.json` via `cfbench.content.correlate`.*
 
 H1: cleanflate's relative weakness on Canterbury tracks short-distance and overlapping match density. H2: its level-1 weakness tracks literal fraction. Verdicts use Spearman rho with a seeded permutation p-value; they are never omitted.
 
 Findings note: [CONTENT_FINDINGS.md](CONTENT_FINDINGS.md). Per-file token features: `results/content_features.csv`.
 
-Pending: scatter plots need perf data; run `make perf` on M-A and M-B, then `make content`.
+![Per-file ratio against literal_fraction_M-B.](figures/content_scatter_literal_fraction_M-B.png)
+
+*Per-file ratio against literal_fraction_M-B.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
+
+![Per-file ratio against overlap_fraction_M-B.](figures/content_scatter_overlap_fraction_M-B.png)
+
+*Per-file ratio against overlap_fraction_M-B.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
+
+![Per-file ratio against short_dist_fraction_M-B.](figures/content_scatter_short_dist_fraction_M-B.png)
+
+*Per-file ratio against short_dist_fraction_M-B.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
 
 ## Trajectory
 
-Pending: run `make trajectory` on M-A and M-B.
+| Machine | Round | Tag | Corpus | Framing | Aggregate MiB/s | Ratio vs zlib |
+|---|---|---|---|---|---|---|
+| M-B | 1 | v0.1.0-cleanroom | canterbury | gzip | 56.3 | 0.15 |
+| M-B | 1 | v0.1.0-cleanroom | canterbury | raw | 62.1 | 0.14 |
+| M-B | 1 | v0.1.0-cleanroom | canterbury | zlib | 64.3 | 0.17 |
+| M-B | 1 | v0.1.0-cleanroom | silesia | gzip | 53.1 | 0.16 |
+| M-B | 1 | v0.1.0-cleanroom | silesia | raw | 59.7 | 0.16 |
+| M-B | 1 | v0.1.0-cleanroom | silesia | zlib | 58.8 | 0.18 |
+| M-B | 2 | v0.2.0-cleanroom | canterbury | gzip | 224.1 | 0.60 |
+| M-B | 2 | v0.2.0-cleanroom | canterbury | raw | 259.7 | 0.60 |
+| M-B | 2 | v0.2.0-cleanroom | canterbury | zlib | 243.2 | 0.65 |
+| M-B | 2 | v0.2.0-cleanroom | silesia | gzip | 213.1 | 0.63 |
+| M-B | 2 | v0.2.0-cleanroom | silesia | raw | 242.6 | 0.65 |
+| M-B | 2 | v0.2.0-cleanroom | silesia | zlib | 217.5 | 0.67 |
+| M-B | 3 | v0.3.0-cleanroom | canterbury | gzip | 240.7 | 0.65 |
+| M-B | 3 | v0.3.0-cleanroom | canterbury | raw | 275.2 | 0.64 |
+| M-B | 3 | v0.3.0-cleanroom | canterbury | zlib | 259.7 | 0.70 |
+| M-B | 3 | v0.3.0-cleanroom | silesia | gzip | 242.6 | 0.72 |
+| M-B | 3 | v0.3.0-cleanroom | silesia | raw | 277.0 | 0.75 |
+| M-B | 3 | v0.3.0-cleanroom | silesia | zlib | 254.9 | 0.79 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/trajectory.csv` <- `data/raw/trajectory/M-B/20261002T145905Z.json` via `cfbench.trajectory`.*
+
+Pending: figure `trajectory_M-A` is not rendered yet (run `make figures` once its table has data).
+
+![Throughput ratio vs zlib by round on M-B.](figures/trajectory_M-B.png)
+
+*Throughput ratio vs zlib by round on M-B.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
 
 ## Correctness
 
@@ -96,7 +929,7 @@ Pending: run `make trajectory` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/conformance.csv` <- `data/raw/correctness/M-B/20261001T060238Z.json` via `cfbench.conformance`.*
+*Source: `results/conformance.csv` <- `data/raw/correctness/M-B/20261002T150252Z.json` via `cfbench.conformance`.*
 
 **Conformance disagreements (an empty table means none)**
 
@@ -105,7 +938,7 @@ Pending: run `make trajectory` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/conformance_disagreements.csv` <- `data/raw/correctness/M-B/20261001T060238Z.json` via `cfbench.conformance`.*
+*Source: `results/conformance_disagreements.csv` <- `data/raw/correctness/M-B/20261002T150252Z.json` via `cfbench.conformance`.*
 
 **Malformed inputs on which subjects disagree about accept versus reject**
 
@@ -118,7 +951,7 @@ Pending: run `make trajectory` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/malformed_disagreements.csv` <- `data/raw/correctness/M-B/20261001T073606Z.json` via `cfbench.malformed`.*
+*Source: `results/malformed_disagreements.csv` <- `data/raw/correctness/M-B/20261002T150253Z.json` via `cfbench.malformed`.*
 
 Full matrix: `results/malformed_matrix.csv`; highlights: [MALFORMED_HIGHLIGHTS.md](MALFORMED_HIGHLIGHTS.md).
 
@@ -126,13 +959,81 @@ Full matrix: `results/malformed_matrix.csv`; highlights: [MALFORMED_HIGHLIGHTS.m
 
 *Malformed-input disagreements.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
 
-Pending: run `make fuzz` on M-A and M-B.
+**Differential fuzzing**
 
-Pending: run `make fuzz` on M-A and M-B.
+| Machine | Target | CPU hours | Executions | Exec/s | cf line coverage % | cf region coverage % | Divergences |
+|---|---|---|---|---|---|---|---|
+| M-B | diff_cf_mox | 4 | 340702 | 26 | 54.5 | 52.0 | 0 |
+| M-B | diff_cf_zlib | 4 | 583504 | 46 | 73.1 | 70.4 | 0 |
+| M-B | diff_cf_zrs | 4 | 313085 | 11 | 72.9 | 70.2 | 0 |
 
-Pending: figure `fuzz_stats` is not rendered yet (run `make figures` once its table has data).
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-Pending: run `make bombs` on M-A and M-B.
+*Source: `results/fuzz_stats.csv` <- `data/raw/correctness/M-B/20261002T160357Z.json`, `data/raw/correctness/M-B/20261002T170524Z.json`, `data/raw/correctness/M-B/20261002T180614Z.json` via `cfbench.fuzzing`.*
+
+**Fuzz divergences after triage**
+
+| Machine | Target | Artifact SHA-256 | Classification | Outcomes |
+|---|---|---|---|---|
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/fuzz_divergences.csv` <- `data/raw/correctness/M-B/20261002T160357Z.json`, `data/raw/correctness/M-B/20261002T170524Z.json`, `data/raw/correctness/M-B/20261002T180614Z.json` via `cfbench.fuzzing`.*
+
+![Fuzzing executions and divergences.](figures/fuzz_stats.png)
+
+*Fuzzing executions and divergences.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
+
+**Decompression-bomb sweep**
+
+| Machine | Subject | Case | Ratio | Overall ratio (nested) | Output bytes | Limit bytes | Outcome | Peak RSS bytes | Seconds | Limit enforcement |
+|---|---|---|---|---|---|---|---|---|---|---|
+| M-B | cf | nested-2x-4294967296:layer1 | 1028.8500 | 633756 | 268435456 | 268435456 | error:limit | 23609344 | 1.7584 | native |
+| M-B | cf | nested-2x-4294967296:layer2 | 615.9840 | 633756 | 4174525 | 268435456 | ok | 23609344 | 0.0295 | native |
+| M-B | cf | zeros-1048576 | 1009.2200 | n/a | 1048576 | 268435456 | ok | 23609344 | 0.0102 | native |
+| M-B | cf | zeros-1073741824 | 1028.8400 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 1.7729 | native |
+| M-B | cf | zeros-16777216 | 1028.2700 | n/a | 16777216 | 268435456 | ok | 23609344 | 0.1090 | native |
+| M-B | cf | zeros-268435456 | 1028.8000 | n/a | 268435456 | 268435456 | ok | 23609344 | 1.6856 | native |
+| M-B | cf | zeros-4294967296 | 1028.8500 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 1.7381 | native |
+| M-B | mox | nested-2x-4294967296:layer1 | 1028.8500 | 633756 | n/a | 268435456 | unsupported | n/a | n/a | caller |
+| M-B | mox | nested-2x-4294967296:layer2 | 615.9840 | 633756 | n/a | 268435456 | unsupported | n/a | n/a | caller |
+| M-B | mox | zeros-1048576 | 1009.2200 | n/a | 1048576 | 268435456 | ok | 23609344 | 0.0031 | caller |
+| M-B | mox | zeros-1073741824 | 1028.8400 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.2441 | caller |
+| M-B | mox | zeros-16777216 | 1028.2700 | n/a | 16777216 | 268435456 | ok | 23609344 | 0.0188 | caller |
+| M-B | mox | zeros-268435456 | 1028.8000 | n/a | 268435456 | 268435456 | ok | 23609344 | 0.2384 | caller |
+| M-B | mox | zeros-4294967296 | 1028.8500 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.2385 | caller |
+| M-B | zlib | nested-2x-4294967296:layer1 | 1028.8500 | 633756 | 268435456 | 268435456 | error:limit | 23609344 | 0.7854 | caller |
+| M-B | zlib | nested-2x-4294967296:layer2 | 615.9840 | 633756 | 4174525 | 268435456 | ok | 23609344 | 0.0154 | caller |
+| M-B | zlib | zeros-1048576 | 1009.2200 | n/a | 1048576 | 268435456 | ok | 23609344 | 0.0055 | caller |
+| M-B | zlib | zeros-1073741824 | 1028.8400 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.8378 | caller |
+| M-B | zlib | zeros-16777216 | 1028.2700 | n/a | 16777216 | 268435456 | ok | 23609344 | 0.0534 | caller |
+| M-B | zlib | zeros-268435456 | 1028.8000 | n/a | 268435456 | 268435456 | ok | 23609344 | 0.9287 | caller |
+| M-B | zlib | zeros-4294967296 | 1028.8500 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.8075 | caller |
+| M-B | zng | nested-2x-4294967296:layer1 | 1028.8500 | 633756 | 268435456 | 268435456 | error:limit | 23609344 | 0.2002 | caller |
+| M-B | zng | nested-2x-4294967296:layer2 | 615.9840 | 633756 | 4174525 | 268435456 | ok | 23609344 | 0.0051 | caller |
+| M-B | zng | zeros-1048576 | 1009.2200 | n/a | 1048576 | 268435456 | ok | 23609344 | 0.0036 | caller |
+| M-B | zng | zeros-1073741824 | 1028.8400 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.1979 | caller |
+| M-B | zng | zeros-16777216 | 1028.2700 | n/a | 16777216 | 268435456 | ok | 23609344 | 0.0172 | caller |
+| M-B | zng | zeros-268435456 | 1028.8000 | n/a | 268435456 | 268435456 | ok | 23609344 | 0.1933 | caller |
+| M-B | zng | zeros-4294967296 | 1028.8500 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.2067 | caller |
+| M-B | zrs | nested-2x-4294967296:layer1 | 1028.8500 | 633756 | 268435456 | 268435456 | error:limit | 23609344 | 0.2207 | caller |
+| M-B | zrs | nested-2x-4294967296:layer2 | 615.9840 | 633756 | 4174525 | 268435456 | ok | 23609344 | 0.0067 | caller |
+| M-B | zrs | zeros-1048576 | 1009.2200 | n/a | 1048576 | 268435456 | ok | 23609344 | 0.0032 | caller |
+| M-B | zrs | zeros-1073741824 | 1028.8400 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.1967 | caller |
+| M-B | zrs | zeros-16777216 | 1028.2700 | n/a | 16777216 | 268435456 | ok | 23609344 | 0.0140 | caller |
+| M-B | zrs | zeros-268435456 | 1028.8000 | n/a | 268435456 | 268435456 | ok | 23609344 | 0.2112 | caller |
+| M-B | zrs | zeros-4294967296 | 1028.8500 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.1969 | caller |
+| M-B | zsys | nested-2x-4294967296:layer1 | 1028.8500 | 633756 | 268435456 | 268435456 | error:limit | 23609344 | 0.7756 | caller |
+| M-B | zsys | nested-2x-4294967296:layer2 | 615.9840 | 633756 | 4174525 | 268435456 | ok | 23609344 | 0.0155 | caller |
+| M-B | zsys | zeros-1048576 | 1009.2200 | n/a | 1048576 | 268435456 | ok | 23609344 | 0.0075 | caller |
+| M-B | zsys | zeros-1073741824 | 1028.8400 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.8100 | caller |
+| M-B | zsys | zeros-16777216 | 1028.2700 | n/a | 16777216 | 268435456 | ok | 23609344 | 0.0538 | caller |
+| M-B | zsys | zeros-268435456 | 1028.8000 | n/a | 268435456 | 268435456 | ok | 23609344 | 0.7974 | caller |
+| M-B | zsys | zeros-4294967296 | 1028.8500 | n/a | 268435456 | 268435456 | error:limit | 23609344 | 0.8162 | caller |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/bombs.csv` <- `data/raw/correctness/M-B/20261002T180727Z.json` via `cfbench.bombs`.*
 
 ## Size, safety and complexity
 
@@ -155,7 +1056,7 @@ Pending: run `make bombs` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/binary_size.csv` <- `data/raw/size/M-B/20261001T051108Z.json` via `cfbench.size`.*
+*Source: `results/binary_size.csv` <- `data/raw/size/M-B/20261002T180735Z.json` via `cfbench.size`.*
 
 ![Binary size per subject.](figures/binary_size.png)
 
@@ -198,7 +1099,7 @@ Pending: run `make bombs` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/cargo_bloat.csv` <- `data/raw/size/M-B/20261001T051108Z.json` via `cfbench.size`.*
+*Source: `results/cargo_bloat.csv` <- `data/raw/size/M-B/20261002T180735Z.json` via `cfbench.size`.*
 
 **Unsafe surface**
 
@@ -215,7 +1116,7 @@ Pending: run `make bombs` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/unsafe.csv` <- `data/raw/size/any/20261001T051308Z.json` via `cfbench.unsafe_scan`.*
+*Source: `results/unsafe.csv` <- `data/raw/size/any/20261002T180744Z.json` via `cfbench.unsafe_scan`.*
 
 ![Unsafe code per subject.](figures/unsafe_counts.png)
 
@@ -232,7 +1133,7 @@ Pending: run `make bombs` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/deps.csv` <- `data/raw/size/any/20261001T051441Z.json` via `cfbench.deps`.*
+*Source: `results/deps.csv` <- `data/raw/size/any/20261002T180746Z.json` via `cfbench.deps`.*
 
 **Decompression-path lines of code (tokei; method in docs/methods/decomp-paths.md)**
 
@@ -256,7 +1157,7 @@ Pending: run `make bombs` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/loc.csv` <- `data/raw/size/any/20261001T065129Z.json` via `cfbench.loc`.*
+*Source: `results/loc.csv` <- `data/raw/size/any/20261002T180747Z.json` via `cfbench.loc`.*
 
 **Per-function complexity (p90 by nearest rank)**
 
@@ -275,11 +1176,11 @@ Pending: run `make bombs` on M-A and M-B.
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/complexity.csv` <- `data/raw/size/any/20261001T065344Z.json`, `data/raw/size/any/20261001T065504Z.json` via `cfbench.complexity`.*
+*Source: `results/complexity.csv` <- `data/raw/size/any/20261002T180748Z.json`, `data/raw/size/any/20261002T180750Z.json` via `cfbench.complexity`.*
 
 ## Clean-room verification
 
-Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-gram Jaccard (n from 5 to 10), identifier overlap (length at least 6, RFC-mandated names excluded), comment n-gram overlap, and JPlag 6.3.0. Tools: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2. The RFC exclusion list is `config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`).
+Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-gram Jaccard (n from 5 to 10), identifier overlap (length at least 6, RFC-mandated names excluded), comment n-gram overlap, and JPlag 6.3.0. Tools: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2. The RFC exclusion list is `config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`). A post-hoc sensitivity analysis, added after the first full run and not pre-registered, repeats the identifier metrics (`ident_*_filtered`) with the extended list `config/identifier_exclusions_posthoc.txt` (Rust attribute, lint and std names, and names built only from RFC-defined terms), applied to every pair including the controls. The T1 claim is decided on the pre-registered metrics alone.
 
 **Scores against the controls (negative zrs-mox, positive zrs-zng)**
 
@@ -297,12 +1198,24 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 | ident_jaccard | cf-zrs | test | 0.0529 | 0.0439 | 0.1438 | 0.0907 | at or near negative |
 | ident_jaccard | zrs-mox | negative | 0.0439 | 0.0439 | 0.1438 | 0 | negative control |
 | ident_jaccard | zrs-zng | positive | 0.1438 | 0.0439 | 0.1438 | 1 | positive control |
+| ident_jaccard_filtered | cf-mox | test | 0.0252 | 0.0164 | 0.1421 | 0.0699 | at or near negative |
+| ident_jaccard_filtered | cf-zlib | test | 0.0106 | 0.0164 | 0.1421 | -0.0456 | below negative |
+| ident_jaccard_filtered | cf-zng | test | 0.0050 | 0.0164 | 0.1421 | -0.0905 | below negative |
+| ident_jaccard_filtered | cf-zrs | test | 0.0217 | 0.0164 | 0.1421 | 0.0420 | at or near negative |
+| ident_jaccard_filtered | zrs-mox | negative | 0.0164 | 0.0164 | 0.1421 | 0 | negative control |
+| ident_jaccard_filtered | zrs-zng | positive | 0.1421 | 0.0164 | 0.1421 | 1 | positive control |
 | ident_match_rate_left | cf-mox | test | 0.1285 | 0.0601 | 0.3386 | 0.2457 | at or near negative |
 | ident_match_rate_left | cf-zlib | test | 0.0334 | 0.0601 | 0.3386 | -0.0959 | below negative |
 | ident_match_rate_left | cf-zng | test | 0.0463 | 0.0601 | 0.3386 | -0.0498 | below negative |
 | ident_match_rate_left | cf-zrs | test | 0.1491 | 0.0601 | 0.3386 | 0.3195 | between |
 | ident_match_rate_left | zrs-mox | negative | 0.0601 | 0.0601 | 0.3386 | 0 | negative control |
 | ident_match_rate_left | zrs-zng | positive | 0.3386 | 0.0601 | 0.3386 | 1 | positive control |
+| ident_match_rate_left_filtered | cf-mox | test | 0.0457 | 0.0225 | 0.3493 | 0.0710 | at or near negative |
+| ident_match_rate_left_filtered | cf-zlib | test | 0.0183 | 0.0225 | 0.3493 | -0.0130 | below negative |
+| ident_match_rate_left_filtered | cf-zng | test | 0.0244 | 0.0225 | 0.3493 | 0.0057 | at or near negative |
+| ident_match_rate_left_filtered | cf-zrs | test | 0.0671 | 0.0225 | 0.3493 | 0.1363 | at or near negative |
+| ident_match_rate_left_filtered | zrs-mox | negative | 0.0225 | 0.0225 | 0.3493 | 0 | negative control |
+| ident_match_rate_left_filtered | zrs-zng | positive | 0.3493 | 0.0225 | 0.3493 | 1 | positive control |
 | jplag_avg | cf-mox | test | 0.1795 | 0.1311 | n/a | n/a | positive control unavailable |
 | jplag_avg | cf-zrs | test | 0.1812 | 0.1311 | n/a | n/a | positive control unavailable |
 | jplag_avg | zlib-zng | context | 0.2997 | 0.1311 | n/a | n/a | positive control unavailable |
@@ -352,9 +1265,11 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261001T051802Z.json`, `data/raw/similarity/any/20261001T052006Z.json`, `data/raw/similarity/any/20261001T052008Z.json`, `data/raw/similarity/any/20261001T052552Z.json` via `cfbench.similarity.summary`.*
+*Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261002T191558Z.json`, `data/raw/similarity/any/20261002T191601Z.json`, `data/raw/similarity/any/20261002T191604Z.json`, `data/raw/similarity/any/20261002T191653Z.json` via `cfbench.similarity.summary`.*
 
 **Result statement:** T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
+
+**Sensitivity:** Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed: on every separable metric each cf pair sits at or near the negative control or below it.
 
 ![Where cleanflate falls between the controls.](figures/similarity_controls.png)
 
@@ -390,7 +1305,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 **Per stage and round**
 
@@ -419,7 +1334,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 ![Effort per stage and round.](figures/effort_cost_per_stage.png)
 
@@ -459,7 +1374,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 **Review rounds**
 
@@ -477,7 +1392,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 **Defect discovery source**
 
@@ -497,7 +1412,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 **Human interventions**
 
@@ -517,7 +1432,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 **Denied tool calls**
 
@@ -536,7 +1451,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261001T134645Z.json`, `data/raw/effort/any/20261001T134646Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261002T180907Z.json`, `data/raw/effort/any/20261002T180908Z.json` via `cfbench.effort.derive`.*
 
 Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 
@@ -544,19 +1459,19 @@ Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 
 | Fact | Value | Fetched |
 |---|---|---|
-| commit_count | 1083 | 20261001T134649Z |
-| contributor_count_including_anonymous | 37 | 20261001T134649Z |
-| first_commit_date | 2023-12-05T05:04:21Z | 20261001T134649Z |
-| first_commit_sha | 8b273a581175728de535a363c25a4352e6d005c6 | 20261001T134649Z |
-| first_github_release | v0.2.0 (2024-06-12T12:16:19Z) | 20261001T134649Z |
-| first_published_version_libz-rs-sys | 0.0.1 (2024-02-23T08:44:59.656473Z) | 20261001T134649Z |
-| first_published_version_zlib-rs | 0.0.1 (2024-02-23T08:44:37.843487Z) | 20261001T134649Z |
-| latest_github_release | v0.6.8 (2026-09-15T13:10:36Z) | 20261001T134649Z |
-| latest_published_version_libz-rs-sys | 0.6.8 (2026-09-15T13:10:03.060802Z) | 20261001T134649Z |
-| latest_published_version_zlib-rs | 0.6.8 (2026-09-15T13:10:00.283903Z) | 20261001T134649Z |
-| repo_created_at | 2023-12-05T05:04:21Z | 20261001T134649Z |
-| stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261001T134649Z |
-| stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261001T134649Z |
+| commit_count | 1083 | 20261002T180911Z |
+| contributor_count_including_anonymous | 37 | 20261002T180911Z |
+| first_commit_date | 2023-12-05T05:04:21Z | 20261002T180911Z |
+| first_commit_sha | 8b273a581175728de535a363c25a4352e6d005c6 | 20261002T180911Z |
+| first_github_release | v0.2.0 (2024-06-12T12:16:19Z) | 20261002T180911Z |
+| first_published_version_libz-rs-sys | 0.0.1 (2024-02-23T08:44:59.656473Z) | 20261002T180911Z |
+| first_published_version_zlib-rs | 0.0.1 (2024-02-23T08:44:37.843487Z) | 20261002T180911Z |
+| latest_github_release | v0.6.8 (2026-09-15T13:10:36Z) | 20261002T180911Z |
+| latest_published_version_libz-rs-sys | 0.6.8 (2026-09-15T13:10:03.060802Z) | 20261002T180911Z |
+| latest_published_version_zlib-rs | 0.6.8 (2026-09-15T13:10:00.283903Z) | 20261002T180911Z |
+| repo_created_at | 2023-12-05T05:04:21Z | 20261002T180911Z |
+| stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261002T180911Z |
+| stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261002T180911Z |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
@@ -572,11 +1487,11 @@ See [findings.md](findings.md) for bugs found in cleanflate. They are recorded t
 
 ### Training-data contamination
 
-Model training data cannot be controlled, so resemblance is measured against negative and positive controls instead of assumed away. T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Similarity metrics are proxies; a low score does not prove independence, and a high one does not prove copying.
+Model training data cannot be controlled, so resemblance is measured against negative and positive controls instead of assumed away. T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed: on every separable metric each cf pair sits at or near the negative control or below it. The extended exclusion list was written after the first full run had been seen, so this result is a disclosed sensitivity check, not the pre-registered test. Similarity metrics are proxies; a low score does not prove independence, and a high one does not prove copying.
 
 ### Machine variance and thermal effects
 
-Timings come from two desktop-class machines that are not isolated labs; a starting load above 1.0 is recorded as a warning (refused only with `--strict`) and each session is repeated 2 times. Pending: run `make perf` on M-A and M-B. Governor and thermal state are recorded in the environment captures.
+Timings come from two desktop-class machines that are not isolated labs; a starting load above 1.0 is recorded as a warning (refused only with `--strict`) and each session is repeated 2 times. The agreement summary has 2 machine and variant entries, of which 2 are not 'pass' (tolerance 5%). Governor and thermal state are recorded in the environment captures.
 
 ### Feature-scope mismatch
 
@@ -584,7 +1499,7 @@ cleanflate only decompresses, in safe Rust, with no SIMD and no C ABI; the compa
 
 ### Fuzz budget limits
 
-Fuzzing finds divergences but cannot show their absence. No full fuzz run is recorded yet (configured budget 4 CPU hours per target); Pending: run `make fuzz` on a machine that can spare it. Normalizations that hide API-semantics differences are listed in `fuzz/README.md`.
+Fuzzing finds divergences but cannot show their absence. The fuzz runs recorded in `fuzz_stats` used diff_cf_mox 4, diff_cf_zlib 4, diff_cf_zrs 4 CPU hours against a configured 4 per target. Normalizations that hide API-semantics differences are listed in `fuzz/README.md`.
 
 ### n=1 build effort
 
@@ -592,4 +1507,4 @@ The effort data describes one pipeline building one library in three rounds on o
 
 ### Hardware-CRC asymmetry
 
-Hardware CRC is not equal across subjects: on M-B the default zlib build has hardware CRC not compiled in and the zlib-nohw control does not. On x86_64 the control build is identical to the default build, so the control only separates the two on aarch64. Currently: no framing verdict yet.
+Hardware CRC is not equal across subjects: on M-B the default zlib build has hardware CRC not compiled in and the zlib-nohw control does not. On x86_64 the control build is identical to the default build, so the control only separates the two on aarch64. Currently: the gzip-gap verdict is inconclusive.

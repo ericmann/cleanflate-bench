@@ -750,10 +750,16 @@ def similarity_section(d: Path, cfg: dict) -> str:
         f"(n from {cfg['similarity']['ngram_min']} to {cfg['similarity']['ngram_max']}), identifier overlap "
         f"(length at least {cfg['similarity']['min_ident_len']}, RFC-mandated names excluded), comment n-gram "
         f"overlap, and JPlag {jplag}. Tools: {', '.join(versions)}. The RFC exclusion list is "
-        "`config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`)."
+        "`config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`). "
+        "A post-hoc sensitivity analysis, added after the first full run and not pre-registered, repeats "
+        "the identifier metrics (`ident_*_filtered`) with the extended list "
+        "`config/identifier_exclusions_posthoc.txt` (Rust attribute, lint and std names, and names built "
+        "only from RFC-defined terms), applied to every pair including the controls. The T1 claim is "
+        "decided on the pre-registered metrics alone."
     )
     stmt = _statement_lines(d)
     claim = next((ln for ln in stmt if "T1 claim" in ln), None)
+    sensitivity = next((ln for ln in stmt if ln.startswith("**Post-hoc sensitivity")), None)
     blocks = [
         methods,
         table_block(
@@ -783,6 +789,7 @@ def similarity_section(d: Path, cfg: dict) -> str:
             title="Scores against the controls (negative zrs-mox, positive zrs-zng)",
         ),
         ("**Result statement:** " + claim.replace("**", ""))
+        + (f"\n\n**Sensitivity:** {sensitivity.replace('**', '')}" if sensitivity else "")
         if claim
         else pending("similarity_summary"),
         figure("similarity_controls", "Where cleanflate falls between the controls.", d),
@@ -949,6 +956,14 @@ def findings_section(d: Path) -> str:
 
 def threats_section(d: Path, cfg: dict) -> str:
     stmt = next((ln.replace("**", "") for ln in _statement_lines(d) if "T1 claim" in ln), None)
+    sens = next(
+        (
+            ln.replace("**", "")
+            for ln in _statement_lines(d)
+            if ln.startswith("**Post-hoc sensitivity")
+        ),
+        None,
+    )
     flagged = pending("perf_agreement_summary")
     try:
         rows, _ = _read("perf_agreement_summary", d)
@@ -994,6 +1009,12 @@ def threats_section(d: Path, cfg: dict) -> str:
             "Model training data cannot be controlled, so resemblance is measured against "
             "negative and positive controls instead of assumed away. "
             + (stmt or pending("similarity_summary"))
+            + (
+                f" {sens} The extended exclusion list was written after the first full run had been "
+                "seen, so this result is a disclosed sensitivity check, not the pre-registered test."
+                if sens
+                else ""
+            )
             + " Similarity metrics are proxies; a low score does not prove independence, and a high one does not prove copying.",
         ),
         (
