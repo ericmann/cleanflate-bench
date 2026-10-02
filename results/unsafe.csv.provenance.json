@@ -18,9 +18,9 @@
  "raw_files": [
   {
    "machine": "any",
-   "path": "data/raw/size/any/20261001T051308Z.json",
-   "sha256": "88dd67984a67d4ecd2fa0d28bd5296d2a939f636fa52a564751aadbcb71f3d45",
-   "timestamp": "20261001T051308Z"
+   "path": "data/raw/size/any/20261002T180744Z.json",
+   "sha256": "759f7343457f1f1ae55fde66d2c05865e5f905aac38d922a66ba05a0f92b5fdd",
+   "timestamp": "20261002T180744Z"
   }
  ],
  "script": "cfbench.unsafe_scan",

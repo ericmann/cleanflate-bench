@@ -2,14 +2,27 @@
 
 # Talking points
 
-**Only 5 figures rendered; the kit aims for 8 to 12.** Not rendered:
+12 figures rendered.
 
-- Improvement by round: table trajectory is pending: no trajectory run; run make trajectory on M-A and M-B
-- Throughput against every comparator: table perf_aggregates is pending: no full perf runs; run make perf on M-A and M-B
-- Framing decomposition: table framing_overhead is pending: no framing run; run make framing on M-A and M-B
-- Fuzzing statistics: fuzz_stats is pending: no full fuzz run; run make fuzz on a quiet machine
-- Checksum throughput: checksums is pending: no checksum run; run make checksums on M-A and M-B
-- Content features against the cf ratio: table perf_cells is pending: no full perf runs; run make perf on M-A and M-B
+## Improvement by round
+
+Files: `trajectory_M-B.svg`/`trajectory_M-B.png`
+
+- No bullet: no measurement in this study.
+
+## Throughput against every comparator
+
+Files: `perf_throughput_M-B.svg`/`perf_throughput_M-B.png`
+
+- Not claimed (parity_with_zlib): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
+- Not claimed (faster_than_zrs): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
+- Not claimed (faster_than_mox): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
+
+## Framing decomposition
+
+Files: `framing_decomposition.svg`/`framing_decomposition.png`
+
+- Not claimed (gzip_gap_is_hw_crc): the framing hypothesis verdict is inconclusive.
 
 ## Similarity against the controls
 
@@ -50,13 +63,35 @@ Files: `malformed_highlights.svg`/`malformed_highlights.png`
 - rfc1951/valid_stored_trailing_byte.bin: cleanflate rejects it (TrailingData) while other subjects accept it, by design of its strict defaults.
 - Every disagreement is cleanflate being stricter than the comparators; none is a comparator rejecting what cleanflate accepts.
 
+## Fuzzing statistics
+
+Files: `fuzz_stats.svg`/`fuzz_stats.png`
+
+- diff_cf_mox on M-B: 340,702 executions, 0 divergences.
+- diff_cf_zlib on M-B: 583,504 executions, 0 divergences.
+- diff_cf_zrs on M-B: 313,085 executions, 0 divergences.
+
+## Checksum throughput
+
+Files: `checksum_throughput_M-B.svg`/`checksum_throughput_M-B.png`
+
+- crc32 at the largest input on M-B: cleanflate 2.39 GiB/s, zlib 4.22 GiB/s.
+- adler32 at the largest input on M-B: cleanflate 3.22 GiB/s, zlib 2.97 GiB/s.
+
+## Content features against the cf ratio
+
+Files: `content_scatter_short_dist_fraction_M-B.svg`/`content_scatter_short_dist_fraction_M-B.png`, `content_scatter_literal_fraction_M-B.svg`/`content_scatter_literal_fraction_M-B.png`
+
+- Hypothesis h1 verdict: inconclusive.
+- Hypothesis h2 verdict: refuted.
+
 ## Questions a reviewer will ask
 
 ### Why is it slower than C?
 
-- Not claimed (parity_with_zlib): no data supports it (table perf_agreement_summary is pending: no full perf runs; run make perf on M-A and M-B).
+- Not claimed (parity_with_zlib): no data supports it (no row {'machine': 'M-A', 'variant': 'generic'} in perf_agreement_summary: run `make perf`).
+- On the gzip-framing gap, the hardware-CRC explanation is inconclusive.
 - Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
-- Pending: perf ratios and framing verdict (no measurement in this study; run the make targets in PAPER_KIT.md).
 
 ### How do you know it wasn't copied?
 

@@ -12,8 +12,15 @@
   "ratio_vs_zlib",
   "complete"
  ],
- "pending": "no trajectory run; run make trajectory on M-A and M-B",
- "raw_files": [],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/trajectory/M-B/20261002T145905Z.json",
+   "sha256": "716add7cddf40046229014e0460fdc91c0ab33be4185e5adf87748c9cac9aca1",
+   "timestamp": "20261002T145905Z"
+  }
+ ],
  "script": "cfbench.trajectory",
  "table": "trajectory.csv"
 }

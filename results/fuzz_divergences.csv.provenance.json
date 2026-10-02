@@ -6,8 +6,27 @@
   "classification",
   "outcomes_by_subject"
  ],
- "pending": "no full fuzz run; run make fuzz on a quiet machine",
- "raw_files": [],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/correctness/M-B/20261002T160357Z.json",
+   "sha256": "36a538a215d1d66e961cf918bb01b11a309572b01f990bab3dec48ff9b5ebbc6",
+   "timestamp": "20261002T160357Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/correctness/M-B/20261002T170524Z.json",
+   "sha256": "02644595b4cb6f1e2f78ab9f7f1cbcd727c5da62b968913efc7b383f177ea7a7",
+   "timestamp": "20261002T170524Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/correctness/M-B/20261002T180614Z.json",
+   "sha256": "42a5deb7a76406f8a2ae181f1852aeaf648918530e07adb4c4fb6f769d8e9e17",
+   "timestamp": "20261002T180614Z"
+  }
+ ],
  "script": "cfbench.fuzzing",
  "table": "fuzz_divergences.csv"
 }

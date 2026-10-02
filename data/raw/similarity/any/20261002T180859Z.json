@@ -1,0 +1,196 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/similarity/jplag.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "c753e3a6697c5998a71d9d01c39da122cd687ee8"
+ },
+ "category": "similarity",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   4.11767578125,
+   5.49169921875,
+   6.60791015625
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "c753e3a6697c5998a71d9d01c39da122cd687ee8",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 70.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 70.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 76.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 71.500\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 1080.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 750.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "any",
+ "payload": {
+  "kind": "jplag",
+  "pairs": [
+   {
+    "avg": 0.1311451061933759,
+    "cross_language": false,
+    "files": {
+     "mox": 5,
+     "zrs": 26
+    },
+    "jplag_version": "6.3.0",
+    "language": "rust",
+    "left": "zrs",
+    "longest_match": 37.0,
+    "matches": 156,
+    "max": 0.4422739794640621,
+    "max_length": 22965.0,
+    "min_tokens": 8,
+    "right": "mox",
+    "role": "negative",
+    "status": "ok"
+   },
+   {
+    "cross_language": true,
+    "left": "zrs",
+    "right": "zng",
+    "role": "positive",
+    "status": "not applicable (cross-language)"
+   },
+   {
+    "avg": 0.18123566918993625,
+    "cross_language": false,
+    "files": {
+     "cf": 17,
+     "zrs": 26
+    },
+    "jplag_version": "6.3.0",
+    "language": "rust",
+    "left": "cf",
+    "longest_match": 594.0,
+    "matches": 184,
+    "max": 0.32423016408181615,
+    "max_length": 22965.0,
+    "min_tokens": 8,
+    "right": "zrs",
+    "role": "test",
+    "status": "ok"
+   },
+   {
+    "avg": 0.17950508106430843,
+    "cross_language": false,
+    "files": {
+     "cf": 17,
+     "mox": 5
+    },
+    "jplag_version": "6.3.0",
+    "language": "rust",
+    "left": "cf",
+    "longest_match": 54.0,
+    "matches": 109,
+    "max": 0.2897570748810418,
+    "max_length": 8915.0,
+    "min_tokens": 8,
+    "right": "mox",
+    "role": "test",
+    "status": "ok"
+   },
+   {
+    "cross_language": true,
+    "left": "cf",
+    "right": "zlib",
+    "role": "test",
+    "status": "not applicable (cross-language)"
+   },
+   {
+    "cross_language": true,
+    "left": "cf",
+    "right": "zng",
+    "role": "test",
+    "status": "not applicable (cross-language)"
+   },
+   {
+    "avg": 0.29965156794425085,
+    "cross_language": false,
+    "files": {
+     "zlib": 13,
+     "zng": 93
+    },
+    "jplag_version": "6.3.0",
+    "language": "c",
+    "left": "zlib",
+    "longest_match": 1098.0,
+    "matches": 77,
+    "max": 0.5648924122310306,
+    "max_length": 12324.0,
+    "min_tokens": 12,
+    "right": "zng",
+    "role": "context",
+    "status": "ok"
+   }
+  ],
+  "tool": {
+   "c": true,
+   "java": {
+    "major": 25,
+    "path_java": "openjdk version \"21.0.12.1\" 2026-08-18",
+    "source": "pinned Temurin JRE",
+    "version": "openjdk version \"25.0.4.1\" 2026-08-18 LTS"
+   },
+   "jplag": "6.3.0",
+   "languages": [
+    "c",
+    "cpp",
+    "csharp",
+    "emf",
+    "emf-model",
+    "go",
+    "java",
+    "javascript",
+    "kotlin",
+    "llvmir",
+    "multi",
+    "python3",
+    "rlang",
+    "rust",
+    "scala",
+    "scheme",
+    "scxml",
+    "swift",
+    "text",
+    "typescript"
+   ],
+   "pinned_version": "6.3.0",
+   "rust": true
+  },
+  "tool_gaps": []
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.similarity.jplag",
+ "session": null,
+ "timestamp": "20261002T180859Z"
+}

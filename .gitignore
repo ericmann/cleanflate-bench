@@ -13,3 +13,6 @@ __pycache__/
 /fuzz/corpus
 /fuzz/artifacts
 /fuzz/coverage
+# Fuzz corpus archives exceed GitHub's 100 MB limit; kept out of git (sha256 and size are in the raw JSON).
+/data/raw/**/*-fuzz-*.tar.gz
+/make-all.log

@@ -16,8 +16,33 @@
   "ratio_vs_zlib",
   "complete"
  ],
- "pending": "no full perf runs; run make perf on M-A and M-B",
- "raw_files": [],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T072144Z.json",
+   "sha256": "3cacf85c6cc58aca7853434ddd20033cdf556dd75470f5c61dc9a709a6b411f6",
+   "timestamp": "20261002T072144Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T091719Z.json",
+   "sha256": "60015bda3e58c14d0a0b32c8b4898af7fae070b364c45f3f87c3d51375b24ebf",
+   "timestamp": "20261002T091719Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T103403Z.json",
+   "sha256": "2ada36a9813a61e8833c9f470278439b699b8a48abc75ee9feaea6d0ab268599",
+   "timestamp": "20261002T103403Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T115027Z.json",
+   "sha256": "4d274ce6370600cc7b28d646c153fb17c570b3530f43ac2463378a9b0cedd98f",
+   "timestamp": "20261002T115027Z"
+  }
+ ],
  "script": "cfbench.perf_report",
  "table": "perf_aggregates.csv"
 }

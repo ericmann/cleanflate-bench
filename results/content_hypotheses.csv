@@ -1,3 +1,8 @@
 hypothesis,machine,feature,n,rho,p,expected_sign,verdict
-H1,ALL,(combined),0,,,negative,inconclusive
-H2,ALL,(combined),0,,,negative,inconclusive
+H1,ALL,(combined),,,,negative,inconclusive
+H1,M-B,(combined),,,,negative,inconclusive
+H1,M-B,overlap_fraction,33,0.298166,0.0905909,negative,inconclusive
+H1,M-B,short_dist_fraction,33,-0.384423,0.0263974,negative,inconclusive
+H2,ALL,(combined),,,,negative,refuted
+H2,M-B,(combined),,,,negative,refuted
+H2,M-B,literal_fraction,23,-0.048419,0.828917,negative,refuted

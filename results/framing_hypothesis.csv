@@ -1,1 +1,8 @@
 machine,corpus,level,cf_overhead_gzip,zlib_nohw_overhead_gzip,zlib_overhead_gzip,rel_diff,verdict
+ALL,silesia,6,,,,,inconclusive
+M-B,canterbury,1,0.148964,0.0990593,0.0599913,0.503787,outside band (control identical to default on x86_64)
+M-B,canterbury,6,0.175154,0.094151,0.0949088,0.860356,outside band (control identical to default on x86_64)
+M-B,canterbury,9,0.155046,0.0865405,0.0782306,0.791603,outside band (control identical to default on x86_64)
+M-B,silesia,1,0.0914395,0.0882544,0.093755,0.0360907,within band (control identical to default on x86_64)
+M-B,silesia,6,0.137789,0.0858629,0.0886439,0.604761,outside band (control identical to default on x86_64)
+M-B,silesia,9,0.138372,0.0908105,0.095481,0.523747,outside band (control identical to default on x86_64)

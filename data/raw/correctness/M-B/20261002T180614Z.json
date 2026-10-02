@@ -1,0 +1,118 @@
+{
+ "argv": [
+  "/media/ericmann/Data/Projects/cleanflate-bench/cfbench/fuzzing.py",
+  "run"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "c753e3a6697c5998a71d9d01c39da122cd687ee8"
+ },
+ "category": "correctness",
+ "environment": {
+  "_system": "Linux",
+  "cores": {
+   "logical": 8,
+   "physical": 4
+  },
+  "cpu_model": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+  "governor": "schedutil",
+  "kernel": "7.1.5-76070105-generic",
+  "load_avg_start": [
+   5.765625,
+   6.75048828125,
+   7.169921875
+  ],
+  "machine": "M-B",
+  "os": {
+   "name": "Pop!_OS",
+   "version": "24.04 LTS"
+  },
+  "power": {
+   "low_power_mode": null,
+   "on_ac": null,
+   "raw": {}
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "c753e3a6697c5998a71d9d01c39da122cd687ee8",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "{\n   \"iwlwifi_1_1-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"temp1\":{\n\n      }\n   },\n   \"nvme-pci-0a00\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Composite\":{\n         \"temp1_input\": 70.850,\n         \"temp1_max\": 84.850,\n         \"temp1_min\": -273.150,\n         \"temp1_crit\": 84.850,\n         \"temp1_alarm\": 0.000\n      },\n      \"Sensor 1\":{\n         \"temp2_input\": 70.850,\n         \"temp2_max\": 65261.850,\n         \"temp2_min\": -273.150\n      },\n      \"Sensor 2\":{\n         \"temp3_input\": 75.850,\n         \"temp3_max\": 65261.850,\n         \"temp3_min\": -273.150\n      }\n   },\n   \"acpitz_0-acpi-0\":{\n      \"Adapter\": \"ACPI interface\",\n      \"temp1\":{\n         \"temp1_input\": 16.800\n      }\n   },\n   \"k10temp-pci-00c3\":{\n      \"Adapter\": \"PCI adapter\",\n      \"Tctl\":{\n         \"temp1_input\": 77.125\n      }\n   },\n   \"system76_io-virtual-0\":{\n      \"Adapter\": \"Virtual device\",\n      \"CPUF\":{\n         \"fan1_input\": 1500.000\n      },\n      \"INTF\":{\n         \"fan2_input\": 1050.000\n      }\n   }\n}\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+   "cmake": "cmake version 3.28.3",
+   "java": "openjdk version \"21.0.12.1\" 2026-08-18",
+   "python": "Python 3.12.12",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4"
+  }
+ },
+ "machine": "M-B",
+ "payload": {
+  "archive": {
+   "bytes": 134426980,
+   "path": "data/raw/correctness/M-B/20261002T180555Z-fuzz-diff_cf_mox.tar.gz",
+   "sha256": "f8e9e2f0fed086d25ff0f1169be3fc4a959bafe242fffcca4a15a0d2c2a2ba25"
+  },
+  "argv": [
+   "cargo",
+   "+nightly",
+   "fuzz",
+   "run",
+   "diff_cf_mox",
+   "--",
+   "-fork=4",
+   "-ignore_crashes=1",
+   "-max_total_time=3600",
+   "-seed=20261019"
+  ],
+  "artifact_files": 0,
+  "corpus_files_after_cmin": 439,
+  "corpus_files_before_cmin": 584,
+  "coverage": {
+   "cov_functions_pct": 49.12280701754386,
+   "cov_lines_pct": 54.472984942426926,
+   "cov_regions_pct": 52.04703832752613,
+   "files": 13,
+   "functions": [
+    171,
+    84
+   ],
+   "lines": [
+    2258,
+    1230
+   ],
+   "regions": [
+    2296,
+    1195
+   ],
+   "rustc": "rustc 1.101.0-nightly (c1070d693 2026-09-28)"
+  },
+  "cpu_hours": 4.0,
+  "exit_code": 0,
+  "jobs": 4,
+  "kind": "fuzz",
+  "new_artifacts": [],
+  "seconds_per_job": 3600,
+  "seed": 20261019,
+  "stats": {
+   "artifacts": [],
+   "cov": 1245,
+   "divergences": 0,
+   "exec_per_s": 26,
+   "executed": 340702,
+   "ft": 5132
+  },
+  "target": "diff_cf_mox",
+  "triage": []
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.fuzzing",
+ "session": null,
+ "timestamp": "20261002T180614Z"
+}
