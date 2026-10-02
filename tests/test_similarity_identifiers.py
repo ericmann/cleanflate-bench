@@ -58,3 +58,24 @@ def test_exclusion_file_sections_parse():
     got = ids.parse_exclusions(text)
     assert got["rfc"] == {"len", "blcount"}
     assert got["language"] == {"unwrapor"}
+
+
+def test_posthoc_list_extends_by_category_and_keeps_zlib_api_names():
+    extra = ids.load_posthoc()
+    for name in ("cfgattr", "inline", "clippy", "isempty", "enumerate", "debugassert"):
+        assert name in extra["language"], name
+    for name in ("lengthbase", "distextra", "litlentable", "windowsize", "extrabits"):
+        assert name in extra["rfc"], name
+    # zlib API vocabulary stays a legitimate signal, as in the pre-registered list
+    every = extra["rfc"] | extra["language"]
+    for name in ("inflate", "totalin", "totalout", "nextin", "availin", "windowbits", "streamend"):
+        assert name not in every, name
+    # it never shrinks or rewrites the pre-registered list
+    assert ids.exclusions_path() != ids.posthoc_path()
+
+
+def test_compare_suffix_names_every_key():
+    plain = ids.compare({"aaa", "bbb"}, {"bbb"})
+    suffixed = ids.compare({"aaa", "bbb"}, {"bbb"}, "_filtered")
+    assert set(suffixed) == {k + "_filtered" for k in plain}
+    assert suffixed["ident_jaccard_filtered"] == plain["ident_jaccard"] == 0.5

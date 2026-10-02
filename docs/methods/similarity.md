@@ -61,3 +61,27 @@ Notes and limits:
 
 `[similarity] ngram_min = 5` and `ngram_max = 10` in `config/bench.toml`. The smoke run uses `ngram_min`
 only.
+
+## Post-hoc identifier sensitivity analysis
+
+Added 2026-10-02, after the first full similarity run; it is not pre-registered and does not
+decide the T1 claim.
+
+The pre-registered identifier metrics (`ident_jaccard`, `ident_match_rate_left`) exclude the names in
+`config/rfc_identifiers.txt`. In the first full run the shared-identifier sets of every Rust pair,
+controls included, were dominated by names the implementer does not choose: attribute and lint
+names (`cfg_attr`, `inline`, `clippy`), std method and macro names (`is_empty`, `enumerate`,
+`debug_assert`) and names built only from RFC-defined terms (`length_base`, `dist_extra`,
+`litlen_table`). With 330-770 identifiers per subject, a few such names move a pair's position
+between the controls by more than the 0.25 "near" band.
+
+`config/identifier_exclusions_posthoc.txt` extends the exclusions by category, never by pair. The
+categories are Rust attribute, lint, derive, cfg, std/core trait, macro and method names, and
+names made only of RFC 1950/1951/1952 terms plus a generic suffix. Zlib API names and generic task
+words are kept, as in the pre-registered list. The extended list is applied to every pair,
+controls included, giving `ident_jaccard_filtered` and `ident_match_rate_left_filtered`.
+
+`results/similarity_statement.md` reports the T1 claim on the pre-registered metrics, then a
+separate "Post-hoc sensitivity" line. That line repeats the test with the two identifier metrics
+replaced by their filtered versions. Both lines appear in RESULTS.md, and the threats-to-validity
+section discloses that the extended list was written after the first results had been seen.

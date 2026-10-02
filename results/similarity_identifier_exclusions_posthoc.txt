@@ -1,0 +1,126 @@
+# POST-HOC extended identifier exclusions (added 2026-10-02, after the first full similarity run).
+#
+# NOT pre-registered. The pre-registered list is config/rfc_identifiers.txt and the T1 claim is
+# still decided on it alone. This list feeds a separately reported sensitivity analysis
+# (`ident_*_filtered` metrics), applied identically to every pair, controls included.
+#
+# Why: the first run showed the shared-identifier sets of every Rust pair, controls included, were
+# dominated by names the implementer does not choose (attribute and lint names, std method names)
+# and by names built from RFC-defined terms. With sets of only ~330-770 names per subject, a few
+# such names move a pair's position between the controls by more than the 0.25 "near" band.
+#
+# Selection rule (by category, not by pair): a name is listed if it is
+#   (language) a Rust attribute, attribute argument, lint, derive, std/core trait, macro or
+#              method name, or a cfg key; or
+#   (rfc)      composed only of terms the RFC 1950/1951/1952 texts define (alphabet, field and
+#              structure names) plus a generic suffix (base, extra, bits, table, size, len).
+# Zlib API names (inflate, total_in, next_in, avail_in, window_bits, stream_end, ...) stay
+# deliberately NOT excluded, as in the pre-registered list: sharing them is a legitimate signal.
+# Generic English task words (decompress, decoder, output, status, ...) are also kept.
+# Same format as rfc_identifiers.txt: one name per line, normalised (lowercase, no `_`).
+
+# language
+always             # #[inline(always)]
+cfg_attr           # attribute
+clippy             # lint namespace
+derive             # attribute
+inline             # attribute
+feature            # #[cfg(feature = ...)]
+dead_code          # lint
+forbid             # lint level
+unsafe_code        # lint
+rustfmt            # tool attribute
+target_arch        # cfg key
+target_os          # cfg key
+target_endian      # cfg key
+target             # cfg key prefix
+non_exhaustive     # attribute
+hidden             # #[doc(hidden)]
+must_use           # attribute
+PartialEq          # derive
+PartialOrd         # derive
+Formatter          # core::fmt
+Display            # core::fmt
+write_str          # core::fmt::Write
+write_fmt          # core::fmt::Write
+debug_struct       # core::fmt
+finish             # core::fmt / Hasher
+unreachable        # macro
+unimplemented      # macro
+assert             # macro
+assert_eq          # macro
+assert_ne          # macro
+debug_assert       # macro
+debug_assert_eq    # macro
+debug_assert_ne    # macro
+matches            # macro
+static             # 'static lifetime
+is_empty           # std method
+is_none            # std method
+is_some            # std method
+is_err             # std method
+get_mut            # std method
+get_unchecked      # std method
+iter_mut           # std method
+into_iter          # std method
+enumerate          # std method
+copied             # std method
+cloned             # std method
+chunks             # std method
+windows            # std method (slice::windows)
+resize             # std method
+truncate           # std method
+reserve            # std method
+extend             # std method
+contains           # std method
+capacity           # std method
+with_capacity      # std method
+try_from           # std trait
+try_into           # std trait
+as_slice           # std method
+as_mut_slice       # std method
+is_power_of_two    # std method
+position           # std method (Iterator::position)
+saturating_mul     # std method
+wrapping_shl       # std method
+wrapping_shr       # std method
+checked_mul        # std method
+overflowing_add    # std method
+min_by_key         # std method
+max_by_key         # std method
+from_utf8          # std function
+
+# rfc
+length         # RFC 1951 §3.2.5 length codes
+lengths        # RFC 1951 §3.2.5
+distance       # RFC 1951 §3.2.5 distance codes
+distances      # RFC 1951 §3.2.5
+literal        # RFC 1951 §3.2.5 literal/length alphabet
+literals       # RFC 1951 §3.2.5
+litlen         # RFC 1951 §3.2.5 literal/length
+lit_len        # RFC 1951 §3.2.5
+symbol         # RFC 1951 §3.2.5
+symbols        # RFC 1951 §3.2.5
+extra_bits     # RFC 1951 §3.2.5 "Extra Bits"
+length_base    # RFC 1951 §3.2.5 table
+length_extra   # RFC 1951 §3.2.5 table
+dist_base      # RFC 1951 §3.2.5 table
+dist_extra     # RFC 1951 §3.2.5 table
+litlen_table   # RFC 1951 §3.2.5 alphabet table
+dist_table     # RFC 1951 §3.2.5 alphabet table
+code_lens      # RFC 1951 §3.2.7 code lengths
+code_lengths   # RFC 1951 §3.2.7
+code_length    # RFC 1951 §3.2.7
+huffman        # RFC 1951 §3.2.2
+window         # RFC 1950 §2.2 / RFC 1951 §2
+window_size    # RFC 1950 §2.2 CINFO "LZ77 window size"
+checksum       # RFC 1950 §2.2 / RFC 1952 §2.3
+dictionary     # RFC 1950 §2.2 preset dictionary
+header         # RFC 1950 §2.2 / RFC 1952 §2.3
+comment        # RFC 1952 §2.3.1 FCOMMENT
+extra_len      # RFC 1952 §2.3.1 XLEN
+reserved       # RFC 1950 / 1951 / 1952 reserved fields
+stored         # RFC 1951 §3.2.4 stored blocks
+block_type     # RFC 1951 §3.2.3 BTYPE
+compressed     # RFC 1951 §3.2.3
+uncompressed   # RFC 1951 §3.2.4

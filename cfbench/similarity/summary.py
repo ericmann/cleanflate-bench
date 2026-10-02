@@ -22,6 +22,13 @@ NO_POS = "positive control unavailable"
 NO_NEG = "negative control unavailable"
 PENDING = "Pending: run `make similarity`"
 FIGURE = "similarity_controls"
+# Post-hoc sensitivity metrics (extended identifier exclusions) and the pre-registered metric each
+# one stands in for. They are reported, but the T1 claim is decided without them.
+POSTHOC = {
+    "ident_jaccard_filtered": "ident_jaccard",
+    "ident_match_rate_left_filtered": "ident_match_rate_left",
+}
+SENSITIVITY_LABEL = "Post-hoc sensitivity (extended identifier exclusions, not pre-registered)"
 
 
 def label(p: dict) -> str:
@@ -32,7 +39,7 @@ def metric_names(cfg: dict) -> list[str]:
     sim = cfg["similarity"]
     names = [f"ngram_jaccard@{n}" for n in range(sim["ngram_min"], sim["ngram_max"] + 1)]
     names += [f"ngram_containment@{sim['ngram_min']}", "ident_jaccard", "ident_match_rate_left"]
-    return names + ["comment_jaccard", "jplag_avg"]
+    return names + ["comment_jaccard", "jplag_avg", *POSTHOC]
 
 
 def collect_scores(payloads: dict, cfg: dict) -> dict[str, dict[str, dict]]:
@@ -52,6 +59,8 @@ def collect_scores(payloads: dict, cfg: dict) -> dict[str, dict[str, dict]]:
     for p in payloads.get("identifiers", {}).get("pairs", []):
         put("ident_jaccard", p, p["ident_jaccard"])
         put("ident_match_rate_left", p, p["ident_match_rate_left"])
+        for metric in POSTHOC:
+            put(metric, p, p.get(metric))
     for p in payloads.get("comments", {}).get("pairs", []):
         put("comment_jaccard", p, p["jaccard"])
     for p in payloads.get("jplag", {}).get("pairs", []):
@@ -130,6 +139,34 @@ def failing_metrics(rows: list[dict]) -> tuple[list[str], list[str]]:
     return sorted(failing), sorted(unsep - separable_seen - failing)
 
 
+def _claim_line(label_: str, rows: list[dict], sensitivity: bool = False) -> str:
+    """The verdict sentence for one set of metrics. Sensitivity lines never contain "T1 claim"."""
+    failing, unsep = failing_metrics(rows)
+    metrics = {r["metric"] for r in rows}
+    allowed, denied = ("would be allowed", "would still not be allowed") if sensitivity else (
+        "allowed", "NOT allowed")  # fmt: skip
+    if failing:
+        detail = []
+        for m in failing:
+            bad = [
+                f"{r['pair']} {r['classification']}"
+                for r in rows
+                if r["metric"] == m and r["role"] == "test" and r["classification"] not in OK_BANDS
+            ]
+            detail.append(f"`{m}` ({'; '.join(bad)})")
+        return (
+            f"**{label_} {denied}**: a cf pair is not at or near the negative control for "
+            + ", ".join(detail)
+            + "."
+        )
+    if unsep and len(unsep) == len(metrics):
+        return f"**{label_} {denied}**: no metric separates the controls."
+    return (
+        f"**{label_} {allowed}**: on every separable metric each cf pair sits at or near the "
+        "negative control or below it."
+    )
+
+
 def statement(rows: list[dict]) -> str:
     """The generated result statement. Deterministic for the same rows."""
     out = [HEADER, "", "# Similarity result statement", ""]
@@ -169,29 +206,10 @@ def statement(rows: list[dict]) -> str:
                     f"{t['pair']} {t['score']:.4g} cannot be positioned ({t['classification']}{ratio})"
                 )
         out.append(head + " " + "; ".join(parts) + ".")
-    failing, unsep = failing_metrics(rows)
+    primary = [r for r in rows if r["metric"] not in POSTHOC]
     out.append("")
-    if failing:
-        detail = []
-        for m in failing:
-            bad = [
-                f"{r['pair']} {r['classification']}"
-                for r in rows
-                if r["metric"] == m and r["role"] == "test" and r["classification"] not in OK_BANDS
-            ]
-            detail.append(f"`{m}` ({'; '.join(bad)})")
-        out.append(
-            "**T1 claim NOT allowed**: a cf pair is not at or near the negative control for "
-            + ", ".join(detail)
-            + "."
-        )
-    elif unsep and len(unsep) == len(metrics):
-        out.append("**T1 claim NOT allowed**: no metric separates the controls.")
-    else:
-        out.append(
-            "**T1 claim allowed**: on every separable metric each cf pair sits at or near the "
-            "negative control or below it."
-        )
+    out.append(_claim_line("T1 claim", primary))
+    unsep = failing_metrics(primary)[1]
     if unsep:
         out.append("")
         out.append(
@@ -199,6 +217,11 @@ def statement(rows: list[dict]) -> str:
             + ", ".join(f"`{m}`" for m in unsep)
             + "."
         )
+    if any(r["metric"] in POSTHOC for r in rows):
+        replaced = set(POSTHOC.values())
+        swapped = [r for r in rows if r["metric"] not in replaced]
+        out.append("")
+        out.append(_claim_line(SENSITIVITY_LABEL, swapped, sensitivity=True))
     out.append("")
     return "\n".join(out)
 

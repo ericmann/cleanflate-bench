@@ -75,8 +75,20 @@ def identifiers_payload(cfg: dict | None = None) -> dict:
     plist = pairs.load_pairs(cfg)
     subjects = sorted({s for p in plist for s in (p["left"], p["right"])})
     ids = {s: identifiers.collect(decomp_paths.files(s), min_len, excluded) for s in subjects}
-    results = [{**p, **identifiers.compare(ids[p["left"]], ids[p["right"]])} for p in plist]
+    # post-hoc sensitivity analysis: the same sets minus the extended list (never the T1 claim)
+    extra = identifiers.load_posthoc()
+    extended = excluded | extra["rfc"] | extra["language"]
+    filtered = {s: {n for n in v if n not in extended} for s, v in ids.items()}
+    results = [
+        {
+            **p,
+            **identifiers.compare(ids[p["left"]], ids[p["right"]]),
+            **identifiers.compare(filtered[p["left"]], filtered[p["right"]], "_filtered"),
+        }
+        for p in plist
+    ]
     text = identifiers.exclusions_path().read_bytes()
+    posthoc = identifiers.posthoc_path().read_bytes()
     return {
         "kind": "identifiers",
         "min_ident_len": min_len,
@@ -85,7 +97,13 @@ def identifiers_payload(cfg: dict | None = None) -> dict:
             "rfc_names": len(excl["rfc"]),
             "language_names": len(excl["language"]),
         },
+        "exclusions_posthoc": {
+            "sha256": hashlib.sha256(posthoc).hexdigest(),
+            "rfc_names": len(extra["rfc"]),
+            "language_names": len(extra["language"]),
+        },
         "identifier_counts": {s: len(v) for s, v in ids.items()},
+        "identifier_counts_filtered": {s: len(v) for s, v in filtered.items()},
         "pairs": results,
         "files": {s: subject_files(s) for s in subjects},
         "tools": tool_versions(),
@@ -117,6 +135,8 @@ def cmd_identifiers() -> Path:
     out = paths.RESULTS / "similarity_identifier_exclusions.txt"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_bytes(identifiers.exclusions_path().read_bytes())
+    out_posthoc = paths.RESULTS / "similarity_identifier_exclusions_posthoc.txt"
+    out_posthoc.write_bytes(identifiers.posthoc_path().read_bytes())
     return rawio.write_raw(
         "similarity",
         payload,

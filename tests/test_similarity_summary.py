@@ -119,3 +119,37 @@ def test_figure_draws_only_separable_metrics():
     fig = sm.draw(rows)
     ax = fig.axes[0]
     assert [t.get_text() for t in ax.get_yticklabels()] == ["a"]
+
+
+def test_posthoc_metrics_never_decide_the_claim():
+    # pre-registered identifier metric fails; its filtered stand-in passes
+    rows = sm.summarize(
+        {
+            "a": scores(0.1, 0.5, cf_zrs=0.12),
+            "ident_jaccard": scores(0.04, 0.14, cf_mox=0.075),
+            "ident_jaccard_filtered": scores(0.04, 0.14, cf_mox=0.05),
+        },
+        CFG,
+    )
+    text = sm.statement(rows)
+    claim = next(ln for ln in text.splitlines() if "T1 claim" in ln)
+    sens = next(ln for ln in text.splitlines() if ln.startswith("**Post-hoc sensitivity"))
+    assert "T1 claim NOT allowed" in claim and "`ident_jaccard`" in claim
+    assert "ident_jaccard_filtered" not in claim
+    assert "would be allowed" in sens and "T1 claim" not in sens
+    # and the reverse: a failing filtered metric cannot revoke an allowed claim
+    rows = sm.summarize(
+        {
+            "ident_jaccard": scores(0.04, 0.14, cf_mox=0.05),
+            "ident_jaccard_filtered": scores(0.04, 0.14, cf_mox=0.1),
+        },
+        CFG,
+    )
+    text = sm.statement(rows)
+    assert "**T1 claim allowed**" in text and "would still not be allowed" in text
+    assert "NOT allowed" not in text
+
+
+def test_no_sensitivity_line_without_filtered_metrics():
+    rows = sm.summarize({"a": scores(0.1, 0.5, cf_zrs=0.12)}, CFG)
+    assert "Post-hoc sensitivity" not in sm.statement(rows)

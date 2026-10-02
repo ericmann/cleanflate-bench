@@ -1180,7 +1180,7 @@ Full matrix: `results/malformed_matrix.csv`; highlights: [MALFORMED_HIGHLIGHTS.m
 
 ## Clean-room verification
 
-Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-gram Jaccard (n from 5 to 10), identifier overlap (length at least 6, RFC-mandated names excluded), comment n-gram overlap, and JPlag 6.3.0. Tools: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2. The RFC exclusion list is `config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`).
+Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-gram Jaccard (n from 5 to 10), identifier overlap (length at least 6, RFC-mandated names excluded), comment n-gram overlap, and JPlag 6.3.0. Tools: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2. The RFC exclusion list is `config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`). A post-hoc sensitivity analysis, added after the first full run and not pre-registered, repeats the identifier metrics (`ident_*_filtered`) with the extended list `config/identifier_exclusions_posthoc.txt` (Rust attribute, lint and std names, and names built only from RFC-defined terms), applied to every pair including the controls. The T1 claim is decided on the pre-registered metrics alone.
 
 **Scores against the controls (negative zrs-mox, positive zrs-zng)**
 
@@ -1198,12 +1198,24 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 | ident_jaccard | cf-zrs | test | 0.0529 | 0.0439 | 0.1438 | 0.0907 | at or near negative |
 | ident_jaccard | zrs-mox | negative | 0.0439 | 0.0439 | 0.1438 | 0 | negative control |
 | ident_jaccard | zrs-zng | positive | 0.1438 | 0.0439 | 0.1438 | 1 | positive control |
+| ident_jaccard_filtered | cf-mox | test | 0.0252 | 0.0164 | 0.1421 | 0.0699 | at or near negative |
+| ident_jaccard_filtered | cf-zlib | test | 0.0106 | 0.0164 | 0.1421 | -0.0456 | below negative |
+| ident_jaccard_filtered | cf-zng | test | 0.0050 | 0.0164 | 0.1421 | -0.0905 | below negative |
+| ident_jaccard_filtered | cf-zrs | test | 0.0217 | 0.0164 | 0.1421 | 0.0420 | at or near negative |
+| ident_jaccard_filtered | zrs-mox | negative | 0.0164 | 0.0164 | 0.1421 | 0 | negative control |
+| ident_jaccard_filtered | zrs-zng | positive | 0.1421 | 0.0164 | 0.1421 | 1 | positive control |
 | ident_match_rate_left | cf-mox | test | 0.1285 | 0.0601 | 0.3386 | 0.2457 | at or near negative |
 | ident_match_rate_left | cf-zlib | test | 0.0334 | 0.0601 | 0.3386 | -0.0959 | below negative |
 | ident_match_rate_left | cf-zng | test | 0.0463 | 0.0601 | 0.3386 | -0.0498 | below negative |
 | ident_match_rate_left | cf-zrs | test | 0.1491 | 0.0601 | 0.3386 | 0.3195 | between |
 | ident_match_rate_left | zrs-mox | negative | 0.0601 | 0.0601 | 0.3386 | 0 | negative control |
 | ident_match_rate_left | zrs-zng | positive | 0.3386 | 0.0601 | 0.3386 | 1 | positive control |
+| ident_match_rate_left_filtered | cf-mox | test | 0.0457 | 0.0225 | 0.3493 | 0.0710 | at or near negative |
+| ident_match_rate_left_filtered | cf-zlib | test | 0.0183 | 0.0225 | 0.3493 | -0.0130 | below negative |
+| ident_match_rate_left_filtered | cf-zng | test | 0.0244 | 0.0225 | 0.3493 | 0.0057 | at or near negative |
+| ident_match_rate_left_filtered | cf-zrs | test | 0.0671 | 0.0225 | 0.3493 | 0.1363 | at or near negative |
+| ident_match_rate_left_filtered | zrs-mox | negative | 0.0225 | 0.0225 | 0.3493 | 0 | negative control |
+| ident_match_rate_left_filtered | zrs-zng | positive | 0.3493 | 0.0225 | 0.3493 | 1 | positive control |
 | jplag_avg | cf-mox | test | 0.1795 | 0.1311 | n/a | n/a | positive control unavailable |
 | jplag_avg | cf-zrs | test | 0.1812 | 0.1311 | n/a | n/a | positive control unavailable |
 | jplag_avg | zlib-zng | context | 0.2997 | 0.1311 | n/a | n/a | positive control unavailable |
@@ -1253,9 +1265,11 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261002T180755Z.json`, `data/raw/similarity/any/20261002T180758Z.json`, `data/raw/similarity/any/20261002T180801Z.json`, `data/raw/similarity/any/20261002T180859Z.json` via `cfbench.similarity.summary`.*
+*Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261002T191558Z.json`, `data/raw/similarity/any/20261002T191601Z.json`, `data/raw/similarity/any/20261002T191604Z.json`, `data/raw/similarity/any/20261002T191653Z.json` via `cfbench.similarity.summary`.*
 
 **Result statement:** T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
+
+**Sensitivity:** Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed: on every separable metric each cf pair sits at or near the negative control or below it.
 
 ![Where cleanflate falls between the controls.](figures/similarity_controls.png)
 
@@ -1473,7 +1487,7 @@ See [findings.md](findings.md) for bugs found in cleanflate. They are recorded t
 
 ### Training-data contamination
 
-Model training data cannot be controlled, so resemblance is measured against negative and positive controls instead of assumed away. T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Similarity metrics are proxies; a low score does not prove independence, and a high one does not prove copying.
+Model training data cannot be controlled, so resemblance is measured against negative and positive controls instead of assumed away. T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed: on every separable metric each cf pair sits at or near the negative control or below it. The extended exclusion list was written after the first full run had been seen, so this result is a disclosed sensitivity check, not the pre-registered test. Similarity metrics are proxies; a low score does not prove independence, and a high one does not prove copying.
 
 ### Machine variance and thermal effects
 
