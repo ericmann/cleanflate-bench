@@ -1,3 +1,5 @@
 machine,variant,runs,cells,flagged_cells,max_abs_rel_diff,aggregates,flagged_aggregates,verdict
+M-A,generic,2,4896,291,0.490027,306,2,flagged
+M-A,native,2,3168,169,0.360877,198,0,pass
 M-B,generic,2,4896,787,0.410835,306,24,flagged
 M-B,native,2,3168,447,0.583894,198,14,flagged

@@ -1,0 +1,110 @@
+{
+ "argv": [
+  "/Users/ericmann/Projects/cleanflate-bench/cfbench/env.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "c6422a4afaa255805fab1cc6af36de2963911809"
+ },
+ "category": "env",
+ "environment": {
+  "_system": "Darwin",
+  "cores": {
+   "logical": 16,
+   "physical": 16
+  },
+  "cpu_model": "Apple M4 Max",
+  "governor": null,
+  "kernel": "25.6.0",
+  "load_avg_start": [
+   2.607421875,
+   5.2705078125,
+   5.19140625
+  ],
+  "machine": "M-A",
+  "os": {
+   "name": "macOS",
+   "version": "26.6.2"
+  },
+  "power": {
+   "low_power_mode": false,
+   "on_ac": true,
+   "raw": {
+    "batt": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34996323)\t57%; charging; 1:20 remaining present: true\n",
+    "pmset": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                1 (sleep prevented by useractivityd, powerd, sharingd, caffeinate, caffeinate, Claude, stable)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n powermode            2\n womp                 1\n"
+   }
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "c6422a4afaa255805fab1cc6af36de2963911809",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+   "cmake": "cmake version 4.4.3",
+   "java": "openjdk version \"21.0.10\" 2026-01-20",
+   "python": "Python 3.14.7",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4 (079e3fd05 2026-02-17)"
+  }
+ },
+ "machine": "M-A",
+ "payload": {
+  "capture": {
+   "_system": "Darwin",
+   "cores": {
+    "logical": 16,
+    "physical": 16
+   },
+   "cpu_model": "Apple M4 Max",
+   "governor": null,
+   "kernel": "25.6.0",
+   "load_avg_start": [
+    2.607421875,
+    5.2705078125,
+    5.19140625
+   ],
+   "machine": "M-A",
+   "os": {
+    "name": "macOS",
+    "version": "26.6.2"
+   },
+   "power": {
+    "low_power_mode": false,
+    "on_ac": true,
+    "raw": {
+     "batt": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34996323)\t57%; charging; 1:20 remaining present: true\n",
+     "pmset": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                1 (sleep prevented by useractivityd, powerd, sharingd, caffeinate, caffeinate, Claude, stable)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n powermode            2\n womp                 1\n"
+    }
+   },
+   "probe_errors": [],
+   "repos": {
+    "bench_dirty": true,
+    "bench_sha": "c6422a4afaa255805fab1cc6af36de2963911809",
+    "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+    "cleanflate_tag": "v0.3.0-cleanroom"
+   },
+   "thermal_start": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+   "toolchains": {
+    "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+    "cc": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "cmake": "cmake version 4.4.3",
+    "java": "openjdk version \"21.0.10\" 2026-01-20",
+    "python": "Python 3.14.7",
+    "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "uv": "uv 0.10.4 (079e3fd05 2026-02-17)"
+   }
+  },
+  "kind": "env"
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.env",
+ "session": null,
+ "timestamp": "20261002T231039Z"
+}

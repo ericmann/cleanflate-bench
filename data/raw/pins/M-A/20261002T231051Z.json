@@ -1,0 +1,274 @@
+{
+ "argv": [
+  "/Users/ericmann/Projects/cleanflate-bench/cfbench/pins.py"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "c6422a4afaa255805fab1cc6af36de2963911809"
+ },
+ "category": "pins",
+ "environment": {
+  "_system": "Darwin",
+  "cores": {
+   "logical": 16,
+   "physical": 16
+  },
+  "cpu_model": "Apple M4 Max",
+  "governor": null,
+  "kernel": "25.6.0",
+  "load_avg_start": [
+   2.98779296875,
+   5.26171875,
+   5.1884765625
+  ],
+  "machine": "M-A",
+  "os": {
+   "name": "macOS",
+   "version": "26.6.2"
+  },
+  "power": {
+   "low_power_mode": false,
+   "on_ac": true,
+   "raw": {
+    "batt": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34996323)\t58%; charging; 1:20 remaining present: true\n",
+    "pmset": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                1 (sleep prevented by useractivityd, powerd, sharingd, caffeinate, caffeinate, Claude)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n powermode            2\n womp                 1\n"
+   }
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "c6422a4afaa255805fab1cc6af36de2963911809",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+   "cmake": "cmake version 4.4.3",
+   "java": "openjdk version \"21.0.10\" 2026-01-20",
+   "python": "Python 3.14.7",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4 (079e3fd05 2026-02-17)"
+  }
+ },
+ "machine": "M-A",
+ "payload": {
+  "entry": {
+   "builds": {
+    "cf": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "release profile from root Cargo.toml (opt-level 3, lto fat, codegen-units 1)",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "crc32_instructions": 0,
+       "crc32c_instructions": 0,
+       "dispatch_symbols": []
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "cleanflate"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "mox": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "release profile from root Cargo.toml (opt-level 3, lto fat, codegen-units 1)",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "crc32_instructions": 0,
+       "crc32c_instructions": 0,
+       "dispatch_symbols": []
+      },
+      "method": [
+       "disassembly",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": true,
+      "roots": [
+       "miniz_oxide"
+      ],
+      "target_feature": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "unsafe_impls": 0,
+      "unsafe_traits": 0
+     }
+    },
+    "zlib": {
+     "compiler": "cc",
+     "compiler_version": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+     "flags": "-O3 -fPIC -DHAVE_HIDDEN",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "__ARM_FEATURE_CRC32": true,
+       "crc32_instructions": 22,
+       "crc32c_instructions": 0,
+       "dispatch_symbols": []
+      },
+      "method": [
+       "disassembly",
+       "compiler-probe",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic"
+    },
+    "zlib-nohw": {
+     "compiler": "cc",
+     "compiler_version": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+     "flags": "-O3 -U__ARM_FEATURE_CRC32 -fPIC -DHAVE_HIDDEN",
+     "hw_crc": {
+      "compiled_in": false,
+      "evidence": {
+       "__ARM_FEATURE_CRC32": false,
+       "crc32_instructions": 0,
+       "crc32c_instructions": 0,
+       "dispatch_symbols": []
+      },
+      "method": [
+       "disassembly",
+       "compiler-probe",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": false
+     },
+     "target_cpu": "generic"
+    },
+    "zng": {
+     "compiler": "cc",
+     "compiler_version": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+     "flags": "-O3 -DNDEBUG",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "cmake_options": {
+        "WITH_ALL_FALLBACKS": "OFF",
+        "WITH_ARMV8": "ON",
+        "WITH_CODE_COVERAGE": "OFF",
+        "WITH_CRC32_CHORBA": "ON",
+        "WITH_GTEST": "OFF",
+        "WITH_GZFILEOP": "ON",
+        "WITH_INFLATE_ALLOW_INVALID_DIST": "OFF",
+        "WITH_INFLATE_STRICT": "OFF",
+        "WITH_MAINTAINER_WARNINGS": "OFF",
+        "WITH_NATIVE_INSTRUCTIONS": "OFF",
+        "WITH_NEON": "ON",
+        "WITH_NEW_STRATEGIES": "ON",
+        "WITH_OPTIM": "ON",
+        "WITH_REDUCED_MEM": "OFF",
+        "WITH_RUNTIME_CPU_DETECTION": "ON",
+        "WITH_SANITIZER": "AUTO"
+       },
+       "crc32_instructions": 21,
+       "crc32c_instructions": 0,
+       "dispatch_symbols": [
+        "_crc32_armv8"
+       ]
+      },
+      "method": [
+       "disassembly",
+       "cmake-options",
+       "symbols"
+      ],
+      "note": "",
+      "runtime_dispatch": true
+     },
+     "target_cpu": "generic"
+    },
+    "zrs": {
+     "compiler": "rustc",
+     "compiler_version": "rustc 1.89.0 (29483883e 2025-08-04)",
+     "flags": "release profile from root Cargo.toml (opt-level 3, lto fat, codegen-units 1)",
+     "hw_crc": {
+      "compiled_in": true,
+      "evidence": {
+       "crc32_instructions": 13,
+       "crc32c_instructions": 0,
+       "dispatch_symbols": [],
+       "runtime_dispatch_source": true
+      },
+      "method": [
+       "disassembly",
+       "symbols",
+       "source"
+      ],
+      "note": "",
+      "runtime_dispatch": true
+     },
+     "target_cpu": "generic",
+     "unsafe_status": {
+      "deny_unsafe_code": false,
+      "forbid_unsafe_code": false,
+      "roots": [
+       "zlib-rs",
+       "libz-rs-sys"
+      ],
+      "target_feature": 46,
+      "unsafe_blocks": 674,
+      "unsafe_fns": 196,
+      "unsafe_impls": 5,
+      "unsafe_traits": 0
+     }
+    },
+    "zsys": {
+     "compiler": null,
+     "compiler_version": null,
+     "flags": null,
+     "hw_crc": {
+      "compiled_in": null,
+      "evidence": {},
+      "method": [],
+      "note": "Apple libz lives in the dyld shared cache; no file to disassemble; no disassembly available; compiled_in is unknown",
+      "runtime_dispatch": false
+     },
+     "system_library": {
+      "library": null,
+      "note": "Apple libz lives in the dyld shared cache; no file to disassemble",
+      "package": null,
+      "version": null,
+      "zlib_version": "1.2.12"
+     },
+     "target_cpu": "generic"
+    }
+   }
+  },
+  "kind": "pins",
+  "tool_gaps": []
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.pins",
+ "session": null,
+ "timestamp": "20261002T231051Z"
+}

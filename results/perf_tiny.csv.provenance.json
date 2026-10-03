@@ -16,6 +16,30 @@
  "pending": null,
  "raw_files": [
   {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T004833Z.json",
+   "sha256": "c6b2f5cbe9bed581352cac763d5f7fb4100b94454dc0a16da320bd6020384961",
+   "timestamp": "20261003T004833Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T022240Z.json",
+   "sha256": "d2bdbaecc23c0ad973e5f2f33d2b2f7c83f367e99b3f8eab125d451b12383372",
+   "timestamp": "20261003T022240Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T032646Z.json",
+   "sha256": "61c7eda4326e102c859c3fee8e7219f27cd4290e32c65f6b9b4295a8e0061043",
+   "timestamp": "20261003T032646Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T043023Z.json",
+   "sha256": "c9d3c3efec34d36e50e03eca3c178b107c74204976e32a81b427cf1fedc79808",
+   "timestamp": "20261003T043023Z"
+  },
+  {
    "machine": "M-B",
    "path": "data/raw/perf/M-B/20261002T072144Z.json",
    "sha256": "3cacf85c6cc58aca7853434ddd20033cdf556dd75470f5c61dc9a709a6b411f6",

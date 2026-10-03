@@ -12,6 +12,18 @@
  "pending": null,
  "raw_files": [
   {
+   "machine": "M-A",
+   "path": "data/raw/framing/M-A/20261003T043137Z.json",
+   "sha256": "75c8825a4813072a9dbc30fb159f813f7cee123b3c8cad68965983d985d56740",
+   "timestamp": "20261003T043137Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/framing/M-A/20261003T043226Z.json",
+   "sha256": "c82baad4022c6a97e62ecf98c15f6d270bb55196dfee67a3eda646696694ff35",
+   "timestamp": "20261003T043226Z"
+  },
+  {
    "machine": "M-B",
    "path": "data/raw/framing/M-B/20261002T115145Z.json",
    "sha256": "c205f59ca6d6a4bb6cc4cd9d33587c3bdb20b821fa6fb856af53a8794434773d",

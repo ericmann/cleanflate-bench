@@ -1,5 +1,11 @@
 machine,corpus,level,cf_overhead_gzip,zlib_nohw_overhead_gzip,zlib_overhead_gzip,rel_diff,verdict
-ALL,silesia,6,,,,,inconclusive
+ALL,silesia,6,,,,,refuted
+M-A,canterbury,1,0.164785,0.0854558,0.031928,0.92831,outside band
+M-A,canterbury,6,0.194854,0.0910941,0.045532,1.13904,outside band
+M-A,canterbury,9,0.208968,0.0798801,0.0239235,1.61603,outside band
+M-A,silesia,1,0.133075,0.0639174,0.0189316,1.08198,outside band
+M-A,silesia,6,0.156333,0.0665163,0.0184487,1.3503,outside band
+M-A,silesia,9,0.161123,0.0690221,0.020523,1.33437,outside band
 M-B,canterbury,1,0.148964,0.0990593,0.0599913,0.503787,outside band (control identical to default on x86_64)
 M-B,canterbury,6,0.175154,0.094151,0.0949088,0.860356,outside band (control identical to default on x86_64)
 M-B,canterbury,9,0.155046,0.0865405,0.0782306,0.791603,outside band (control identical to default on x86_64)
