@@ -103,6 +103,24 @@ denial_categories = [
     { prefix = "git clone is forbidden", category = "forbidden tool" },
 ]
 
+[effort.forbidden_reads]
+# Audit of the provenance log for allowed tool calls that touched prior art (docs/methods/effort.md).
+# Path-like tokens of an allowed call by one of these tools are checked against the patterns below.
+read_tools = ["Read", "Glob", "Grep", "NotebookRead", "WebFetch", "Bash"]
+# The build machine's cleanflate checkout; a prior-art word only counts in a path outside it.
+repo_root = "/media/ericmann/Data/Projects/cleanflate"
+# Mirrors FORBIDDEN_WORDS in cleanflate's tools/cleanroom/guard.py at the pinned SHA.
+words = ["zlib", "miniz", "flate2", "libdeflate", "libz-sys", "libz_sys", "zopfli"]
+# Roots the guard forbids (cargo registry and git checkouts, build-script output, rustdoc sources)
+# plus system and Homebrew include trees, where a C zlib header would live.
+root_patterns = [
+    '(^|/)\.cargo/(registry|git)(/|$)',
+    '(^|/)target/([^/]+/)*build(/|$)',
+    '(^|/)target/doc/src(/|$)',
+    '^/usr/(local/)?include/',
+    '^/opt/homebrew/(include|opt|Cellar)/',
+]
+
 [charts]
 base_dpi = 100
 paper_width_in = 3.3

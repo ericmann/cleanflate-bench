@@ -183,15 +183,24 @@ def outcome_class(outcome: str) -> str:
 def malformed_grid(
     matrix: list[dict], disagreements: list[dict]
 ) -> tuple[list[str], list[str], dict]:
-    """(files, subjects, {(file, subject): outcome}) restricted to disagreement files."""
-    files = [d["file"] for d in disagreements]
+    """(rows, subjects, {(row, subject): outcome}) restricted to disagreement files.
+
+    With a `machine` column a row is `file (machine)`, so each machine's outcomes stay separate.
+    """
+
+    def label(r: dict) -> str:
+        return f"{r['file']} ({r['machine']})" if r.get("machine") else r["file"]
+
+    files = list(dict.fromkeys(label(d) for d in disagreements))
+    by_machine = any(d.get("machine") for d in disagreements)
     subjects: list[str] = []
     cell = {}
     for r in matrix:
-        if r["file"] in files:
+        key = label(r) if by_machine else r["file"]
+        if key in files:
             if r["subject"] not in subjects:
                 subjects.append(r["subject"])
-            cell[(r["file"], r["subject"])] = r["outcome"]
+            cell[(key, r["subject"])] = r["outcome"]
     return files, subjects, cell
 
 

@@ -165,3 +165,39 @@ def test_no_raw_data_writes_pending_for_every_table(tmp_path, monkeypatch):
         assert rows == [] and side["pending"] == d.PENDING_RAW
     assert d.PENDING_RAW in (paths.RESULTS / "EFFORT_GAPS.md").read_text()
     assert config.load_config("full")["effort"]["idle_gap_hours"] == 3
+
+
+def test_forbidden_read_audit_totals_and_verdicts():
+    hist = history()
+    hist["rounds"][0]["tool_log"]["forbidden_reads"] = {
+        "read_calls": 10,
+        "candidates": [
+            {"ts": "t1", "tool": "Bash", "stage": "review", "task": None, "path": "/usr/include/zlib", "rule": "root"},
+            {"ts": "t2", "tool": "Read", "stage": "implement", "task": "P1", "path": "/opt/zlib/x.c", "rule": "word"},
+        ],
+    }  # fmt: skip
+    hist["rounds"][1]["tool_log"]["forbidden_reads"] = {"read_calls": 5, "candidates": []}
+    verdicts = {"t1": {"verdict": d.NOT_A_READ, "note": "regex text"}}
+    t = d.build_tables(hist, usage(), None, verdicts)
+    total = next(r for r in t["effort_totals"] if r["round"] == "total")
+    assert (total["read_calls"], total["forbidden_read_candidates"], total["forbidden_reads"]) == (
+        15,
+        2,
+        1,
+    )
+    assert total["interventions"] == 2 and total["denied_calls"] == 3
+    rows = {r["ts"]: r for r in t["effort_forbidden_reads"]}
+    assert rows["t1"]["verdict"] == d.NOT_A_READ and rows["t1"]["note"] == "regex text"
+    assert rows["t2"]["verdict"] == d.UNCLASSIFIED  # an unclassified candidate counts as a read
+    # history without the audit leaves the audit columns empty, never zero
+    plain = d.build_tables(history(), usage(), None)
+    tot = next(r for r in plain["effort_totals"] if r["round"] == "total")
+    assert "forbidden_reads" not in tot and plain["effort_forbidden_reads"] == []
+
+
+def test_committed_verdicts_classify_every_committed_candidate():
+    from cfbench import config
+
+    verdicts = config.load_toml(d.VERDICTS)["candidates"]
+    for v in verdicts.values():
+        assert v["verdict"] in (d.NOT_A_READ, "read") and v["note"]

@@ -121,3 +121,55 @@ def test_interventions_table_parsed_and_duration_gap_recorded():
     assert r2["foundry"]["verdict"] == "APPROVED"
     assert payload["method"]["idle_gap_hours"] == CFG["effort"]["idle_gap_hours"]
     assert json.dumps(payload)  # serialisable
+
+
+RULES = CFG["effort"]["forbidden_reads"]
+
+
+def entry(target, tool="Bash", decision="allowed", ts="2026-09-29T00:00:00.000Z"):
+    return {"ts": ts, "tool": tool, "target": target, "decision": decision,
+            "foundry_stage": "implement", "task_id": "P1-01"}  # fmt: skip
+
+
+def test_path_tokens_split_shell_words_and_keep_file_targets():
+    assert h.path_tokens("Read", "/x/y.rs") == ["/x/y.rs"]
+    toks = h.path_tokens("Bash", "cat /a/b.c | grep x>/tmp/o; ls ~/.cargo/registry 'q'")
+    assert toks == ["/a/b.c", "/tmp/o", "~/.cargo/registry"]
+    assert h.path_tokens("Bash", "echo 'unbalanced") == []  # shlex failure falls back to whitespace
+
+
+def test_forbidden_read_rules():
+    root = RULES["repo_root"]
+    # inside the build checkout a prior-art word is the project's own module name
+    assert (
+        h.forbidden_read_match(entry(f"{root}/crates/cleanflate/src/zlib.rs", tool="Read"), RULES)
+        is None
+    )
+    # outside it, the word counts; so do the guard's forbidden roots, whatever the tool
+    m = h.forbidden_read_match(entry("cat /opt/src/zlib-1.3/inflate.c"), RULES)
+    assert m == {
+        "path": "/opt/src/zlib-1.3/inflate.c",
+        "rule": "word zlib outside the build checkout",
+    }
+    r = h.forbidden_read_match(
+        entry("/home/u/.cargo/registry/src/libz-sys/lib.rs", tool="Read"), RULES
+    )
+    assert r["rule"].startswith("root ")
+    assert h.forbidden_read_match(entry(f"cat {root}/target/release/build/x/out.c"), RULES)[
+        "rule"
+    ].startswith("root ")
+    # denied calls and tools that cannot read are not candidates
+    assert (
+        h.forbidden_read_match(entry("cat /usr/include/zlib.h", decision="denied"), RULES) is None
+    )
+    assert h.forbidden_read_match(entry("/usr/include/zlib.h", tool="Write"), RULES) is None
+
+
+def test_tool_log_summary_counts_read_calls_and_candidates():
+    entries = [entry("ls /tmp"), entry("cat /usr/include/zlib.h", ts="t1"), entry("/x", tool="Write"),
+               entry("cat /usr/include/zlib.h", decision="denied")]  # fmt: skip
+    s = h.tool_log_summary(entries, CFG["effort"]["denial_categories"], RULES)
+    fr = s["forbidden_reads"]
+    assert fr["read_calls"] == 2
+    assert [c["ts"] for c in fr["candidates"]] == ["t1"] and fr["candidates"][0]["task"] == "P1-01"
+    assert "forbidden_reads" not in h.tool_log_summary(entries, CFG["effort"]["denial_categories"])

@@ -1,0 +1,9 @@
+# Hand classification of the forbidden-read candidates that cfbench.effort.history finds in
+# cleanflate's provenance log (method in docs/methods/effort.md). Keyed by the candidate's `ts`.
+# verdict = "not-a-read": the path appears only in a pattern, message or argument that opened no file.
+# verdict = "read": a prior-art file was read. A candidate with no entry here counts as a read.
+
+[candidates."2026-09-29T21:12:31.068Z"]
+verdict = "not-a-read"
+note = "Review-stage audit of the tool log itself: /usr/include/zlib is one alternative of the regex the reviewer used (python -c over provenance/tool-log.jsonl) to search for forbidden reads; the command opens only the log."
+classified = "2026-10-03, from the logged command text"

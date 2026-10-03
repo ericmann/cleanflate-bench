@@ -5,12 +5,14 @@ from pathlib import Path
 import pytest
 
 from cfbench import config, paths, provenance
-from cfbench.kits import results_md
+from cfbench.kits import pipeline, results_md, sections
 
 FIX = Path(__file__).parent / "fixtures" / "results"
 CFG = config.load_config("full")
-TITLES = ["Environments", "Subjects and pins", "Performance methodology", "Performance results",
-          "Framing decomposition", "Content analysis", "Trajectory"]  # fmt: skip
+TITLES = ["Claims and evidence", "Equivalence", "Safety", "Clean-room", "Effort, cost and provenance",
+          "Viability", "Iteration", "Findings for the cleanflate repo", "Threats to validity", "Appendix"]  # fmt: skip
+APPENDIX = ["Environments", "Subjects and pins", "Per-file throughput", "Tiny inputs (setup cost)",
+            "Content analysis", "Binary size"]  # fmt: skip
 
 
 @pytest.fixture
@@ -20,13 +22,39 @@ def isolated(tmp_path, monkeypatch):
     return tmp_path
 
 
-def test_part1_sections_present_in_order(isolated):
+def test_sections_present_in_order(isolated):
     d = isolated / "res"
     shutil.copytree(FIX, d)
-    text = results_md.render_sections_part1(d, CFG)
+    text = results_md.render_sections(d, CFG)
     heads = re.findall(r"^## (.+)$", text, flags=re.MULTILINE)
-    assert heads == TITLES
-    assert text.index("Aggregate MiB/s") > text.index("## Performance results")
+    assert heads == TITLES == results_md.TITLES
+    # the claims lead, in category order, before any results section
+    claims_part = text.split("\n## Equivalence")[0]
+    cats = re.findall(r"^### (.+)$", claims_part, flags=re.MULTILINE)
+    assert cats == [
+        "Equivalence",
+        "Safety",
+        "Clean-room",
+        "Effort",
+        "Viability",
+        "Iteration",
+        "Checked and not claimed",
+    ]
+    # content correlations, binary size, tiny inputs and per-file tables live in the appendix
+    appendix = text.split("\n## Appendix")[1]
+    assert re.findall(r"^### (.+)$", appendix, flags=re.MULTILINE) == APPENDIX
+    body = text.split("\n## Appendix")[0]
+    for moved in (
+        "Minimal decoder binary size",
+        "Tiny inputs (setup cost)",
+        "median MiB/s per file",
+        "## Content analysis",
+    ):
+        assert moved not in body, moved
+    viab = text.split("\n## Viability")[1].split("\n## Iteration")[0]
+    assert "### Both machines in one table" in viab and "Aggregate MiB/s" in viab
+    assert "### Hardware-CRC evidence: the gzip gap on each machine" in viab
+    assert "### Sleep-interruption check" in text.split("\n## Iteration")[1]
     assert f"seed {CFG['run']['seed']}" in text and f"{CFG['perf']['min_samples']} samples" in text
     assert "Source: `results/perf_aggregates.csv`" in text
 
@@ -62,29 +90,44 @@ def test_per_file_tables_include_every_workload(isolated):
 
 
 def test_pending_sections_name_make_target(isolated):
-    text = results_md.render_sections_part1(isolated / "none", CFG)
-    for make in ("make perf", "make framing", "make content", "make trajectory", "make env"):
+    text = results_md.render_sections(isolated / "none", CFG)
+    for make in ("make perf", "make framing", "make content", "make trajectory", "make env", "make malformed",
+                 "make conformance", "make fuzz", "make effort"):  # fmt: skip
         assert f"Pending: run `{make}`" in text, make
     pend = [p for p in text.split("\n\n") if p.startswith("Pending: run `")]
     assert pend and all(re.match(r"Pending: run `make [\w-]+` on ", p) for p in pend)
 
 
-THREATS = ["Training-data contamination", "Machine variance and thermal effects", "Feature-scope mismatch",
-           "Fuzz budget limits", "n=1 build effort", "Hardware-CRC asymmetry"]  # fmt: skip
+REQUIRED_THREATS = ["Single case study (n=1 target)", "Run-to-run stability", "M-A sleep during trajectory",
+                    "M-A High Power Mode", "M-B background load", "Fuzz budget and throttling",
+                    "Host-dependent gzip fixtures"]  # fmt: skip
 
 
-def test_threats_section_covers_six_required_threats(isolated):
+def test_threats_section_covers_required_threats(isolated):
     d = isolated / "res"
     shutil.copytree(FIX, d)
     text = results_md.threats_section(d, CFG)
     heads = re.findall(r"^### (.+)$", text, flags=re.MULTILINE)
-    assert heads == THREATS
-    paras = [p for p in text.split("### ")[1:]]
-    assert all(len(p.splitlines()) >= 3 for p in paras)  # a real paragraph under each heading
-    assert "T1 claim" in paras[0] or "Pending" in paras[0]
-    assert f"{CFG['perf']['max_start_load']}" in paras[1] and "not 'pass'" in paras[1]
-    assert str(CFG["fuzz"]["budget_cpu_hours"]) in paras[3]
-    assert "hardware CRC" in paras[5]
+    assert heads == sections.THREAT_TITLES and heads[: len(REQUIRED_THREATS)] == REQUIRED_THREATS
+    paras = {p.split("\n", 1)[0]: p for p in text.split("### ")[1:]}
+    assert all(
+        len(p.splitlines()) >= 3 for p in paras.values()
+    )  # a real paragraph under each heading
+    assert "one target library" in paras["Single case study (n=1 target)"]
+    assert "M-A generic: 0 of 10 aggregates flagged (pass)" in paras["Run-to-run stability"]
+    assert "rests on none" in paras["Run-to-run stability"]
+    for title, note in (("M-A sleep during trajectory", "m-a-sleep"), ("M-A High Power Mode", "m-a-high-power"),
+                        ("M-B background load", "m-b-background-load"), ("Fuzz budget and throttling", "fuzz-throttling"),
+                        ("Host-dependent gzip fixtures", "m-a-fixtures")):  # fmt: skip
+        assert pipeline.note(note).text in paras[title], title
+    assert (
+        "review stage missed" in paras["Host-dependent gzip fixtures"]
+        and "findings.md" in paras["Host-dependent gzip fixtures"]
+    )
+    fuzz = paras["Fuzz budget and throttling"]
+    assert str(CFG["fuzz"]["budget_cpu_hours"]) in fuzz and "1,000 executions" in fuzz
+    assert "T1 claim" in paras["Training-data contamination"]
+    assert "hardware crc" in paras["Hardware-CRC asymmetry"].lower()
 
 
 def test_full_render_is_deterministic(isolated):
@@ -93,9 +136,9 @@ def test_full_render_is_deterministic(isolated):
     a = results_md.render(d, CFG)
     assert a == results_md.render(d, CFG)
     assert a.startswith(results_md.HEADER)
+    assert f"# Results: {pipeline.PIPELINE_NAME}" in a
     heads = re.findall(r"^## (.+)$", a, flags=re.MULTILINE)
-    assert heads == [*TITLES, "Correctness", "Size, safety and complexity", "Clean-room verification",
-                     "Effort, cost and provenance", "Findings for the cleanflate repo", "Threats to validity"]  # fmt: skip
+    assert heads == TITLES
     assert (
         results_md.num("2962") == "2962"
         and results_md.num("0.5", 2) == "0.50"
@@ -112,10 +155,12 @@ def test_similarity_section_reports_verdict_counts(isolated):
     (d / "similarity_fragments_cf_zrs.csv").write_text(header + "\n".join(rows) + "\n")
     counts = results_md.fragment_counts(d)
     assert counts == [["cf-zrs", 5, 2, 1, 1, 1]]
-    text = results_md.similarity_section(d, CFG)
+    text = results_md.clean_room_section(d, CFG)
     assert "| cf-zrs | 5 | 2 | 1 | 1 | 1 |" in text
     assert "RFC-forced" in text and "Unreviewed" in text and "STRUCTURE_COMPARISON.md" in text
     assert "**Result statement:**" in text and "tree-sitter" in text
+    assert "### Similarity against negative and positive controls" in text
+    assert "Guard and audit totals per round" in text and "Forbidden-read candidates" in text
 
 
 def test_every_table_carries_parity_note(isolated):

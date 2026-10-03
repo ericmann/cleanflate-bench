@@ -4,7 +4,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from cfbench import provenance, rawio
+from cfbench import config, provenance, rawio
 
 TABLES = {
     "effort_stage_round": [
@@ -28,6 +28,22 @@ TABLES = {
         "cache_write_tokens",
         "cache_read_tokens",
         "cost_usd",
+        "interventions",
+        "denied_calls",
+        "read_calls",
+        "forbidden_read_candidates",
+        "forbidden_reads",
+    ],
+    "effort_forbidden_reads": [
+        "round",
+        "ts",
+        "tool",
+        "stage",
+        "task",
+        "path",
+        "rule",
+        "verdict",
+        "note",
     ],
     "effort_milestones": ["round", "milestone", "wall_clock_s", "review_rounds"],
     "effort_review_rounds": ["round", "review_round", "verdict", "fix_tasks"],
@@ -52,6 +68,9 @@ TABLES = {
 PENDING_RAW = "Pending: run `make effort` (needs the effort history and usage raw files)"
 PENDING_TRAJECTORY = "Pending: run `make trajectory` on M-A and M-B"
 TOKEN_KEYS = ("input_tokens", "output_tokens", "cache_read_tokens")
+VERDICTS = "forbidden_read_verdicts.toml"
+NOT_A_READ = "not-a-read"
+UNCLASSIFIED = "unclassified (counted as a read)"
 
 
 def _sum_cost(costs: list) -> float | None:
@@ -70,10 +89,35 @@ def _tokens(cells: list[dict]) -> dict:
     }
 
 
+def _audit(r: dict, verdicts: dict) -> tuple[dict, list[dict]]:
+    """Round totals of the forbidden-read audit and its candidate rows (None when not audited)."""
+    fr = r["tool_log"].get("forbidden_reads")
+    counts = {
+        "interventions": r["interventions"]["count"],
+        "denied_calls": r["tool_log"]["denied"]["count"],
+    }
+    if fr is None:
+        return counts, []
+    rows = []
+    for c in fr["candidates"]:
+        v = verdicts.get(c["ts"], {})
+        rows.append({"round": r["round"], "ts": c["ts"], "tool": c["tool"], "stage": c["stage"],
+                     "task": c["task"], "path": c["path"], "rule": c["rule"],
+                     "verdict": v.get("verdict", UNCLASSIFIED), "note": v.get("note", "")})  # fmt: skip
+    counts.update(read_calls=fr["read_calls"], forbidden_read_candidates=len(rows),
+                  forbidden_reads=sum(1 for x in rows if x["verdict"] != NOT_A_READ))  # fmt: skip
+    return counts, rows
+
+
 def build_tables(
-    history: dict, usage: dict, trajectory: list[dict] | None
+    history: dict, usage: dict, trajectory: list[dict] | None, verdicts: dict | None = None
 ) -> dict[str, list[dict]]:
-    """All effort tables as row lists, keyed by table name."""
+    """All effort tables as row lists, keyed by table name.
+
+    `verdicts` maps a forbidden-read candidate's ts to {verdict, note} (config/forbidden_read_verdicts.toml).
+    """
+    verdicts = verdicts or {}
+    forbidden: list[dict] = []
     cells_by_round_stage: dict[tuple, list[dict]] = defaultdict(list)
     cells_by_round: dict[int, list[dict]] = defaultdict(list)
     for c in usage["summary"]:
@@ -99,12 +143,15 @@ def build_tables(
                 row.update(_tokens(cells))
             stage_rows.append(row)
         tok = _tokens(cells_by_round.get(n, [])) if cells_by_round.get(n) else {}
+        counts, cand_rows = _audit(r, verdicts)
+        forbidden += cand_rows
         totals.append(
             {
                 "round": n,
                 "wall_clock_s": wc["attributed_seconds"],
                 "idle_s": wc["idle_seconds"],
                 **tok,
+                **counts,
             }
         )
         for m, secs in wc["by_milestone"].items():
@@ -140,12 +187,20 @@ def build_tables(
         for cat, cnt in r["tool_log"]["denied"]["categories"].items():
             denied.append({"round": n, "category": cat, "count": cnt})
     all_cells = [c for c in usage["summary"]]
+    count_keys = [
+        "interventions",
+        "denied_calls",
+        "read_calls",
+        "forbidden_read_candidates",
+        "forbidden_reads",
+    ]
     totals.append(
         {
             "round": "total",
             "wall_clock_s": sum(t["wall_clock_s"] for t in totals),
             "idle_s": sum(t["idle_s"] for t in totals),
             **(_tokens(all_cells) if all_cells else {}),
+            **{k: sum(t[k] for t in totals) for k in count_keys if all(k in t for t in totals)},
         }
     )
     by_round = {t["round"]: t for t in totals if t["round"] != "total"}
@@ -172,6 +227,7 @@ def build_tables(
     return {
         "effort_stage_round": stage_rows,
         "effort_totals": totals,
+        "effort_forbidden_reads": forbidden,
         "effort_milestones": milestones,
         "effort_review_rounds": reviews,
         "effort_defects": defects,
@@ -285,7 +341,8 @@ def derive() -> None:
         }
         for r in (trajectory or [])
     ]
-    tables = build_tables(hist[1], usage[1], typed)
+    verdicts = config.load_toml(VERDICTS).get("candidates", {})
+    tables = build_tables(hist[1], usage[1], typed, verdicts)
     raw = [hist[0], usage[0]]
     for name, cols in TABLES.items():
         provenance.write_table(

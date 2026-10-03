@@ -1,0 +1,3 @@
+machine,files,subjects,cf_expected_files,cf_matches_expected,cf_mismatches,disagreements,disagreements_cf_stricter
+M-A,10,6,10,10,0,2,2
+M-B,10,6,10,10,0,2,2

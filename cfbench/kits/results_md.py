@@ -1,10 +1,13 @@
-"""RESULTS.md: methodology and results for SPEC 3 (SPEC 5 T3, 6). Part 1 covers 3.1 to 3.5, part 2 the rest.
+"""RESULTS.md: every result of SPEC 3, organised around the pipeline's claims (SPEC 5 T3, 6).
 
-`render_sections_part1()` returns Markdown for: environments, subjects and pins, performance
-methodology and results, framing decomposition, content analysis and trajectory. Tables are copied
-from derived tables read through `kits.evidence.table_rows` (which refuses pending tables), each
-followed by a source line (table, raw files, script). Pending data becomes an explicit
-"Pending: run `make X` on M-Y" paragraph. Figures are embedded relative to `results/`.
+The document leads with the claims map (`sections.claims_map`), then one section per claim
+category in order (equivalence, safety, clean-room, effort, viability, iteration), the findings,
+the threats to validity, and an appendix (environments, pins, per-file tables, tiny inputs,
+content correlations, binary size). Tables are copied from derived tables read through
+`kits.evidence.table_rows` (which refuses pending tables), each followed by a source line (table,
+raw files, script). Pending data becomes an explicit "Pending: run `make X` on M-Y" paragraph, and
+a measurement deliberately skipped on a machine says so with its recorded reason. Figures are
+embedded relative to `results/`.
 """
 
 import csv
@@ -14,8 +17,11 @@ from importlib import metadata
 from pathlib import Path
 
 from cfbench import config, paths, rawio
+from cfbench.kits import claims as claims_mod
 from cfbench.kits import evidence as ev
+from cfbench.kits import pipeline, sections
 from cfbench.kits.evidence import MissingData
+from cfbench.kits.pipeline import EXAMPLE, PIPELINE_NAME
 from cfbench.parity import PARITY_NOTE
 
 MACHINES = "M-A and M-B"
@@ -30,7 +36,7 @@ def pending(table: str, machines: str = MACHINES, detail: str = "") -> str:
 def md_table(columns: list[str], rows: list[list[str]]) -> str:
     head = "| " + " | ".join(columns) + " |"
     sep = "|" + "|".join(["---"] * len(columns)) + "|"
-    body = ["| " + " | ".join(str(c) for c in r) + " |" for r in rows]
+    body = ["| " + " | ".join(str(c).replace("|", "\\|") for c in r) + " |" for r in rows]
     return "\n".join([head, sep, *body]) + f"\n\n*{PARITY_NOTE}*"
 
 
@@ -58,14 +64,33 @@ def figure(name: str, caption: str, d: Path, note: str = PARITY_NOTE) -> str:
     return f"![{caption}](figures/{name}.png)\n\n*{caption}* {note}"
 
 
-def section(title: str, *blocks: str) -> str:
-    return "\n\n".join([f"## {title}", *[b for b in blocks if b]])
+def section(title: str, *blocks: str, level: int = 2) -> str:
+    return "\n\n".join([f"{'#' * level} {title}", *[b for b in blocks if b]])
+
+
+def not_run_lines(table: str, machines_present: set[str], cfg: dict) -> list[str]:
+    """One line per configured machine with no rows: its recorded reason, or a pending line."""
+    out = []
+    for m in cfg["paper"]["machines"]:
+        if m in machines_present:
+            continue
+        why = pipeline.not_run_reason(m, table)
+        out.append(f"Not run on {m}: {why}." if why else pending(table, m))
+    return out
+
+
+def machines_in(table: str, d: Path) -> set[str]:
+    try:
+        rows, _ = _read(table, d)
+    except MissingData:
+        return set()
+    return {r.get("machine", "") for r in rows}
 
 
 # ---- environments and pins ------------------------------------------------------------------
 
 
-def environments(d: Path) -> str:
+def environments(d: Path, level: int = 2) -> str:
     newest: dict[str, dict] = {}
     for p in rawio.list_raw("env"):
         doc = rawio.load_raw(p)
@@ -74,7 +99,7 @@ def environments(d: Path) -> str:
         if m not in newest or doc["timestamp"] > newest[m]["timestamp"]:
             newest[m] = {"timestamp": doc["timestamp"], "cap": cap, "path": p}
     if not newest:
-        return section("Environments", pending("env"))
+        return section("Environments", pending("env"), level=level)
     rows = []
     for m in sorted(newest):
         c = newest[m]["cap"]
@@ -102,14 +127,17 @@ def environments(d: Path) -> str:
         ),
         f"*Source: raw env captures {srcs}.*",
         pending("env", " and ".join(missing)) if missing else "",
+        level=level,
     )
 
 
-def subjects_and_pins(lock_path: Path | None = None) -> str:
+def subjects_and_pins(lock_path: Path | None = None, level: int = 2) -> str:
     p = lock_path or paths.ROOT / "subjects.lock.json"
     if not p.exists():
         return section(
-            "Subjects and pins", "Pending: run `make pins` (writes `subjects.lock.json`)."
+            "Subjects and pins",
+            "Pending: run `make pins` (writes `subjects.lock.json`).",
+            level=level,
         )
     lock = json.loads(p.read_text(encoding="utf-8"))
     blocks = []
@@ -137,13 +165,15 @@ def subjects_and_pins(lock_path: Path | None = None) -> str:
         "Hardware-CRC determinations come from disassembly and symbol inspection of each built "
         "binary (`subjects.lock.json`); on x86_64 the `zlib-nohw` control is identical to the default build."
     )
-    return section("Subjects and pins", *blocks, note, "*Source: `subjects.lock.json`.*")
+    return section(
+        "Subjects and pins", *blocks, note, "*Source: `subjects.lock.json`.*", level=level
+    )
 
 
 # ---- performance ----------------------------------------------------------------------------
 
 
-def methodology(cfg: dict) -> str:
+def methodology(cfg: dict, level: int = 2) -> str:
     p = cfg["perf"]
     items = [
         (
@@ -174,7 +204,7 @@ def methodology(cfg: dict) -> str:
             "(zlib = 1.00x) and are only formed within the same mode."
         ),
     ]
-    return section("Performance methodology", "\n".join(f"- {i}" for i in items))
+    return section("Performance methodology", "\n".join(f"- {i}" for i in items), level=level)
 
 
 def _read(table: str, d: Path):
@@ -299,56 +329,10 @@ def tiny_block(d: Path) -> str:
     return f"**Tiny inputs (setup cost), raw framing, level 6**\n\n{tbl}\n\n{source('perf_tiny', side)}"
 
 
-def agreement_block(d: Path) -> str:
-    try:
-        rows, side = _read("perf_agreement_summary", d)
-    except MissingData:
-        return pending("perf_agreement_summary")
-    cols = [
-        "machine",
-        "variant",
-        "runs",
-        "cells",
-        "flagged_cells",
-        "max_abs_rel_diff",
-        "aggregates",
-        "flagged_aggregates",
-        "verdict",
-    ]
-    tbl = md_table(
-        [
-            "Machine",
-            "Variant",
-            "Runs",
-            "Cells",
-            "Flagged cells",
-            "Max |rel. diff|",
-            "Aggregates",
-            "Flagged aggregates",
-            "Verdict",
-        ],
-        [[num(r[c], 4) if c == "max_abs_rel_diff" else r[c] for c in cols] for r in rows],
-    )
-    return f"**Run-to-run agreement**\n\n{tbl}\n\n{source('perf_agreement_summary', side)}"
-
-
-def performance(d: Path, cfg: dict) -> list[str]:
-    return [
-        methodology(cfg),
-        section(
-            "Performance results",
-            aggregates_block(d, cfg),
-            per_file_block(d, cfg),
-            tiny_block(d),
-            agreement_block(d),
-        ),
-    ]
-
-
 # ---- framing, content, trajectory ------------------------------------------------------------
 
 
-def framing_section(d: Path) -> str:
+def framing_section(d: Path, level: int = 2) -> str:
     blocks = []
     for table, cols, heads in (
         (
@@ -415,10 +399,10 @@ def framing_section(d: Path) -> str:
         "either way, and on x86_64 the control build is identical to the default build."
     )
     blocks.append(figure("framing_decomposition", "Framing cost per subject.", d))
-    return section("Framing decomposition", *blocks)
+    return section("Framing decomposition", *blocks, level=level)
 
 
-def content_section(d: Path) -> str:
+def content_section(d: Path, level: int = 2) -> str:
     blocks = []
     try:
         rows, side = _read("content_hypotheses", d)
@@ -463,14 +447,14 @@ def content_section(d: Path) -> str:
         blocks.append(
             "Pending: scatter plots need perf data; run `make perf` on M-A and M-B, then `make content`."
         )
-    return section("Content analysis", *blocks)
+    return section("Content analysis", *blocks, level=level)
 
 
-def trajectory_section(d: Path, cfg: dict) -> str:
+def trajectory_section(d: Path, cfg: dict, level: int = 2) -> str:
     try:
         rows, side = _read("trajectory", d)
     except MissingData:
-        return section("Trajectory", pending("trajectory"))
+        return section("Trajectory", pending("trajectory"), level=level)
     sel = [r for r in rows if r["level"] == "6" and r["mode"] == "oneshot"]
     tbl = md_table(
         ["Machine", "Round", "Tag", "Corpus", "Framing", "Aggregate MiB/s", "Ratio vs zlib"],
@@ -491,7 +475,7 @@ def trajectory_section(d: Path, cfg: dict) -> str:
         figure(f"trajectory_{m}", f"Throughput ratio vs zlib by round on {m}.", d)
         for m in cfg["paper"]["machines"]
     ]
-    return section("Trajectory", tbl, source("trajectory", side), *figs)
+    return section("Trajectory", tbl, source("trajectory", side), *figs, level=level)
 
 
 # ---- part 2 ----------------------------------------------------------------------------------
@@ -515,7 +499,11 @@ def table_block(
         return pending(table)
     sel = [r for r in rows if where is None or where(r)][:limit]
     body = [
-        [num(r[c], digits) if _numeric(r[c]) else (r[c] or "n/a") for c in columns] for r in sel
+        [
+            num(r.get(c, ""), digits) if _numeric(r.get(c, "")) else (r.get(c) or "n/a")
+            for c in columns
+        ]
+        for r in sel
     ]
     head = f"**{title}**\n\n" if title else ""
     return head + md_table(heads, body) + "\n\n" + source(table, side)
@@ -529,9 +517,13 @@ def _numeric(s: str) -> bool:
     return s != ""
 
 
-def correctness_section(d: Path) -> str:
+def equivalence_section(d: Path, cfg: dict, level: int = 2) -> str:
+    """Conformance, malformed inputs, differential fuzzing and the bomb sweep, on both machines."""
+    fixtures = pipeline.note_text("m-a-fixtures")
     return section(
-        "Correctness",
+        "Equivalence",
+        f"*Does {EXAMPLE} decode exactly what {pipeline.LEGACY} decodes?* Valid streams must decode "
+        "byte-identically; malformed streams are compared on accept versus reject.",
         table_block(
             "conformance",
             ["machine", "subject", "streams", "passed", "failed", "unsupported", "pass_rate"],
@@ -540,6 +532,8 @@ def correctness_section(d: Path) -> str:
             digits=4,
             title="Conformance over the shared corpus",
         ),
+        *not_run_lines("conformance", machines_in("conformance", d), cfg),
+        fixtures,
         table_block(
             "conformance_disagreements",
             ["machine", "entry", "framing", "subject", "outcome", "error"],
@@ -548,9 +542,36 @@ def correctness_section(d: Path) -> str:
             title="Conformance disagreements (an empty table means none)",
         ),
         table_block(
+            "malformed_summary",
+            [
+                "machine",
+                "files",
+                "subjects",
+                "cf_expected_files",
+                "cf_matches_expected",
+                "cf_mismatches",
+                "disagreements",
+                "disagreements_cf_stricter",
+            ],
+            [
+                "Machine",
+                "Files",
+                "Subjects",
+                "Files with a cf expectation",
+                "cf matches EXPECTED.tsv",
+                "cf mismatches",
+                "Subjects disagree",
+                "cf the stricter decoder",
+            ],
+            d,
+            digits=0,
+            title="Malformed inputs per machine",
+        ),
+        *not_run_lines("malformed_summary", machines_in("malformed_summary", d), cfg),
+        table_block(
             "malformed_disagreements",
-            ["file", "framing", "outcomes_by_subject", "cf_expected"],
-            ["File", "Framing", "Outcomes by subject", "cf expected"],
+            ["machine", "file", "framing", "outcomes_by_subject", "cf_expected"],
+            ["Machine", "File", "Framing", "Outcomes by subject", "cf expected"],
             d,
             title="Malformed inputs on which subjects disagree about accept versus reject",
         ),
@@ -582,12 +603,14 @@ def correctness_section(d: Path) -> str:
             digits=1,
             title="Differential fuzzing",
         ),
+        *not_run_lines("fuzz_stats", machines_in("fuzz_stats", d), cfg),
+        pipeline.note_text("fuzz-throttling"),
         table_block(
             "fuzz_divergences",
             ["machine", "target", "artifact_sha256", "classification", "outcomes_by_subject"],
             ["Machine", "Target", "Artifact SHA-256", "Classification", "Outcomes"],
             d,
-            title="Fuzz divergences after triage",
+            title="Fuzz divergences after triage (an empty table means none)",
         ),
         figure("fuzz_stats", "Fuzzing executions and divergences.", d),
         table_block(
@@ -622,30 +645,16 @@ def correctness_section(d: Path) -> str:
             digits=4,
             title="Decompression-bomb sweep",
         ),
+        *not_run_lines("bombs", machines_in("bombs", d), cfg),
+        level=level,
     )
 
 
-def size_section(d: Path) -> str:
+def safety_section(d: Path, level: int = 2) -> str:
+    """Unsafe surface, dependencies and the size of the decompression path."""
     return section(
-        "Size, safety and complexity",
-        table_block(
-            "binary_size",
-            ["machine", "subject", "opt", "bytes", "note"],
-            ["Machine", "Subject", "Opt-level", "Stripped bytes", "Note"],
-            d,
-            digits=0,
-            title="Minimal decoder binary size",
-        ),
-        figure("binary_size", "Binary size per subject.", d),
-        table_block(
-            "cargo_bloat",
-            ["machine", "subject", "opt", "crate", "bytes", "share"],
-            ["Machine", "Subject", "Opt-level", "Crate", "Bytes", "Share"],
-            d,
-            digits=4,
-            limit=40,
-            title="cargo bloat, first rows",
-        ),
+        "Safety",
+        "*Is the replacement memory-safe by construction?*",
         table_block(
             "unsafe",
             [
@@ -701,6 +710,134 @@ def size_section(d: Path) -> str:
             digits=0,
             title="Per-function complexity (p90 by nearest rank)",
         ),
+        level=level,
+    )
+
+
+def isolation_block(d: Path) -> str:
+    """Guard denials and the forbidden-read audit of cleanflate's provenance log."""
+    return "\n\n".join(
+        [
+            (
+                f"**Mechanical isolation.** {PIPELINE_NAME}'s guard hook refuses tool calls that would reach prior art "
+                "(forbidden words in paths, recursive searches, network fetches outside an allowlist, forbidden tools). "
+                "Every refusal is logged. The audit below re-reads the allowed calls for any that touched a prior-art path "
+                "anyway (method in `docs/methods/effort.md`)."
+            ),
+            table_block(
+                "effort_totals",
+                [
+                    "round",
+                    "denied_calls",
+                    "read_calls",
+                    "forbidden_read_candidates",
+                    "forbidden_reads",
+                    "interventions",
+                ],
+                [
+                    "Round",
+                    "Denied calls",
+                    "Allowed read-capable calls",
+                    "Forbidden-read candidates",
+                    "Forbidden reads",
+                    "Human interventions",
+                ],
+                d,
+                digits=0,
+                title="Guard and audit totals per round",
+            ),
+            table_block(
+                "effort_denied",
+                ["round", "category", "count"],
+                ["Round", "Category", "Denied calls"],
+                d,
+                digits=0,
+                title="Denied tool calls by category",
+            ),
+            table_block(
+                "effort_forbidden_reads",
+                ["round", "ts", "tool", "stage", "path", "rule", "verdict", "note"],
+                ["Round", "When", "Tool", "Stage", "Path", "Rule", "Verdict", "Note"],
+                d,
+                title="Forbidden-read candidates and their classification (`config/forbidden_read_verdicts.toml`)",
+            ),
+        ]
+    )
+
+
+def clean_room_section(d: Path, cfg: dict, level: int = 2) -> str:
+    body = similarity_section(
+        d, cfg, level=level + 1, title="Similarity against negative and positive controls"
+    )
+    return section(
+        "Clean-room",
+        "*Was the build isolated from prior art, and does the code show it?*",
+        isolation_block(d),
+        body,
+        level=level,
+    )
+
+
+def viability_section(d: Path, cfg: dict, level: int = 2) -> str:
+    h = "#" * (level + 1)
+    viab = sections.viability_table(d, cfg)
+    gap = sections.gzip_gap_block(d, cfg)
+    stab = sections.stability_block(d, cfg)
+    try:
+        _rows, side = _read("perf_aggregates", d)
+        agg_src = ""
+    except MissingData:
+        side, agg_src = None, pending("perf_aggregates")
+    return section(
+        "Viability",
+        "*Is the replacement fast enough to matter, on both machines?*",
+        methodology(cfg, level=level + 1),
+        f"{h} Both machines in one table\n\n{viab.text}",
+        f"{h} Run-to-run stability\n\n{stab.text}",
+        pipeline.note_text("m-a-high-power"),
+        pipeline.note_text("m-b-background-load"),
+        f"{h} Hardware-CRC evidence: the gzip gap on each machine\n\n{gap.text}",
+        f"{h} Aggregates per machine and build variant\n\n"
+        + (aggregates_block(d, cfg) if side else agg_src),
+        framing_section(d, level=level + 1),
+        level=level,
+    )
+
+
+def iteration_section(d: Path, cfg: dict, level: int = 2) -> str:
+    h = "#" * (level + 1)
+    sleep = sections.sleep_check_block(d, cfg)
+    return section(
+        "Iteration",
+        f"*Did {PIPELINE_NAME}'s later rounds improve it?*",
+        trajectory_section(d, cfg, level=level + 1),
+        f"{h} Sleep-interruption check\n\n{sleep.text}",
+        level=level,
+    )
+
+
+def appendix_binary_size(d: Path, level: int = 3) -> str:
+    return section(
+        "Binary size",
+        table_block(
+            "binary_size",
+            ["machine", "subject", "opt", "bytes", "note"],
+            ["Machine", "Subject", "Opt-level", "Stripped bytes", "Note"],
+            d,
+            digits=0,
+            title="Minimal decoder binary size",
+        ),
+        figure("binary_size", "Binary size per subject.", d),
+        table_block(
+            "cargo_bloat",
+            ["machine", "subject", "opt", "crate", "bytes", "share"],
+            ["Machine", "Subject", "Opt-level", "Crate", "Bytes", "Share"],
+            d,
+            digits=4,
+            limit=40,
+            title="cargo bloat, first rows",
+        ),
+        level=level,
     )
 
 
@@ -737,7 +874,9 @@ def fragment_counts(d: Path) -> list[list[str]]:
     return rows
 
 
-def similarity_section(d: Path, cfg: dict) -> str:
+def similarity_section(
+    d: Path, cfg: dict, level: int = 2, title: str = "Clean-room verification"
+) -> str:
     jplag = config.load_toml("tools.toml").get("jplag", {}).get("version", "n/a")
     versions = []
     for pkg in ("tree-sitter", "tree-sitter-rust", "tree-sitter-c"):
@@ -815,10 +954,10 @@ def similarity_section(d: Path, cfg: dict) -> str:
     else:
         blocks.append(pending("similarity_summary", detail="no fragment tables"))
     blocks.append("Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).")
-    return section("Clean-room verification", *blocks)
+    return section(title, *blocks, level=level)
 
 
-def effort_section(d: Path) -> str:
+def effort_section(d: Path, level: int = 2) -> str:
     gaps = d / "EFFORT_GAPS.md"
     blocks = [
         table_block(
@@ -909,14 +1048,6 @@ def effort_section(d: Path) -> str:
             d,
             title="Human interventions",
         ),
-        table_block(
-            "effort_denied",
-            ["round", "category", "count"],
-            ["Round", "Category", "Denied calls"],
-            d,
-            digits=0,
-            title="Denied tool calls",
-        ),
     ]
     blocks.append(
         "Data gaps and methods: "
@@ -938,10 +1069,10 @@ def effort_section(d: Path) -> str:
         )
     else:
         blocks.append(pending("effort_totals", detail="zlib-rs context table missing"))
-    return section("Effort, cost and provenance", *blocks)
+    return section("Effort, cost and provenance", *blocks, level=level)
 
 
-def findings_section(d: Path) -> str:
+def findings_section(d: Path, level: int = 2) -> str:
     p = d / "findings.md"
     body = "See [findings.md](findings.md) for bugs found in cleanflate. They are recorded there and never patched in this repo."
     if p.exists():
@@ -951,127 +1082,61 @@ def findings_section(d: Path) -> str:
             if entries
             else " The file currently lists no entries."
         )
-    return section("Findings for the cleanflate repo", body)
+    return section("Findings for the cleanflate repo", body, level=level)
 
 
-def threats_section(d: Path, cfg: dict) -> str:
-    stmt = next((ln.replace("**", "") for ln in _statement_lines(d) if "T1 claim" in ln), None)
-    sens = next(
-        (
-            ln.replace("**", "")
-            for ln in _statement_lines(d)
-            if ln.startswith("**Post-hoc sensitivity")
-        ),
-        None,
+def threats_section(d: Path, cfg: dict, level: int = 2) -> str:
+    return section(
+        "Threats to validity", sections.threats_markdown(d, cfg, level=level + 1), level=level
     )
-    flagged = pending("perf_agreement_summary")
-    try:
-        rows, _ = _read("perf_agreement_summary", d)
-        bad = [r for r in rows if r["verdict"] != "pass"]
-        flagged = (
-            f"The agreement summary has {len(rows)} machine and variant entries, of which {len(bad)} are not "
-            f"'pass' (tolerance {cfg['perf']['agreement_tolerance']:.0%})."
-        )
-    except MissingData:
-        pass
-    try:
-        fz, _ = _read("fuzz_stats", d)
-        budget = (
-            f"The fuzz runs recorded in `fuzz_stats` used {', '.join(r['target'] + ' ' + r['budget_cpu_hours'] for r in fz)} "
-            f"CPU hours against a configured {cfg['fuzz']['budget_cpu_hours']} per target."
-        )
-    except MissingData:
-        budget = (
-            f"No full fuzz run is recorded yet (configured budget {cfg['fuzz']['budget_cpu_hours']} CPU hours "
-            f"per target); {pending('fuzz_stats', 'a machine that can spare it')}"
-        )
-    lock = paths_lock()
-    crc = []
-    for m, info in sorted(lock.get("machines", {}).items()):
-        builds = info["builds"]
-        nohw = builds.get("zlib-nohw", {}).get("hw_crc", {}).get("compiled_in")
-        dflt = builds.get("zlib", {}).get("hw_crc", {}).get("compiled_in")
-        crc.append(
-            f"on {m} the default zlib build has hardware CRC {'compiled in' if dflt else 'not compiled in'} and the "
-            f"zlib-nohw control {'has it' if nohw else 'does not'}"
-        )
-    verdict = "no framing verdict yet"
-    try:
-        rows, _ = _read("framing_hypothesis", d)
-        verdict = "the gzip-gap verdict is " + next(
-            r["verdict"] for r in rows if r["machine"] == "ALL"
-        )
-    except (MissingData, StopIteration):
-        pass
-    items = [
-        (
-            "Training-data contamination",
-            "Model training data cannot be controlled, so resemblance is measured against "
-            "negative and positive controls instead of assumed away. "
-            + (stmt or pending("similarity_summary"))
-            + (
-                f" {sens} The extended exclusion list was written after the first full run had been "
-                "seen, so this result is a disclosed sensitivity check, not the pre-registered test."
-                if sens
-                else ""
-            )
-            + " Similarity metrics are proxies; a low score does not prove independence, and a high one does not prove copying.",
-        ),
-        (
-            "Machine variance and thermal effects",
-            (
-                "Timings come from two desktop-class machines that are not isolated "
-                f"labs; a starting load above {cfg['perf']['max_start_load']} is recorded as a warning (refused only with `--strict`) and each session is repeated "
-                f"{cfg['perf']['runs']} times. {flagged} Governor and thermal state are recorded in the environment captures."
-            ),
-        ),
-        (
-            "Feature-scope mismatch",
-            "cleanflate only decompresses, in safe Rust, with no SIMD and no C ABI; the "
-            "comparators compress, some use SIMD and hardware CRC, and several expose a C ABI. "
-            + PARITY_NOTE
-            + " The zlib-rs context table states the scope difference for the effort comparison.",
-        ),
-        (
-            "Fuzz budget limits",
-            "Fuzzing finds divergences but cannot show their absence. "
-            + budget
-            + " Normalizations that hide API-semantics differences are listed in `fuzz/README.md`.",
-        ),
-        (
-            "n=1 build effort",
-            (
-                "The effort data describes one pipeline building one library in three rounds on one "
-                "operator's setup; model prices are unset, so cost is unavailable, and human time is only partly recorded "
-                "(see EFFORT_GAPS.md). It is an existence proof, not a distribution."
-            ),
-        ),
-        (
-            "Hardware-CRC asymmetry",
-            "Hardware CRC is not equal across subjects: "
-            + "; ".join(crc or ["no pins recorded"])
-            + f". On x86_64 the control build is identical to the default build, so the control only separates the two on "
-            f"aarch64. Currently: {verdict}.",
-        ),
-    ]
-    return section("Threats to validity", *[f"### {t}\n\n{p}" for t, p in items])
 
 
-def paths_lock() -> dict:
-    p = paths.ROOT / "subjects.lock.json"
-    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+def claims_section(d: Path, cfg: dict, level: int = 2) -> str:
+    results = claims_mod.evaluate(d, cfg)
+    lead = sections.claims_map(results, cfg)
+    return section(
+        "Claims and evidence",
+        lead.text,
+        f"{'#' * (level + 1)} Checked and not claimed\n\n" + sections.overreach(results),
+        level=level,
+    )
 
 
-def render_sections_part2(results_dir: Path | None = None, cfg: dict | None = None) -> str:
+def appendix(d: Path, cfg: dict) -> str:
+    perfile = section("Per-file throughput", *(
+        [per_file_block(d, cfg)] if machines_in("perf_cells", d) else [pending("perf_cells")]), level=3)  # fmt: skip
+    tiny = section("Tiny inputs (setup cost)", tiny_block(d), level=3)
+    return section(
+        "Appendix",
+        "Supporting detail behind the sections above: the setup, per-file tables, tiny-input timing, content "
+        "correlations and binary size.",
+        environments(d, level=3),
+        subjects_and_pins(level=3),
+        perfile,
+        tiny,
+        content_section(d, level=3),
+        appendix_binary_size(d, level=3),
+    )
+
+
+TITLES = ["Claims and evidence", "Equivalence", "Safety", "Clean-room", "Effort, cost and provenance",
+          "Viability", "Iteration", "Findings for the cleanflate repo", "Threats to validity", "Appendix"]  # fmt: skip
+
+
+def render_sections(results_dir: Path | None = None, cfg: dict | None = None) -> str:
     d = Path(results_dir) if results_dir else paths.RESULTS
     cfg = cfg or config.load_config("full")
     parts = [
-        correctness_section(d),
-        size_section(d),
-        similarity_section(d, cfg),
+        claims_section(d, cfg),
+        equivalence_section(d, cfg),
+        safety_section(d),
+        clean_room_section(d, cfg),
         effort_section(d),
+        viability_section(d, cfg),
+        iteration_section(d, cfg),
         findings_section(d),
         threats_section(d, cfg),
+        appendix(d, cfg),
     ]
     return "\n\n".join(parts) + "\n"
 
@@ -1080,14 +1145,19 @@ HEADER = "<!-- generated by cfbench.kits.results_md; do not edit -->"
 
 
 def render(results_dir: Path | None = None, cfg: dict | None = None) -> str:
+    intro = (
+        f"Results for {PIPELINE_NAME}, organised around its claims. {EXAMPLE} is the worked example; every "
+        "number traces to a derived table, a committed raw file and a script (the source line under each table)."
+    )
     return "\n".join(
         [
             HEADER,
             "",
-            "# Results",
+            f"# Results: {PIPELINE_NAME}",
             "",
-            render_sections_part1(results_dir, cfg),
-            render_sections_part2(results_dir, cfg),
+            intro,
+            "",
+            render_sections(results_dir, cfg),
         ]
     )
 
@@ -1097,20 +1167,6 @@ def main() -> int:
     out.write_text(render(), encoding="utf-8")
     print(out)
     return 0
-
-
-def render_sections_part1(results_dir: Path | None = None, cfg: dict | None = None) -> str:
-    d = Path(results_dir) if results_dir else paths.RESULTS
-    cfg = cfg or config.load_config("full")
-    parts = [
-        environments(d),
-        subjects_and_pins(),
-        *performance(d, cfg),
-        framing_section(d),
-        content_section(d),
-        trajectory_section(d, cfg),
-    ]
-    return "\n\n".join(parts) + "\n"
 
 
 if __name__ == "__main__":

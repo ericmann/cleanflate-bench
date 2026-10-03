@@ -131,3 +131,19 @@ def test_binary_size_missing_opt_is_na_not_zero(results, monkeypatch):
     assert all(p.get_height() > 0 for p in ax.patches)
     assert len(ax.patches) == 3
     assert [t.get_text() for t in ax.texts].count("n/a") == 1
+
+
+def test_malformed_grid_keeps_machines_apart():
+    from cfbench import more_charts
+
+    matrix = [{"machine": m, "file": "f.bin", "subject": s, "outcome": o}
+              for m, s, o in (("M-A", "cf", "error:X"), ("M-A", "zlib", "accept"),
+                              ("M-B", "cf", "accept"), ("M-B", "zlib", "accept"))]  # fmt: skip
+    dis = [{"machine": "M-A", "file": "f.bin"}]
+    files, subjects, cell = more_charts.malformed_grid(matrix, dis)
+    assert files == ["f.bin (M-A)"] and subjects == ["cf", "zlib"]
+    assert cell[("f.bin (M-A)", "cf")] == "error:X"  # M-B's outcome does not overwrite M-A's
+    legacy = more_charts.malformed_grid(
+        [{"file": "f.bin", "subject": "cf", "outcome": "accept"}], [{"file": "f.bin"}]
+    )
+    assert legacy[0] == ["f.bin"]

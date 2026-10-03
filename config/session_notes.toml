@@ -1,0 +1,46 @@
+# Operator-recorded session conditions that no raw file fully captures. The kits print each note as an
+# operator note next to the measurements it qualifies, with the raw evidence that corroborates it.
+# Nothing here is a measured number, and no derivation reads it.
+
+[[notes]]
+id = "m-a-high-power"
+machine = "M-A"
+stages = ["perf", "perf-native", "framing", "content", "trajectory"]
+text = "The M-A session (2026-10-02 to 2026-10-03) ran in macOS High Power Mode on AC power."
+corroboration = "the env captures record `powermode 2` and `sleep prevented by caffeinate` in pmset"
+
+[[notes]]
+id = "m-a-sleep"
+machine = "M-A"
+stages = ["trajectory"]
+text = "M-A slept from about 23:00 to 09:00 local time (UTC-7) during the trajectory stage."
+corroboration = "the trajectory session id starts at 05:48Z and its raw file is stamped 16:47Z"
+
+[[notes]]
+id = "m-a-fixtures"
+machine = "M-A"
+stages = ["conformance"]
+text = "M-A conformance ran on testdata/generated copied from M-B's checkout of the same cleanflate SHA, because fixtures generated on macOS differ from the Linux-generated MANIFEST.json in the gzip header OS byte (results/findings.md)."
+corroboration = "oracle generate --locked reported 0 generated and 2674 skipped on M-A, and pristine_check passed"
+
+[[notes]]
+id = "m-b-background-load"
+machine = "M-B"
+stages = ["perf", "perf-native"]
+text = "Docker and a k3s cluster were running on M-B during the perf sessions."
+corroboration = "the M-B perf raw files record start load averages above perf.max_start_load as precondition warnings"
+
+[[notes]]
+id = "fuzz-throttling"
+machine = "M-B"
+stages = ["fuzz"]
+text = "The last fuzz pair to run (diff_cf_mox, after diff_cf_zlib and diff_cf_zrs) ran during the day under CPU throttling, which reduced its execution count."
+corroboration = "the fuzz raw files are stamped 16:03Z, 17:05Z and 18:06Z in that order"
+
+# Measurements deliberately not run on a machine. Kits show these as "not run" with the reason,
+# never as a failure or a zero.
+
+[[not_run]]
+machine = "M-A"
+tables = ["fuzz_stats", "fuzz_divergences"]
+reason = "the SPEC fixes one fuzz budget per pair; it was spent on M-B and the M-A session did not repeat it"

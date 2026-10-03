@@ -14,7 +14,9 @@ from pathlib import Path
 from cfbench import charts, config, framing, more_charts, paths, perf_charts, provenance, trajectory
 from cfbench.kits import claims as claims_mod
 from cfbench.kits import evidence as ev
+from cfbench.kits import pipeline
 from cfbench.kits.evidence import Evidence, MissingData
+from cfbench.kits.pipeline import CATEGORIES, EXAMPLE, PIPELINE_NAME
 from cfbench.parity import PARITY_NOTE
 from cfbench.similarity import summary as similarity_summary
 
@@ -92,7 +94,7 @@ def _typed(rows: list[dict], floats=(), ints=()) -> list[dict]:
 
 
 def render_trajectory(d: Path, out: Path, cfg: dict) -> Figure:
-    fig = Figure("trajectory", "Improvement by round")
+    fig = Figure("trajectory", f"Iteration: improvement by {PIPELINE_NAME} round")
     try:
         rows, _ = ev.table_rows("trajectory", d)
     except MissingData as e:
@@ -109,7 +111,7 @@ def render_trajectory(d: Path, out: Path, cfg: dict) -> Figure:
 
 
 def render_throughput(d: Path, out: Path, cfg: dict) -> Figure:
-    fig = Figure("throughput", "Throughput against every comparator")
+    fig = Figure("throughput", "Viability: throughput against every comparator, per machine")
     try:
         ev.table_rows("perf_aggregates", d)
     except MissingData as e:
@@ -124,7 +126,7 @@ def render_throughput(d: Path, out: Path, cfg: dict) -> Figure:
 
 
 def render_framing(d: Path, out: Path, cfg: dict) -> Figure:
-    fig = Figure("framing", "Framing decomposition")
+    fig = Figure("framing", "Viability: framing decomposition")
     try:
         rows, _ = ev.table_rows("framing_overhead", d)
     except MissingData as e:
@@ -143,7 +145,7 @@ def render_framing(d: Path, out: Path, cfg: dict) -> Figure:
 
 
 def render_similarity(d: Path, out: Path, cfg: dict) -> Figure:
-    fig = Figure("similarity", "Similarity against the controls")
+    fig = Figure("similarity", "Clean-room: similarity against the controls")
     try:
         rows, _ = ev.table_rows("similarity_summary", d)
     except MissingData as e:
@@ -173,7 +175,7 @@ def render_content(d: Path, out: Path, cfg: dict) -> Figure:
     """The content scatter plots exist only once perf data and content features are joined."""
     from cfbench.content import correlate
 
-    fig = Figure("content", "Content features against the cf ratio")
+    fig = Figure("content", "Appendix: content features against the cf ratio")
     try:
         cells, _ = ev.table_rows("perf_cells", d)
         feats, _ = provenance.read_table("content_features", d)
@@ -196,17 +198,25 @@ def render_content(d: Path, out: Path, cfg: dict) -> Figure:
     return fig
 
 
+# In claim-category order (equivalence, safety, clean-room, effort, viability, iteration), then the
+# appendix figures; when the kit is full, the figures at the end are the ones left out.
 RENDERERS = [
-    render_trajectory,
+    _more("fuzz_stats", "Equivalence: differential fuzzing", "fuzz_stats"),
+    _more(
+        "malformed_highlights", "Equivalence: malformed-input highlights", "malformed_highlights"
+    ),
+    _more("unsafe_counts", "Safety: unsafe code", "unsafe_counts"),
+    render_similarity,
+    _more("effort_cost_per_stage", "Effort: cost per stage and round", "effort_cost_per_stage"),
     render_throughput,
     render_framing,
-    render_similarity,
-    _more("unsafe_counts", "Unsafe code", "unsafe_counts"),
-    _more("binary_size", "Binary size", "binary_size"),
-    _more("effort_cost_per_stage", "Effort per stage", "effort_cost_per_stage"),
-    _more("malformed_highlights", "Malformed-input highlights", "malformed_highlights"),
-    _more("fuzz_stats", "Fuzzing statistics", "fuzz_stats"),
-    _more("checksum_throughput", "Checksum throughput", "checksum_throughput"),
+    render_trajectory,
+    _more(
+        "checksum_throughput",
+        "Viability: checksum throughput (hardware-CRC context)",
+        "checksum_throughput",
+    ),
+    _more("binary_size", "Appendix: binary size", "binary_size"),
     render_content,
 ]
 
@@ -243,7 +253,7 @@ def bullets_unsafe(d: Path, cfg: dict) -> list[Bullet]:
     fns = _look("unsafe", {"subject": "cf", "crate": "cleanflate"}, "unsafe_fns", d, fmt="{:.0f}")
     forbid = _look("unsafe", {"subject": "cf", "crate": "cleanflate"}, "forbid_unsafe_code", d)
     if blocks and fns:
-        text = f"cleanflate has {blocks.display} unsafe blocks and {fns.display} unsafe functions"
+        text = f"{EXAMPLE}, the decoder {PIPELINE_NAME} built, has {blocks.display} unsafe blocks and {fns.display} unsafe functions"
         text += (
             " and forbids unsafe code at its crate root."
             if forbid and forbid.display == "true"
@@ -261,22 +271,19 @@ def bullets_unsafe(d: Path, cfg: dict) -> list[Bullet]:
 
 
 def bullets_binary_size(d: Path, cfg: dict) -> list[Bullet]:
-    m = cfg["paper"]["table_machine"]
-    got = {s: _look("binary_size", {"machine": m, "subject": s, "opt": cfg["paper"]["table_opt"]}, "bytes", d,
-                    fmt=_kib) for s in ("cf", "zlib", "zrs", "mox")}  # fmt: skip
+    opt = cfg["paper"]["table_opt"]
     out = []
-    if got["cf"] and got["zlib"]:
-        bigger = got["cf"].value > got["zlib"].value
-        out.append(Bullet(
-            f"At opt-level {cfg['paper']['table_opt']} the stripped cleanflate decoder is {got['cf'].display} "
-            f"against {got['zlib'].display} for zlib, so cleanflate's binary is "
-            f"{'larger' if bigger else 'not larger'} than the C library's.",
-            (got["cf"], got["zlib"]), (cfg["paper"]["table_opt"],)))  # fmt: skip
-    rust = [(s, e) for s, e in got.items() if s in ("zrs", "mox") and e]
-    if got["cf"] and rust:
-        parts = ", ".join(f"{s} {e.display}" for s, e in rust)
-        out.append(Bullet(f"Among the Rust decoders: cleanflate {got['cf'].display}, {parts}.",
-                          (got["cf"], *[e for _s, e in rust])))  # fmt: skip
+    for m in cfg["paper"]["machines"]:
+        got = {s: _look("binary_size", {"machine": m, "subject": s, "opt": opt}, "bytes", d, fmt=_kib)
+               for s in ("cf", "zlib", "zrs", "mox")}  # fmt: skip
+        if got["cf"] and got["zlib"]:
+            bigger = got["cf"].value > got["zlib"].value
+            rust = [(s, e) for s, e in got.items() if s in ("zrs", "mox") and e]
+            parts = "".join(f", {s} {e.display}" for s, e in rust)
+            out.append(Bullet(
+                f"On {m} at opt-level {opt} the stripped {EXAMPLE} decoder is {got['cf'].display} against "
+                f"{got['zlib'].display} for zlib ({'larger' if bigger else 'not larger'} than the C library){parts}.",
+                (got["cf"], got["zlib"], *[e for _s, e in rust]), (opt,)))  # fmt: skip
     return out
 
 
@@ -308,21 +315,31 @@ def bullets_effort(d: Path, cfg: dict) -> list[Bullet]:
 
 
 def bullets_malformed(d: Path, cfg: dict) -> list[Bullet]:
+    out = []
+    for m in cfg["paper"]["machines"]:
+        key = {"machine": m}
+        dis = _look("malformed_summary", key, "disagreements", d, fmt="{:.0f}")
+        strict = _look("malformed_summary", key, "disagreements_cf_stricter", d, fmt="{:.0f}")
+        files = _look("malformed_summary", key, "files", d, fmt="{:.0f}")
+        if dis and strict and files:
+            how = ("every one is cf rejecting what all other supported decoders accept" if strict.value == dis.value
+                   else f"{strict.display} of them are cf being the stricter decoder")  # fmt: skip
+            out.append(Bullet(f"On {m}, subjects disagree on accept versus reject for {dis.display} of {files.display} "
+                              f"malformed files; {how}.", (dis, strict, files)))  # fmt: skip
     try:
         rows, _ = ev.table_rows("malformed_disagreements", d)
     except MissingData:
-        return []
-    out = []
-    for r in rows[:2]:
-        f = _look("malformed_disagreements", {"file": r["file"]}, "file", d)
-        exp = _look("malformed_disagreements", {"file": r["file"]}, "cf_expected", d)
+        rows = []
+    first = cfg["paper"]["machines"][0]
+    for r in [x for x in rows if x.get("machine", first) == first][:1]:
+        where = (
+            {"machine": r["machine"], "file": r["file"]} if "machine" in r else {"file": r["file"]}
+        )
+        f = _look("malformed_disagreements", where, "file", d)
+        exp = _look("malformed_disagreements", where, "cf_expected", d)
         if f and exp:
-            out.append(Bullet(f"{f.display}: cleanflate rejects it ({exp.display}) while other subjects "
-                              "accept it, by design of its strict defaults.", (f, exp)))  # fmt: skip
-    out.append(Bullet("Every disagreement is cleanflate being stricter than the comparators; none is a "
-                      "comparator rejecting what cleanflate accepts."
-                      if rows and all(r["outcomes_by_subject"].startswith("cf=error") for r in rows)
-                      else "Some disagreements are not cleanflate being stricter; see the matrix."))  # fmt: skip
+            out.append(Bullet(f"Example: {f.display}, which {EXAMPLE} rejects ({exp.display}) by design of its strict "
+                              "defaults while the comparators accept it.", (f, exp)))  # fmt: skip
     return out
 
 
@@ -343,6 +360,11 @@ def bullets_fuzz(d: Path, cfg: dict) -> list[Bullet]:
                     (e, v),
                 )
             )
+    measured = {r["machine"] for r in rows}
+    for m in cfg["paper"]["machines"]:
+        why = pipeline.not_run_reason(m, "fuzz_stats")
+        if m not in measured and why:
+            out.append(Bullet(f"Fuzzing was not run on {m}: {why}."))
     return out
 
 
@@ -353,7 +375,7 @@ def bullets_similarity(d: Path, cfg: dict) -> list[Bullet]:
         out.append(
             Bullet(
                 f"The generated statement does NOT allow the independence claim: {res.reason.rstrip('.')}.",
-                (),
+                tuple(res.evidence),
             )
         )
     elif res is not None and res.status == claims_mod.SUPPORTED:
@@ -394,21 +416,112 @@ def bullets_claims(ids: list[str], d: Path, cfg: dict) -> list[Bullet]:
             )
             tallies = (str(len(c.evidence)), str(below)) if c.evidence else ()
             out.append(
-                Bullet(f"Not claimed ({c.id}): {c.reason}.", tuple(c.evidence), (*labels, *tallies))
+                Bullet(
+                    f"Not claimed ({c.id}): {c.reason.rstrip('.')}.",
+                    tuple(c.evidence),
+                    (*labels, *tallies),
+                )
+            )
+        elif c.status == claims_mod.PENDING:
+            out.append(
+                Bullet(
+                    f"Pending ({c.id}): {NO_DATA} yet; {c.reason.rstrip('.')}.",
+                    (),
+                    _digits(c.reason),
+                )
             )
     return out
 
 
+def _digits(text: str) -> tuple[str, ...]:
+    """Numbers inside a pending reason are table keys or make targets, not results; label them."""
+    return tuple(numbers(text))
+
+
+def bullets_crossmachine(d: Path, cfg: dict) -> list[Bullet]:
+    """Both machines side by side: ratios, the gzip gap with hardware CRC, the sleep check, stability."""
+    p = cfg["paper"]
+    machines, level, mode = p["machines"], p["figure_level"], p["figure_mode"]
+    out = []
+    for corpus in cfg["perf"]["corpora"]:
+        parts, evid = [], []
+        for fr in cfg["perf"]["framings"]:
+            got = [(m, _look("perf_aggregates", {"machine": m, "variant": "generic", "subject": "cf", "corpus": corpus,
+                                                  "level": level, "framing": fr, "mode": mode},
+                             "ratio_vs_zlib", d, fmt="{:.2f}x")) for m in machines]  # fmt: skip
+            if all(e for _m, e in got):
+                evid += [e for _m, e in got]
+                parts.append(f"{fr} framing " + " / ".join(f"{m} {e.display}" for m, e in got))
+        if parts:
+            out.append(Bullet(f"{corpus.title()} at level {level}, {mode}, {EXAMPLE} vs zlib: " + "; ".join(parts) + ".",
+                              tuple(evid), (str(level),)))  # fmt: skip
+    gaps = []
+    for m in machines:
+        key = {"machine": m, "variant": "generic", "subject": "cf", "corpus": p["perf_corpus"]}
+        g = _look("crossmachine_gzip_gap", key, "gap_gzip_minus_raw", d, fmt="{:+.3f}")
+        hw = _look("crossmachine_gzip_gap", key, "zlib_hw_crc", d)
+        if g and hw:
+            gaps.append((m, g, hw))
+    if gaps:
+        verdict = _look("framing_hypothesis", {"machine": "ALL"}, "verdict", d)
+        tail = (
+            f" This is descriptive; the pre-registered framing hypothesis came out {verdict.display}."
+            if verdict
+            else ""
+        )
+        out.append(Bullet(
+            f"gzip minus raw ratio on {p['perf_corpus'].title()}: "
+            + "; ".join(f"{m} {g.display} (zlib hardware CRC per subjects.lock.json: {hw.display})" for m, g, hw in gaps)
+            + ". A larger penalty where zlib has hardware CRC is consistent with CRC-32 speed driving the gap." + tail,
+            tuple(x for _m, g, hw in gaps for x in (g, hw)) + ((verdict,) if verdict else ())))  # fmt: skip
+    first = machines[0]
+    key = {"machine": first, "corpus": p["perf_corpus"], "framing": p["trajectory_framing"]}
+    t = _look("crossmachine_sleep_check", key, "trajectory_ratio", d, fmt="{:.3f}x")
+    q = _look("crossmachine_sleep_check", key, "perf_ratio", d, fmt="{:.3f}x")
+    diff = _look("crossmachine_sleep_check", key, "rel_diff", d, fmt="{:+.1%}")
+    tol = _look("crossmachine_sleep_check", key, "tolerance", d, fmt="{:.0%}")
+    v = _look("crossmachine_sleep_check", key, "verdict", d)
+    span = _look("crossmachine_sleep_check", key, "session_span_h", d, fmt="{:.1f}")
+    if t and q and diff and tol and v and span:
+        out.append(Bullet(
+            f"Sleep check on {first}: round-3 trajectory {t.display} against the perf session's {q.display} "
+            f"({p['perf_corpus'].title()} {p['trajectory_framing']}), a {diff.display} difference, {v.display} ({tol.display}), "
+            f"over a trajectory session of {span.display} h.", (t, q, diff, tol, v, span), ("3",)))  # fmt: skip
+    stab = []
+    for m in machines:
+        k = {"machine": m, "variant": p["perf_variant"]}
+        fa = _look("perf_agreement_summary", k, "flagged_aggregates", d, fmt="{:.0f}")
+        na = _look("perf_agreement_summary", k, "aggregates", d, fmt="{:.0f}")
+        vv = _look("perf_agreement_summary", k, "verdict", d)
+        if fa and na and vv:
+            stab.append((m, fa, na, vv))
+    if stab:
+        out.append(Bullet("Run-to-run agreement (generic builds): " + "; ".join(
+            f"{m} {fa.display} of {na.display} aggregates flagged ({vv.display})" for m, fa, na, vv in stab) + ".",
+            tuple(x for _m, fa, na, vv in stab for x in (fa, na, vv))))  # fmt: skip
+    return out
+
+
+def bullets_by_category(d: Path, cfg: dict) -> dict[str, list[Bullet]]:
+    """The main claims as bullets, grouped by category in CATEGORIES order."""
+    results = {c.id: c for c in claims_mod.evaluate(d, cfg)}
+    out: dict[str, list[Bullet]] = {c.key: [] for c in CATEGORIES}
+    for cid in claims_mod.MAIN:
+        out[claims_mod.CATEGORY[cid]] += bullets_claims([cid], d, cfg)
+    del results
+    return out
+
+
 def bullets_checksums(d: Path, cfg: dict) -> list[Bullet]:
-    m = cfg["paper"]["table_machine"]
     size = max(cfg["framing"]["checksum_sizes"])
     out = []
     for algo in ("crc32", "adler32"):
-        got = {s: _look("checksums", {"machine": m, "subject": s, "algo": algo, "size": size}, "median_gib_s", d,
-                        fmt="{:.2f} GiB/s") for s in ("cf", "zlib")}  # fmt: skip
-        if got["cf"] and got["zlib"]:
-            out.append(Bullet(f"{algo} at the largest input on {m}: cleanflate {got['cf'].display}, zlib {got['zlib'].display}.",
-                              (got["cf"], got["zlib"])))  # fmt: skip
+        for m in cfg["paper"]["machines"]:
+            got = {s: _look("checksums", {"machine": m, "subject": s, "algo": algo, "size": size}, "median_gib_s", d,
+                            fmt="{:.2f} GiB/s") for s in ("cf", "zlib")}  # fmt: skip
+            if got["cf"] and got["zlib"]:
+                out.append(Bullet(f"{algo} at the largest input on {m}: {EXAMPLE} {got['cf'].display}, zlib {got['zlib'].display}.",
+                                  (got["cf"], got["zlib"])))  # fmt: skip
     return out
 
 
@@ -427,9 +540,11 @@ def bullets_content(d: Path, cfg: dict) -> list[Bullet]:
 
 
 BULLETS = {
-    "trajectory": lambda d, c: bullets_claims(["trajectory"], d, c),
-    "throughput": lambda d, c: bullets_claims(["perf_range", "parity_with_zlib", "faster_than_zrs", "faster_than_mox"], d, c),
-    "framing": lambda d, c: bullets_claims(["gzip_gap_is_hw_crc"], d, c),
+    "trajectory": lambda d, c: [*bullets_claims(["trajectory"], d, c), *[b for b in bullets_crossmachine(d, c) if b.text.startswith("Sleep check")]],
+    "throughput": lambda d, c: [*bullets_claims(["perf_range"], d, c), *bullets_crossmachine(d, c)[:2],
+                                *bullets_claims(["parity_with_zlib", "faster_than_zrs", "faster_than_mox"], d, c)],
+    "framing": lambda d, c: [*[b for b in bullets_crossmachine(d, c) if b.text.startswith("gzip minus raw")],
+                             *bullets_claims(["gzip_gap_is_hw_crc"], d, c)],
     "similarity": bullets_similarity,
     "unsafe_counts": bullets_unsafe,
     "binary_size": bullets_binary_size,
@@ -455,13 +570,16 @@ def _framing_bullet(d: Path) -> Bullet | None:
     v = _look("framing_hypothesis", {"machine": "ALL"}, "verdict", d)
     if v:
         return Bullet(
-            f"On the gzip-framing gap, the hardware-CRC explanation is {v.display}.", (v,)
+            "The pre-registered gzip test (cf's gzip overhead roughly matches stock zlib's with hardware CRC "
+            f"disabled) came out {v.display}.",
+            (v,),
         )
     return None
 
 
 def answer_slower(d: Path, cfg: dict) -> Answer:
     bullets = bullets_claims(["perf_range", "parity_with_zlib"], d, cfg)
+    bullets += [b for b in bullets_crossmachine(d, cfg) if b.text.startswith("gzip minus raw")]
     fb = _framing_bullet(d)
     if fb:
         bullets.append(fb)
@@ -471,13 +589,15 @@ def answer_slower(d: Path, cfg: dict) -> Answer:
 
 
 def answer_copied(d: Path, cfg: dict) -> Answer:
-    bullets = bullets_similarity(d, cfg)
+    bullets = [*bullets_claims(["isolation"], d, cfg), *bullets_similarity(d, cfg)]
     miss = [] if bullets else ["similarity scores"]
     return Answer("How do you know it wasn't copied?", bullets, miss)
 
 
 def answer_cost(d: Path, cfg: dict) -> Answer:
-    bullets = bullets_effort(d, cfg)
+    claim = bullets_claims(["effort"], d, cfg)
+    extra = [b for b in bullets_effort(d, cfg) if b.text.startswith("The agents")]
+    bullets = [*claim, *extra] if claim and claim[0].evidence else bullets_effort(d, cfg)
     return Answer(
         "What does this cost?",
         bullets,
@@ -526,7 +646,18 @@ QUESTIONS = [answer_slower, answer_copied, answer_cost, answer_airgap]
 
 def render_document(figs: list[Figure], d: Path, cfg: dict) -> str:
     n = sum(len(f.stems) for f in figs)
-    lines = [HEADER, "", "# Talking points", ""]
+    lines = [HEADER, "", f"# Talking points: {PIPELINE_NAME}", "", pipeline.thesis(), ""]
+    lines += ["## Claims and evidence", ""]
+    by_cat = bullets_by_category(d, cfg)
+    for cat in CATEGORIES:
+        lines += [f"### {cat.title}", "", f"*{cat.question}*", ""]
+        lines += [f"- {check_bullet(b).text}" for b in by_cat[cat.key]] or [f"- {NO_DATA}."]
+        lines.append("")
+    lines += ["### Both machines side by side", ""]
+    lines += [f"- {check_bullet(b).text}" for b in bullets_crossmachine(d, cfg)] or [
+        f"- {NO_DATA}."
+    ]
+    lines += ["", "## Figures", ""]
     if n < MIN_FIGURES:
         lines += [
             f"**Only {n} figures rendered; the kit aims for {MIN_FIGURES} to {MAX_FIGURES}.** Not rendered:",
@@ -540,7 +671,7 @@ def render_document(figs: list[Figure], d: Path, cfg: dict) -> str:
         if not f.rendered:
             continue
         lines += [
-            f"## {f.title}",
+            f"### {f.title}",
             "",
             "Files: " + ", ".join(f"`{s}.svg`/`{s}.png`" for s in f.stems),
             "",

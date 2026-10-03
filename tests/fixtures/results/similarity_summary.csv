@@ -2,3 +2,4 @@ metric,pair,role,score,neg_score,pos_score,position,classification
 ident_jaccard,cf-mox,test,0.03,0.04,0.14,-0.1,below negative
 ident_jaccard,cf-zrs,test,0.05,0.04,0.14,0.1,at or near negative
 ident_jaccard,zrs-mox,negative,0.04,0.04,0.14,0,negative control
+ident_jaccard,zrs-zng,positive,0.14,0.04,0.14,1,positive control

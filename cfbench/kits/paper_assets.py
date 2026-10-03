@@ -106,10 +106,19 @@ def _deps_cell(d, subject: str) -> Cell:
     return Cell(f"{direct.display} direct / {trans.display} transitive", [direct, trans])
 
 
-def _binary_cell(d, cfg, subject: str) -> Cell:
+def _pair(a: Cell, b: Cell) -> Cell:
+    """Two machines' cells as one `M-A / M-B` cell; n/a when both are n/a."""
+    if a.status == "n/a" and b.status == "n/a":
+        return a
+    status = "pending" if "pending" in (a.status, b.status) else "ok"
+    reason = "; ".join(x.reason for x in (a, b) if x.reason)
+    return Cell(f"{a.display} / {b.display}", [*a.evidence, *b.evidence], status, reason)
+
+
+def _binary_cell_on(d, cfg, machine: str, subject: str) -> Cell:
     p = cfg["paper"]
     try:
-        e = ev.lookup("binary_size", {"machine": p["table_machine"], "subject": subject, "opt": p["table_opt"]},
+        e = ev.lookup("binary_size", {"machine": machine, "subject": subject, "opt": p["table_opt"]},
                       "bytes", results_dir=d, fmt="{:,.0f}")  # fmt: skip
     except MissingData as err:
         return _pending(err)
@@ -117,22 +126,22 @@ def _binary_cell(d, cfg, subject: str) -> Cell:
 
 
 def build_table(results_dir: Path | None = None, cfg: dict | None = None) -> PaperTable:
+    """At most six rows; every machine-dependent row shows both machines as `M-A / M-B`."""
     d = Path(results_dir) if results_dir else paths.RESULTS
     cfg = cfg or config.load_config("full")
     p = cfg["paper"]
     m_a, m_b = p["machines"][0], p["machines"][-1]
     corpus = p["figure_corpus"].title()
+    both = f"{m_a} / {m_b}"
     rows = [
-        Row(f"{corpus} raw L{p['figure_level']} one-shot, {m_a}: MiB/s (vs zlib)",
-            {s: _perf_cell(d, cfg, m_a, s, "raw", True) for s in SUBJECTS}),
-        Row(f"{corpus} raw L{p['figure_level']} one-shot, {m_b}: MiB/s (vs zlib)",
-            {s: _perf_cell(d, cfg, m_b, s, "raw", True) for s in SUBJECTS}),
-        Row(f"{corpus} gzip L{p['figure_level']} one-shot, {m_b}: ratio vs zlib",
-            {s: _perf_cell(d, cfg, m_b, s, "gzip", False) for s in SUBJECTS}),
+        Row(f"{corpus} raw L{p['figure_level']} one-shot MiB/s (vs zlib), {both}",
+            {s: _pair(_perf_cell(d, cfg, m_a, s, "raw", True), _perf_cell(d, cfg, m_b, s, "raw", True)) for s in SUBJECTS}),
+        Row(f"{corpus} gzip L{p['figure_level']} one-shot ratio vs zlib, {both}",
+            {s: _pair(_perf_cell(d, cfg, m_a, s, "gzip", False), _perf_cell(d, cfg, m_b, s, "gzip", False)) for s in SUBJECTS}),
         Row("`unsafe` blocks + fns in the decompression crate", {s: _unsafe_cell(d, s) for s in SUBJECTS}),
         Row("Runtime dependencies (direct / transitive)", {s: _deps_cell(d, s) for s in SUBJECTS}),
-        Row(f"Stripped minimal binary, opt-level {p['table_opt']}, {p['table_machine']}",
-            {s: _binary_cell(d, cfg, s) for s in SUBJECTS}),
+        Row(f"Stripped minimal binary, opt-level {p['table_opt']}, {both}",
+            {s: _pair(_binary_cell_on(d, cfg, m_a, s), _binary_cell_on(d, cfg, m_b, s)) for s in SUBJECTS}),
     ]  # fmt: skip
     assert len(rows) <= MAX_ROWS
     return PaperTable(SUBJECTS, rows, parity.PARITY_NOTE)

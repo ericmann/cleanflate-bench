@@ -11,10 +11,14 @@ Methods (recorded in the payload):
   fix tasks, `other` otherwise.
 - The tool log is the complete snapshot at the last round; entries are assigned to rounds by their
   timestamp against the round windows.
+- The forbidden-read audit (`effort.forbidden_reads`) lists every allowed call by a read-capable tool
+  with a path-like token under a forbidden root, or naming a prior-art word outside the build
+  checkout. Candidates are classified by hand in `config/forbidden_read_verdicts.toml`.
 """
 
 import json
 import re
+import shlex
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -146,7 +150,69 @@ def categorize_denial(reason: str | None, prefix_map: list[dict]) -> str:
     return "other"
 
 
-def tool_log_summary(entries: list[dict], prefix_map: list[dict]) -> dict:
+_SEPARATORS = re.compile(r"[;|&<>()=]")
+
+
+def path_tokens(tool: str, target: str) -> list[str]:
+    """Path-like tokens of a call: the whole target for file tools, `/` or `~` words for Bash.
+
+    Bash words are split on shell separators too, so a path inside a pipeline or an inline script
+    is still seen; that over-reports (a regex naming a path is a candidate) and never under-reports.
+    """
+    if tool != "Bash":
+        return [target] if target else []
+    try:
+        words = shlex.split(target, comments=False)
+    except ValueError:
+        words = target.split()
+    out = []
+    for w in words:
+        for piece in _SEPARATORS.split(w):
+            for p in piece.split():
+                p = p.strip("'\"`")
+                if p.startswith(("/", "~")):
+                    out.append(p)
+    return out
+
+
+def _word_in(path: str, words: list[str]) -> str | None:
+    for w in words:
+        if re.search(rf"(?<![A-Za-z0-9]){re.escape(w)}(?![A-Za-z0-9])", path, re.IGNORECASE):
+            return w
+    return None
+
+
+def forbidden_read_match(entry: dict, rules: dict) -> dict | None:
+    """The first offending path of an allowed read-capable call, or None."""
+    if entry["decision"] != "allowed" or entry["tool"] not in rules["read_tools"]:
+        return None
+    root = rules["repo_root"].rstrip("/")
+    for p in path_tokens(entry["tool"], entry.get("target") or ""):
+        hit = next((pat for pat in rules["root_patterns"] if re.search(pat, p)), None)
+        if hit:
+            return {"path": p, "rule": f"root {hit}"}
+        inside = p == root or p.startswith(root + "/")
+        word = None if inside else _word_in(p, rules["words"])
+        if word:
+            return {"path": p, "rule": f"word {word} outside the build checkout"}
+    return None
+
+
+def forbidden_reads(entries: list[dict], rules: dict) -> dict:
+    """Read-capable allowed calls and the forbidden-read candidates among them."""
+    calls = [e for e in entries if e["decision"] == "allowed" and e["tool"] in rules["read_tools"]]
+    cands = []
+    for e in calls:
+        m = forbidden_read_match(e, rules)
+        if m:
+            cands.append({"ts": e["ts"], "tool": e["tool"], "stage": e.get("foundry_stage"),
+                          "task": e.get("task_id"), **m})  # fmt: skip
+    return {"read_calls": len(calls), "candidates": cands}
+
+
+def tool_log_summary(
+    entries: list[dict], prefix_map: list[dict], read_rules: dict | None = None
+) -> dict:
     models: dict[str, Counter] = defaultdict(Counter)
     denied: Counter = Counter()
     for e in entries:
@@ -155,11 +221,14 @@ def tool_log_summary(entries: list[dict], prefix_map: list[dict]) -> dict:
             models[stage][e["model"]] += 1
         if e["decision"] == "denied":
             denied[categorize_denial(e.get("reason"), prefix_map)] += 1
-    return {
+    out = {
         "calls": len(entries),
         "models_by_stage": {s: dict(sorted(c.items())) for s, c in sorted(models.items())},
         "denied": {"count": sum(denied.values()), "categories": dict(sorted(denied.items()))},
     }
+    if read_rules is not None:
+        out["forbidden_reads"] = forbidden_reads(entries, read_rules)
+    return out
 
 
 def defect_source(text: str, stage: str | None, keywords: dict[str, list[str]]) -> str:
@@ -267,7 +336,9 @@ def collect(
                 "tag": r["tag"],
                 "sha": r["sha"],
                 "wall_clock": stage_wall_clock(window, prev_ts, idle),
-                "tool_log": tool_log_summary(in_round, eff["denial_categories"]),
+                "tool_log": tool_log_summary(
+                    in_round, eff["denial_categories"], eff["forbidden_reads"]
+                ),
                 "foundry": state_summary(state),
                 "defects": defects_summary(window, eff["defect_keywords"]),
                 "interventions": {"count": len(mine), "items": mine},
@@ -282,6 +353,7 @@ def collect(
             "idle_gap_hours": eff["idle_gap_hours"],
             "tool_log": f"{SNAPSHOT} at the last round, entries assigned to rounds by timestamp",
             "defects": "Defects-caught trailers mapped by effort.defect_keywords; stage breaks ties",
+            "forbidden_reads": eff["forbidden_reads"],
         },
         "gaps": [DURATION_GAP],
         "rounds": out,

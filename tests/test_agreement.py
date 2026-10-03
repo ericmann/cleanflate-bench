@@ -78,3 +78,27 @@ def test_derive_from_fixtures_and_pending(tmp_path, monkeypatch):
     agreement.derive(config.load_config("full"))
     rows, side = provenance.read_table("perf_agreement_summary")
     assert rows == [] and side["pending"] == agreement.PENDING
+
+
+def test_aggregate_rows_sum_cells_and_flag_beyond_tolerance():
+    d1 = doc(
+        1,
+        [
+            cell("cf", "silesia/a", 1000.0),
+            cell("cf", "silesia/b", 1000.0),
+            cell("zlib", "silesia/a", 500.0),
+            cell("cf", "tiny/x-64", 10.0, corpus="tiny"),
+        ],
+    )
+    d2 = doc(2, [cell("cf", "silesia/a", 1100.0), cell("cf", "silesia/b", 1000.0), cell("zlib", "silesia/a", 560.0),
+                 cell("cf", "tiny/x-64", 99.0, corpus="tiny")])  # fmt: skip
+    rows = {r["subject"]: r for r in agreement.aggregate_rows([d1, d2], TOL)}
+    assert set(rows) == {"cf", "zlib"}  # tiny is not aggregated
+    assert rows["cf"]["sum_median_run1_ns"] == 2000.0 and rows["cf"]["rel_diff"] == pytest.approx(
+        0.05
+    )
+    assert rows["cf"]["flagged"] == "false"  # exactly at the tolerance is not beyond it
+    assert rows["zlib"]["flagged"] == "true" and rows["zlib"]["corpus"] == "silesia"
+    assert agreement.aggregate_rows([d1], TOL) == []
+    _f, s = agreement.compare_session([d1, d2], TOL)
+    assert s["flagged_aggregates"] == sum(r["flagged"] == "true" for r in rows.values())

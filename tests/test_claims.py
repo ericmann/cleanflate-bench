@@ -39,6 +39,7 @@ def test_conformance_supported_with_full_pass(results):
     c = by_id(results)["conformance"]
     assert c.status == claims.SUPPORTED
     assert "100 of 100 streams on M-B" in c.text and "no disagreement" in c.text
+    assert "not run on M-A" in c.text  # a machine without data is not run, never a failure
     # a failure or a listed disagreement rejects the claim
     rewrite(
         results,
@@ -97,14 +98,15 @@ def test_perf_range_pending_without_both_machines(results):
     assert (
         "0.76x to 0.89x" in c.text
     )  # min and max over both machines, raw and zlib, levels 6 and 9
-    assert len(c.evidence) == 2 * 2 * 2
+    assert len([e for e in c.evidence if e.table == "perf_aggregates"]) == 2 * 2 * 2
+    assert "no cf or zlib aggregate behind these ratios is flagged" in c.text
     rewrite(results, "perf_aggregates", lambda rows: [r for r in rows if r["machine"] != "M-A"])
     rewrite(
         results, "perf_agreement_summary", lambda rows: [r for r in rows if r["machine"] != "M-A"]
     )
     p = by_id(results)["perf_range"]
     assert p.status == claims.PENDING and "M-A" in p.reason and "make perf" in p.reason
-    # a machine whose runs disagree also leaves the claim pending
+    # SPEC 3.2: a machine whose runs disagree is reported with its flag, not withheld
     shutil.rmtree(results)
     shutil.copytree(FIX, results)
     rewrite(
@@ -113,7 +115,21 @@ def test_perf_range_pending_without_both_machines(results):
         lambda rows: [{**r, "verdict": "flagged"} if r["machine"] == "M-B" else r for r in rows],
     )
     f = by_id(results)["perf_range"]
-    assert f.status == claims.PENDING and "not pass" in f.reason
+    assert f.status == claims.SUPPORTED and "M-A pass, M-B flagged" in f.text
+    rewrite(
+        results,
+        "perf_agreement_aggregates",
+        lambda rows: [
+            {**r, "flagged": "true"}
+            if (r["machine"], r["subject"], r["level"], r["framing"]) == ("M-B", "zlib", "9", "raw")
+            else r
+            for r in rows
+        ],
+    )
+    g = by_id(results)["perf_range"]
+    assert g.status == claims.SUPPORTED and "some cf or zlib aggregates" in g.text
+    (results / "perf_agreement_aggregates.csv").unlink()
+    assert by_id(results)["perf_range"].status == claims.PENDING
 
 
 def test_trajectory_supported_and_non_monotonic_stated(results):
@@ -148,7 +164,13 @@ def test_similarity_rejected_when_statement_disallows(results):
     )
     r = by_id(results)["similarity"]
     assert r.status == claims.REJECTED and "NOT allowed" in r.reason and r.text == ""
-    assert len(r.evidence) == 3  # the controls and pairs stay visible next to the rejection
+    # the controls and pairs stay visible next to the rejection, with their scores in the reason
+    pairs = {dict(e.row_key)["pair"] for e in r.evidence}
+    assert pairs == {"zrs-mox", "zrs-zng", "cf-zrs", "cf-mox"}
+    assert (
+        "Scores: `ident_jaccard` negative control zrs-mox 0.04, positive control zrs-zng 0.14"
+        in r.reason
+    )
     (results / "similarity_statement.md").unlink()
     assert by_id(results)["similarity"].status == claims.PENDING
 
@@ -156,14 +178,15 @@ def test_similarity_rejected_when_statement_disallows(results):
 def test_effort_cost_only_when_priced(results):
     e = by_id(results)["effort"]
     assert e.status == claims.SUPPORTED and "30.0 hours" in e.text
-    assert "cost not priced (see EFFORT_GAPS.md)" in e.text
+    assert "unpriced model cost (see EFFORT_GAPS.md)" in e.text
+    assert "2 recorded human interventions" in e.text
     rewrite(
         results,
         "effort_totals",
         lambda rows: [{**r, "cost_usd": "1234.5"} if r["round"] == "total" else r for r in rows],
     )
     priced = by_id(results)["effort"]
-    assert "$1,234" in priced.text and "not priced" not in priced.text and len(priced.evidence) == 2
+    assert "$1,234" in priced.text and "unpriced" not in priced.text and len(priced.evidence) == 3
 
 
 def test_overreach_claims_rejected_by_default(tmp_path):
@@ -173,7 +196,7 @@ def test_overreach_claims_rejected_by_default(tmp_path):
     for cid in ("parity_with_zlib", "faster_than_zrs", "faster_than_mox"):
         assert got[cid].status == claims.REJECTED and "no data supports it" in got[cid].reason
     assert got["gzip_gap_is_hw_crc"].status == claims.PENDING  # until the framing data exists
-    for cid in ("conformance", "safety", "perf_range", "trajectory", "similarity", "effort"):
+    for cid in claims.MAIN:
         assert got[cid].status == claims.PENDING, cid
     assert [c.id for c in claims.evaluate(empty, CFG)] == claims.ORDER
 
@@ -206,8 +229,7 @@ def test_overreach_claims_follow_the_data(results):
 def test_every_supported_claim_has_evidence_with_raw_and_script(results):
     got = by_id(results)
     supported = [c for c in got.values() if c.status == claims.SUPPORTED]
-    assert {c.id for c in supported} >= {"conformance", "safety", "perf_range", "trajectory", "similarity", "effort",
-                                           "faster_than_mox", "gzip_gap_is_hw_crc"}  # fmt: skip
+    assert {c.id for c in supported} >= {*claims.MAIN, "faster_than_mox", "gzip_gap_is_hw_crc"}
     for c in supported:
         assert c.evidence and c.text, c.id
         for e in c.evidence:
@@ -260,3 +282,60 @@ def test_pending_tables_raise_missing_data(tmp_path, monkeypatch):
     )
     with pytest.raises(evidence.MissingData, match="pending: Pending: run make trajectory"):
         evidence.lookup("trajectory", {"machine": "M-A"}, "machine", results_dir=d)
+
+
+def test_claims_follow_category_order():
+    order = [claims.CATEGORY[cid] for cid in claims.MAIN]
+    keys = [c.key for c in __import__("cfbench.kits.pipeline", fromlist=["CATEGORIES"]).CATEGORIES]
+    assert order == sorted(order, key=keys.index)
+    assert keys == ["equivalence", "safety", "clean_room", "effort", "viability", "iteration"]
+
+
+def test_fuzz_reports_per_pair_and_not_run_machine(results):
+    f = by_id(results)["fuzz"]
+    assert f.status == claims.SUPPORTED
+    for target, execs in (
+        ("diff_cf_zlib", "1,000"),
+        ("diff_cf_zrs", "2,000"),
+        ("diff_cf_mox", "3,000"),
+    ):
+        assert f"0 divergences in {execs} executions for {target}" in f.text
+    # M-A has a recorded not-run reason in config/session_notes.toml
+    assert "not run on M-A (the SPEC fixes one fuzz budget per pair" in f.text
+    rewrite(
+        results,
+        "fuzz_stats",
+        lambda rows: [
+            {**r, "divergences": "2"} if r["target"] == "diff_cf_zrs" else r for r in rows
+        ],
+    )
+    r = by_id(results)["fuzz"]
+    assert r.status == claims.REJECTED and "diff_cf_zrs on M-B: 2 divergences" in r.reason
+
+
+def test_malformed_supported_then_rejected_on_mismatch(results):
+    m = by_id(results)["malformed"]
+    assert (
+        m.status == claims.SUPPORTED
+        and "10 of 10 files" in m.text
+        and "all of them cf rejecting" in m.text
+    )
+    rewrite(results, "malformed_summary",
+            lambda rows: [{**r, "cf_matches_expected": "9", "cf_mismatches": "1"} if r["machine"] == "M-A" else r for r in rows])  # fmt: skip
+    r = by_id(results)["malformed"]
+    assert (
+        r.status == claims.REJECTED and "M-A: cf matched EXPECTED.tsv for 9 of 10 files" in r.reason
+    )
+
+
+def test_isolation_supported_then_rejected_on_forbidden_read(results):
+    i = by_id(results)["isolation"]
+    assert (
+        i.status == claims.SUPPORTED
+        and "denied 5 tool calls" in i.text
+        and "found 0 reads" in i.text
+    )
+    assert "bounds isolation rather than proving it" in i.text
+    rewrite(results, "effort_totals", lambda rows: [{**r, "forbidden_reads": "1"} for r in rows])
+    r = by_id(results)["isolation"]
+    assert r.status == claims.REJECTED and "1 forbidden reads" in r.reason

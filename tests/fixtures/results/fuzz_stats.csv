@@ -1,0 +1,4 @@
+machine,target,budget_cpu_hours,executions,exec_per_s,cov_lines_pct,cov_regions_pct,divergences,archive
+M-B,diff_cf_zlib,4,1000,10,50,50,0,
+M-B,diff_cf_zrs,4,2000,10,50,50,0,
+M-B,diff_cf_mox,4,3000,10,50,50,0,

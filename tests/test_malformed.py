@@ -116,3 +116,41 @@ def test_run_all_trailing_bytes_yield_accept_trailing(tmp_path, monkeypatch):
     )
     payload = malformed.run_all(cfg, root, lambda argv: res(True, trailing=1))
     assert payload["files"][0]["results"]["zlib"]["outcome"] == "accept+trailing"
+
+
+def _payload(outcomes_by_file):
+    subjects = ["cf", "zlib", "mox"]
+    files = []
+    for name, (expected, outs) in outcomes_by_file.items():
+        files.append({"file": name, "framing": "zlib", "rule": "r", "cf_expected": expected,
+                      "results": {s: {"outcome": o} for s, o in zip(subjects, outs, strict=True)}})  # fmt: skip
+    return {"subjects": subjects, "files": files}
+
+
+def test_summary_row_counts_matches_and_cf_stricter_disagreements():
+    p = _payload({
+        "rfc1950/a.bin": ("TrailingData", ("error:TrailingData", "accept+trailing", "unsupported")),
+        "rfc1950/b.bin": ("OK", ("accept", "error:X", "accept")),
+        "rfc1950/c.bin": ("BadHeader", ("error:Other", "error:Y", "error:Z")),
+    })  # fmt: skip
+    row = malformed.summary_row(p, "M-T")
+    assert row == {"machine": "M-T", "files": 3, "subjects": 3, "cf_expected_files": 3, "cf_matches_expected": 2,
+                   "cf_mismatches": 1, "disagreements": 2, "disagreements_cf_stricter": 1}  # fmt: skip
+    assert malformed.cf_stricter({"cf": "error:A", "zlib": "accept", "mox": "unsupported"})
+    assert not malformed.cf_stricter({"cf": "error:A", "zlib": "accept", "mox": "error:B"})
+
+
+def test_highlights_and_findings_cover_every_machine(tmp_path):
+    a = _payload({"rfc1950/a.bin": ("TrailingData", ("error:TrailingData", "accept", "accept"))})
+    b = _payload({"rfc1950/a.bin": ("TrailingData", ("accept", "accept", "accept"))})
+    text = malformed.highlights([("M-A", a), ("M-B", b)])
+    assert (
+        "M-A: 1 files, 3 subjects. 1 disagree" in text
+        and "M-B: 1 files, 3 subjects. 0 disagree" in text
+    )
+    assert "- Outcomes on M-A: cf=error:TrailingData" in text
+    assert "- M-A: cf's outcome matches EXPECTED.tsv for every file." in text
+    assert "- M-B: rfc1950/a.bin: expected TrailingData, got accept" in text
+    findings = tmp_path / "findings.md"
+    assert malformed.update_findings([("M-A", a), ("M-B", b)], findings)
+    assert "`rfc1950/a.bin` on M-B: expected TrailingData" in findings.read_text()

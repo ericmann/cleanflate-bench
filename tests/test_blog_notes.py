@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from cfbench import config, paths, provenance
-from cfbench.kits import blog
+from cfbench.kits import blog, pipeline, sections
 
 FIX = Path(__file__).parent / "fixtures" / "results"
 CFG = config.load_config("full")
@@ -26,13 +26,20 @@ def put(d, name, columns, rows, pending=None):
 def test_outline_beats_present(results, tmp_path):
     text = blog.render(results, CFG)
     heads = re.findall(r"^## (.+)$", text, flags=re.MULTILINE)
-    assert heads[: len(blog.BEATS)] == blog.BEATS
-    assert heads[len(blog.BEATS) :] == ["Most surprising findings (ranked)", "Open questions"]
+    assert heads[0] == blog.LEAD == "Claims and evidence"  # the claims lead every kit
+    assert heads[1 : 1 + len(blog.BEATS)] == blog.BEATS
+    assert heads[1 + len(blog.BEATS) :] == ["Most surprising findings (ranked)", "Open questions"]
     assert text.startswith(blog.HEADER) and "not a finished post" in text
+    assert f"# Blog notes: {pipeline.PIPELINE_NAME}" in text
+    lead = text.split("## The pipeline and the question")[0]
+    order = [lead.index(f"**{c.title}.**") for c in pipeline.CATEGORIES]
+    assert order == sorted(order)
     empty = tmp_path / "empty"
     empty.mkdir()
     again = blog.render(empty, CFG)  # no data at all still gives every beat
-    assert re.findall(r"^## (.+)$", again, flags=re.MULTILINE)[: len(blog.BEATS)] == blog.BEATS
+    assert (
+        re.findall(r"^## (.+)$", again, flags=re.MULTILINE)[1 : 1 + len(blog.BEATS)] == blog.BEATS
+    )
     assert blog.render(results, CFG) == text  # deterministic
 
 
@@ -82,7 +89,7 @@ def test_inconclusive_items_listed_as_open_questions(results):
     assert any("Hypothesis H1 is inconclusive" in i for i in items)
     assert not any("Hypothesis H2" in i for i in items)
     assert any(i.startswith("Pending table `fuzz_stats`") for i in items)
-    assert sum(i.startswith("Threat to validity") for i in items) == 6
+    assert sum(i.startswith("Threat to validity") for i in items) == len(sections.THREAT_TITLES)
     text = blog.render(results, CFG)
     assert any(
         "Hypothesis h1 did not come out confirmed" in b.text for b in blog.surprises(results, CFG)

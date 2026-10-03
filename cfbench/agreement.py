@@ -28,6 +28,19 @@ SUMMARY_COLUMNS = [
     "flagged_aggregates",
     "verdict",
 ]
+AGGREGATE_COLUMNS = [
+    "machine",
+    "variant",
+    "subject",
+    "corpus",
+    "level",
+    "framing",
+    "mode",
+    "sum_median_run1_ns",
+    "sum_median_run2_ns",
+    "rel_diff",
+    "flagged",
+]
 PENDING = "no full perf runs; run make perf on M-A and M-B"
 
 
@@ -45,6 +58,31 @@ def run_medians(doc: dict) -> dict:
 
 def rel_diff(run1_ns: float, run2_ns: float) -> float:
     return (run2_ns - run1_ns) / run1_ns
+
+
+def aggregate_rows(docs: list[dict], tolerance: float) -> list[dict]:
+    """Per-aggregate agreement of a session's first two runs (cells summed as in the summary)."""
+    if len(docs) < 2:
+        return []
+    machine, variant = docs[0]["machine"], docs[0]["payload"]["variant"]
+    m1, m2 = run_medians(docs[0]), run_medians(docs[1])
+    agg1: dict = defaultdict(float)
+    agg2: dict = defaultdict(float)
+    for key in sorted(set(m1) & set(m2)):
+        subject, _workload, level, framing, mode = key
+        corpus = m1[key][1]
+        if corpus != "tiny":
+            akey = (subject, corpus, level, framing, mode)
+            agg1[akey] += m1[key][0]
+            agg2[akey] += m2[key][0]
+    rows = []
+    for (subject, corpus, level, framing, mode), s1 in sorted(agg1.items()):
+        d = rel_diff(s1, agg2[(subject, corpus, level, framing, mode)])
+        rows.append({"machine": machine, "variant": variant, "subject": subject, "corpus": corpus,
+                     "level": level, "framing": framing, "mode": mode, "sum_median_run1_ns": s1,
+                     "sum_median_run2_ns": agg2[(subject, corpus, level, framing, mode)],
+                     "rel_diff": d, "flagged": "true" if abs(d) > tolerance else "false"})  # fmt: skip
+    return rows
 
 
 def compare_session(docs: list[dict], tolerance: float) -> tuple[list[dict], dict]:
@@ -115,18 +153,23 @@ def derive(cfg: dict | None = None) -> tuple[list[dict], list[dict]]:
         for name, cols in (
             ("perf_agreement", FLAG_COLUMNS),
             ("perf_agreement_summary", SUMMARY_COLUMNS),
+            ("perf_agreement_aggregates", AGGREGATE_COLUMNS),
         ):
             provenance.write_table(name, cols, [], script=script, raw_files=[], pending=PENDING)
         return [], []
-    flags, summaries, raw = [], [], []
+    flags, summaries, aggs, raw = [], [], [], []
     for docs in sessions.values():
         raw.extend(d["path"] for d in docs)
         f, s = compare_session(docs, tol)
         flags.extend(f)
         summaries.append(s)
+        aggs.extend(aggregate_rows(docs, tol))
     provenance.write_table("perf_agreement", FLAG_COLUMNS, flags, script=script, raw_files=raw)
     provenance.write_table(
         "perf_agreement_summary", SUMMARY_COLUMNS, summaries, script=script, raw_files=raw
+    )
+    provenance.write_table(
+        "perf_agreement_aggregates", AGGREGATE_COLUMNS, aggs, script=script, raw_files=raw
     )
     return flags, summaries
 

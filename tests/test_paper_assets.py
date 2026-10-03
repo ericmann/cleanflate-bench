@@ -31,56 +31,54 @@ def drop(d, table, keep):
 
 def test_table_has_at_most_six_rows_and_footnote(results):
     t = pa.build_table(results, CFG)
-    assert len(t.rows) == 6 <= pa.MAX_ROWS
+    assert len(t.rows) == 5 <= pa.MAX_ROWS
     assert t.columns == ["cf", "zlib", "mox"]
     assert "no SIMD" in t.footnote and "no C ABI" in t.footnote  # the parity note, always present
     md = t.to_markdown()
-    assert md.rstrip().endswith(f"*{t.footnote}*") and md.count("\n| ") >= 6
-    r1, r2, r3, r4, r5, r6 = t.rows
+    assert md.rstrip().endswith(f"*{t.footnote}*") and md.count("\n| ") >= 5
+    r1, r2, r3, r4, r5 = t.rows
+    # machine-dependent rows show both machines in one cell, M-A first
+    assert "M-A / M-B" in r1.label and "M-A / M-B" in r2.label and "M-A / M-B" in r5.label
+    assert r1.cells["cf"].display == "80 MiB/s (0.86x) / 70 MiB/s (0.76x)"
+    assert r1.cells["zlib"].display == "100 MiB/s (1.00x) / 100 MiB/s (1.00x)"
+    assert r2.cells["cf"].display == "0.86x / 0.76x" and r2.cells["zlib"].display == "1.00x / 1.00x"
     assert (
-        r1.cells["cf"].display == "80 MiB/s (0.86x)"
-        and r1.cells["zlib"].display == "100 MiB/s (1.00x)"
-    )
-    assert r2.cells["cf"].display == "70 MiB/s (0.76x)" and "M-B" in r2.label
-    assert r3.cells["cf"].display == "0.76x" and r3.cells["zlib"].display == "1.00x"
-    assert (
-        r3.cells["mox"].display == "n/a" and r3.cells["mox"].status == "n/a"
+        r2.cells["mox"].display == "n/a" and r2.cells["mox"].status == "n/a"
     )  # unsupported, never zero
     assert (
-        r4.cells["cf"].display == "0 blocks + 0 fns"
-        and r4.cells["zlib"].display == "C (whole codebase)"
+        r3.cells["cf"].display == "0 blocks + 0 fns"
+        and r3.cells["zlib"].display == "C (whole codebase)"
     )
-    assert r4.cells["mox"].display == "0 blocks + 0 fns"
+    assert r3.cells["mox"].display == "0 blocks + 0 fns"
     assert (
-        r5.cells["cf"].display == "0 direct / 0 transitive"
-        and r5.cells["mox"].display == "1 direct / 1 transitive"
+        r4.cells["cf"].display == "0 direct / 0 transitive"
+        and r4.cells["mox"].display == "1 direct / 1 transitive"
     )
-    assert r5.cells["zlib"].display == "n/a"
-    assert r6.cells["cf"].display == "393,888 B" and r6.cells["zlib"].display == "43,136 B"
+    assert r4.cells["zlib"].display == "n/a"
+    # the fixture has binary sizes for M-B only, so M-A's half is pending
+    assert r5.cells["cf"].display == "pending / 393,888 B" and r5.cells["cf"].status == "pending"
     # every numeric cell is backed by evidence with a raw file and a script
     for row in t.rows:
         for c in row.cells.values():
-            if c.status == "ok" and c.evidence:
+            if c.evidence:
                 assert all(e.raw_files and e.script for e in c.evidence)
 
 
 def test_missing_machine_cells_are_pending(results):
     drop(results, "perf_aggregates", lambda r: r["machine"] != "M-A")
     t = pa.build_table(results, CFG)
-    a, b = t.rows[0], t.rows[1]
-    assert all(
-        c.display == "pending" and c.status == "pending" for c in a.cells.values() if c is not None
-    )
+    a = t.rows[0]
+    assert a.cells["cf"].display.startswith("pending / ") and a.cells["cf"].status == "pending"
     assert "no row" in a.cells["cf"].reason and "make perf" in a.cells["cf"].reason
-    assert b.cells["cf"].display != "pending"
+    assert a.cells["cf"].display != "pending / pending"
     drop(results, "binary_size", lambda r: False)
-    assert pa.build_table(results, CFG).rows[5].cells["cf"].display == "pending"
+    assert pa.build_table(results, CFG).rows[4].cells["cf"].display == "pending / pending"
     empty = results.parent / "empty"
     empty.mkdir()
     t = pa.build_table(empty, CFG)
     pending = [c for row in t.rows for c in row.cells.values() if c.status == "pending"]
-    assert pending and all(c.display == "pending" for c in pending)
-    assert t.rows[3].cells["zlib"].display == "C (whole codebase)"  # needs no data
+    assert pending and all("pending" in c.display for c in pending)
+    assert t.rows[2].cells["zlib"].display == "C (whole codebase)"  # needs no data
 
 
 def test_figure_written_at_paper_width(results, tmp_path):

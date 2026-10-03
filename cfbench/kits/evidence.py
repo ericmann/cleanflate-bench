@@ -38,6 +38,11 @@ TARGETS = {
     "zlibrs_context": "make effort",
     "loc": "make size",
     "complexity": "make size",
+    "perf_agreement_aggregates": "make perf",
+    "malformed_summary": "make malformed",
+    "effort_forbidden_reads": "make effort",
+    "crossmachine_gzip_gap": "make perf",
+    "crossmachine_sleep_check": "make trajectory",
 }
 _TOKEN = object()
 
