@@ -1,0 +1,367 @@
+{
+ "argv": [
+  "/Users/ericmann/Projects/cleanflate-bench/cfbench/size.py",
+  "binary"
+ ],
+ "bench_git": {
+  "dirty": true,
+  "sha": "2630278010088f3ac5a2d4454831df088bf7d6e0"
+ },
+ "category": "size",
+ "environment": {
+  "_system": "Darwin",
+  "cores": {
+   "logical": 16,
+   "physical": 16
+  },
+  "cpu_model": "Apple M4 Max",
+  "governor": null,
+  "kernel": "25.6.0",
+  "load_avg_start": [
+   1.65380859375,
+   2.6640625,
+   2.76318359375
+  ],
+  "machine": "M-A",
+  "os": {
+   "name": "macOS",
+   "version": "26.6.2"
+  },
+  "power": {
+   "low_power_mode": false,
+   "on_ac": true,
+   "raw": {
+    "batt": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34996323)\t100%; charged; 0:00 remaining present: true\n",
+    "pmset": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                1 (sleep prevented by powerd, caffeinate)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n powermode            2\n womp                 1\n"
+   }
+  },
+  "probe_errors": [],
+  "repos": {
+   "bench_dirty": true,
+   "bench_sha": "2630278010088f3ac5a2d4454831df088bf7d6e0",
+   "cleanflate_sha": "85f210084a367dcc706c732f5776bf0563cdc0cd",
+   "cleanflate_tag": "v0.3.0-cleanroom"
+  },
+  "thermal_start": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded\n",
+  "toolchains": {
+   "cargo": "cargo 1.89.0 (c24e10642 2025-06-23)",
+   "cc": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+   "cmake": "cmake version 4.4.3",
+   "java": "openjdk version \"21.0.10\" 2026-01-20",
+   "python": "Python 3.14.7",
+   "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+   "uv": "uv 0.10.4 (079e3fd05 2026-02-17)"
+  }
+ },
+ "machine": "M-A",
+ "payload": {
+  "bloat": [
+   {
+    "doc": {
+     "crates": [
+      {
+       "name": "std",
+       "size": 212024
+      },
+      {
+       "name": "cleanflate",
+       "size": 15848
+      },
+      {
+       "name": "min_cf",
+       "size": 13976
+      },
+      {
+       "name": "[Unknown]",
+       "size": 4160
+      },
+      {
+       "name": "__rustc",
+       "size": 212
+      }
+     ],
+     "file-size": 457144,
+     "text-section-size": 242484
+    },
+    "opt": "3",
+    "subject": "cf"
+   },
+   {
+    "doc": {
+     "crates": [
+      {
+       "name": "std",
+       "size": 210156
+      },
+      {
+       "name": "min_zrs",
+       "size": 15496
+      },
+      {
+       "name": "zlib_rs",
+       "size": 7384
+      },
+      {
+       "name": "[Unknown]",
+       "size": 4144
+      },
+      {
+       "name": "__rustc",
+       "size": 228
+      }
+     ],
+     "file-size": 437864,
+     "text-section-size": 233648
+    },
+    "opt": "3",
+    "subject": "zrs"
+   },
+   {
+    "doc": {
+     "crates": [
+      {
+       "name": "std",
+       "size": 210456
+      },
+      {
+       "name": "min_mox",
+       "size": 14904
+      },
+      {
+       "name": "[Unknown]",
+       "size": 4160
+      },
+      {
+       "name": "miniz_oxide",
+       "size": 2776
+      },
+      {
+       "name": "__rustc",
+       "size": 212
+      }
+     ],
+     "file-size": 420872,
+     "text-section-size": 228724
+    },
+    "opt": "3",
+    "subject": "mox"
+   },
+   {
+    "doc": {
+     "crates": [
+      {
+       "name": "std",
+       "size": 197236
+      },
+      {
+       "name": "cleanflate",
+       "size": 14872
+      },
+      {
+       "name": "min_cf",
+       "size": 12772
+      },
+      {
+       "name": "[Unknown]",
+       "size": 4156
+      },
+      {
+       "name": "__rustc",
+       "size": 212
+      }
+     ],
+     "file-size": 445144,
+     "text-section-size": 225512
+    },
+    "opt": "s",
+    "subject": "cf"
+   },
+   {
+    "doc": {
+     "crates": [
+      {
+       "name": "std",
+       "size": 197024
+      },
+      {
+       "name": "min_zrs",
+       "size": 13472
+      },
+      {
+       "name": "zlib_rs",
+       "size": 6776
+      },
+      {
+       "name": "[Unknown]",
+       "size": 4140
+      },
+      {
+       "name": "__rustc",
+       "size": 228
+      }
+     ],
+     "file-size": 426088,
+     "text-section-size": 217880
+    },
+    "opt": "s",
+    "subject": "zrs"
+   },
+   {
+    "doc": {
+     "crates": [
+      {
+       "name": "std",
+       "size": 197356
+      },
+      {
+       "name": "min_mox",
+       "size": 10432
+      },
+      {
+       "name": "[Unknown]",
+       "size": 4156
+      },
+      {
+       "name": "miniz_oxide",
+       "size": 2720
+      },
+      {
+       "name": "__rustc",
+       "size": 212
+      }
+     ],
+     "file-size": 408904,
+     "text-section-size": 211092
+    },
+    "opt": "s",
+    "subject": "mox"
+   }
+  ],
+  "kind": "binary-size",
+  "programs": [
+   {
+    "build_cmd": "cargo build --release -p min-cf --target-dir /Users/ericmann/Projects/cleanflate-bench/target/size-3 --config profile.release.opt-level=3 --config profile.release.strip=true",
+    "bytes": 368880,
+    "compiler": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "opt": "3",
+    "stripped": true,
+    "subject": "cf"
+   },
+   {
+    "build_cmd": "cargo build --release -p min-zrs --target-dir /Users/ericmann/Projects/cleanflate-bench/target/size-3 --config profile.release.opt-level=3 --config profile.release.strip=true",
+    "bytes": 352400,
+    "compiler": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "opt": "3",
+    "stripped": true,
+    "subject": "zrs"
+   },
+   {
+    "build_cmd": "cargo build --release -p min-mox --target-dir /Users/ericmann/Projects/cleanflate-bench/target/size-3 --config profile.release.opt-level=3 --config profile.release.strip=true",
+    "bytes": 335920,
+    "compiler": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "opt": "3",
+    "stripped": true,
+    "subject": "mox"
+   },
+   {
+    "build_cmd": "cc -O3 -flto -ffunction-sections -fdata-sections -Wl,-dead_strip -I/Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2 /Users/ericmann/Projects/cleanflate-bench/minimal/c/min_zlib.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/adler32.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/crc32.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/deflate.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/infback.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/inffast.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/inflate.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/inftrees.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/trees.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/zutil.c -o /Users/ericmann/Projects/cleanflate-bench/build/c-size/min_zlib-3",
+    "bytes": 50488,
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "opt": "3",
+    "sources": [
+     "adler32.c",
+     "crc32.c",
+     "deflate.c",
+     "infback.c",
+     "inffast.c",
+     "inflate.c",
+     "inftrees.c",
+     "trees.c",
+     "zutil.c"
+    ],
+    "stripped": true,
+    "subject": "zlib"
+   },
+   {
+    "build_cmd": "cc -O3 -flto -ffunction-sections -fdata-sections -Wl,-dead_strip -I/Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-3/install/include /Users/ericmann/Projects/cleanflate-bench/minimal/c/min_zng.c /Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-3/install/lib/libz-ng.a -o /Users/ericmann/Projects/cleanflate-bench/build/c-size/min_zng-3",
+    "bytes": 100456,
+    "cmake": "cmake -S /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-ng-2.3.3 -B /Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-3/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-O3 -DCMAKE_C_FLAGS_RELEASE=-O3 -DNDEBUG -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DZLIB_COMPAT=OFF -DBUILD_SHARED_LIBS=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GTEST=OFF -DCMAKE_INSTALL_PREFIX=/Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-3/install",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "opt": "3",
+    "stripped": true,
+    "subject": "zng"
+   },
+   {
+    "bytes": null,
+    "note": "dynamically linked system library; excluded from the static size comparison",
+    "opt": "3",
+    "subject": "zsys"
+   },
+   {
+    "build_cmd": "cargo build --release -p min-cf --target-dir /Users/ericmann/Projects/cleanflate-bench/target/size-s --config profile.release.opt-level=\"s\" --config profile.release.strip=true",
+    "bytes": 352384,
+    "compiler": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "opt": "s",
+    "stripped": true,
+    "subject": "cf"
+   },
+   {
+    "build_cmd": "cargo build --release -p min-zrs --target-dir /Users/ericmann/Projects/cleanflate-bench/target/size-s --config profile.release.opt-level=\"s\" --config profile.release.strip=true",
+    "bytes": 335888,
+    "compiler": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "opt": "s",
+    "stripped": true,
+    "subject": "zrs"
+   },
+   {
+    "build_cmd": "cargo build --release -p min-mox --target-dir /Users/ericmann/Projects/cleanflate-bench/target/size-s --config profile.release.opt-level=\"s\" --config profile.release.strip=true",
+    "bytes": 319424,
+    "compiler": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "opt": "s",
+    "stripped": true,
+    "subject": "mox"
+   },
+   {
+    "build_cmd": "cc -Os -flto -ffunction-sections -fdata-sections -Wl,-dead_strip -I/Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2 /Users/ericmann/Projects/cleanflate-bench/minimal/c/min_zlib.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/adler32.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/crc32.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/deflate.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/infback.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/inffast.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/inflate.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/inftrees.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/trees.c /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-1.3.2/zutil.c -o /Users/ericmann/Projects/cleanflate-bench/build/c-size/min_zlib-s",
+    "bytes": 33976,
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "opt": "s",
+    "sources": [
+     "adler32.c",
+     "crc32.c",
+     "deflate.c",
+     "infback.c",
+     "inffast.c",
+     "inflate.c",
+     "inftrees.c",
+     "trees.c",
+     "zutil.c"
+    ],
+    "stripped": true,
+    "subject": "zlib"
+   },
+   {
+    "build_cmd": "cc -Os -flto -ffunction-sections -fdata-sections -Wl,-dead_strip -I/Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-s/install/include /Users/ericmann/Projects/cleanflate-bench/minimal/c/min_zng.c /Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-s/install/lib/libz-ng.a -o /Users/ericmann/Projects/cleanflate-bench/build/c-size/min_zng-s",
+    "bytes": 100472,
+    "cmake": "cmake -S /Users/ericmann/Projects/cleanflate-bench/third_party/src/zlib-ng-2.3.3 -B /Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-s/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_FLAGS=-Os -DCMAKE_C_FLAGS_RELEASE=-Os -DNDEBUG -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DZLIB_COMPAT=OFF -DBUILD_SHARED_LIBS=OFF -DZLIB_ENABLE_TESTS=OFF -DZLIBNG_ENABLE_TESTS=OFF -DWITH_GTEST=OFF -DCMAKE_INSTALL_PREFIX=/Users/ericmann/Projects/cleanflate-bench/build/c-size/zng-s/install",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.1.1.101)",
+    "opt": "s",
+    "stripped": true,
+    "subject": "zng"
+   },
+   {
+    "bytes": null,
+    "note": "dynamically linked system library; excluded from the static size comparison",
+    "opt": "s",
+    "subject": "zsys"
+   }
+  ],
+  "tool_gaps": []
+ },
+ "profile": "full",
+ "run_index": null,
+ "schema": "cfbench.raw/1",
+ "script": "cfbench.size",
+ "session": null,
+ "timestamp": "20261003T192318Z"
+}

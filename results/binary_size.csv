@@ -1,4 +1,16 @@
 machine,subject,opt,bytes,note
+M-A,cf,3,368880,
+M-A,cf,s,352384,
+M-A,mox,3,335920,
+M-A,mox,s,319424,
+M-A,zlib,3,50488,
+M-A,zlib,s,33976,
+M-A,zng,3,100456,
+M-A,zng,s,100472,
+M-A,zrs,3,352400,
+M-A,zrs,s,335888,
+M-A,zsys,3,,dynamically linked system library; excluded from the static size comparison
+M-A,zsys,s,,dynamically linked system library; excluded from the static size comparison
 M-B,cf,3,393888,
 M-B,cf,s,373408,
 M-B,mox,3,361120,

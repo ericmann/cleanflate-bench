@@ -1,4 +1,256 @@
 machine,file,framing,subject,outcome,produced,trailing_bytes,error
+M-A,rfc1950/adler_mismatch.bin,zlib,cf,error:ChecksumMismatch,0,0,"Adler-32 mismatch: expected 0x062c02ea, got 0x062c0215"
+M-A,rfc1950/adler_mismatch.bin,zlib,mox,error:Adler32Mismatch,0,0,Adler32Mismatch
+M-A,rfc1950/adler_mismatch.bin,zlib,zlib,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1950/adler_mismatch.bin,zlib,zng,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1950/adler_mismatch.bin,zlib,zrs,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1950/adler_mismatch.bin,zlib,zsys,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1950/bad_fcheck.bin,zlib,cf,error:BadHeader,0,0,bad header: zlib header failed the FCHECK mod-31 test
+M-A,rfc1950/bad_fcheck.bin,zlib,mox,error:Failed,0,0,Failed
+M-A,rfc1950/bad_fcheck.bin,zlib,zlib,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1950/bad_fcheck.bin,zlib,zng,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1950/bad_fcheck.bin,zlib,zrs,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1950/bad_fcheck.bin,zlib,zsys,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1950/cinfo_8.bin,zlib,cf,error:BadHeader,0,0,bad header: zlib CINFO 8 exceeds the maximum of 7
+M-A,rfc1950/cinfo_8.bin,zlib,mox,error:Failed,0,0,Failed
+M-A,rfc1950/cinfo_8.bin,zlib,zlib,error:Z_DATA_ERROR,0,0,invalid window size
+M-A,rfc1950/cinfo_8.bin,zlib,zng,error:Z_DATA_ERROR,0,0,invalid window size
+M-A,rfc1950/cinfo_8.bin,zlib,zrs,error:Z_DATA_ERROR,0,0,invalid window size
+M-A,rfc1950/cinfo_8.bin,zlib,zsys,error:Z_DATA_ERROR,0,0,invalid window size
+M-A,rfc1950/cm_7.bin,zlib,cf,error:BadHeader,0,0,bad header: zlib CM 7 is not 8 (deflate)
+M-A,rfc1950/cm_7.bin,zlib,mox,error:Failed,0,0,Failed
+M-A,rfc1950/cm_7.bin,zlib,zlib,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1950/cm_7.bin,zlib,zng,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1950/cm_7.bin,zlib,zrs,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1950/cm_7.bin,zlib,zsys,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1950/fdict_no_dictionary.bin,zlib,cf,error:PresetDictionaryRequired,0,0,stream requires preset dictionary 0x2f39060b
+M-A,rfc1950/fdict_no_dictionary.bin,zlib,mox,error:Failed,0,0,Failed
+M-A,rfc1950/fdict_no_dictionary.bin,zlib,zlib,error:Z_NEED_DICT,0,0,
+M-A,rfc1950/fdict_no_dictionary.bin,zlib,zng,error:Z_NEED_DICT,0,0,
+M-A,rfc1950/fdict_no_dictionary.bin,zlib,zrs,error:Z_NEED_DICT,0,0,
+M-A,rfc1950/fdict_no_dictionary.bin,zlib,zsys,error:Z_NEED_DICT,0,0,
+M-A,rfc1950/trailing_byte.bin,zlib,cf,error:TrailingData,0,0,trailing data at byte offset 13
+M-A,rfc1950/trailing_byte.bin,zlib,mox,accept+trailing,2,1,
+M-A,rfc1950/trailing_byte.bin,zlib,zlib,accept+trailing,2,1,
+M-A,rfc1950/trailing_byte.bin,zlib,zng,accept+trailing,2,1,
+M-A,rfc1950/trailing_byte.bin,zlib,zrs,accept+trailing,2,1,
+M-A,rfc1950/trailing_byte.bin,zlib,zsys,accept+trailing,2,1,
+M-A,rfc1950/valid_small.bin,zlib,cf,accept,13,0,
+M-A,rfc1950/valid_small.bin,zlib,mox,accept,13,0,
+M-A,rfc1950/valid_small.bin,zlib,zlib,accept,13,0,
+M-A,rfc1950/valid_small.bin,zlib,zng,accept,13,0,
+M-A,rfc1950/valid_small.bin,zlib,zrs,accept,13,0,
+M-A,rfc1950/valid_small.bin,zlib,zsys,accept,13,0,
+M-A,rfc1951/btype3.bin,raw,cf,error:BadBlockType,0,0,reserved block type (BTYPE 11)
+M-A,rfc1951/btype3.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/btype3.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid block type
+M-A,rfc1951/btype3.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid block type
+M-A,rfc1951/btype3.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid block type
+M-A,rfc1951/btype3.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid block type
+M-A,rfc1951/dynamic_codelength_incomplete.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: Huffman code table is incomplete
+M-A,rfc1951/dynamic_codelength_incomplete.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_codelength_incomplete.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_incomplete.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_incomplete.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_incomplete.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_oversubscribed.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: Huffman code table is over-subscribed
+M-A,rfc1951/dynamic_codelength_oversubscribed.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_codelength_oversubscribed.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_oversubscribed.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_oversubscribed.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_codelength_oversubscribed.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid code lengths set
+M-A,rfc1951/dynamic_dist_incomplete_two_codes.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: Huffman code table is incomplete
+M-A,rfc1951/dynamic_dist_incomplete_two_codes.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_dist_incomplete_two_codes.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_incomplete_two_codes.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_incomplete_two_codes.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_incomplete_two_codes.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_oversubscribed.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: Huffman code table is over-subscribed
+M-A,rfc1951/dynamic_dist_oversubscribed.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_dist_oversubscribed.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_oversubscribed.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_oversubscribed.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_dist_oversubscribed.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid distances set
+M-A,rfc1951/dynamic_hlit_287.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: too many code-length symbols transmitted
+M-A,rfc1951/dynamic_hlit_287.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_hlit_287.bin,raw,zlib,error:Z_DATA_ERROR,0,0,too many length or distance symbols
+M-A,rfc1951/dynamic_hlit_287.bin,raw,zng,error:Z_DATA_ERROR,0,0,too many length or distance symbols
+M-A,rfc1951/dynamic_hlit_287.bin,raw,zrs,error:Z_DATA_ERROR,0,0,too many length or distance symbols
+M-A,rfc1951/dynamic_hlit_287.bin,raw,zsys,error:Z_DATA_ERROR,0,0,too many length or distance symbols
+M-A,rfc1951/dynamic_litlen_incomplete.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: literal/length table has no end-of-block code
+M-A,rfc1951/dynamic_litlen_incomplete.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_litlen_incomplete.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_incomplete.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_incomplete.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_incomplete.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_oversubscribed.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: literal/length table has no end-of-block code
+M-A,rfc1951/dynamic_litlen_oversubscribed.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_litlen_oversubscribed.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_oversubscribed.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_oversubscribed.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_litlen_oversubscribed.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_missing_eob.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: literal/length table has no end-of-block code
+M-A,rfc1951/dynamic_missing_eob.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_missing_eob.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_missing_eob.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_missing_eob.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_missing_eob.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid code -- missing end-of-block
+M-A,rfc1951/dynamic_no_dist_literals.bin,raw,cf,accept,2,0,
+M-A,rfc1951/dynamic_no_dist_literals.bin,raw,mox,accept,2,0,
+M-A,rfc1951/dynamic_no_dist_literals.bin,raw,zlib,accept,2,0,
+M-A,rfc1951/dynamic_no_dist_literals.bin,raw,zng,accept,2,0,
+M-A,rfc1951/dynamic_no_dist_literals.bin,raw,zrs,accept,2,0,
+M-A,rfc1951/dynamic_no_dist_literals.bin,raw,zsys,accept,2,0,
+M-A,rfc1951/dynamic_no_dist_then_length.bin,raw,cf,error:InvalidSymbol,0,0,decoded symbol has no meaning in its alphabet
+M-A,rfc1951/dynamic_no_dist_then_length.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_no_dist_then_length.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/dynamic_no_dist_then_length.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/dynamic_no_dist_then_length.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/dynamic_no_dist_then_length.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/dynamic_repeat16_first.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: repeat code with no previous code length
+M-A,rfc1951/dynamic_repeat16_first.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_repeat16_first.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat16_first.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat16_first.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat16_first.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat_overflow.bin,raw,cf,error:InvalidHuffmanTable,0,0,invalid Huffman table: repeat code overruns the code-length sequence
+M-A,rfc1951/dynamic_repeat_overflow.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/dynamic_repeat_overflow.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat_overflow.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat_overflow.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_repeat_overflow.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid bit length repeat
+M-A,rfc1951/dynamic_single_dist_code.bin,raw,cf,accept,4,0,
+M-A,rfc1951/dynamic_single_dist_code.bin,raw,mox,accept,4,0,
+M-A,rfc1951/dynamic_single_dist_code.bin,raw,zlib,accept,4,0,
+M-A,rfc1951/dynamic_single_dist_code.bin,raw,zng,accept,4,0,
+M-A,rfc1951/dynamic_single_dist_code.bin,raw,zrs,accept,4,0,
+M-A,rfc1951/dynamic_single_dist_code.bin,raw,zsys,accept,4,0,
+M-A,rfc1951/fixed_dist_code_30.bin,raw,cf,error:InvalidSymbol,0,0,decoded symbol has no meaning in its alphabet
+M-A,rfc1951/fixed_dist_code_30.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/fixed_dist_code_30.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/fixed_dist_code_30.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/fixed_dist_code_30.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/fixed_dist_code_30.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid distance code
+M-A,rfc1951/fixed_distance_at_start.bin,raw,cf,error:InvalidDistance,0,0,distance 1 exceeds 0 bytes available to copy from
+M-A,rfc1951/fixed_distance_at_start.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/fixed_distance_at_start.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_at_start.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_at_start.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_at_start.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_too_far.bin,raw,cf,error:InvalidDistance,0,0,distance 5 exceeds 4 bytes available to copy from
+M-A,rfc1951/fixed_distance_too_far.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/fixed_distance_too_far.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_too_far.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_too_far.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_distance_too_far.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid distance too far back
+M-A,rfc1951/fixed_len284_extra31.bin,raw,cf,accept,259,0,
+M-A,rfc1951/fixed_len284_extra31.bin,raw,mox,accept,259,0,
+M-A,rfc1951/fixed_len284_extra31.bin,raw,zlib,accept,259,0,
+M-A,rfc1951/fixed_len284_extra31.bin,raw,zng,accept,259,0,
+M-A,rfc1951/fixed_len284_extra31.bin,raw,zrs,accept,259,0,
+M-A,rfc1951/fixed_len284_extra31.bin,raw,zsys,accept,259,0,
+M-A,rfc1951/fixed_litlen_286.bin,raw,cf,error:InvalidSymbol,0,0,decoded symbol has no meaning in its alphabet
+M-A,rfc1951/fixed_litlen_286.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/fixed_litlen_286.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid literal/length code
+M-A,rfc1951/fixed_litlen_286.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid literal/length code
+M-A,rfc1951/fixed_litlen_286.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid literal/length code
+M-A,rfc1951/fixed_litlen_286.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid literal/length code
+M-A,rfc1951/stored_nlen_mismatch.bin,raw,cf,error:InvalidStoredLength,0,0,stored block LEN 5 is not the one's complement of NLEN 5
+M-A,rfc1951/stored_nlen_mismatch.bin,raw,mox,error:Failed,0,0,Failed
+M-A,rfc1951/stored_nlen_mismatch.bin,raw,zlib,error:Z_DATA_ERROR,0,0,invalid stored block lengths
+M-A,rfc1951/stored_nlen_mismatch.bin,raw,zng,error:Z_DATA_ERROR,0,0,invalid stored block lengths
+M-A,rfc1951/stored_nlen_mismatch.bin,raw,zrs,error:Z_DATA_ERROR,0,0,invalid stored block lengths
+M-A,rfc1951/stored_nlen_mismatch.bin,raw,zsys,error:Z_DATA_ERROR,0,0,invalid stored block lengths
+M-A,rfc1951/valid_small_dynamic.bin,raw,cf,accept,6,0,
+M-A,rfc1951/valid_small_dynamic.bin,raw,mox,accept,6,0,
+M-A,rfc1951/valid_small_dynamic.bin,raw,zlib,accept,6,0,
+M-A,rfc1951/valid_small_dynamic.bin,raw,zng,accept,6,0,
+M-A,rfc1951/valid_small_dynamic.bin,raw,zrs,accept,6,0,
+M-A,rfc1951/valid_small_dynamic.bin,raw,zsys,accept,6,0,
+M-A,rfc1951/valid_small_fixed.bin,raw,cf,accept,11,0,
+M-A,rfc1951/valid_small_fixed.bin,raw,mox,accept,11,0,
+M-A,rfc1951/valid_small_fixed.bin,raw,zlib,accept,11,0,
+M-A,rfc1951/valid_small_fixed.bin,raw,zng,accept,11,0,
+M-A,rfc1951/valid_small_fixed.bin,raw,zrs,accept,11,0,
+M-A,rfc1951/valid_small_fixed.bin,raw,zsys,accept,11,0,
+M-A,rfc1951/valid_small_stored.bin,raw,cf,accept,13,0,
+M-A,rfc1951/valid_small_stored.bin,raw,mox,accept,13,0,
+M-A,rfc1951/valid_small_stored.bin,raw,zlib,accept,13,0,
+M-A,rfc1951/valid_small_stored.bin,raw,zng,accept,13,0,
+M-A,rfc1951/valid_small_stored.bin,raw,zrs,accept,13,0,
+M-A,rfc1951/valid_small_stored.bin,raw,zsys,accept,13,0,
+M-A,rfc1951/valid_stored_trailing_byte.bin,raw,cf,error:TrailingData,0,0,trailing data at byte offset 7
+M-A,rfc1951/valid_stored_trailing_byte.bin,raw,mox,accept+trailing,2,1,
+M-A,rfc1951/valid_stored_trailing_byte.bin,raw,zlib,accept+trailing,2,1,
+M-A,rfc1951/valid_stored_trailing_byte.bin,raw,zng,accept+trailing,2,1,
+M-A,rfc1951/valid_stored_trailing_byte.bin,raw,zrs,accept+trailing,2,1,
+M-A,rfc1951/valid_stored_trailing_byte.bin,raw,zsys,accept+trailing,2,1,
+M-A,rfc1952/all_flags_valid.bin,gzip,cf,accept,2,0,
+M-A,rfc1952/all_flags_valid.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/all_flags_valid.bin,gzip,zlib,accept,2,0,
+M-A,rfc1952/all_flags_valid.bin,gzip,zng,accept,2,0,
+M-A,rfc1952/all_flags_valid.bin,gzip,zrs,accept,2,0,
+M-A,rfc1952/all_flags_valid.bin,gzip,zsys,accept,2,0,
+M-A,rfc1952/bad_magic.bin,gzip,cf,error:BadHeader,0,0,bad header: gzip magic number is not 1f 8b
+M-A,rfc1952/bad_magic.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/bad_magic.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1952/bad_magic.bin,gzip,zng,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1952/bad_magic.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1952/bad_magic.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,incorrect header check
+M-A,rfc1952/cm_7.bin,gzip,cf,error:BadHeader,0,0,bad header: gzip CM 7 is not 8 (deflate)
+M-A,rfc1952/cm_7.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/cm_7.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1952/cm_7.bin,gzip,zng,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1952/cm_7.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1952/cm_7.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,unknown compression method
+M-A,rfc1952/crc32_mismatch.bin,gzip,cf,error:ChecksumMismatch,0,0,"CRC-32 mismatch: expected 0xd8932a53, got 0xd8932aac"
+M-A,rfc1952/crc32_mismatch.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/crc32_mismatch.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1952/crc32_mismatch.bin,gzip,zng,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1952/crc32_mismatch.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1952/crc32_mismatch.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,incorrect data check
+M-A,rfc1952/fhcrc_mismatch.bin,gzip,cf,error:ChecksumMismatch,0,0,"gzip header CRC mismatch: expected 0x0000ffff, got 0x0000c990"
+M-A,rfc1952/fhcrc_mismatch.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/fhcrc_mismatch.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,header crc mismatch
+M-A,rfc1952/fhcrc_mismatch.bin,gzip,zng,error:Z_DATA_ERROR,0,0,header crc mismatch
+M-A,rfc1952/fhcrc_mismatch.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,header crc mismatch
+M-A,rfc1952/fhcrc_mismatch.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,header crc mismatch
+M-A,rfc1952/isize_mismatch.bin,gzip,cf,error:ChecksumMismatch,0,0,"ISIZE mismatch: expected 0xff000002, got 0x00000002"
+M-A,rfc1952/isize_mismatch.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/isize_mismatch.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,incorrect length check
+M-A,rfc1952/isize_mismatch.bin,gzip,zng,error:Z_DATA_ERROR,0,0,incorrect length check
+M-A,rfc1952/isize_mismatch.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,incorrect length check
+M-A,rfc1952/isize_mismatch.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,incorrect length check
+M-A,rfc1952/reserved_flag_bit5.bin,gzip,cf,error:BadHeader,0,0,bad header: gzip FLG 0x20 sets a reserved bit
+M-A,rfc1952/reserved_flag_bit5.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/reserved_flag_bit5.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit5.bin,gzip,zng,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit5.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit5.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit7.bin,gzip,cf,error:BadHeader,0,0,bad header: gzip FLG 0x80 sets a reserved bit
+M-A,rfc1952/reserved_flag_bit7.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/reserved_flag_bit7.bin,gzip,zlib,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit7.bin,gzip,zng,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit7.bin,gzip,zrs,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/reserved_flag_bit7.bin,gzip,zsys,error:Z_DATA_ERROR,0,0,unknown header flags set
+M-A,rfc1952/second_member_bad_cm.bin,gzip,cf,error:BadHeader,0,0,bad header: gzip CM 7 is not 8 (deflate)
+M-A,rfc1952/second_member_bad_cm.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/second_member_bad_cm.bin,gzip,zlib,accept+trailing,2,25,
+M-A,rfc1952/second_member_bad_cm.bin,gzip,zng,accept+trailing,2,25,
+M-A,rfc1952/second_member_bad_cm.bin,gzip,zrs,accept+trailing,2,25,
+M-A,rfc1952/second_member_bad_cm.bin,gzip,zsys,accept+trailing,2,25,
+M-A,rfc1952/trailing_garbage.bin,gzip,cf,error:TrailingData,0,0,trailing data at byte offset 25
+M-A,rfc1952/trailing_garbage.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/trailing_garbage.bin,gzip,zlib,accept+trailing,2,4,
+M-A,rfc1952/trailing_garbage.bin,gzip,zng,accept+trailing,2,4,
+M-A,rfc1952/trailing_garbage.bin,gzip,zrs,accept+trailing,2,4,
+M-A,rfc1952/trailing_garbage.bin,gzip,zsys,accept+trailing,2,4,
+M-A,rfc1952/two_members_valid.bin,gzip,cf,accept,6,0,
+M-A,rfc1952/two_members_valid.bin,gzip,mox,unsupported,,,
+M-A,rfc1952/two_members_valid.bin,gzip,zlib,accept+trailing,3,26,
+M-A,rfc1952/two_members_valid.bin,gzip,zng,accept+trailing,3,26,
+M-A,rfc1952/two_members_valid.bin,gzip,zrs,accept+trailing,3,26,
+M-A,rfc1952/two_members_valid.bin,gzip,zsys,accept+trailing,3,26,
 M-B,rfc1950/adler_mismatch.bin,zlib,cf,error:ChecksumMismatch,0,0,"Adler-32 mismatch: expected 0x062c02ea, got 0x062c0215"
 M-B,rfc1950/adler_mismatch.bin,zlib,mox,error:Adler32Mismatch,0,0,Adler32Mismatch
 M-B,rfc1950/adler_mismatch.bin,zlib,zlib,error:Z_DATA_ERROR,0,0,incorrect data check

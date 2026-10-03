@@ -12,6 +12,12 @@
  "pending": null,
  "raw_files": [
   {
+   "machine": "M-A",
+   "path": "data/raw/correctness/M-A/20261003T191951Z.json",
+   "sha256": "b019f7341b14b027aa54d37e1a5dbe8dbf1ceabc9e4d9d7a5bede89c027606a4",
+   "timestamp": "20261003T191951Z"
+  },
+  {
    "machine": "M-B",
    "path": "data/raw/correctness/M-B/20261002T150253Z.json",
    "sha256": "f39ee52823ccc1f5634d893c4c62973e7a3ed96f39eacd68f4e512316a1b6cf8",

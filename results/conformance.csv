@@ -1,4 +1,10 @@
 machine,subject,streams,passed,failed,unsupported,pass_rate
+M-A,cf,2962,2962,0,0,1
+M-A,mox,2962,2519,0,443,1
+M-A,zlib,2962,2962,0,0,1
+M-A,zng,2962,2962,0,0,1
+M-A,zrs,2962,2962,0,0,1
+M-A,zsys,2962,2962,0,0,1
 M-B,cf,2962,2962,0,0,1
 M-B,mox,2962,2519,0,443,1
 M-B,zlib,2962,2962,0,0,1

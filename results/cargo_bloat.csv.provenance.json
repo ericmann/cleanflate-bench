@@ -10,6 +10,12 @@
  "pending": null,
  "raw_files": [
   {
+   "machine": "M-A",
+   "path": "data/raw/size/M-A/20261003T192318Z.json",
+   "sha256": "b81e2c680e52587c98f9213c0766568157631add2845b54c653e208f74887bdd",
+   "timestamp": "20261003T192318Z"
+  },
+  {
    "machine": "M-B",
    "path": "data/raw/size/M-B/20261002T180735Z.json",
    "sha256": "bf4fea1224d262a20af74cffa4ed93e7ac6b5416fa68d405192a85baa1e9f4ca",
