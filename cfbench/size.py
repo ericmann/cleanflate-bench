@@ -176,8 +176,14 @@ def _cc() -> str:
     return os.environ.get("CC", "cc")
 
 
+def strip_cmd(system: str, exe: Path) -> list[str]:
+    """Apple's strip on Darwin (via xcrun): a GNU strip earlier on PATH drops the Mach-O code
+    signature, and arm64 macOS then kills the unsigned binary."""
+    return ["xcrun", "strip", str(exe)] if system == "Darwin" else ["strip", str(exe)]
+
+
 def _strip(exe: Path) -> None:
-    _run(["strip", str(exe)])
+    _run(strip_cmd(platform.system(), exe))
 
 
 def build_c_zlib(opt: str) -> dict:

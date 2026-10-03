@@ -42,6 +42,12 @@ def test_c_link_flags_per_platform():
         assert {"-flto", "-ffunction-sections", "-fdata-sections"} <= set(flags)
 
 
+def test_strip_uses_apple_strip_on_darwin():
+    exe = Path("/x/min_zlib-3")
+    assert size.strip_cmd("Darwin", exe) == ["xcrun", "strip", "/x/min_zlib-3"]
+    assert size.strip_cmd("Linux", exe) == ["strip", "/x/min_zlib-3"]
+
+
 def test_zlib_sources_come_from_objz():
     assert size.zlib_sources(MAKEFILE_IN) == [
         "adler32.c", "crc32.c", "deflate.c", "infback.c", "inffast.c",
