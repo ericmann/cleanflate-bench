@@ -1,0 +1,30 @@
+{
+ "columns": [
+  "round",
+  "ts",
+  "tool",
+  "stage",
+  "task",
+  "path",
+  "rule",
+  "verdict",
+  "note"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261002T180908Z.json",
+   "sha256": "cfa7b133a47622c12607165d1cc8f8b6855cfe00e987cbcbbc2886c7a9eb6922",
+   "timestamp": "20261002T180908Z"
+  },
+  {
+   "machine": "any",
+   "path": "data/raw/effort/any/20261003T193251Z.json",
+   "sha256": "2a0970cfa09ffc9cdb0ff3ca26c4aeb6ae9a1df53467c156c73495b7f330bd01",
+   "timestamp": "20261003T193251Z"
+  }
+ ],
+ "script": "cfbench.effort.derive",
+ "table": "effort_forbidden_reads.csv"
+}

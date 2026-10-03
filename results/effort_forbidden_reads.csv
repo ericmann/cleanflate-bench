@@ -1,0 +1,2 @@
+round,ts,tool,stage,task,path,rule,verdict,note
+1,2026-09-29T21:12:31.068Z,Bash,review,,/usr/include/zlib,root ^/usr/(local/)?include/,not-a-read,Review-stage audit of the tool log itself: /usr/include/zlib is one alternative of the regex the reviewer used (python -c over provenance/tool-log.jsonl) to search for forbidden reads; the command opens only the log.
