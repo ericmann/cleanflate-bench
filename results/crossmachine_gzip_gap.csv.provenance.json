@@ -1,0 +1,69 @@
+{
+ "columns": [
+  "machine",
+  "variant",
+  "subject",
+  "corpus",
+  "level",
+  "mode",
+  "ratio_raw",
+  "ratio_gzip",
+  "gap_gzip_minus_raw",
+  "zlib_hw_crc",
+  "zlib_hw_crc_method",
+  "subject_hw_crc"
+ ],
+ "pending": null,
+ "raw_files": [
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T004833Z.json",
+   "sha256": "c6b2f5cbe9bed581352cac763d5f7fb4100b94454dc0a16da320bd6020384961",
+   "timestamp": "20261003T004833Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T022240Z.json",
+   "sha256": "d2bdbaecc23c0ad973e5f2f33d2b2f7c83f367e99b3f8eab125d451b12383372",
+   "timestamp": "20261003T022240Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T032646Z.json",
+   "sha256": "61c7eda4326e102c859c3fee8e7219f27cd4290e32c65f6b9b4295a8e0061043",
+   "timestamp": "20261003T032646Z"
+  },
+  {
+   "machine": "M-A",
+   "path": "data/raw/perf/M-A/20261003T043023Z.json",
+   "sha256": "c9d3c3efec34d36e50e03eca3c178b107c74204976e32a81b427cf1fedc79808",
+   "timestamp": "20261003T043023Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T072144Z.json",
+   "sha256": "3cacf85c6cc58aca7853434ddd20033cdf556dd75470f5c61dc9a709a6b411f6",
+   "timestamp": "20261002T072144Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T091719Z.json",
+   "sha256": "60015bda3e58c14d0a0b32c8b4898af7fae070b364c45f3f87c3d51375b24ebf",
+   "timestamp": "20261002T091719Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T103403Z.json",
+   "sha256": "2ada36a9813a61e8833c9f470278439b699b8a48abc75ee9feaea6d0ab268599",
+   "timestamp": "20261002T103403Z"
+  },
+  {
+   "machine": "M-B",
+   "path": "data/raw/perf/M-B/20261002T115027Z.json",
+   "sha256": "4d274ce6370600cc7b28d646c153fb17c570b3530f43ac2463378a9b0cedd98f",
+   "timestamp": "20261002T115027Z"
+  }
+ ],
+ "script": "cfbench.crossmachine",
+ "table": "crossmachine_gzip_gap.csv"
+}

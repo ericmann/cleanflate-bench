@@ -1,0 +1,9 @@
+machine,variant,subject,corpus,level,mode,ratio_raw,ratio_gzip,gap_gzip_minus_raw,zlib_hw_crc,zlib_hw_crc_method,subject_hw_crc
+M-A,generic,cf,canterbury,6,oneshot,0.558968,0.480557,-0.078411,yes,disassembly+compiler-probe+symbols,no
+M-A,generic,cf,silesia,6,oneshot,0.712257,0.624651,-0.087606,yes,disassembly+compiler-probe+symbols,no
+M-A,native,cf@native,canterbury,6,oneshot,0.571189,0.479657,-0.091532,yes,disassembly+compiler-probe+symbols,not recorded
+M-A,native,cf@native,silesia,6,oneshot,0.694414,0.609029,-0.085385,yes,disassembly+compiler-probe+symbols,not recorded
+M-B,generic,cf,canterbury,6,oneshot,0.68329,0.64383,-0.03946,no,disassembly+symbols,no
+M-B,generic,cf,silesia,6,oneshot,0.758988,0.728233,-0.030755,no,disassembly+symbols,no
+M-B,native,cf@native,canterbury,6,oneshot,0.703858,0.638364,-0.065494,no,disassembly+symbols,no
+M-B,native,cf@native,silesia,6,oneshot,0.770022,0.743804,-0.026218,no,disassembly+symbols,no

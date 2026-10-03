@@ -1,5 +1,6 @@
 {
  "columns": [
+  "machine",
   "file",
   "framing",
   "outcomes_by_subject",

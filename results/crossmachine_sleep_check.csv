@@ -1,0 +1,13 @@
+machine,corpus,framing,level,mode,trajectory_round,trajectory_ratio,perf_ratio,rel_diff,tolerance,verdict,session,session_span_h
+M-A,canterbury,gzip,6,oneshot,3,0.491699,0.480557,0.0231856,0.05,within tolerance,M-A-rounds-20261003T054806Z,10.9828
+M-A,canterbury,raw,6,oneshot,3,0.576169,0.558968,0.0307728,0.05,within tolerance,M-A-rounds-20261003T054806Z,10.9828
+M-A,canterbury,zlib,6,oneshot,3,0.610141,0.609629,0.000839855,0.05,within tolerance,M-A-rounds-20261003T054806Z,10.9828
+M-A,silesia,gzip,6,oneshot,3,0.620555,0.624651,-0.00655726,0.05,within tolerance,M-A-rounds-20261003T054806Z,10.9828
+M-A,silesia,raw,6,oneshot,3,0.722304,0.712257,0.0141059,0.05,within tolerance,M-A-rounds-20261003T054806Z,10.9828
+M-A,silesia,zlib,6,oneshot,3,0.733748,0.730531,0.00440365,0.05,within tolerance,M-A-rounds-20261003T054806Z,10.9828
+M-B,canterbury,gzip,6,oneshot,3,0.646018,0.64383,0.00339841,0.05,within tolerance,M-B-rounds-20261002T132323Z,1.595
+M-B,canterbury,raw,6,oneshot,3,0.638428,0.68329,-0.0656559,0.05,outside tolerance,M-B-rounds-20261002T132323Z,1.595
+M-B,canterbury,zlib,6,oneshot,3,0.695309,0.7113,-0.0224814,0.05,within tolerance,M-B-rounds-20261002T132323Z,1.595
+M-B,silesia,gzip,6,oneshot,3,0.721484,0.728233,-0.00926764,0.05,within tolerance,M-B-rounds-20261002T132323Z,1.595
+M-B,silesia,raw,6,oneshot,3,0.747505,0.758988,-0.0151294,0.05,within tolerance,M-B-rounds-20261002T132323Z,1.595
+M-B,silesia,zlib,6,oneshot,3,0.787397,0.79285,-0.00687772,0.05,within tolerance,M-B-rounds-20261002T132323Z,1.595
