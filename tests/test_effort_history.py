@@ -63,6 +63,11 @@ def test_denied_calls_grouped_by_category():
         == "profiling rule"
     )
     assert h.categorize_denial(None, CFG["effort"]["denial_categories"]) == "other"
+    items = s["denied"]["items"]
+    assert [i["category"] for i in items] == [
+        "clean-room forbidden word", "recursive grep", "other", "network lockdown"]  # fmt: skip
+    assert items[0] == {"ts": "1970-01-01T00:30:00Z", "tool": "Bash", "stage": "implement",
+                        "task": "P0-01", "reason": items[0]["reason"], "category": "clean-room forbidden word"}  # fmt: skip
 
 
 def test_defect_sources_from_trailers():

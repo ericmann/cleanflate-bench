@@ -153,3 +153,18 @@ def test_posthoc_metrics_never_decide_the_claim():
 def test_no_sensitivity_line_without_filtered_metrics():
     rows = sm.summarize({"a": scores(0.1, 0.5, cf_zrs=0.12)}, CFG)
     assert "Post-hoc sensitivity" not in sm.statement(rows)
+
+
+def test_reference_pairs_are_reported_after_the_claim_and_never_tested():
+    d = scores(0.2, 0.6, cf_zrs=0.25, cf_zlib=0.1)
+    d["zrs-zlib"] = {"role": "reference", "score": 0.55}  # would fail the claim if it were a test
+    rows = sm.summarize({"ident_jaccard": d}, CFG)
+    ref = next(r for r in rows if r["pair"] == "zrs-zlib")
+    assert ref["classification"] == "at or near positive"
+    assert sm.failing_metrics(rows) == ([], [])
+    text = sm.statement(rows, ["cf-zlib", "zrs-zlib"])
+    claim_at = text.index("T1 claim allowed")
+    ref_at = text.index(sm.REFERENCE_HEADING)
+    assert claim_at < ref_at and "T1 claim" not in text[ref_at:]
+    assert "- `ident_jaccard`: cf-zlib 0.1 (below negative, position -0.25); zrs-zlib 0.55" in text
+    assert sm.REFERENCE_HEADING not in sm.statement(rows)  # no labels, no reference block

@@ -17,15 +17,15 @@
  "raw_files": [
   {
    "machine": "any",
-   "path": "data/raw/effort/any/20261002T180908Z.json",
-   "sha256": "cfa7b133a47622c12607165d1cc8f8b6855cfe00e987cbcbbc2886c7a9eb6922",
-   "timestamp": "20261002T180908Z"
+   "path": "data/raw/effort/any/20261006T035812Z.json",
+   "sha256": "71fd4262a116af676ffba01e5aa3e57b512a335bea526fd124e5b3e1ba3a3d65",
+   "timestamp": "20261006T035812Z"
   },
   {
    "machine": "any",
-   "path": "data/raw/effort/any/20261003T193251Z.json",
-   "sha256": "2a0970cfa09ffc9cdb0ff3ca26c4aeb6ae9a1df53467c156c73495b7f330bd01",
-   "timestamp": "20261003T193251Z"
+   "path": "data/raw/effort/any/20261006T035813Z.json",
+   "sha256": "3d5e702d1cd6fca57bdaa45a6bda496423070cb38653db43b03932558de9b5a8",
+   "timestamp": "20261006T035813Z"
   }
  ],
  "script": "cfbench.effort.derive",

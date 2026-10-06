@@ -333,9 +333,22 @@ def test_isolation_supported_then_rejected_on_forbidden_read(results):
     assert (
         i.status == claims.SUPPORTED
         and "denied 5 tool calls" in i.text
+        and "4 distinct attempts" in i.text
+        and "1 prior-art attempt (denied) and 3 false positives or offline tests" in i.text
+        and "(2 false positives, 1 offline test;" in i.text
         and "found 0 reads" in i.text
     )
     assert "bounds isolation rather than proving it" in i.text
     rewrite(results, "effort_totals", lambda rows: [{**r, "forbidden_reads": "1"} for r in rows])
     r = by_id(results)["isolation"]
     assert r.status == claims.REJECTED and "1 forbidden reads" in r.reason
+
+
+def test_similarity_supplement_quotes_the_preregistered_verdict(results):
+    from cfbench.kits import sections
+
+    line = sections.statement_line(results, "T1 claim")
+    assert line and "**" not in line
+    text = sections.similarity_supplement(results, config.load_config("full")).text
+    assert "The pre-registered verdict stands: pending" not in text
+    assert "Reference pairs (added after the pre-registered analysis)" in text

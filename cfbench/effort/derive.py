@@ -2,6 +2,7 @@
 
 import sys
 from collections import Counter, defaultdict
+from datetime import datetime
 from pathlib import Path
 
 from cfbench import config, provenance, rawio
@@ -30,9 +31,25 @@ TABLES = {
         "cost_usd",
         "interventions",
         "denied_calls",
+        "denied_attempts",
+        "denied_prior_art_attempts",
+        "denied_false_positive_attempts",
+        "denied_offline_test_attempts",
+        "denied_not_prior_art_attempts",
         "read_calls",
         "forbidden_read_candidates",
         "forbidden_reads",
+    ],
+    "effort_denials": [
+        "round",
+        "ts",
+        "tool",
+        "stage",
+        "task",
+        "category",
+        "attempt",
+        "verdict",
+        "note",
     ],
     "effort_forbidden_reads": [
         "round",
@@ -49,7 +66,7 @@ TABLES = {
     "effort_review_rounds": ["round", "review_round", "verdict", "fix_tasks"],
     "effort_defects": ["round", "source", "count"],
     "effort_interventions": ["round", "when", "stage_task", "nature"],
-    "effort_denied": ["round", "category", "count"],
+    "effort_denied": ["round", "category", "verdict", "count"],
     "trajectory_with_effort": [
         "machine",
         "round",
@@ -71,6 +88,19 @@ TOKEN_KEYS = ("input_tokens", "output_tokens", "cache_read_tokens")
 VERDICTS = "forbidden_read_verdicts.toml"
 NOT_A_READ = "not-a-read"
 UNCLASSIFIED = "unclassified (counted as a read)"
+DENIAL_VERDICTS = "denial_verdicts.toml"
+PRIOR_ART = "prior-art attempt"
+FALSE_POSITIVE = "false positive"
+OFFLINE_TEST = "offline test"
+DENIAL_UNCLASSIFIED = "unclassified (counted as a prior-art attempt)"
+# an attempt takes the most serious verdict among its denials
+_SEVERITY = {DENIAL_UNCLASSIFIED: 3, PRIOR_ART: 3, OFFLINE_TEST: 2, FALSE_POSITIVE: 1}
+ATTEMPT_COUNTS = {
+    "denied_prior_art_attempts": (PRIOR_ART, DENIAL_UNCLASSIFIED),
+    "denied_false_positive_attempts": (FALSE_POSITIVE,),
+    "denied_offline_test_attempts": (OFFLINE_TEST,),
+    "denied_not_prior_art_attempts": (FALSE_POSITIVE, OFFLINE_TEST),
+}
 
 
 def _sum_cost(costs: list) -> float | None:
@@ -109,15 +139,56 @@ def _audit(r: dict, verdicts: dict) -> tuple[dict, list[dict]]:
     return counts, rows
 
 
+def _epoch(ts: str) -> float:
+    return datetime.fromisoformat(ts).timestamp()
+
+
+def _denials(r: dict, verdicts: dict, retry_seconds: float, first_attempt: int) -> list[dict]:
+    """Denial rows of a round with their verdict and attempt number (retries merged)."""
+    rows, attempt, prev = [], first_attempt - 1, None
+    for it in sorted(r["tool_log"]["denied"]["items"], key=lambda x: _epoch(x["ts"])):
+        v = verdicts.get(it["ts"], {})
+        t = _epoch(it["ts"])
+        if prev is None or it["task"] != prev[0] or t - prev[1] > retry_seconds:
+            attempt += 1
+        prev = (it["task"], t)
+        rows.append({"round": r["round"], "ts": it["ts"], "tool": it["tool"], "stage": it["stage"],
+                     "task": it["task"], "category": v.get("category", it["category"]), "attempt": attempt,
+                     "verdict": v.get("verdict", DENIAL_UNCLASSIFIED), "note": v.get("note", "")})  # fmt: skip
+    return rows
+
+
+def _attempt_counts(rows: list[dict]) -> dict:
+    """Distinct attempts and their verdicts; an attempt takes its most serious denial's verdict."""
+    worst: dict[int, str] = {}
+    for x in rows:
+        if x["attempt"] not in worst or _SEVERITY[x["verdict"]] > _SEVERITY[worst[x["attempt"]]]:
+            worst[x["attempt"]] = x["verdict"]
+    out = {"denied_attempts": len(worst)}
+    for col, names in ATTEMPT_COUNTS.items():
+        out[col] = sum(1 for v in worst.values() if v in names)
+    return out
+
+
 def build_tables(
-    history: dict, usage: dict, trajectory: list[dict] | None, verdicts: dict | None = None
+    history: dict,
+    usage: dict,
+    trajectory: list[dict] | None,
+    verdicts: dict | None = None,
+    denial_verdicts: dict | None = None,
+    retry_seconds: float = 0,
 ) -> dict[str, list[dict]]:
     """All effort tables as row lists, keyed by table name.
 
     `verdicts` maps a forbidden-read candidate's ts to {verdict, note} (config/forbidden_read_verdicts.toml).
+    `denial_verdicts` maps a denial's ts to {verdict, note, category?} (config/denial_verdicts.toml);
+    a denial within `retry_seconds` of the previous one in the same task joins its attempt.
+    History without per-denial items leaves the verdict and attempt columns empty.
     """
     verdicts = verdicts or {}
+    denial_verdicts = denial_verdicts or {}
     forbidden: list[dict] = []
+    denial_rows: list[dict] = []
     cells_by_round_stage: dict[tuple, list[dict]] = defaultdict(list)
     cells_by_round: dict[int, list[dict]] = defaultdict(list)
     for c in usage["summary"]:
@@ -145,6 +216,12 @@ def build_tables(
         tok = _tokens(cells_by_round.get(n, [])) if cells_by_round.get(n) else {}
         counts, cand_rows = _audit(r, verdicts)
         forbidden += cand_rows
+        if "items" in r["tool_log"]["denied"]:
+            mine = _denials(
+                r, denial_verdicts, retry_seconds, len({x["attempt"] for x in denial_rows}) + 1
+            )
+            denial_rows += mine
+            counts.update(_attempt_counts(mine))
         totals.append(
             {
                 "round": n,
@@ -184,12 +261,19 @@ def build_tables(
                     "nature": it["what"],
                 }
             )
-        for cat, cnt in r["tool_log"]["denied"]["categories"].items():
-            denied.append({"round": n, "category": cat, "count": cnt})
+        if "items" in r["tool_log"]["denied"]:
+            by = Counter((x["category"], x["verdict"]) for x in denial_rows if x["round"] == n)
+            for (cat, verdict), cnt in sorted(by.items()):
+                denied.append({"round": n, "category": cat, "verdict": verdict, "count": cnt})
+        else:
+            for cat, cnt in r["tool_log"]["denied"]["categories"].items():
+                denied.append({"round": n, "category": cat, "count": cnt})
     all_cells = [c for c in usage["summary"]]
     count_keys = [
         "interventions",
         "denied_calls",
+        "denied_attempts",
+        *ATTEMPT_COUNTS,
         "read_calls",
         "forbidden_read_candidates",
         "forbidden_reads",
@@ -227,6 +311,7 @@ def build_tables(
     return {
         "effort_stage_round": stage_rows,
         "effort_totals": totals,
+        "effort_denials": denial_rows,
         "effort_forbidden_reads": forbidden,
         "effort_milestones": milestones,
         "effort_review_rounds": reviews,
@@ -342,7 +427,9 @@ def derive() -> None:
         for r in (trajectory or [])
     ]
     verdicts = config.load_toml(VERDICTS).get("candidates", {})
-    tables = build_tables(hist[1], usage[1], typed, verdicts)
+    denial_verdicts = config.load_toml(DENIAL_VERDICTS).get("denials", {})
+    retry = config.load_config("full")["effort"]["denial_retry_seconds"]
+    tables = build_tables(hist[1], usage[1], typed, verdicts, denial_verdicts, retry)
     raw = [hist[0], usage[0]]
     for name, cols in TABLES.items():
         provenance.write_table(

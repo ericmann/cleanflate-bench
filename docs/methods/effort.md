@@ -24,6 +24,16 @@ task-id phase prefix (`P0`..`P5`), `R<n>` for review-fix tasks, `other` for the 
 - Review rounds come from `.foundry/state.json` at each round's tag (`rounds[]` with verdicts).
 - Denied calls are grouped by the prefix map in `config/bench.toml` (`effort.denial_categories`, first
   match wins; unmatched reasons are `other`).
+- Every denied call is classified by hand in `config/denial_verdicts.toml` (keyed by `ts`, from the
+  logged command text): `prior-art attempt` (the call sought prior-art source, binaries or docs),
+  `false positive` (a rule matched a call that sought no prior art) or `offline test` (the call
+  deliberately exercised the network lockdown or an offline build). A denial with no entry counts as a
+  prior-art attempt. An entry may override the prefix category: commands that only name curl or a
+  fetch script, without making a request, are `network false positive`, not `network lockdown`.
+- Retries are merged into distinct attempts: a denial within `effort.denial_retry_seconds` of the
+  previous denial in the same task (task id, possibly none) joins that attempt. An attempt takes its
+  most serious verdict (prior-art attempt, then offline test, then false positive). `effort_denials`
+  lists every denial with its attempt; `effort_totals` counts attempts per verdict.
 
 ## Forbidden-read audit
 

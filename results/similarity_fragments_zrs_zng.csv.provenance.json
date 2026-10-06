@@ -14,9 +14,9 @@
  "raw_files": [
   {
    "machine": "any",
-   "path": "data/raw/similarity/any/20261002T191700Z.json",
-   "sha256": "a07feaee2b491f1a644afb5d8813cca4d09fbce72360b7b9c43cfd0a7f258201",
-   "timestamp": "20261002T191700Z"
+   "path": "data/raw/similarity/any/20261006T035930Z.json",
+   "sha256": "4d884cd9960f7d1af94d86feb413ae3a533c431f0fca28f1d6c3df57a83784d2",
+   "timestamp": "20261006T035930Z"
   }
  ],
  "script": "cfbench.similarity.fragments",

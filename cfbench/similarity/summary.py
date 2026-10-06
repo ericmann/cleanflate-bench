@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 from cfbench import charts, config, parity, paths, provenance, rawio
+from cfbench.similarity import pairs
 
 COLUMNS = [
     "metric",
@@ -29,6 +30,10 @@ POSTHOC = {
     "ident_match_rate_left_filtered": "ident_match_rate_left",
 }
 SENSITIVITY_LABEL = "Post-hoc sensitivity (extended identifier exclusions, not pre-registered)"
+REFERENCE_HEADING = (
+    "Reference pairs (added after the pre-registered analysis; cross-language baselines that never "
+    "enter the claim test)"
+)
 
 
 def label(p: dict) -> str:
@@ -167,8 +172,32 @@ def _claim_line(label_: str, rows: list[dict], sensitivity: bool = False) -> str
     )
 
 
-def statement(rows: list[dict]) -> str:
-    """The generated result statement. Deterministic for the same rows."""
+def _reference_lines(rows: list[dict], labels: list[str]) -> list[str]:
+    """One line per metric with every reference pair's score and, where separable, its band."""
+    out = []
+    for m in dict.fromkeys(r["metric"] for r in rows):
+        by = {r["pair"]: r for r in rows if r["metric"] == m}
+        parts = []
+        for lab in labels:
+            r = by.get(lab)
+            if r is None:
+                continue
+            if r["position"] is not None:
+                parts.append(
+                    f"{lab} {r['score']:.4g} ({r['classification']}, position {r['position']:.2f})"
+                )
+            else:
+                parts.append(f"{lab} {r['score']:.4g} ({r['classification']})")
+        if parts:
+            out.append(f"- `{m}`: " + "; ".join(parts) + ".")
+    return out
+
+
+def statement(rows: list[dict], reference_labels: list[str] | None = None) -> str:
+    """The generated result statement. Deterministic for the same rows.
+
+    `reference_labels` are the reference pairs, reported after the claim lines and never tested.
+    """
     out = [HEADER, "", "# Similarity result statement", ""]
     if not rows:
         return "\n".join([*out, PENDING, ""])
@@ -222,6 +251,9 @@ def statement(rows: list[dict]) -> str:
         swapped = [r for r in rows if r["metric"] not in replaced]
         out.append("")
         out.append(_claim_line(SENSITIVITY_LABEL, swapped, sensitivity=True))
+    ref = _reference_lines(rows, reference_labels or [])
+    if ref:
+        out += ["", f"## {REFERENCE_HEADING}", "", *ref]
     out.append("")
     return "\n".join(out)
 
@@ -280,7 +312,7 @@ def derive() -> None:
         return
     rows = summarize(collect_scores(payloads, cfg), cfg)
     provenance.write_table("similarity_summary", COLUMNS, rows, script=script, raw_files=raw)
-    out_statement.write_text(statement(rows), encoding="utf-8")
+    out_statement.write_text(statement(rows, pairs.reference_labels(cfg)), encoding="utf-8")
     charts.save_figure(draw(rows), FIGURE, parity_note=parity.PARITY_NOTE, size="default")
 
 

@@ -128,11 +128,13 @@ def render(
     gap = sections.gzip_gap_block(d, cfg)
     sleep = sections.sleep_check_block(d, cfg)
     stab = sections.stability_block(d, cfg)
+    simsup = sections.similarity_supplement(d, cfg)
     out += ["## Supporting evidence (not for the paper body)", ""]
     out += ["### Viability on both machines", "", viab.text, ""]
     out += ["### Hardware-CRC evidence: the gzip gap on each machine", "", gap.text, ""]
     out += ["### Sleep-interruption check (trajectory round 3 against perf)", "", sleep.text, ""]
     out += ["### Run-to-run stability", "", stab.text, ""]
+    out += ["### Similarity: sensitivity analysis and reference pairs (both added after the pre-registered analysis)", "", simsup.text, ""]  # fmt: skip
     out += ["## Checked and not claimed", "", sections.overreach(results), ""]
     out += ["## Threats to validity", ""]
     out += [f"- **{t}.** {p}" for t, p, _e in sections.threats(d, cfg)]

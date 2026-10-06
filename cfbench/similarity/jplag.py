@@ -174,7 +174,7 @@ def classify(pair: dict) -> dict:
 
 
 def all_pairs(cfg: dict) -> list[dict]:
-    plist = pairs.load_pairs(cfg)
+    plist = pairs.load_pairs(cfg, reference=True)
     for p in cfg["similarity"]["context_pairs"]:
         plist.append(
             {

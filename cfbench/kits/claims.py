@@ -333,17 +333,32 @@ def _isolation(d, cfg) -> ClaimResult:
     key = {"round": "total"}
     try:
         denied = ev.lookup("effort_totals", key, "denied_calls", results_dir=d, fmt=INT)
+        attempts = ev.lookup("effort_totals", key, "denied_attempts", results_dir=d, fmt=INT)
+        prior = ev.lookup("effort_totals", key, "denied_prior_art_attempts", results_dir=d, fmt=INT)
+        fp = ev.lookup(
+            "effort_totals", key, "denied_false_positive_attempts", results_dir=d, fmt=INT
+        )
+        offline = ev.lookup(
+            "effort_totals", key, "denied_offline_test_attempts", results_dir=d, fmt=INT
+        )
+        benign = ev.lookup(
+            "effort_totals", key, "denied_not_prior_art_attempts", results_dir=d, fmt=INT
+        )
         reads = ev.lookup("effort_totals", key, "read_calls", results_dir=d, fmt=THOUSANDS)
         cands = ev.lookup("effort_totals", key, "forbidden_read_candidates", results_dir=d, fmt=INT)
         forbidden = ev.lookup("effort_totals", key, "forbidden_reads", results_dir=d, fmt=INT)
     except MissingData as e:
         return _pending("isolation", e)
-    evid = [denied, reads, cands, forbidden]
+    evid = [denied, attempts, prior, fp, offline, benign, reads, cands, forbidden]
     if forbidden.value != 0:
         return ClaimResult("isolation", REJECTED, "", evid,
                            f"the provenance audit found {forbidden.display} forbidden reads among {reads.display} read-capable calls")  # fmt: skip
     text = (
-        f"{PIPELINE_NAME}'s guard denied {denied.display} tool calls during the build. An audit of the "
+        f"{PIPELINE_NAME}'s guard denied {denied.display} tool calls during the build, {attempts.display} distinct "
+        f"attempts once retries are merged: {prior.display} {'prior-art attempt' if prior.value == 1 else 'prior-art attempts'} "
+        f"(denied) and {benign.display} false positives or offline tests ({fp.display} false positives, {offline.display} "
+        f"{'offline test' if offline.value == 1 else 'offline tests'}; classified by hand in `config/denial_verdicts.toml`). "
+        "An audit of the "
         f"{reads.display} allowed read-capable calls in {EXAMPLE}'s provenance log found {forbidden.display} reads of "
         f"prior art ({cands.display} {'candidate' if cands.value == 1 else 'candidates'}, classified by hand in "
         "`config/forbidden_read_verdicts.toml`). "

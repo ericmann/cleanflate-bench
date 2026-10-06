@@ -201,3 +201,59 @@ def test_committed_verdicts_classify_every_committed_candidate():
     verdicts = config.load_toml(d.VERDICTS)["candidates"]
     for v in verdicts.values():
         assert v["verdict"] in (d.NOT_A_READ, "read") and v["note"]
+
+
+def test_denials_merge_retries_into_attempts_and_apply_verdicts():
+    hist = history()
+    items = [
+        {"ts": "2026-09-29T10:00:00Z", "tool": "Bash", "stage": "implement", "task": "P0-01", "reason": "x", "category": "recursive grep"},
+        {"ts": "2026-09-29T10:00:30Z", "tool": "Bash", "stage": "implement", "task": "P0-01", "reason": "x", "category": "recursive grep"},
+        {"ts": "2026-09-29T10:00:40Z", "tool": "Bash", "stage": "implement", "task": "P0-02", "reason": "y", "category": "network lockdown"},
+        {"ts": "2026-09-29T10:05:00Z", "tool": "Bash", "stage": "implement", "task": "P0-02", "reason": "z", "category": "clean-room forbidden word"},
+    ]  # fmt: skip
+    hist["rounds"][0]["tool_log"]["denied"] = {"count": 4, "categories": {}, "items": items}
+    hist["rounds"][1]["tool_log"]["denied"] = {"count": 1, "categories": {}, "items": [
+        {"ts": "2026-09-30T10:00:00Z", "tool": "Bash", "stage": None, "task": None, "reason": "w", "category": "network lockdown"}]}  # fmt: skip
+    verdicts = {
+        "2026-09-29T10:00:00Z": {"verdict": d.FALSE_POSITIVE, "note": "own repo"},
+        "2026-09-29T10:00:30Z": {"verdict": d.PRIOR_ART, "note": "retry reached prior art"},
+        "2026-09-29T10:00:40Z": {"verdict": d.FALSE_POSITIVE, "category": "network false positive", "note": "which curl"},
+        "2026-09-29T10:05:00Z": {"verdict": d.OFFLINE_TEST, "note": "dead proxy"},
+    }  # fmt: skip
+    t = d.build_tables(hist, usage(), None, None, verdicts, retry_seconds=60)
+    rows = t["effort_denials"]
+    assert [r["attempt"] for r in rows] == [
+        1,
+        1,
+        2,
+        3,
+        4,
+    ]  # retry merged; new task or gap starts one
+    assert rows[2]["category"] == "network false positive"  # the verdict file overrides the prefix
+    assert rows[4]["verdict"] == d.DENIAL_UNCLASSIFIED  # no entry counts as a prior-art attempt
+    tot = {r["round"]: r for r in t["effort_totals"]}
+    assert (tot[1]["denied_attempts"], tot[1]["denied_prior_art_attempts"]) == (
+        3,
+        1,
+    )  # worst verdict wins
+    assert (tot[1]["denied_false_positive_attempts"], tot[1]["denied_offline_test_attempts"]) == (
+        1,
+        1,
+    )
+    assert tot[1]["denied_not_prior_art_attempts"] == 2
+    assert (tot["total"]["denied_attempts"], tot["total"]["denied_prior_art_attempts"]) == (4, 2)
+    by = {(r["round"], r["category"], r["verdict"]): r["count"] for r in t["effort_denied"]}
+    assert by[(1, "network false positive", d.FALSE_POSITIVE)] == 1
+    assert (
+        by[(1, "recursive grep", d.PRIOR_ART)] == 1
+        and by[(1, "recursive grep", d.FALSE_POSITIVE)] == 1
+    )
+
+
+def test_committed_denial_verdicts_are_valid():
+    vs = config.load_toml(d.DENIAL_VERDICTS)["denials"]
+    assert vs
+    for v in vs.values():
+        assert v["verdict"] in (d.PRIOR_ART, d.FALSE_POSITIVE, d.OFFLINE_TEST) and v["note"]
+    assert sum(1 for v in vs.values() if v.get("category") == "network false positive") == 4
+    assert config.load_config("full")["effort"]["denial_retry_seconds"] == 60

@@ -41,6 +41,7 @@ TARGETS = {
     "perf_agreement_aggregates": "make perf",
     "malformed_summary": "make malformed",
     "effort_forbidden_reads": "make effort",
+    "effort_denials": "make effort",
     "crossmachine_gzip_gap": "make perf",
     "crossmachine_sleep_check": "make trajectory",
 }

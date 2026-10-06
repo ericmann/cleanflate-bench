@@ -47,17 +47,17 @@ Foundry is an agentic clean-room pipeline. It produced a functionally equivalent
 *Was the build isolated from prior art, and does the code show it?*
 
 5. **Not supported** (`similarity`): T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Scores: `comment_jaccard` negative control zrs-mox 0.00102, positive control zrs-zng 0.0395, cf-zrs 0.000511 (below negative), cf-mox 0.000306 (below negative); `ident_jaccard` negative control zrs-mox 0.0439, positive control zrs-zng 0.144, cf-zrs 0.0529 (at or near negative), cf-mox 0.0747 (between); `ident_match_rate_left` negative control zrs-mox 0.0601, positive control zrs-zng 0.339, cf-zrs 0.149 (between), cf-mox 0.129 (at or near negative).
-   Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261002T191558Z.json`, `data/raw/similarity/any/20261002T191601Z.json`, `data/raw/similarity/any/20261002T191604Z.json`, `data/raw/similarity/any/20261002T191653Z.json` via `cfbench.similarity.summary`
+   Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261006T035838Z.json`, `data/raw/similarity/any/20261006T035840Z.json`, `data/raw/similarity/any/20261006T035843Z.json`, `data/raw/similarity/any/20261006T035924Z.json` via `cfbench.similarity.summary`
 
-6. **Supported** (`isolation`): Foundry's guard denied 32 tool calls during the build. An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
-   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`
+6. **Supported** (`isolation`): Foundry's guard denied 32 tool calls during the build, 23 distinct attempts once retries are merged: 1 prior-art attempt (denied) and 22 false positives or offline tests (21 false positives, 1 offline test; classified by hand in `config/denial_verdicts.toml`). An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
+   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`
 
 ### Effort
 
 *What did the build take in time, money and human help?*
 
 7. **Supported** (`effort`): Foundry's three rounds building cleanflate took 28.5 hours of attributed wall-clock time, an estimated $361 of model cost and 11 recorded human interventions.
-   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`
+   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`
 
 ### Viability
 
@@ -357,39 +357,84 @@ Operator note (`config/session_notes.toml`, `fuzz-throttling`): The last fuzz pa
 
 *Was the build isolated from prior art, and does the code show it?*
 
-**Mechanical isolation.** Foundry's guard hook refuses tool calls that would reach prior art (forbidden words in paths, recursive searches, network fetches outside an allowlist, forbidden tools). Every refusal is logged. The audit below re-reads the allowed calls for any that touched a prior-art path anyway (method in `docs/methods/effort.md`).
+**Mechanical isolation.** Foundry's guard hook refuses tool calls that would reach prior art (forbidden words in paths, recursive searches, network fetches outside an allowlist, forbidden tools). Every refusal is logged and classified by hand in `config/denial_verdicts.toml` as a prior-art attempt, a false positive (a rule matched a call that sought no prior art) or an offline test. Retries are merged into distinct attempts: a denial within `effort.denial_retry_seconds` of the previous one in the same task joins its attempt, and an attempt takes its most serious verdict. The audit below re-reads the allowed calls for any that touched a prior-art path anyway (method in `docs/methods/effort.md`).
 
 **Guard and audit totals per round**
 
-| Round | Denied calls | Allowed read-capable calls | Forbidden-read candidates | Forbidden reads | Human interventions |
-|---|---|---|---|---|---|
-| 1 | 15 | 1344 | 1 | 0 | 2 |
-| 2 | 5 | 410 | 0 | 0 | 7 |
-| 3 | 12 | 472 | 0 | 0 | 2 |
-| total | 32 | 2226 | 1 | 0 | 11 |
+| Round | Denied calls | Distinct attempts | Prior-art attempts | False positives | Offline tests | Allowed read-capable calls | Forbidden-read candidates | Forbidden reads | Human interventions |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | 15 | 10 | 1 | 8 | 1 | 1344 | 1 | 0 | 2 |
+| 2 | 5 | 4 | 0 | 4 | 0 | 410 | 0 | 0 | 7 |
+| 3 | 12 | 9 | 0 | 9 | 0 | 472 | 0 | 0 | 2 |
+| total | 32 | 23 | 1 | 21 | 1 | 2226 | 1 | 0 | 11 |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
-**Denied tool calls by category**
+**Denied tool calls by category and verdict**
 
-| Round | Category | Denied calls |
-|---|---|---|
-| 1 | clean-room forbidden word | 4 |
-| 1 | forbidden tool | 2 |
-| 1 | network lockdown | 6 |
-| 1 | recursive grep | 1 |
-| 1 | unparseable command | 2 |
-| 2 | clean-room forbidden word | 1 |
-| 2 | recursive grep | 4 |
-| 3 | clean-room forbidden word | 6 |
-| 3 | profiling rule | 3 |
-| 3 | recursive grep | 3 |
+| Round | Category | Verdict | Denied calls |
+|---|---|---|---|
+| 1 | clean-room forbidden word | false positive | 3 |
+| 1 | clean-room forbidden word | prior-art attempt | 1 |
+| 1 | forbidden tool | false positive | 1 |
+| 1 | forbidden tool | offline test | 1 |
+| 1 | network false positive | false positive | 4 |
+| 1 | network lockdown | false positive | 1 |
+| 1 | network lockdown | offline test | 1 |
+| 1 | recursive grep | false positive | 1 |
+| 1 | unparseable command | false positive | 2 |
+| 2 | clean-room forbidden word | false positive | 1 |
+| 2 | recursive grep | false positive | 4 |
+| 3 | clean-room forbidden word | false positive | 6 |
+| 3 | profiling rule | false positive | 3 |
+| 3 | recursive grep | false positive | 3 |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_denied.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
+
+**Every denied call, its attempt and its classification (`config/denial_verdicts.toml`)**
+
+| Round | When | Stage | Task | Category | Attempt | Verdict | Note |
+|---|---|---|---|---|---|---|---|
+| 1 | 2026-09-29T14:43:07.953Z | implement | P0-05 | unparseable command | 1 | false positive | grep for format words in cleanflate's own crates/*/src (absolute path); rejected as unparseable. First of five retries of the same search. |
+| 1 | 2026-09-29T14:43:23.189Z | implement | P0-05 | unparseable command | 1 | false positive | Retry of the same grep with relative paths into cleanflate's own sources. |
+| 1 | 2026-09-29T14:43:46.542Z | implement | P0-05 | clean-room forbidden word | 1 | false positive | Retry: forbidden words are the grep pattern; the files searched are cleanflate's own sources. |
+| 1 | 2026-09-29T14:43:52.987Z | implement | P0-05 | clean-room forbidden word | 1 | false positive | Retry of the same grep over cleanflate's own sources. |
+| 1 | 2026-09-29T14:44:43.248Z | implement | P0-05 | clean-room forbidden word | 1 | false positive | Retry of the same grep over cleanflate's own sources. |
+| 1 | 2026-09-29T14:50:42.835Z | implement | P0-08 | network false positive | 2 | false positive | `which tar unzip curl` locates programs; it makes no network request. |
+| 1 | 2026-09-29T14:52:57.057Z | implement | P0-08 | network lockdown | 3 | false positive | HTTP status probe of the RFC 1950 text and the Canterbury and Silesia corpus URLs (allowed sources) while setting up the corpus fetch; denied because the corpus site root was not allowlisted. A real network request, not one for prior art. |
+| 1 | 2026-09-29T14:54:47.458Z | implement | P1-01 | clean-room forbidden word | 4 | prior-art attempt | `find / -path '*/libz-sys-*/src/lib.rs'` looks for the libz-sys crate source (Rust bindings to zlib) on the machine. The guard denied it; no allowed call read it (forbidden-read audit). |
+| 1 | 2026-09-29T21:02:40.742Z | review | n/a | network false positive | 5 | false positive | grep inside cleanflate's own tools/cleanroom/fetch-corpora.sh; names the fetch script, makes no network request. |
+| 1 | 2026-09-29T21:28:06.878Z | fix | R2-05 | network false positive | 6 | false positive | git commit whose message mentions curl (R2-05 provenance summary); makes no network request. |
+| 1 | 2026-09-29T21:37:10.501Z | fix | R3-01 | network false positive | 7 | false positive | ls of the LOCKDOWN marker and grep of cleanflate's own guard.py for the fetch-script names; makes no network request. |
+| 1 | 2026-09-29T21:44:58.022Z | summarize | n/a | recursive grep | 8 | false positive | Recursive grep for ASSUMPTION in cleanflate's own repository (output already filtered of target/). |
+| 1 | 2026-09-29T21:47:44.720Z | n/a | n/a | forbidden tool | 9 | false positive | `gh pr list` for cleanflate's own build branch; gh is forbidden by rule CR3, but the call seeks no prior art. |
+| 1 | 2026-09-29T22:23:16.298Z | n/a | n/a | forbidden tool | 10 | offline test | CI simulation: `git clone .` of cleanflate's own checkout into the scratchpad, then the corpus fetch through a dead proxy (127.0.0.1:9) to check offline behaviour. |
+| 1 | 2026-09-29T22:23:21.970Z | n/a | n/a | network lockdown | 10 | offline test | Retry of the same offline check without the clone: fetch-corpora.sh through a dead proxy (127.0.0.1:9). |
+| 2 | 2026-09-29T23:26:38.212Z | implement | P0-04 | recursive grep | 11 | false positive | Recursive grep for cleanflate's own API names inside crates/cleanflate/src. |
+| 2 | 2026-09-29T23:31:39.944Z | implement | P0-05 | recursive grep | 12 | false positive | Recursive grep inside cleanflate's own crates/oracle/src. |
+| 2 | 2026-09-30T00:46:28.321Z | implement | P0-12 | clean-room forbidden word | 13 | false positive | Python script over cleanflate's own perf reports; the forbidden word is in a sed-style range pattern, not a path. |
+| 2 | 2026-09-30T05:19:58.314Z | fix | R1-01 | recursive grep | 14 | false positive | Recursive grep for DecodePath inside cleanflate's own crates/cleanflate/src. |
+| 2 | 2026-09-30T05:20:06.065Z | fix | R1-01 | recursive grep | 14 | false positive | Retry of the same lookup in cleanflate's own sources. |
+| 3 | 2026-09-30T14:40:33.544Z | implement | P0-04 | clean-room forbidden word | 15 | false positive | sed rename in cleanflate's own crates/oracle/src; the forbidden word is in the substitution text (c_zlib_mib_s_min). |
+| 3 | 2026-09-30T16:11:51.801Z | implement | P1-02 | profiling rule | 16 | false positive | perf report over cleanflate's own profile data in target/profile; the profiling rule matched the command. |
+| 3 | 2026-09-30T16:11:56.220Z | implement | P1-02 | profiling rule | 16 | false positive | Retry of the same perf report over cleanflate's own profile data. |
+| 3 | 2026-09-30T17:00:19.952Z | implement | P2-01 | recursive grep | 17 | false positive | Recursive grep for CRC32_TABLES inside cleanflate's own crate. |
+| 3 | 2026-09-30T17:21:39.475Z | implement | P2-04 | clean-room forbidden word | 18 | false positive | grep of cleanflate's own profile output (target/profile) for its own type names (ZlibDecoder, GzipDecoder). |
+| 3 | 2026-09-30T17:23:20.004Z | implement | P2-05 | clean-room forbidden word | 19 | false positive | grep over cleanflate's own crates; the forbidden word is a file name in a grep -v pattern. |
+| 3 | 2026-09-30T18:13:45.842Z | implement | P2-07 | clean-room forbidden word | 20 | false positive | bench-compare over cleanflate's own perf baselines; the forbidden word is a framing name in a regex. |
+| 3 | 2026-09-30T20:53:01.396Z | implement | P4-03 | clean-room forbidden word | 21 | false positive | make bench-quick over cleanflate's own benchmarks; the forbidden word is a framing name in a regex. |
+| 3 | 2026-09-30T22:36:51.158Z | implement | P5-02 | profiling rule | 22 | false positive | Python report over cleanflate's own perf JSON; the profiling rule matched the command. |
+| 3 | 2026-09-30T23:14:23.085Z | fix | R1-01 | clean-room forbidden word | 23 | false positive | grep in cleanflate's own src/tests/zlib.rs (its zlib-framing tests). |
+| 3 | 2026-09-30T23:14:28.987Z | fix | R1-01 | recursive grep | 23 | false positive | Retry: recursive grep in cleanflate's own src/tests. |
+| 3 | 2026-09-30T23:14:34.310Z | fix | R1-01 | recursive grep | 23 | false positive | Retry: sed and grep in cleanflate's own src/tests. |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+*Source: `results/effort_denials.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 **Forbidden-read candidates and their classification (`config/forbidden_read_verdicts.toml`)**
 
@@ -399,11 +444,11 @@ Operator note (`config/session_notes.toml`, `fuzz-throttling`): The last fuzz pa
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_forbidden_reads.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_forbidden_reads.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 ### Similarity against negative and positive controls
 
-Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-gram Jaccard (n from 5 to 10), identifier overlap (length at least 6, RFC-mandated names excluded), comment n-gram overlap, and JPlag 6.3.0. Tools: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2. The RFC exclusion list is `config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`). A post-hoc sensitivity analysis, added after the first full run and not pre-registered, repeats the identifier metrics (`ident_*_filtered`) with the extended list `config/identifier_exclusions_posthoc.txt` (Rust attribute, lint and std names, and names built only from RFC-defined terms), applied to every pair including the controls. The T1 claim is decided on the pre-registered metrics alone.
+Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-gram Jaccard (n from 5 to 10), identifier overlap (length at least 6, RFC-mandated names excluded), comment n-gram overlap, and JPlag 6.3.0. Tools: tree-sitter 0.26.0, tree-sitter-rust 0.24.2, tree-sitter-c 0.24.2. The RFC exclusion list is `config/rfc_identifiers.txt` (effective list: `results/similarity_identifier_exclusions.txt`). A post-hoc sensitivity analysis, added after the first full run and not pre-registered, repeats the identifier metrics (`ident_*_filtered`) with the extended list `config/identifier_exclusions_posthoc.txt` (Rust attribute, lint and std names, and names built only from RFC-defined terms), applied to every pair including the controls. The T1 claim is decided on the pre-registered metrics alone. Reference pairs (cf-zlib, mox-zlib, zrs-zlib, mox-zng), added after the pre-registered analysis, give cross-language baselines and are shown separately below.
 
 **Scores against the controls (negative zrs-mox, positive zrs-zng)**
 
@@ -488,7 +533,7 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261002T191558Z.json`, `data/raw/similarity/any/20261002T191601Z.json`, `data/raw/similarity/any/20261002T191604Z.json`, `data/raw/similarity/any/20261002T191653Z.json` via `cfbench.similarity.summary`.*
+*Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261006T035838Z.json`, `data/raw/similarity/any/20261006T035840Z.json`, `data/raw/similarity/any/20261006T035843Z.json`, `data/raw/similarity/any/20261006T035924Z.json` via `cfbench.similarity.summary`.*
 
 **Result statement:** T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
 
@@ -497,6 +542,31 @@ Methods (full description in `docs/methods/similarity.md`): tree-sitter token n-
 ![Where cleanflate falls between the controls.](figures/similarity_controls.png)
 
 *Where cleanflate falls between the controls.* Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.
+
+**Sensitivity analysis (post-hoc, not pre-registered).** The identifier metrics are repeated with the extended exclusion list `config/identifier_exclusions_posthoc.txt` (names built only from RFC-defined vocabulary, plus Rust attribute, lint and std names), written after the first full run and applied to every pair, controls included. The pre-registered verdict stands: T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
+
+| Pair | Pre-registered metric | Position (pre-registered) | Position (extended exclusions) | Band (extended exclusions) |
+|---|---|---|---|---|
+| cf-mox | `ident_jaccard` | 0.31 | 0.07 | at or near negative |
+| cf-zrs | `ident_match_rate_left` | 0.32 | 0.14 | at or near negative |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+Sensitivity result: Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed: on every separable metric each cf pair sits at or near the negative control or below it.
+
+**Reference pairs (added after the pre-registered analysis).** Cross-language baselines: each pair sets a Rust implementation against a C library. mox-zlib and mox-zng pair the independent miniz_oxide with the C libraries; zrs-zlib pairs zlib-rs, the Rust side of the derived-work control, with zlib; cf-zlib is the pre-registered test pair, shown again for comparison. They were added after the pre-registered analysis and never enter the claim test. Cells give the score and, where the controls separate, the position between the negative (0) and positive (1) controls.
+
+| Metric | cf-zlib | mox-zlib | zrs-zlib | mox-zng |
+|---|---|---|---|---|
+| `ident_jaccard` | 0.0207 (-0.23) | 0.0193 (-0.25) | 0.0947 (0.51) | 0.0106 (-0.33) |
+| `ident_match_rate_left` | 0.0334 (-0.10) | 0.0333 (-0.10) | 0.115 (0.20) | 0.0515 (-0.03) |
+| `comment_jaccard` | 0.000257 (-0.02) | 0.00103 (0.00) | 0.032 (0.81) | 0.000661 (-0.01) |
+| `ngram_jaccard@5` | 0.0352 | 0.0468 | 0.0523 | 0.0429 |
+| `ngram_containment@5` | 0.0688 | 0.0941 | 0.138 | 0.116 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261006T035838Z.json`, `data/raw/similarity/any/20261006T035840Z.json`, `data/raw/similarity/any/20261006T035843Z.json`, `data/raw/similarity/any/20261006T035924Z.json` via `cfbench.similarity.summary`
 
 **Top fragment pairs and their review verdicts**
 
@@ -528,7 +598,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 **Per stage and round**
 
@@ -557,7 +627,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_stage_round.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 ![Effort per stage and round.](figures/effort_cost_per_stage.png)
 
@@ -597,7 +667,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_milestones.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 **Review rounds**
 
@@ -615,7 +685,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_review_rounds.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 **Defect discovery source**
 
@@ -635,7 +705,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_defects.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 **Human interventions**
 
@@ -655,7 +725,7 @@ Structural write-up: [STRUCTURE_COMPARISON.md](STRUCTURE_COMPARISON.md).
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
-*Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`.*
+*Source: `results/effort_interventions.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`.*
 
 Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 
@@ -663,19 +733,19 @@ Data gaps and methods: [EFFORT_GAPS.md](EFFORT_GAPS.md).
 
 | Fact | Value | Fetched |
 |---|---|---|
-| commit_count | 1083 | 20261002T180911Z |
-| contributor_count_including_anonymous | 37 | 20261002T180911Z |
-| first_commit_date | 2023-12-05T05:04:21Z | 20261002T180911Z |
-| first_commit_sha | 8b273a581175728de535a363c25a4352e6d005c6 | 20261002T180911Z |
-| first_github_release | v0.2.0 (2024-06-12T12:16:19Z) | 20261002T180911Z |
-| first_published_version_libz-rs-sys | 0.0.1 (2024-02-23T08:44:59.656473Z) | 20261002T180911Z |
-| first_published_version_zlib-rs | 0.0.1 (2024-02-23T08:44:37.843487Z) | 20261002T180911Z |
-| latest_github_release | v0.6.8 (2026-09-15T13:10:36Z) | 20261002T180911Z |
-| latest_published_version_libz-rs-sys | 0.6.8 (2026-09-15T13:10:03.060802Z) | 20261002T180911Z |
-| latest_published_version_zlib-rs | 0.6.8 (2026-09-15T13:10:00.283903Z) | 20261002T180911Z |
-| repo_created_at | 2023-12-05T05:04:21Z | 20261002T180911Z |
-| stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261002T180911Z |
-| stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261002T180911Z |
+| commit_count | 1083 | 20261006T035816Z |
+| contributor_count_including_anonymous | 37 | 20261006T035816Z |
+| first_commit_date | 2023-12-05T05:04:21Z | 20261006T035816Z |
+| first_commit_sha | 8b273a581175728de535a363c25a4352e6d005c6 | 20261006T035816Z |
+| first_github_release | v0.2.0 (2024-06-12T12:16:19Z) | 20261006T035816Z |
+| first_published_version_libz-rs-sys | 0.0.1 (2024-02-23T08:44:59.656473Z) | 20261006T035816Z |
+| first_published_version_zlib-rs | 0.0.1 (2024-02-23T08:44:37.843487Z) | 20261006T035816Z |
+| latest_github_release | v0.6.8 (2026-09-15T13:10:36Z) | 20261006T035816Z |
+| latest_published_version_libz-rs-sys | 0.6.8 (2026-09-15T13:10:03.060802Z) | 20261006T035816Z |
+| latest_published_version_zlib-rs | 0.6.8 (2026-09-15T13:10:00.283903Z) | 20261006T035816Z |
+| repo_created_at | 2023-12-05T05:04:21Z | 20261006T035816Z |
+| stable_1_0_release_libz-rs-sys | none: no 1.0 or later version published as of the fetch date | 20261006T035816Z |
+| stable_1_0_release_zlib-rs | none: no 1.0 or later version published as of the fetch date | 20261006T035816Z |
 
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 

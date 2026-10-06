@@ -35,7 +35,7 @@ def subject_files(subject: str) -> list[dict]:
 
 def ngram_payload(cfg: dict | None = None) -> dict:
     cfg = cfg or config.load_config("full")
-    plist = pairs.load_pairs(cfg)
+    plist = pairs.load_pairs(cfg, reference=True)
     subjects = sorted({s for p in plist for s in (p["left"], p["right"])})
     paths_by = {s: decomp_paths.files(s) for s in subjects}
     streams = {s: pairs.file_token_lists(paths_by[s]) for s in subjects}
@@ -72,7 +72,7 @@ def identifiers_payload(cfg: dict | None = None) -> dict:
     min_len = identifiers.min_ident_len(cfg)
     excl = identifiers.load_exclusions()
     excluded = excl["rfc"] | excl["language"]
-    plist = pairs.load_pairs(cfg)
+    plist = pairs.load_pairs(cfg, reference=True)
     subjects = sorted({s for p in plist for s in (p["left"], p["right"])})
     ids = {s: identifiers.collect(decomp_paths.files(s), min_len, excluded) for s in subjects}
     # post-hoc sensitivity analysis: the same sets minus the extended list (never the T1 claim)
@@ -113,7 +113,7 @@ def identifiers_payload(cfg: dict | None = None) -> dict:
 def comments_payload(cfg: dict | None = None) -> dict:
     cfg = cfg or config.load_config("full")
     n = cfg["similarity"]["comment_ngram"]
-    plist = pairs.load_pairs(cfg)
+    plist = pairs.load_pairs(cfg, reference=True)
     subjects = sorted({s for p in plist for s in (p["left"], p["right"])})
     sets, counts = {}, {}
     for s in subjects:

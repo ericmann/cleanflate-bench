@@ -102,6 +102,9 @@ denial_categories = [
     { prefix = "gh is forbidden", category = "forbidden tool" },
     { prefix = "git clone is forbidden", category = "forbidden tool" },
 ]
+# A denial within this many seconds of the previous denial in the same task (task id, possibly
+# none) is a retry of the same attempt; distinct attempts are counted after merging retries.
+denial_retry_seconds = 60
 
 [effort.forbidden_reads]
 # Audit of the provenance log for allowed tool calls that touched prior art (docs/methods/effort.md).
@@ -148,6 +151,15 @@ pairs = [
     { left = "cf", right = "mox", role = "test" },
     { left = "cf", right = "zlib", role = "test" },
     { left = "cf", right = "zng", role = "test" },
+]
+# Reference pairs, added 2026-10-05 after the pre-registered analysis. They give cross-language
+# baselines (a Rust implementation against the C libraries) and never enter the T1 claim. cf-zlib
+# is already measured as a test pair above, so it is reported in the reference view, not re-run.
+reference_pairs = [
+    { left = "cf", right = "zlib", role = "reference" },
+    { left = "mox", right = "zlib", role = "reference" },
+    { left = "zrs", right = "zlib", role = "reference" },
+    { left = "mox", right = "zng", role = "reference" },
 ]
 
 [size]

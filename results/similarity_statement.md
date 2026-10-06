@@ -21,3 +21,18 @@
 Metrics that do not separate the controls (excluded from the claim test): `jplag_avg`, `ngram_containment@5`, `ngram_jaccard@10`, `ngram_jaccard@5`, `ngram_jaccard@6`, `ngram_jaccard@7`, `ngram_jaccard@8`, `ngram_jaccard@9`.
 
 **Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed**: on every separable metric each cf pair sits at or near the negative control or below it.
+
+## Reference pairs (added after the pre-registered analysis; cross-language baselines that never enter the claim test)
+
+- `ngram_jaccard@5`: cf-zlib 0.03515 (controls not separated); mox-zlib 0.04681 (controls not separated); zrs-zlib 0.05231 (controls not separated); mox-zng 0.04288 (controls not separated).
+- `ngram_jaccard@6`: cf-zlib 0.01707 (controls not separated); mox-zlib 0.02289 (controls not separated); zrs-zlib 0.02822 (controls not separated); mox-zng 0.02251 (controls not separated).
+- `ngram_jaccard@7`: cf-zlib 0.007517 (controls not separated); mox-zlib 0.01066 (controls not separated); zrs-zlib 0.01513 (controls not separated); mox-zng 0.01161 (controls not separated).
+- `ngram_jaccard@8`: cf-zlib 0.003398 (controls not separated); mox-zlib 0.004512 (controls not separated); zrs-zlib 0.008586 (controls not separated); mox-zng 0.005285 (controls not separated).
+- `ngram_jaccard@9`: cf-zlib 0.001732 (controls not separated); mox-zlib 0.001941 (controls not separated); zrs-zlib 0.005491 (controls not separated); mox-zng 0.002805 (controls not separated).
+- `ngram_jaccard@10`: cf-zlib 0.0009736 (controls not separated); mox-zlib 0.001016 (controls not separated); zrs-zlib 0.003795 (controls not separated); mox-zng 0.001637 (controls not separated).
+- `ngram_containment@5`: cf-zlib 0.06878 (controls not separated); mox-zlib 0.09411 (controls not separated); zrs-zlib 0.1381 (controls not separated); mox-zng 0.1156 (controls not separated).
+- `ident_jaccard`: cf-zlib 0.0207 (below negative, position -0.23); mox-zlib 0.01926 (below negative, position -0.25); zrs-zlib 0.09473 (between, position 0.51); mox-zng 0.01057 (below negative, position -0.33).
+- `ident_match_rate_left`: cf-zlib 0.03342 (below negative, position -0.10); mox-zlib 0.03333 (below negative, position -0.10); zrs-zlib 0.115 (at or near negative, position 0.20); mox-zng 0.05152 (below negative, position -0.03).
+- `comment_jaccard`: cf-zlib 0.0002569 (below negative, position -0.02); mox-zlib 0.001026 (at or near negative, position 0.00); zrs-zlib 0.03199 (at or near positive, position 0.81); mox-zng 0.000661 (below negative, position -0.01).
+- `ident_jaccard_filtered`: cf-zlib 0.01064 (below negative, position -0.05); mox-zlib 0.01744 (at or near negative, position 0.01); zrs-zlib 0.08924 (between, position 0.58); mox-zng 0.007722 (below negative, position -0.07).
+- `ident_match_rate_left_filtered`: cf-zlib 0.01829 (below negative, position -0.01); mox-zlib 0.0318 (at or near negative, position 0.03); zrs-zlib 0.1099 (between, position 0.27); mox-zng 0.0424 (at or near negative, position 0.06).

@@ -25,7 +25,7 @@ Foundry is an agentic clean-room pipeline. It produced a functionally equivalent
 *Was the build isolated from prior art, and does the code show it?*
 
 - Not claimed (similarity): T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Scores: `comment_jaccard` negative control zrs-mox 0.00102, positive control zrs-zng 0.0395, cf-zrs 0.000511 (below negative), cf-mox 0.000306 (below negative); `ident_jaccard` negative control zrs-mox 0.0439, positive control zrs-zng 0.144, cf-zrs 0.0529 (at or near negative), cf-mox 0.0747 (between); `ident_match_rate_left` negative control zrs-mox 0.0601, positive control zrs-zng 0.339, cf-zrs 0.149 (between), cf-mox 0.129 (at or near negative).
-- Foundry's guard denied 32 tool calls during the build. An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
+- Foundry's guard denied 32 tool calls during the build, 23 distinct attempts once retries are merged: 1 prior-art attempt (denied) and 22 false positives or offline tests (21 false positives, 1 offline test; classified by hand in `config/denial_verdicts.toml`). An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
 
 ### Effort
 
@@ -139,10 +139,12 @@ Files: `checksum_throughput_M-A.svg`/`checksum_throughput_M-A.png`, `checksum_th
 
 ### How do you know it wasn't copied?
 
-- Foundry's guard denied 32 tool calls during the build. An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
+- Foundry's guard denied 32 tool calls during the build, 23 distinct attempts once retries are merged: 1 prior-art attempt (denied) and 22 false positives or offline tests (21 false positives, 1 offline test; classified by hand in `config/denial_verdicts.toml`). An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
 - The generated statement does NOT allow the independence claim: T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Scores: `comment_jaccard` negative control zrs-mox 0.00102, positive control zrs-zng 0.0395, cf-zrs 0.000511 (below negative), cf-mox 0.000306 (below negative); `ident_jaccard` negative control zrs-mox 0.0439, positive control zrs-zng 0.144, cf-zrs 0.0529 (at or near negative), cf-mox 0.0747 (between); `ident_match_rate_left` negative control zrs-mox 0.0601, positive control zrs-zng 0.339, cf-zrs 0.149 (between), cf-mox 0.129 (at or near negative).
 - Identifier Jaccard: the independent pair zrs-mox scores 0.044; cf-zrs scores 0.053 and cf-mox 0.075.
 - The derived-work control zrs-zng scores 0.144.
+- Sensitivity analysis (post-hoc, not pre-registered): with identifier exclusions extended to RFC-vocabulary and Rust attribute, lint and std names (applied to every pair), cf-mox `ident_jaccard` moves from position 0.31 to 0.07 (at or near negative); cf-zrs `ident_match_rate_left` moves from position 0.32 to 0.14 (at or near negative). The claim test would be allowed on that list; the pre-registered verdict stands.
+- Reference pairs (added after the pre-registered analysis), cross-language baselines outside the claim test. Identifier and comment Jaccard: cf-zlib 0.021 and 0.0003; mox-zlib 0.019 and 0.0010; zrs-zlib 0.095 and 0.0320; mox-zng 0.011 and 0.0007. mox-zlib and mox-zng pair the independent miniz_oxide with C; zrs-zlib pairs zlib-rs, the derived-work control's Rust side, with zlib.
 
 ### What does this cost?
 
@@ -151,6 +153,6 @@ Files: `checksum_throughput_M-A.svg`/`checksum_throughput_M-A.png`, `checksum_th
 
 ### Can it run air-gapped / on other models?
 
-- The tool logs record denied network commands (one count per round that had any): 6. That shows the network lockdown was exercised, not that the build ran air-gapped.
+- Denied network-rule calls in the tool logs, by round, category and verdict: round 1 network false positive (false positive) 4; round 1 network lockdown (false positive) 1; round 1 network lockdown (offline test) 1. A "network false positive" named curl or a fetch script without making a request. The denials show the network lockdown was exercised, not that the build ran air-gapped.
 - Models used: claude-opus-5-5;claude-sonnet-5;claude-sonnet-5-5. Nothing here measures other models.
 - Air-gapped operation and other models: no measurement in this study.

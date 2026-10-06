@@ -215,16 +215,24 @@ def tool_log_summary(
 ) -> dict:
     models: dict[str, Counter] = defaultdict(Counter)
     denied: Counter = Counter()
+    items = []
     for e in entries:
         stage = e.get("foundry_stage") or "unknown"
         if e.get("model"):
             models[stage][e["model"]] += 1
         if e["decision"] == "denied":
-            denied[categorize_denial(e.get("reason"), prefix_map)] += 1
+            cat = categorize_denial(e.get("reason"), prefix_map)
+            denied[cat] += 1
+            items.append({"ts": e["ts"], "tool": e["tool"], "stage": e.get("foundry_stage"),
+                          "task": e.get("task_id"), "reason": e.get("reason"), "category": cat})  # fmt: skip
     out = {
         "calls": len(entries),
         "models_by_stage": {s: dict(sorted(c.items())) for s, c in sorted(models.items())},
-        "denied": {"count": sum(denied.values()), "categories": dict(sorted(denied.items()))},
+        "denied": {
+            "count": sum(denied.values()),
+            "categories": dict(sorted(denied.items())),
+            "items": items,
+        },
     }
     if read_rules is not None:
         out["forbidden_reads"] = forbidden_reads(entries, read_rules)

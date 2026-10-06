@@ -1,0 +1,33 @@
+round,ts,tool,stage,task,category,attempt,verdict,note
+1,2026-09-29T14:43:07.953Z,Bash,implement,P0-05,unparseable command,1,false positive,grep for format words in cleanflate's own crates/*/src (absolute path); rejected as unparseable. First of five retries of the same search.
+1,2026-09-29T14:43:23.189Z,Bash,implement,P0-05,unparseable command,1,false positive,Retry of the same grep with relative paths into cleanflate's own sources.
+1,2026-09-29T14:43:46.542Z,Bash,implement,P0-05,clean-room forbidden word,1,false positive,Retry: forbidden words are the grep pattern; the files searched are cleanflate's own sources.
+1,2026-09-29T14:43:52.987Z,Bash,implement,P0-05,clean-room forbidden word,1,false positive,Retry of the same grep over cleanflate's own sources.
+1,2026-09-29T14:44:43.248Z,Bash,implement,P0-05,clean-room forbidden word,1,false positive,Retry of the same grep over cleanflate's own sources.
+1,2026-09-29T14:50:42.835Z,Bash,implement,P0-08,network false positive,2,false positive,`which tar unzip curl` locates programs; it makes no network request.
+1,2026-09-29T14:52:57.057Z,Bash,implement,P0-08,network lockdown,3,false positive,"HTTP status probe of the RFC 1950 text and the Canterbury and Silesia corpus URLs (allowed sources) while setting up the corpus fetch; denied because the corpus site root was not allowlisted. A real network request, not one for prior art."
+1,2026-09-29T14:54:47.458Z,Bash,implement,P1-01,clean-room forbidden word,4,prior-art attempt,`find / -path '*/libz-sys-*/src/lib.rs'` looks for the libz-sys crate source (Rust bindings to zlib) on the machine. The guard denied it; no allowed call read it (forbidden-read audit).
+1,2026-09-29T21:02:40.742Z,Bash,review,,network false positive,5,false positive,"grep inside cleanflate's own tools/cleanroom/fetch-corpora.sh; names the fetch script, makes no network request."
+1,2026-09-29T21:28:06.878Z,Bash,fix,R2-05,network false positive,6,false positive,git commit whose message mentions curl (R2-05 provenance summary); makes no network request.
+1,2026-09-29T21:37:10.501Z,Bash,fix,R3-01,network false positive,7,false positive,ls of the LOCKDOWN marker and grep of cleanflate's own guard.py for the fetch-script names; makes no network request.
+1,2026-09-29T21:44:58.022Z,Bash,summarize,,recursive grep,8,false positive,Recursive grep for ASSUMPTION in cleanflate's own repository (output already filtered of target/).
+1,2026-09-29T21:47:44.720Z,Bash,,,forbidden tool,9,false positive,"`gh pr list` for cleanflate's own build branch; gh is forbidden by rule CR3, but the call seeks no prior art."
+1,2026-09-29T22:23:16.298Z,Bash,,,forbidden tool,10,offline test,"CI simulation: `git clone .` of cleanflate's own checkout into the scratchpad, then the corpus fetch through a dead proxy (127.0.0.1:9) to check offline behaviour."
+1,2026-09-29T22:23:21.970Z,Bash,,,network lockdown,10,offline test,Retry of the same offline check without the clone: fetch-corpora.sh through a dead proxy (127.0.0.1:9).
+2,2026-09-29T23:26:38.212Z,Bash,implement,P0-04,recursive grep,11,false positive,Recursive grep for cleanflate's own API names inside crates/cleanflate/src.
+2,2026-09-29T23:31:39.944Z,Bash,implement,P0-05,recursive grep,12,false positive,Recursive grep inside cleanflate's own crates/oracle/src.
+2,2026-09-30T00:46:28.321Z,Bash,implement,P0-12,clean-room forbidden word,13,false positive,"Python script over cleanflate's own perf reports; the forbidden word is in a sed-style range pattern, not a path."
+2,2026-09-30T05:19:58.314Z,Bash,fix,R1-01,recursive grep,14,false positive,Recursive grep for DecodePath inside cleanflate's own crates/cleanflate/src.
+2,2026-09-30T05:20:06.065Z,Bash,fix,R1-01,recursive grep,14,false positive,Retry of the same lookup in cleanflate's own sources.
+3,2026-09-30T14:40:33.544Z,Bash,implement,P0-04,clean-room forbidden word,15,false positive,sed rename in cleanflate's own crates/oracle/src; the forbidden word is in the substitution text (c_zlib_mib_s_min).
+3,2026-09-30T16:11:51.801Z,Bash,implement,P1-02,profiling rule,16,false positive,perf report over cleanflate's own profile data in target/profile; the profiling rule matched the command.
+3,2026-09-30T16:11:56.220Z,Bash,implement,P1-02,profiling rule,16,false positive,Retry of the same perf report over cleanflate's own profile data.
+3,2026-09-30T17:00:19.952Z,Bash,implement,P2-01,recursive grep,17,false positive,Recursive grep for CRC32_TABLES inside cleanflate's own crate.
+3,2026-09-30T17:21:39.475Z,Bash,implement,P2-04,clean-room forbidden word,18,false positive,"grep of cleanflate's own profile output (target/profile) for its own type names (ZlibDecoder, GzipDecoder)."
+3,2026-09-30T17:23:20.004Z,Bash,implement,P2-05,clean-room forbidden word,19,false positive,grep over cleanflate's own crates; the forbidden word is a file name in a grep -v pattern.
+3,2026-09-30T18:13:45.842Z,Bash,implement,P2-07,clean-room forbidden word,20,false positive,bench-compare over cleanflate's own perf baselines; the forbidden word is a framing name in a regex.
+3,2026-09-30T20:53:01.396Z,Bash,implement,P4-03,clean-room forbidden word,21,false positive,make bench-quick over cleanflate's own benchmarks; the forbidden word is a framing name in a regex.
+3,2026-09-30T22:36:51.158Z,Bash,implement,P5-02,profiling rule,22,false positive,Python report over cleanflate's own perf JSON; the profiling rule matched the command.
+3,2026-09-30T23:14:23.085Z,Bash,fix,R1-01,clean-room forbidden word,23,false positive,grep in cleanflate's own src/tests/zlib.rs (its zlib-framing tests).
+3,2026-09-30T23:14:28.987Z,Bash,fix,R1-01,recursive grep,23,false positive,Retry: recursive grep in cleanflate's own src/tests.
+3,2026-09-30T23:14:34.310Z,Bash,fix,R1-01,recursive grep,23,false positive,Retry: sed and grep in cleanflate's own src/tests.

@@ -1,11 +1,15 @@
-round,category,count
-1,clean-room forbidden word,4
-1,forbidden tool,2
-1,network lockdown,6
-1,recursive grep,1
-1,unparseable command,2
-2,clean-room forbidden word,1
-2,recursive grep,4
-3,clean-room forbidden word,6
-3,profiling rule,3
-3,recursive grep,3
+round,category,verdict,count
+1,clean-room forbidden word,false positive,3
+1,clean-room forbidden word,prior-art attempt,1
+1,forbidden tool,false positive,1
+1,forbidden tool,offline test,1
+1,network false positive,false positive,4
+1,network lockdown,false positive,1
+1,network lockdown,offline test,1
+1,recursive grep,false positive,1
+1,unparseable command,false positive,2
+2,clean-room forbidden word,false positive,1
+2,recursive grep,false positive,4
+3,clean-room forbidden word,false positive,6
+3,profiling rule,false positive,3
+3,recursive grep,false positive,3

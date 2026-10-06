@@ -7,10 +7,34 @@ from cfbench.similarity import ngram, tokens
 
 LANGUAGE = {"cf": "rust", "zrs": "rust", "mox": "rust", "zlib": "c", "zng": "c"}
 ROLES = ("negative", "positive", "test")
+REFERENCE = "reference"
 
 
-def load_pairs(cfg: dict | None = None) -> list[dict]:
-    """The configured pairs: {left, right, role, cross_language}."""
+def _key(p: dict) -> tuple[str, str]:
+    return p["left"], p["right"]
+
+
+def reference_pairs(cfg: dict | None = None) -> list[dict]:
+    """The reference pairs (added after the pre-registered analysis), in config order."""
+    cfg = cfg or config.load_config("full")
+    out = []
+    for p in cfg["similarity"].get("reference_pairs", []):
+        if p["role"] != REFERENCE:
+            raise ValueError(f"reference pair with role {p['role']!r}")
+        out.append({"left": p["left"], "right": p["right"], "role": REFERENCE})
+    return out
+
+
+def reference_labels(cfg: dict | None = None) -> list[str]:
+    return [f"{p['left']}-{p['right']}" for p in reference_pairs(cfg)]
+
+
+def load_pairs(cfg: dict | None = None, reference: bool = False) -> list[dict]:
+    """The configured pairs: {left, right, role, cross_language}.
+
+    With `reference`, the reference pairs follow; one that is already a pre-registered pair keeps
+    its pre-registered role and is measured once.
+    """
     cfg = cfg or config.load_config("full")
     out = []
     for p in cfg["similarity"]["pairs"]:
@@ -24,6 +48,12 @@ def load_pairs(cfg: dict | None = None) -> list[dict]:
                 "cross_language": LANGUAGE[p["left"]] != LANGUAGE[p["right"]],
             }
         )
+    if reference:
+        seen = {_key(p) for p in out}
+        for p in reference_pairs(cfg):
+            if _key(p) not in seen:
+                seen.add(_key(p))
+                out.append({**p, "cross_language": LANGUAGE[p["left"]] != LANGUAGE[p["right"]]})
     return out
 
 

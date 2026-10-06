@@ -49,17 +49,17 @@ Foundry is an agentic clean-room pipeline. It produced a functionally equivalent
 *Was the build isolated from prior art, and does the code show it?*
 
 5. **Not supported** (`similarity`): T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between). Scores: `comment_jaccard` negative control zrs-mox 0.00102, positive control zrs-zng 0.0395, cf-zrs 0.000511 (below negative), cf-mox 0.000306 (below negative); `ident_jaccard` negative control zrs-mox 0.0439, positive control zrs-zng 0.144, cf-zrs 0.0529 (at or near negative), cf-mox 0.0747 (between); `ident_match_rate_left` negative control zrs-mox 0.0601, positive control zrs-zng 0.339, cf-zrs 0.149 (between), cf-mox 0.129 (at or near negative).
-   Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261002T191558Z.json`, `data/raw/similarity/any/20261002T191601Z.json`, `data/raw/similarity/any/20261002T191604Z.json`, `data/raw/similarity/any/20261002T191653Z.json` via `cfbench.similarity.summary`
+   Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261006T035838Z.json`, `data/raw/similarity/any/20261006T035840Z.json`, `data/raw/similarity/any/20261006T035843Z.json`, `data/raw/similarity/any/20261006T035924Z.json` via `cfbench.similarity.summary`
 
-6. **Supported** (`isolation`): Foundry's guard denied 32 tool calls during the build. An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
-   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`
+6. **Supported** (`isolation`): Foundry's guard denied 32 tool calls during the build, 23 distinct attempts once retries are merged: 1 prior-art attempt (denied) and 22 false positives or offline tests (21 false positives, 1 offline test; classified by hand in `config/denial_verdicts.toml`). An audit of the 2,226 allowed read-capable calls in cleanflate's provenance log found 0 reads of prior art (1 candidate, classified by hand in `config/forbidden_read_verdicts.toml`). The log sees top-level tool calls only, so this bounds isolation rather than proving it.
+   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`
 
 ### Effort
 
 *What did the build take in time, money and human help?*
 
 7. **Supported** (`effort`): Foundry's three rounds building cleanflate took 28.5 hours of attributed wall-clock time, an estimated $361 of model cost and 11 recorded human interventions.
-   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261002T180908Z.json`, `data/raw/effort/any/20261003T193251Z.json` via `cfbench.effort.derive`
+   Source: `results/effort_totals.csv` <- `data/raw/effort/any/20261006T035812Z.json`, `data/raw/effort/any/20261006T035813Z.json` via `cfbench.effort.derive`
 
 ### Viability
 
@@ -184,6 +184,33 @@ Each machine ran the full perf session 2 times. SPEC 3.2 requires agreement with
 *Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
 
 Source: `results/perf_agreement_summary.csv` <- `data/raw/perf/M-A/20261003T004833Z.json`, `data/raw/perf/M-A/20261003T022240Z.json`, `data/raw/perf/M-A/20261003T032646Z.json`, `data/raw/perf/M-A/20261003T043023Z.json`, `data/raw/perf/M-B/20261002T072144Z.json`, `data/raw/perf/M-B/20261002T091719Z.json`, `data/raw/perf/M-B/20261002T103403Z.json`, `data/raw/perf/M-B/20261002T115027Z.json` via `cfbench.agreement`
+
+### Similarity: sensitivity analysis and reference pairs (both added after the pre-registered analysis)
+
+**Sensitivity analysis (post-hoc, not pre-registered).** The identifier metrics are repeated with the extended exclusion list `config/identifier_exclusions_posthoc.txt` (names built only from RFC-defined vocabulary, plus Rust attribute, lint and std names), written after the first full run and applied to every pair, controls included. The pre-registered verdict stands: T1 claim NOT allowed: a cf pair is not at or near the negative control for `ident_jaccard` (cf-mox between), `ident_match_rate_left` (cf-zrs between).
+
+| Pair | Pre-registered metric | Position (pre-registered) | Position (extended exclusions) | Band (extended exclusions) |
+|---|---|---|---|---|
+| cf-mox | `ident_jaccard` | 0.31 | 0.07 | at or near negative |
+| cf-zrs | `ident_match_rate_left` | 0.32 | 0.14 | at or near negative |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+Sensitivity result: Post-hoc sensitivity (extended identifier exclusions, not pre-registered) would be allowed: on every separable metric each cf pair sits at or near the negative control or below it.
+
+**Reference pairs (added after the pre-registered analysis).** Cross-language baselines: each pair sets a Rust implementation against a C library. mox-zlib and mox-zng pair the independent miniz_oxide with the C libraries; zrs-zlib pairs zlib-rs, the Rust side of the derived-work control, with zlib; cf-zlib is the pre-registered test pair, shown again for comparison. They were added after the pre-registered analysis and never enter the claim test. Cells give the score and, where the controls separate, the position between the negative (0) and positive (1) controls.
+
+| Metric | cf-zlib | mox-zlib | zrs-zlib | mox-zng |
+|---|---|---|---|---|
+| `ident_jaccard` | 0.0207 (-0.23) | 0.0193 (-0.25) | 0.0947 (0.51) | 0.0106 (-0.33) |
+| `ident_match_rate_left` | 0.0334 (-0.10) | 0.0333 (-0.10) | 0.115 (0.20) | 0.0515 (-0.03) |
+| `comment_jaccard` | 0.000257 (-0.02) | 0.00103 (0.00) | 0.032 (0.81) | 0.000661 (-0.01) |
+| `ngram_jaccard@5` | 0.0352 | 0.0468 | 0.0523 | 0.0429 |
+| `ngram_containment@5` | 0.0688 | 0.0941 | 0.138 | 0.116 |
+
+*Parity note: cleanflate implements decompression only, with no SIMD, no unsafe and no C ABI; the comparators implement compression and some have SIMD paths, hardware CRC and ABI compatibility, so no comparison here is apples-to-apples.*
+
+Source: `results/similarity_summary.csv` <- `data/raw/similarity/any/20261006T035838Z.json`, `data/raw/similarity/any/20261006T035840Z.json`, `data/raw/similarity/any/20261006T035843Z.json`, `data/raw/similarity/any/20261006T035924Z.json` via `cfbench.similarity.summary`
 
 ## Checked and not claimed
 

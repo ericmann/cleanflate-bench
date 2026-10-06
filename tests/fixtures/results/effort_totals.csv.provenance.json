@@ -11,6 +11,11 @@
   "cost_usd",
   "interventions",
   "denied_calls",
+  "denied_attempts",
+  "denied_prior_art_attempts",
+  "denied_false_positive_attempts",
+  "denied_offline_test_attempts",
+  "denied_not_prior_art_attempts",
   "read_calls",
   "forbidden_read_candidates",
   "forbidden_reads"

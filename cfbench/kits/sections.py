@@ -474,3 +474,113 @@ def threats_markdown(d: Path, cfg: dict, level: int = 3) -> str:
 
 def load_cfg(cfg: dict | None) -> dict:
     return cfg or config.load_config("full")
+
+
+# ---- similarity: post-hoc sensitivity and reference pairs ---------------------------------------
+
+SENSITIVITY_TITLE = "Sensitivity analysis (post-hoc, not pre-registered)"
+REFERENCE_TITLE = "Reference pairs (added after the pre-registered analysis)"
+REFERENCE_METRICS = ("ident_jaccard", "ident_match_rate_left", "comment_jaccard",
+                     "ngram_jaccard@5", "ngram_containment@5")  # fmt: skip
+_OK = ("below negative", "at or near negative")
+
+
+def statement_line(d: Path, prefix: str) -> str | None:
+    """The first line of the generated similarity statement that starts with `prefix`."""
+    p = d / "similarity_statement.md"
+    lines = p.read_text(encoding="utf-8").splitlines() if p.exists() else []
+    plain = (ln.replace("**", "") for ln in lines)
+    return next((ln for ln in plain if ln.startswith(prefix)), None)
+
+
+def sensitivity_moves(d: Path) -> list[tuple[str, str, Evidence, Evidence, Evidence]]:
+    """(pair, metric, pre-registered position, post-hoc position, post-hoc band) for every cf pair
+    that fails a pre-registered identifier metric."""
+    from cfbench.similarity.summary import POSTHOC
+
+    try:
+        rows, _ = ev.table_rows("similarity_summary", d)
+    except MissingData:
+        return []
+    out = []
+    for filt, base in POSTHOC.items():
+        for r in rows:
+            if (
+                r["metric"] != base
+                or r["role"] != "test"
+                or r["position"] == ""
+                or r["classification"] in _OK
+            ):
+                continue
+            pre = _look(
+                "similarity_summary",
+                {"metric": base, "pair": r["pair"]},
+                "position",
+                d,
+                fmt="{:.2f}",
+            )
+            post = _look(
+                "similarity_summary",
+                {"metric": filt, "pair": r["pair"]},
+                "position",
+                d,
+                fmt="{:.2f}",
+            )
+            band = _look(
+                "similarity_summary", {"metric": filt, "pair": r["pair"]}, "classification", d
+            )
+            if pre and post and band:
+                out.append((r["pair"], base, pre, post, band))
+    return out
+
+
+def similarity_supplement(d: Path, cfg: dict) -> Block:
+    """The post-hoc identifier sensitivity analysis and the reference pairs, each labeled as added
+    after the pre-registered analysis. Neither changes the pre-registered verdict."""
+    from cfbench.similarity import pairs
+
+    evid: list[Evidence] = []
+    claim = statement_line(d, "T1 claim")
+    sens = statement_line(d, "Post-hoc sensitivity")
+    moves = sensitivity_moves(d)
+    parts = [f"**{SENSITIVITY_TITLE}.** The identifier metrics are repeated with the extended exclusion "
+             "list `config/identifier_exclusions_posthoc.txt` (names built only from RFC-defined vocabulary, plus "
+             "Rust attribute, lint and std names), written after the first full run and applied to every pair, "
+             "controls included. The pre-registered verdict stands: " + (claim or "pending").rstrip(".") + "."]  # fmt: skip
+    if moves:
+        rows = []
+        for pair, base, pre, post, band in moves:
+            evid += [pre, post, band]
+            rows.append([pair, f"`{base}`", pre.display, post.display, band.display])
+        parts.append(table(["Pair", "Pre-registered metric", "Position (pre-registered)",
+                            "Position (extended exclusions)", "Band (extended exclusions)"], rows))  # fmt: skip
+    parts.append(
+        "Sensitivity result: " + (sens or "pending (run `make similarity`)").rstrip(".") + "."
+    )
+    labels = pairs.reference_labels(cfg)
+    rows = []
+    for m in REFERENCE_METRICS:
+        cells = []
+        for lab in labels:
+            sc = _look("similarity_summary", {"metric": m, "pair": lab}, "score", d, fmt="{:.3g}")
+            pos = _look(
+                "similarity_summary", {"metric": m, "pair": lab}, "position", d, fmt="{:.2f}"
+            )
+            evid += [x for x in (sc, pos) if x]
+            cells.append(
+                PENDING if sc is None else sc.display + (f" ({pos.display})" if pos else "")
+            )
+        rows.append([f"`{m}`", *cells])
+    parts.append(
+        f"**{REFERENCE_TITLE}.** Cross-language baselines: each pair sets a Rust implementation against a C "
+        "library. mox-zlib and mox-zng pair the independent miniz_oxide with the C libraries; zrs-zlib pairs "
+        "zlib-rs, the Rust side of the derived-work control, with zlib; cf-zlib is the pre-registered test pair, "
+        "shown again for comparison. They were added after the pre-registered analysis and never enter the claim "
+        "test. Cells give the score and, where the controls separate, the position between the negative (0) and "
+        "positive (1) controls."
+    )
+    parts.append(table(["Metric", *labels], rows))
+    src = sources(evid)
+    if src:
+        parts.append(src)
+    return Block("\n\n".join(parts), evid)

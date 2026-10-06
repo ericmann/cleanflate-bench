@@ -13,6 +13,17 @@ def test_pairs_loaded_with_roles():
     assert len(ps) == 6
 
 
+def test_reference_pairs_follow_and_never_duplicate_a_preregistered_pair():
+    cfg = config.load_config("full")
+    assert pairs.reference_labels(cfg) == ["cf-zlib", "mox-zlib", "zrs-zlib", "mox-zng"]
+    ps = pairs.load_pairs(cfg, reference=True)
+    assert ps[:6] == pairs.load_pairs(cfg)  # pre-registered pairs first and unchanged
+    ref = [(p["left"], p["right"]) for p in ps if p["role"] == pairs.REFERENCE]
+    assert ref == [("mox", "zlib"), ("zrs", "zlib"), ("mox", "zng")]  # cf-zlib stays a test pair
+    assert [p["role"] for p in ps if (p["left"], p["right"]) == ("cf", "zlib")] == ["test"]
+    assert all(p["cross_language"] for p in ps if p["role"] == pairs.REFERENCE)
+
+
 def test_ngrams_do_not_span_files():
     f1, f2 = list("ABCDE"), list("FGHIJ")
     separate = pairs.shingle_union([f1, f2], 3)

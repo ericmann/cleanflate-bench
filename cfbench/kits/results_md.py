@@ -23,6 +23,7 @@ from cfbench.kits import pipeline, sections
 from cfbench.kits.evidence import MissingData
 from cfbench.kits.pipeline import EXAMPLE, PIPELINE_NAME
 from cfbench.parity import PARITY_NOTE
+from cfbench.similarity import pairs as similarity_pairs
 
 MACHINES = "M-A and M-B"
 
@@ -721,7 +722,11 @@ def isolation_block(d: Path) -> str:
             (
                 f"**Mechanical isolation.** {PIPELINE_NAME}'s guard hook refuses tool calls that would reach prior art "
                 "(forbidden words in paths, recursive searches, network fetches outside an allowlist, forbidden tools). "
-                "Every refusal is logged. The audit below re-reads the allowed calls for any that touched a prior-art path "
+                "Every refusal is logged and classified by hand in `config/denial_verdicts.toml` as a prior-art attempt, "
+                "a false positive (a rule matched a call that sought no prior art) or an offline test. Retries are merged "
+                "into distinct attempts: a denial within `effort.denial_retry_seconds` of the previous one in the same task "
+                "joins its attempt, and an attempt takes its most serious verdict. "
+                "The audit below re-reads the allowed calls for any that touched a prior-art path "
                 "anyway (method in `docs/methods/effort.md`)."
             ),
             table_block(
@@ -729,6 +734,10 @@ def isolation_block(d: Path) -> str:
                 [
                     "round",
                     "denied_calls",
+                    "denied_attempts",
+                    "denied_prior_art_attempts",
+                    "denied_false_positive_attempts",
+                    "denied_offline_test_attempts",
                     "read_calls",
                     "forbidden_read_candidates",
                     "forbidden_reads",
@@ -737,6 +746,10 @@ def isolation_block(d: Path) -> str:
                 [
                     "Round",
                     "Denied calls",
+                    "Distinct attempts",
+                    "Prior-art attempts",
+                    "False positives",
+                    "Offline tests",
                     "Allowed read-capable calls",
                     "Forbidden-read candidates",
                     "Forbidden reads",
@@ -748,11 +761,19 @@ def isolation_block(d: Path) -> str:
             ),
             table_block(
                 "effort_denied",
-                ["round", "category", "count"],
-                ["Round", "Category", "Denied calls"],
+                ["round", "category", "verdict", "count"],
+                ["Round", "Category", "Verdict", "Denied calls"],
                 d,
                 digits=0,
-                title="Denied tool calls by category",
+                title="Denied tool calls by category and verdict",
+            ),
+            table_block(
+                "effort_denials",
+                ["round", "ts", "stage", "task", "category", "attempt", "verdict", "note"],
+                ["Round", "When", "Stage", "Task", "Category", "Attempt", "Verdict", "Note"],
+                d,
+                digits=0,
+                title="Every denied call, its attempt and its classification (`config/denial_verdicts.toml`)",
             ),
             table_block(
                 "effort_forbidden_reads",
@@ -894,7 +915,10 @@ def similarity_section(
         "the identifier metrics (`ident_*_filtered`) with the extended list "
         "`config/identifier_exclusions_posthoc.txt` (Rust attribute, lint and std names, and names built "
         "only from RFC-defined terms), applied to every pair including the controls. The T1 claim is "
-        "decided on the pre-registered metrics alone."
+        "decided on the pre-registered metrics alone. Reference pairs ("
+        + ", ".join(similarity_pairs.reference_labels(cfg))
+        + "), added after the pre-registered analysis, give cross-language baselines and are shown "
+        "separately below."
     )
     stmt = _statement_lines(d)
     claim = next((ln for ln in stmt if "T1 claim" in ln), None)
@@ -924,6 +948,7 @@ def similarity_section(
                 "Classification",
             ],
             d,
+            where=lambda r: r["role"] != "reference",
             digits=4,
             title="Scores against the controls (negative zrs-mox, positive zrs-zng)",
         ),
@@ -932,6 +957,7 @@ def similarity_section(
         if claim
         else pending("similarity_summary"),
         figure("similarity_controls", "Where cleanflate falls between the controls.", d),
+        sections.similarity_supplement(d, cfg).text,
     ]
     counts = fragment_counts(d)
     if counts:

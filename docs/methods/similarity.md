@@ -85,3 +85,17 @@ controls included, giving `ident_jaccard_filtered` and `ident_match_rate_left_fi
 separate "Post-hoc sensitivity" line. That line repeats the test with the two identifier metrics
 replaced by their filtered versions. Both lines appear in RESULTS.md, and the threats-to-validity
 section discloses that the extended list was written after the first results had been seen.
+
+## Reference pairs
+
+Added 2026-10-05, after the pre-registered analysis; they never enter the claim test.
+`[similarity] reference_pairs` in `config/bench.toml` lists cf-zlib, mox-zlib, zrs-zlib and mox-zng.
+They are cross-language baselines: each sets a Rust implementation against a C library, so cf-zlib
+can be read beside an independent Rust decoder against the same C code (mox-zlib, mox-zng) and the
+derived-work control's Rust side against zlib (zrs-zlib). cf-zlib is already a pre-registered test
+pair; it keeps role `test`, is measured once, and is repeated in the reference view. The other three
+have role `reference` and are measured by the n-gram, identifier (including the post-hoc filtered
+variants) and comment runs; JPlag marks them not applicable (cross-language), and fragment tables
+cover only the pre-registered pairs. `results/similarity_statement.md` lists them in a separate
+"Reference pairs" block after the claim lines, and every kit labels them as added after the
+pre-registered analysis.

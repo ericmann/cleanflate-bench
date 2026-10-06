@@ -1,0 +1,142 @@
+# Hand classification of every tool call that cleanflate's guard denied (provenance tool log), read
+# by cfbench.effort.derive (method in docs/methods/effort.md). Keyed by the denial's `ts`.
+# verdict = "prior-art attempt": the call sought prior-art source, binaries or docs.
+# verdict = "false positive":    the call did not seek prior art; a guard rule matched its text.
+# verdict = "offline test":      the call deliberately exercised the network lockdown or an offline build.
+# `category`, when set, replaces the reason-prefix category (effort.denial_categories): commands
+# that made no network request are "network false positive", not "network lockdown".
+# A denial with no entry counts as a prior-art attempt. Retries are merged into attempts by
+# effort.denial_retry_seconds in config/bench.toml.
+# All entries classified 2026-10-05 from the logged command text.
+
+[denials."2026-09-29T14:43:07.953Z"]
+verdict = "false positive"
+note = "grep for format words in cleanflate's own crates/*/src (absolute path); rejected as unparseable. First of five retries of the same search."
+
+[denials."2026-09-29T14:43:23.189Z"]
+verdict = "false positive"
+note = "Retry of the same grep with relative paths into cleanflate's own sources."
+
+[denials."2026-09-29T14:43:46.542Z"]
+verdict = "false positive"
+note = "Retry: forbidden words are the grep pattern; the files searched are cleanflate's own sources."
+
+[denials."2026-09-29T14:43:52.987Z"]
+verdict = "false positive"
+note = "Retry of the same grep over cleanflate's own sources."
+
+[denials."2026-09-29T14:44:43.248Z"]
+verdict = "false positive"
+note = "Retry of the same grep over cleanflate's own sources."
+
+[denials."2026-09-29T14:50:42.835Z"]
+verdict = "false positive"
+category = "network false positive"
+note = "`which tar unzip curl` locates programs; it makes no network request."
+
+[denials."2026-09-29T14:52:57.057Z"]
+verdict = "false positive"
+note = "HTTP status probe of the RFC 1950 text and the Canterbury and Silesia corpus URLs (allowed sources) while setting up the corpus fetch; denied because the corpus site root was not allowlisted. A real network request, not one for prior art."
+
+[denials."2026-09-29T14:54:47.458Z"]
+verdict = "prior-art attempt"
+note = "`find / -path '*/libz-sys-*/src/lib.rs'` looks for the libz-sys crate source (Rust bindings to zlib) on the machine. The guard denied it; no allowed call read it (forbidden-read audit)."
+
+[denials."2026-09-29T21:02:40.742Z"]
+verdict = "false positive"
+category = "network false positive"
+note = "grep inside cleanflate's own tools/cleanroom/fetch-corpora.sh; names the fetch script, makes no network request."
+
+[denials."2026-09-29T21:28:06.878Z"]
+verdict = "false positive"
+category = "network false positive"
+note = "git commit whose message mentions curl (R2-05 provenance summary); makes no network request."
+
+[denials."2026-09-29T21:37:10.501Z"]
+verdict = "false positive"
+category = "network false positive"
+note = "ls of the LOCKDOWN marker and grep of cleanflate's own guard.py for the fetch-script names; makes no network request."
+
+[denials."2026-09-29T21:44:58.022Z"]
+verdict = "false positive"
+note = "Recursive grep for ASSUMPTION in cleanflate's own repository (output already filtered of target/)."
+
+[denials."2026-09-29T21:47:44.720Z"]
+verdict = "false positive"
+note = "`gh pr list` for cleanflate's own build branch; gh is forbidden by rule CR3, but the call seeks no prior art."
+
+[denials."2026-09-29T22:23:16.298Z"]
+verdict = "offline test"
+note = "CI simulation: `git clone .` of cleanflate's own checkout into the scratchpad, then the corpus fetch through a dead proxy (127.0.0.1:9) to check offline behaviour."
+
+[denials."2026-09-29T22:23:21.970Z"]
+verdict = "offline test"
+note = "Retry of the same offline check without the clone: fetch-corpora.sh through a dead proxy (127.0.0.1:9)."
+
+[denials."2026-09-29T23:26:38.212Z"]
+verdict = "false positive"
+note = "Recursive grep for cleanflate's own API names inside crates/cleanflate/src."
+
+[denials."2026-09-29T23:31:39.944Z"]
+verdict = "false positive"
+note = "Recursive grep inside cleanflate's own crates/oracle/src."
+
+[denials."2026-09-30T00:46:28.321Z"]
+verdict = "false positive"
+note = "Python script over cleanflate's own perf reports; the forbidden word is in a sed-style range pattern, not a path."
+
+[denials."2026-09-30T05:19:58.314Z"]
+verdict = "false positive"
+note = "Recursive grep for DecodePath inside cleanflate's own crates/cleanflate/src."
+
+[denials."2026-09-30T05:20:06.065Z"]
+verdict = "false positive"
+note = "Retry of the same lookup in cleanflate's own sources."
+
+[denials."2026-09-30T14:40:33.544Z"]
+verdict = "false positive"
+note = "sed rename in cleanflate's own crates/oracle/src; the forbidden word is in the substitution text (c_zlib_mib_s_min)."
+
+[denials."2026-09-30T16:11:51.801Z"]
+verdict = "false positive"
+note = "perf report over cleanflate's own profile data in target/profile; the profiling rule matched the command."
+
+[denials."2026-09-30T16:11:56.220Z"]
+verdict = "false positive"
+note = "Retry of the same perf report over cleanflate's own profile data."
+
+[denials."2026-09-30T17:00:19.952Z"]
+verdict = "false positive"
+note = "Recursive grep for CRC32_TABLES inside cleanflate's own crate."
+
+[denials."2026-09-30T17:21:39.475Z"]
+verdict = "false positive"
+note = "grep of cleanflate's own profile output (target/profile) for its own type names (ZlibDecoder, GzipDecoder)."
+
+[denials."2026-09-30T17:23:20.004Z"]
+verdict = "false positive"
+note = "grep over cleanflate's own crates; the forbidden word is a file name in a grep -v pattern."
+
+[denials."2026-09-30T18:13:45.842Z"]
+verdict = "false positive"
+note = "bench-compare over cleanflate's own perf baselines; the forbidden word is a framing name in a regex."
+
+[denials."2026-09-30T20:53:01.396Z"]
+verdict = "false positive"
+note = "make bench-quick over cleanflate's own benchmarks; the forbidden word is a framing name in a regex."
+
+[denials."2026-09-30T22:36:51.158Z"]
+verdict = "false positive"
+note = "Python report over cleanflate's own perf JSON; the profiling rule matched the command."
+
+[denials."2026-09-30T23:14:23.085Z"]
+verdict = "false positive"
+note = "grep in cleanflate's own src/tests/zlib.rs (its zlib-framing tests)."
+
+[denials."2026-09-30T23:14:28.987Z"]
+verdict = "false positive"
+note = "Retry: recursive grep in cleanflate's own src/tests."
+
+[denials."2026-09-30T23:14:34.310Z"]
+verdict = "false positive"
+note = "Retry: sed and grep in cleanflate's own src/tests."
